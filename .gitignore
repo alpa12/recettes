@@ -1,3 +1,7 @@
+.quarto/
+
+
+# Default R .gitignore
 # History files
 .Rhistory
 .Rapp.history
