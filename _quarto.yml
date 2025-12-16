@@ -8,7 +8,13 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-
+  sidebar:
+    style: docked
+    search: true
+    contents:
+      - section: Desserts
+        contents:
+          - recettes/brioche.qmd
 format:
   html:
     theme:
