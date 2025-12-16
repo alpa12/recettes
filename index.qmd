@@ -1,0 +1,5 @@
+# Bienvenue
+
+Ceci est la page d'accueil du livre de recettes de madame et monsieur.
+
+Des détails seront ajoutés à cette page à mesure que le site évolue.

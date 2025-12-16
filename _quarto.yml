@@ -1,0 +1,23 @@
+project:
+  type: website
+
+website:
+  title: "Live de recettes"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Accueil
+  sidebar:
+    style: docked
+    search: true
+    contents:
+      - section: Desserts
+        contents:
+          - recettes/brioche.qmd
+format:
+  html:
+    theme:
+      - vapor
+      - brand
+    css: styles.css
+    toc: true
