@@ -1,11 +1,5 @@
----
-title: "recettes2"
----
+# Bienvenue
 
-This is a Quarto website.
+Ceci est la page d'accueil du livre de recettes de madame et monsieur.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```
+Des détails seront ajoutés à cette page à mesure que le site évolue.
