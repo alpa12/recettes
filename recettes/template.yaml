@@ -1,0 +1,18 @@
+nom: Nom complet de la recette
+nom_court: Nom court, pour table des matières
+source: D'où vient la recette
+ingredients:
+  section1:
+    - nom: Nom de l'ingrédient
+      qte: Quantité (chiffres uniquement)
+      uni: Unité (unité, ml, t, g, ...)
+    - nom: Ingrédient
+      qte: 1
+      uni: unité
+  section2:
+    - nom: Ingrédient
+      qte: 1
+      uni: unité
+preparation:
+  section1:
+    - 'Texte qui explique les étapes à suivre. TODO comprendre comment gérer les multilines'
