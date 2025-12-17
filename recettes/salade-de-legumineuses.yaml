@@ -1,0 +1,24 @@
+nom: Salade de légumineuses André
+nom_court: Salade de légumineuses
+source: André Parent
+ingredients:
+  Salade:
+    - nom: Pois chiches
+      qte: 19
+      uni: Onces
+    - nom: Fèves rouges
+      qte: 19
+      uni: Onces
+      nom: Fèves mélangées
+      qte: 19
+      uni: Onces
+      nom: Ail
+      qte: 5
+      uni: Gousses
+      nom: Échalottes
+      qte: 1
+      uni: Unités
+      nom: Poivron
+      qte: 3
+      uni: Unités
+  Vinaigrette:
