@@ -2,6 +2,11 @@ nom: Salade de légumineuses André
 nom_court: Salade de légumineuses
 source: André Parent
 portions: 8
+temps:
+  preparation: 20
+  cuisson: null
+  refrigeration: null
+se_congele: false
 ingredients:
   Salade:
     - nom: pois chiches
