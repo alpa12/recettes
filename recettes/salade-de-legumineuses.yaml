@@ -10,16 +10,16 @@ ingredients:
     - nom: fèves rouges
       qte: 19
       uni: onces
-      nom: fèves mélangées
+    - nom: fèves mélangées
       qte: 19
       uni: onces
-      nom: ail
+    - nom: ail
       qte: 5
       uni: gousses
-      nom: échalottes
+    - nom: échalottes
       qte: 1
       uni: unités
-      nom: poivron
+    - nom: poivron
       qte: 3
       uni: unités
   Vinaigrette:
