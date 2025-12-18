@@ -1,0 +1,64 @@
+nom: Biscuits au chocolat chaud
+nom_court: Biscuit chocolat chaud
+source: Nathalie R
+portions: 12
+temps:
+  preparation: null
+  cuisson: 14
+  refrigeration: null
+se_congele: false
+ingredients:
+  - section: Ingrédients secs
+    ingredients:
+    - nom: farine
+      qte: 2
+      uni: tasse
+    - nom: chocolat chaud en poudre
+      qte: 0.5
+      uni: tasse
+    - nom: cacao
+      qte: 1
+      uni: c. à soupe
+    - nom: bicarbonate
+      qte: 1
+      uni: c. à thé
+    - nom: poudre à pâte
+      qte: 0.5
+      uni: c. à thé
+ - section: Ingrédients mouillés
+    ingredients:
+    - nom: beurre
+      qte: 0.33
+      uni: tasse
+    - nom: sucre
+      qte: 0.5
+      uni: tasse
+    - nom: cassonade
+      qte: 0.5
+      uni: tasse
+    - nom: oeuf
+      qte: 2
+      uni: unité
+ - section: Décoration
+    ingredients:
+    - nom: pépites de chocolat mi-sucré
+      qte: 0.5
+      uni: tasse
+    - nom: miniguimauves
+      qte: 0.75
+      uni: tasse
+preparation:
+  section1:
+    - 'Mélanger les ingrédients secs à la cuilllère.'
+  section1:
+    - 'Mélanger les ingrédients mouillés au mélangeur électrique.'
+  section1:
+    - 'Mélanger tout ensemble, puis ajouter les pépites de chocolats'
+  section1:
+    - 'Cuire au four (375°) pendant 6 minutes'
+  section1:
+    - 'Ajouter les miniguimauves'
+  section1:
+    - 'Reprendre la cuisson au four pour 6 à 8 minutes'
+commentaires:
+  - 'Les miniguimauves sont facultatives'
