@@ -1,0 +1,57 @@
+nom: Mijoté de porc aux patates douces
+nom_court: mijote-porc-patates-douces
+source: Les recettes de Caty
+portions: 4
+temps:
+  preparation: 20
+  cuisson: 480
+  refrigeration: null
+se_congele: true
+ingredients:
+  section1:
+    - nom: patates douces pelées et coupées en cubes
+      qte: 2
+      uni: unité
+    - nom: cubes de porc à ragoût
+      qte: 795
+      uni: g
+    - nom: huile de canola
+      qte: 30
+      uni: ml
+    - nom: oignons perlés pelés
+      qte: 12
+      uni: unité
+    - nom: ail haché
+      qte: 10
+      uni: ml
+    - nom: branches de céleri émincées
+      qte: 2
+      uni: unité
+    - nom: farine
+      qte: 60
+      uni: ml
+    - nom: bouillon de poulet
+      qte: 1000
+      uni: ml
+    - nom: sirop d’érable
+      qte: 80
+      uni: ml
+    - nom: feuille de laurier
+      qte: 1
+      uni: unité
+    - nom: tige de romarin
+      qte: 1
+      uni: unité
+    - nom: sel et poivre
+      qte: 1
+      uni: au goût
+preparation:
+  section1:
+    - 'Déposer les patates douces dans la mijoteuse.'
+    - 'Assécher la viande à l’aide de papier absorbant.'
+    - 'Dans une casserole, chauffer la moitié de l’huile à feu moyen. Faire dorer les cubes de viande 2 à 3 minutes et transférer dans la mijoteuse.'
+    - 'Dans la même casserole, cuire les oignons perlés, l’ail et le céleri 2 à 3 minutes. Saupoudrer de farine et remuer, puis transférer dans la mijoteuse.'
+    - 'Ajouter le bouillon de poulet, le sirop d’érable, la feuille de laurier et le romarin dans la mijoteuse. Saler, poivrer et remuer.'
+    - 'Couvrir et cuire 8 à 10 heures à faible intensité (mijoteuse).'
+commentaires:
+  - 'Un mijoté réconfortant qui se prépare lentement à la mijoteuse pour des saveurs optimales.'
