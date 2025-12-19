@@ -13,11 +13,14 @@ website:
     contents:
       - section: Desserts
         contents:
-          - recettes/brioche.qmd
+          - recettes/brioche-a-la-cannelle-et-pomme-de-terre.qmd
+      - section: Salades
+        contents:
+          - recettes/salade-de-legumineuses.qmd
 format:
   html:
     theme:
-      - vapor
+      - flatly
       - brand
     css: styles.css
     toc: true

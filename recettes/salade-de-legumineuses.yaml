@@ -8,7 +8,8 @@ temps:
   refrigeration: null
 se_congele: false
 ingredients:
-  Salade:
+  - section: Salade
+    ingredients:
     - nom: pois chiches
       qte: 19
       uni: onces
@@ -27,7 +28,8 @@ ingredients:
     - nom: poivron
       qte: 3
       uni: unités
-  Vinaigrette:
+  - section: Vinaigrette
+    ingredients:
     - nom: sucre
       qte: 1/2
       uni: tasse
@@ -47,4 +49,6 @@ ingredients:
       qte: 1
       uni: c. à thé
 preparation:
-  - 'Mélanger le tout!'
+  - section: Salade
+    etapes:
+    - 'Mélanger le tout!'
