@@ -1,0 +1,28 @@
+nom: Nom complet de la recette
+nom_court: Nom court, pour table des matières
+source: D'où vient la recette
+portions: Nombre de portions (chiffres uniquement)
+temps:
+  preparation: Temps de preparation à deux personnes (chiffre en minute, null si aucun)
+  cuisson: Temps de cuisson (chiffre en minute, null si aucun)
+  refrigeration: Temps de réfrigération (chiffre en minute, null si aucun)
+se_congele: Est-ce que ça se congèle? (inscrire true ou false)
+ingredients:
+  section1:
+    - nom: Nom de l'ingrédient
+      qte: Quantité (chiffres uniquement)
+      uni: Unité (unité, ml, t, g, ...)
+    - nom: Ingrédient
+      qte: 1
+      uni: unité
+  section2:
+    - nom: Ingrédient
+      qte: 1
+      uni: unité
+preparation:
+  section1:
+    - 'Texte qui explique la première étape. TODO PRO-36 comprendre comment gérer les multilines'
+    - 'Deuxième étape'
+commentaires:
+  - 'Commentaire 1'
+  - 'Commentaire 2'
