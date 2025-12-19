@@ -29,7 +29,7 @@ ingredients:
       qte: 3
       uni: unités
   - section: Vinaigrette
-    ingredient:
+    ingredients:
     - nom: sucre
       qte: 1/2
       uni: tasse
