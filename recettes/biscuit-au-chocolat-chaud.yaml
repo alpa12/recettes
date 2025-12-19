@@ -25,7 +25,7 @@ ingredients:
     - nom: poudre à pâte
       qte: 0.5
       uni: c. à thé
- - section: Ingrédients mouillés
+  - section: Ingrédients mouillés
     ingredients:
     - nom: beurre
       qte: 0.33
@@ -39,7 +39,7 @@ ingredients:
     - nom: oeuf
       qte: 2
       uni: unité
- - section: Décoration
+  - section: Décoration
     ingredients:
     - nom: pépites de chocolat mi-sucré
       qte: 0.5
