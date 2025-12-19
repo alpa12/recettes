@@ -1,0 +1,51 @@
+nom: Jambon à l’érable et à l’ananas à la mijoteuse
+nom_court: jambon-erable-ananas-mijoteuse
+source: Les recettes de Caty
+portions: 6
+temps:
+  preparation: 10
+  cuisson: 240
+  refrigeration: null
+se_congele: true
+ingredients:
+  section1:
+    - nom: jambon cuit (tranche ou cube)
+      qte: 1134
+      uni: g
+    - nom: rondelles d’ananas (jus inclus)
+      qte: 1
+      uni: unité
+    - nom: sirop d’érable
+      qte: 180
+      uni: ml
+    - nom: cassonade
+      qte: 60
+      uni: ml
+    - nom: moutarde de Dijon
+      qte: 15
+      uni: ml
+    - nom: vinaigre de cidre
+      qte: 15
+      uni: ml
+    - nom: fécule de maïs
+      qte: 15
+      uni: ml
+    - nom: eau
+      qte: 30
+      uni: ml
+    - nom: jus d’ananas
+      qte: 125
+      uni: ml
+    - nom: clous de girofle
+      qte: 6
+      uni: unité
+preparation:
+  section1:
+    - 'Déposer le jambon dans la mijoteuse.'
+    - 'Dans un bol, mélanger le sirop d’érable, la cassonade, la moutarde de Dijon et le vinaigre de cidre.'
+    - 'Ajouter le sirop d’ananas avec le jus dans la mijoteuse, puis verser le mélange de sirop d’érable par-dessus.'
+    - 'Déposer les rondelles d’ananas sur le dessus et piquer chaque rondelle avec un clou de girofle.'
+    - 'Couvrir et cuire à faible intensité (Low) 4 heures.'
+    - 'Environ 30 minutes avant la fin de la cuisson, délayer la fécule de maïs dans l’eau froide et l’ajouter à la mijoteuse pour épaissir la sauce.'
+commentaires:
+  - 'Plat sucré-salé parfait pour un repas réconfortant servi avec riz ou légumes.'

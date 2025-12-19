@@ -1,0 +1,67 @@
+nom: Biscuits au chocolat, aux amandes et au caramel
+nom_court: biscuits-chocolat-amandes-caramel
+source: La cuisine d’Isabelle et Ricardo – Radio-Canada
+portions: 20
+temps:
+  preparation: 40
+  cuisson: 8
+  refrigeration: 125
+se_congele: true
+ingredients:
+  section1:
+    - nom: farine tout usage non blanchie
+      qte: 225
+      uni: g
+    - nom: cacao
+      qte: 50
+      uni: g
+    - nom: bicarbonate de soude
+      qte: 2.5
+      uni: ml
+    - nom: sel
+      qte: 1
+      uni: ml
+    - nom: beurre non salé, fondu et tempéré
+      qte: 170
+      uni: g
+    - nom: cassonade
+      qte: 160
+      uni: g
+    - nom: sucre
+      qte: 105
+      uni: g
+    - nom: beurre d’amandes
+      qte: 45
+      uni: ml
+    - nom: œufs
+      qte: 2
+      uni: unité
+    - nom: chocolat au lait, en pastilles ou haché grossièrement
+      qte: 250
+      uni: g
+    - nom: amandes, grillées et hachées
+      qte: 130
+      uni: g
+    - nom: caramels mous du commerce
+      qte: 20
+      uni: unité
+    - nom: fleur de sel
+      qte: 1
+      uni: au goût
+preparation:
+  section1:
+    - 'Dans un bol, mélanger la farine, le cacao, le bicarbonate et le sel.'
+    - 'Dans un autre bol, mélanger le beurre, la cassonade, le sucre et le beurre d’amandes au batteur électrique.'
+    - 'Ajouter les œufs, un à la fois, puis mélanger 5 minutes. À basse vitesse, incorporer les ingrédients secs, 170 g du chocolat et 85 g des amandes.'
+    - 'À l’aide d’une cuillère à crème glacée de 45 ml, former des boules de pâte et les répartir sur une plaque tapissée de papier parchemin. Réfrigérer la pâte de 5 à 10 minutes.'
+    - 'Insérer un caramel au centre de chaque boule de pâte et refermer la pâte pour reformer une boule.'
+    - 'Ajouter le reste du chocolat et des amandes sur les boules de pâte. Réfrigérer 2 heures ou congeler à cette étape, si désiré.'
+    - 'Préchauffer le four à 190 °C. Tapisser deux plaques de cuisson de papier parchemin.'
+    - 'Répartir de 6 à 8 biscuits par plaque.'
+    - 'Cuire au four, une plaque à la fois, de 8 à 10 minutes, jusqu’à ce que les biscuits soient cuits à l’extérieur mais encore mous au centre.'
+    - 'Parsemer de fleur de sel et laisser tiédir sur la plaque.'
+commentaires:
+  - 'Il est possible d’ajouter tout le chocolat et les amandes à l’étape du mélange, mais en conserver une partie pour le dessus rend les biscuits plus jolis.'
+  - 'Un repos de 2 heures au réfrigérateur permet d’éviter que les biscuits ne s’étalent trop à la cuisson.'
+  - 'La pâte peut reposer jusqu’à 12 heures au réfrigérateur pour une meilleure absorption des liquides.'
+  - 'Les biscuits se conservent 3 jours à température ambiante ou 3 mois au congélateur.'
