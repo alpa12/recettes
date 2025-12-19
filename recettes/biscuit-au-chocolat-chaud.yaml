@@ -48,17 +48,13 @@ ingredients:
       qte: 0.75
       uni: tasse
 preparation:
-  section1:
+  - section: Préparation des biscuits
+    etapes:
     - 'Mélanger les ingrédients secs à la cuilllère.'
-  section1:
     - 'Mélanger les ingrédients mouillés au mélangeur électrique.'
-  section1:
-    - 'Mélanger tout ensemble, puis ajouter les pépites de chocolats'
-  section1:
+    - 'Mélanger tout ensemble, puis ajouter les pépites de chocolat'
     - 'Cuire au four (375°) pendant 6 minutes'
-  section1:
     - 'Ajouter les miniguimauves'
-  section1:
     - 'Reprendre la cuisson au four pour 6 à 8 minutes'
 commentaires:
   - 'Les miniguimauves sont facultatives'
