@@ -8,7 +8,8 @@ temps:
   refrigeration: null
 se_congele: true
 ingredients:
-  section1:
+  - section: Section TODO
+    ingredients:
     - nom: patates douces pelées et coupées en cubes
       qte: 2
       uni: unité
@@ -46,7 +47,8 @@ ingredients:
       qte: 1
       uni: au goût
 preparation:
-  section1:
+  - section: Section TODO
+    etapes:
     - 'Déposer les patates douces dans la mijoteuse.'
     - 'Assécher la viande à l’aide de papier absorbant.'
     - 'Dans une casserole, chauffer la moitié de l’huile à feu moyen. Faire dorer les cubes de viande 2 à 3 minutes et transférer dans la mijoteuse.'

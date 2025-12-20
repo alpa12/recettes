@@ -8,7 +8,8 @@ temps:
   refrigeration: null
 se_congele: true
 ingredients:
-  section1:
+  - section: Section TODO
+    ingredients:
     - nom: fécule de maïs
       qte: 2
       uni: c. à thé
@@ -43,7 +44,8 @@ ingredients:
       qte: 2
       uni: c. à soupe
 preparation:
-  section1:
+  - section: Section TODO
+    etapes:
     - 'Délayer la fécule de maïs dans l’eau. Réserver.'
     - 'Couper le filet de porc en médaillons d’environ 2,5 cm d’épaisseur. Assaisonner de sel et de poivre et réserver.'
     - 'Dans une grande poêle, faire chauffer le beurre et saisir les champignons jusqu’à belle coloration. Assaisonner puis réserver.'

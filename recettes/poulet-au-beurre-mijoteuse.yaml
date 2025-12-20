@@ -8,7 +8,8 @@ temps:
   refrigeration: null
 se_congele: true
 ingredients:
-  section1:
+  - section: Section TODO
+    ingredients:
     - nom: farine tout usage non blanchie
       qte: 25
       uni: g
@@ -58,7 +59,8 @@ ingredients:
       qte: 1
       uni: au goût
 preparation:
-  section1:
+  - section: Section TODO
+    etapes:
     - 'Dans la mijoteuse, mélanger la farine et les épices. Ajouter le poulet et bien enrober du mélange de farine.'
     - 'Au petit robot culinaire ou au mortier, broyer finement les noix de cajou.'
     - 'Ajouter les noix et le reste des ingrédients dans la mijoteuse, sauf le yogourt et la coriandre. Saler, poivrer et mélanger. Couvrir.'
