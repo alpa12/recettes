@@ -8,7 +8,8 @@ temps:
   refrigeration: null
 se_congele: true
 ingredients:
-  section1:
+  - section: Section TODO
+    ingredients:
     - nom: jambon cuit (tranche ou cube)
       qte: 1134
       uni: g
@@ -40,7 +41,8 @@ ingredients:
       qte: 6
       uni: unité
 preparation:
-  section1:
+  - section: Section TODO
+    etapes:
     - 'Déposer le jambon dans la mijoteuse.'
     - 'Dans un bol, mélanger le sirop d’érable, la cassonade, la moutarde de Dijon et le vinaigre de cidre.'
     - 'Ajouter le sirop d’ananas avec le jus dans la mijoteuse, puis verser le mélange de sirop d’érable par-dessus.'

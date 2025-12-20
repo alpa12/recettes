@@ -8,7 +8,8 @@ temps:
   refrigeration: 125
 se_congele: true
 ingredients:
-  section1:
+  - section: Section TODO
+    ingredients:
     - nom: farine tout usage non blanchie
       qte: 225
       uni: g
@@ -49,7 +50,8 @@ ingredients:
       qte: 1
       uni: au goût
 preparation:
-  section1:
+  - section: Section TODO
+    etapes:
     - 'Dans un bol, mélanger la farine, le cacao, le bicarbonate et le sel.'
     - 'Dans un autre bol, mélanger le beurre, la cassonade, le sucre et le beurre d’amandes au batteur électrique.'
     - 'Ajouter les œufs, un à la fois, puis mélanger 5 minutes. À basse vitesse, incorporer les ingrédients secs, 170 g du chocolat et 85 g des amandes.'
