@@ -8,7 +8,8 @@ temps:
   refrigeration: null
 se_congele: true
 ingredients:
-  section1:
+  - section: Ingrédients
+    ingredients:
     - nom: boeuf haché
       qte: 2
       uni: lbs
@@ -65,7 +66,8 @@ ingredients:
       uni: unité
 
 preparation:
-  section1:
+  - section: Préparation
+    etapes:
     - 'Tous les légumes coupés en dés et faire revenir'
     - 'Ensuite, faire revenir la ciande et mettre dans le chaudron'
     - 'Mettre tous les ingrédients et faire cuire 3 heures à 350°'
