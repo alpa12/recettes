@@ -1,0 +1,72 @@
+nom: Sauce à spaghetti de Nathalie Davignon
+nom_court: Spaghetti
+source: Nathalie Davignon
+portions: null
+temps:
+  preparation: null
+  cuisson: 180
+  refrigeration: null
+se_congele: true
+ingredients:
+  section1:
+    - nom: boeuf haché
+      qte: 2
+      uni: lbs
+    - nom: poivron vert
+      qte: 1
+      uni: unité
+    - nom: oignon
+      qte: 1
+      uni: unité
+    - nom: gousse d'ail
+      qte: 3
+      uni: unité
+    - nom: grosse boîte de tomates
+      qte: 1
+      uni: unité
+    - nom: boîte moyenne jus de tomate
+      qte: 1
+      uni: unité
+    - nom: petites boîtes de pâte de tomate
+      qte: 2
+      uni: unité
+    - nom: feuille de laurier
+      qte: 1
+      uni: unité
+    - nom: cayenne rouge
+      qte: 0.5
+      uni: c. à thé
+    - nom: poivre noir
+      qte: 0.25
+      uni: c. à thé
+    - nom: sel
+      qte: 0.5
+      uni: c. à thé
+    - nom: persil haché
+      qte: 1
+      uni: c. à soupe
+    - nom: origan
+      qte: 0.5
+      uni: c. à thé
+    - nom: moutarde sèche
+      qte: 0.5
+      uni: c. à thé
+    - nom: sauce worchestershier
+      qte: 2
+      uni: c. à table
+    - nom: huile
+      qte: 0.75
+      uni: tasse
+    - nom: carottes
+      qte: 2
+      uni: unité
+    - nom: barquette de champignons
+      qte: 1
+      uni: unité
+
+preparation:
+  section1:
+    - 'Tous les légumes coupés en dés et faire revenir'
+    - 'Ensuite, faire revenir la ciande et mettre dans le chaudron'
+    - 'Mettre tous les ingrédients et faire cuire 3 heures à 350°'
+
