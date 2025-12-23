@@ -1,0 +1,70 @@
+nom: Poulet au beurre à la mijoteuse
+nom_court: poulet-beurre-mijoteuse
+source: Ricardo Cuisine
+portions: 8
+temps:
+  preparation: 40
+  cuisson: 240
+  refrigeration: null
+se_congele: true
+ingredients:
+  - section: Section TODO
+    ingredients:
+    - nom: farine tout usage non blanchie
+      qte: 25
+      uni: g
+    - nom: garam masala
+      qte: 15
+      uni: ml
+    - nom: cumin moulu
+      qte: 5
+      uni: ml
+    - nom: poudre de cari
+      qte: 5
+      uni: ml
+    - nom: hauts de cuisses de poulet désossés et sans la peau, coupés en morceaux
+      qte: 1400
+      uni: g
+    - nom: noix de cajou
+      qte: 65
+      uni: g
+    - nom: oignon haché
+      qte: 1
+      uni: unité
+    - nom: gousses d’ail hachées
+      qte: 4
+      uni: unité
+    - nom: piment jalapeño, épépiné et haché
+      qte: 1
+      uni: unité
+    - nom: gingembre frais haché
+      qte: 15
+      uni: ml
+    - nom: tomates épépinées et coupées en dés
+      qte: 2
+      uni: unité
+    - nom: crème 35 %
+      qte: 180
+      uni: ml
+    - nom: pâte de tomates
+      qte: 30
+      uni: ml
+    - nom: yogourt grec nature
+      qte: 180
+      uni: ml
+    - nom: feuilles de coriandre fraîche
+      qte: 1
+      uni: au goût
+    - nom: sel et poivre
+      qte: 1
+      uni: au goût
+preparation:
+  - section: Section TODO
+    etapes:
+    - 'Dans la mijoteuse, mélanger la farine et les épices. Ajouter le poulet et bien enrober du mélange de farine.'
+    - 'Au petit robot culinaire ou au mortier, broyer finement les noix de cajou.'
+    - 'Ajouter les noix et le reste des ingrédients dans la mijoteuse, sauf le yogourt et la coriandre. Saler, poivrer et mélanger. Couvrir.'
+    - 'Couvrir et cuire à basse température (Low) 4 heures. On peut maintenir à réchaud jusqu’à 4 heures.'
+    - 'Au moment de servir, ajouter le yogourt et bien mélanger. Garnir de feuilles de coriandre et servir avec du riz pilaf et du pain naan.'
+commentaires:
+  - 'On enlève la peau des hauts de cuisses pour réduire le gras dans ce plat à la mijoteuse.'
