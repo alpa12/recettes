@@ -10,14 +10,11 @@ website:
   sidebar:
     style: docked
     search: true
-    contents:
-      - section: Desserts
-        contents:
-          - recettes/brioche.qmd
+    contents: recettes
 format:
   html:
     theme:
-      - vapor
+      - flatly
       - brand
     css: styles.css
     toc: true

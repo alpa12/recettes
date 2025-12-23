@@ -1,0 +1,54 @@
+nom: Salade de légumineuses André
+nom_court: Salade de légumineuses
+source: André Parent
+portions: 8
+temps:
+  preparation: 20
+  cuisson: null
+  refrigeration: null
+se_congele: false
+ingredients:
+  - section: Salade
+    ingredients:
+    - nom: pois chiches
+      qte: 19
+      uni: onces
+    - nom: fèves rouges
+      qte: 19
+      uni: onces
+    - nom: fèves mélangées
+      qte: 19
+      uni: onces
+    - nom: ail
+      qte: 5
+      uni: gousses
+    - nom: échalottes
+      qte: 1
+      uni: unités
+    - nom: poivron
+      qte: 3
+      uni: unités
+  - section: Vinaigrette
+    ingredients:
+    - nom: sucre
+      qte: 1/2
+      uni: tasse
+    - nom: huile d'olive
+      qte: 1/4
+      uni: tasse
+    - nom: vinaigre de vin rouge
+      qte: 1/3
+      uni: tasse
+    - nom: persil
+      qte: 1
+      uni: c. à thé
+    - nom: basilic
+      qte: 1
+      uni: c. à thé
+    - nom: origan
+      qte: 1
+      uni: c. à thé
+preparation:
+  - section: Salade
+    etapes:
+    - 'Mélanger le tout!'
