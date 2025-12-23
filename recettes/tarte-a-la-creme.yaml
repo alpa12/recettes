@@ -1,0 +1,65 @@
+nom: Tarte à la crème de Monique
+nom_court: Tarte à la crème
+source: Nathalie Rivard
+portions: 8
+temps:
+  preparation: 30
+  cuisson: 30
+  refrigeration: 120
+se_congele: false
+ingredients:
+  - section: Croûte
+    ingredients:
+    - nom: Miettes de biscuit Graham
+      qte: 1.25
+      uni: t
+    - nom: Beurre fondu
+      qte: 0.25
+      uni: t
+    - nom: Sucre
+      qte: 0.25
+      uni: t
+  - section: Crème patissière
+    ingredients:
+    - nom: Lait
+      qte: 2
+      uni: t
+    - nom: "Jaune d'oeuf"
+      qte: 3
+      uni: unité
+    - nom: Sucre
+      qte: 5
+      uni: c à table
+    - nom: Sel
+      qte: 1
+      uni: pincée
+  - section: Meringue
+    ingredients:
+    - nom: "Blancs d'oeufs"
+      qte: 3
+      uni: unité
+    - nom: Sucre
+      qte: 3
+      uni: c à table
+preparation:
+  - section: Croûte
+    etapes:
+    - Beurrer une assiette à tarte d'au moins 9 po de diamètre (assez grosse).
+    - Mélanger tous les ingrédients de la croûte.
+    - Taper le mélange dans le fond de l'assiette à tarte.
+  - section: Crème patissière
+    etapes:
+    - Dans un bol à bain marie, mélanger tous les ingrédients de la crème patissière.
+    - Cuire au bain marie en mélangeant souvent jusqu'à épaississement.
+    - Verser sur la croûte
+  - section: Meringue
+    etapes:
+    - Mélanger les blancs d'oeufs au fouet électrique, ajouter le sucre seulement après que les blancs d'oeufs ont commencé à monter.
+    - Mélanger jusqu'à avoir des pics fermes
+    - Étendre au dessus de la crème patissière
+  - section: Finale
+    etapes:
+    - Cuire au four à 350°F environ 20-30 minutes, jusqu'à ce que la meringue brunisse
+    - Réfrigérer au moins 2 heures
+commentaires:
+  - 'Étapes à clarifier la prochaine fois!'
