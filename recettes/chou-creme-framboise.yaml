@@ -8,7 +8,8 @@ temps:
   refrigeration: null
 se_congele: true
 ingredients:
-  section: Pâte à choux
+  - section: Pâte à choux
+    ingredients:
     - nom: eau
       qte: 125
       uni: ml
@@ -25,7 +26,8 @@ ingredients:
       qte: 2
       uni: unité
 
-  section: Confiture de framboises
+  - section: Confiture de framboises
+    ingredients:
     - nom: framboises fraîches
       qte: 900
       uni: g
@@ -35,6 +37,12 @@ ingredients:
     - nom: jus de citron
       qte: 15
       uni: ml
+
+  - section: Chocolat
+    ingredients:
+    - nom: pépites de chocolat au lait
+      qte: 75
+      uni: g
 
 preparation:
   section: Pâte à choux
