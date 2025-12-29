@@ -1,7 +1,8 @@
 #' Convert a recipe YAML file to a Quarto (.qmd) recipe
 #'
 #' @param yaml_path Path to the input YAML file
-#' @param qmd_path Path to the output .qmd file. If NULL, same name as yaml with .qmd extension.
+#' @param qmd_path Path to the output .qmd file.
+#'  If NULL, same name as yaml with .qmd extension.
 #'
 #' @details
 #' This function reads a structured recipe YAML file and renders it into
@@ -49,7 +50,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   prep <- recipe$preparation
 
-  for (i in seq_len(length(prep))) {
+  for (i in seq_along(prep)) {
     section_name <- prep[[i]]$section
     steps <- prep[[i]]$etapes
 
