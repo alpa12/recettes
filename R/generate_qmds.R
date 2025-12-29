@@ -13,6 +13,11 @@ yaml_files <- list.files(
   full.names = TRUE
 )
 
+# Retirer template.yaml de la liste, ce n'est pas une vraie recette
+yaml_files <- yaml_files[
+  basename(yaml_files) != "template.yaml"
+]
+
 
 cli::cli_h2("Supprimer les QMD existants correspondant aux YAML")
 deleted_count <- 0
