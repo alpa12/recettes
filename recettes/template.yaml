@@ -8,19 +8,22 @@ temps:
   refrigeration: Temps de réfrigération (chiffre en minute, null si aucun)
 se_congele: Est-ce que ça se congèle? (inscrire true ou false)
 ingredients:
-  section1:
+  - section: Nom de la section
+    ingredients:
     - nom: Nom de l'ingrédient
       qte: Quantité (chiffres uniquement)
       uni: Unité (unité, ml, t, g, ...)
     - nom: Ingrédient
       qte: 1
       uni: unité
-  section2:
+  - section: Nom de la section
+    ingredients:
     - nom: Ingrédient
       qte: 1
       uni: unité
 preparation:
-  section1:
+  - section: Nom de la section
+    etapes:
     - 'Texte qui explique la première étape. TODO PRO-36 comprendre comment gérer les multilines'
     - 'Deuxième étape'
 commentaires:
