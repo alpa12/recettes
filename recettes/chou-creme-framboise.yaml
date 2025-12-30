@@ -1,0 +1,65 @@
+nom: Choux à la crème framboise
+nom_court: choux
+source: Ricardo
+portions: 33
+temps:
+  preparation: 30
+  cuisson: 30
+  refrigeration: null
+se_congele: true
+ingredients:
+  - section: Pâte à choux
+    ingredients:
+    - nom: eau
+      qte: 125
+      uni: ml
+    - nom: beurre non salé, coupé en cubes
+      qte: 60
+      uni: ml
+    - nom: sel
+      qte: 1
+      uni: pincée
+    - nom: farine tout usage non blanchie
+      qte: 125
+      uni: ml
+    - nom: œufs
+      qte: 2
+      uni: unité
+
+  - section: Confiture de framboises
+    ingredients:
+    - nom: framboises fraîches
+      qte: 900
+      uni: g
+    - nom: sucre granulé
+      qte: 900
+      uni: g
+    - nom: jus de citron
+      qte: 15
+      uni: ml
+
+  - section: Chocolat
+    ingredients:
+    - nom: pépites de chocolat au lait
+      qte: 75
+      uni: g
+
+preparation:
+  - section: Pâte à choux
+    etape:
+    - 'Dans une casserole, porter l’eau et le beurre à ébullition. Retirer du feu. Ajouter la farine d’un seul coup et brasser vigoureusement à la cuillère de bois jusqu’à ce que la pâte forme une boule lisse qui se détache des parois.'
+    - 'Remettre la casserole sur feu doux et cuire en remuant environ 2 minutes.'
+    - 'Retirer du feu et laisser tiédir 10 minutes. Ajouter les œufs, un à la fois, en battant vigoureusement à la cuillère de bois entre chaque addition, jusqu’à ce que la pâte soit lisse et homogène.'
+    - 'Préchauffer le four à 190 °C (375 °F). Tapisser une plaque de cuisson de papier parchemin.'
+    - 'À l’aide d’une poche à pâtisserie munie d’une douille ronde d’environ 1 cm, former des éclairs ou des petits choux sur la plaque.'
+    - 'Cuire au centre du four environ 30 minutes jusqu’à ce que la pâte soit dorée. Fendre les éclairs ou les choux pour laisser échapper la vapeur et remettre dans le four éteint 10 à 15 minutes.'
+  - section: Confiture de framboise
+    etape:
+    - 'Dans une grande casserole, déposer les framboises.'
+    - 'Porter à ébullition à feu vif en écrasant les baies.'
+    - 'Ajouter le sucre et le jus de citron.'
+    - 'Porter de nouveau à ébullition et laisser mijoter jusqu’à ce que la confiture épaississe, environ 15 à 20 minutes.'
+    - 'Verser dans des bocaux stérilisés et laisser refroidir.'
+commentaires:
+  - 'Ajouter de la crème fouettée dans les choux.'
+  - 'Les choux se congèlent très bien. Pour leur redonner leur texture croustillante, cuire 8 à 10 minutes dans un four préchauffé à 150 °C (300 °F).'
