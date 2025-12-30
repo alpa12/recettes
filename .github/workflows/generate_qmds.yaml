@@ -1,0 +1,53 @@
+name: Generate QMDs from YAML recipes
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+    - '**/*.yaml'
+    - '**/*.yml'
+    - 'R/generate_qmds.R'
+
+permissions:
+  contents: write
+
+jobs:
+  generate-qmds:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 4.5.2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+
+      - name: Restore R packages with renv
+        uses: r-lib/actions/setup-renv@v2
+
+      - name: Run QMD generation script
+        run: |
+          Rscript R/generate_qmds.R
+
+      - name: Commit generated QMD files
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add recettes/**/*.qmd
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-generate recipe QMD files"
+            git push
+          fi
