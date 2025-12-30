@@ -10,13 +10,7 @@ website:
   sidebar:
     style: docked
     search: true
-    contents:
-      - section: Desserts
-        contents:
-          - recettes/brioche-a-la-cannelle-et-pomme-de-terre.qmd
-      - section: Salades
-        contents:
-          - recettes/salade-de-legumineuses.qmd
+    contents: recettes
 format:
   html:
     theme:
