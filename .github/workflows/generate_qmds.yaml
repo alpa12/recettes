@@ -4,15 +4,47 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-    - '**/*.yaml'
-    - '**/*.yml'
-    - 'R/generate_qmds.R'
+      - 'recettes/**/*.yaml'
+      - 'recettes/**/*.yml'
+      - 'R/generate_qmds.R'
 
 permissions:
   contents: write
 
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.diff.outputs.run }}
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine if recipe YAMLs changed
+        id: diff
+        run: |
+          BASE_REF="${{ github.base_ref }}"
+          HEAD_REF="${{ github.head_ref }}"
+
+          git fetch origin "$BASE_REF"
+
+          CHANGED_FILES=$(git diff --name-only "origin/$BASE_REF...HEAD")
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          if echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|R/generate_qmds\.R)$'; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
   generate-qmds:
+    needs: check-changes
+    if: needs.check-changes.outputs.run == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +56,7 @@ jobs:
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: 4.5.2
+          r-version: 'stable'
 
       - name: Install system dependencies
         run: |
@@ -44,7 +76,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add --all
+          git add .
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
