@@ -10,7 +10,7 @@ se_congele: true
 ingredients:
   - section: Section TODO
     ingredients:
-    - nom: farine tout usage non blanchie
+    - nom: farine tout usage non blanchie CHANGEMENT
       qte: 225
       uni: g
     - nom: cacao
