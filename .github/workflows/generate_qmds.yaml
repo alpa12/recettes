@@ -23,17 +23,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Determine if recipe YAMLs changed
+      - name: Determine if regeneration is needed
         id: diff
         run: |
-          BASE_REF="${{ github.base_ref }}"
-          HEAD_REF="${{ github.head_ref }}"
+          set -e
 
-          git fetch origin "$BASE_REF"
+          BOT_COMMIT=$(git log --grep="^Auto-generate recipe QMD files$" \
+                               --author="github-actions\[bot\]" \
+                               --pretty=format:%H \
+                               -n 1 || true)
 
-          CHANGED_FILES=$(git diff --name-only "origin/$BASE_REF...HEAD")
+          if [ -z "$BOT_COMMIT" ]; then
+            echo "No previous auto-generation commit found."
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
-          echo "Changed files:"
+          echo "Last auto-generation commit: $BOT_COMMIT"
+
+          CHANGED_FILES=$(git diff --name-only "$BOT_COMMIT..HEAD")
+
+          echo "Changed files since last generation:"
           echo "$CHANGED_FILES"
 
           if echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|R/generate_qmds\.R)$'; then
@@ -41,6 +51,7 @@ jobs:
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
+
 
   generate-qmds:
     needs: check-changes
