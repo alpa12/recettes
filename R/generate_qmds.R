@@ -17,31 +17,47 @@ yaml_files <- yaml_files[
 
 cli::cli_alert_info(glue::glue("Recettes YAML détectées : {length(yaml_files)}"))
 
-overwritten <- 0
 created <- 0
+modified <- 0
+unchanged <- 0
 
 for (yaml in yaml_files) {
   qmd <- sub("\\.ya?ml$", ".qmd", yaml)
 
-  if (file.exists(qmd)) {
-    state <- "Écrasé"
-    overwritten <- overwritten + 1
-  } else {
-    state <- "Créé  "
-    created <- created + 1
-  }
+  old_content <- NULL
+  existed <- file.exists(qmd)
 
-  cli::cli_alert(glue::glue("{state} : {fs::path_rel(qmd, start = recettes_dir)}"))
+  if (existed) {
+    old_content <- readLines(qmd, warn = FALSE)
+  }
 
   yaml_recipe_to_qmd(
     yaml_path = yaml,
     qmd_path  = qmd
   )
+
+  new_content <- readLines(qmd, warn = FALSE)
+
+  if (!existed) {
+    created <- created + 1
+    state <- "Créé    "
+  } else if (identical(old_content, new_content)) {
+    unchanged <- unchanged + 1
+    state <- "Inchangé"
+  } else {
+    modified <- modified + 1
+    state <- "Modifié "
+  }
+
+  if (state != "Inchangé") {
+    cli::cli_alert(glue::glue("{state} : {fs::path_rel(qmd, start = recettes_dir)}"))
+  }
 }
 
 cli::cli_h2("Résumé")
 cli::cli_bullets(c(
   glue::glue("YAML traités : {length(yaml_files)}"),
-  glue::glue("QMD écrasés : {overwritten}"),
-  glue::glue("QMD créés : {created}")
+  glue::glue("QMD créés : {created}"),
+  glue::glue("QMD modifiés : {modified}"),
+  glue::glue("QMD inchangés : {unchanged}")
 ))
