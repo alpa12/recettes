@@ -1,3 +1,7 @@
+---
+order: 3
+---
+
 # Desserts
 
 TODO PRO-57: Lister les recettes
