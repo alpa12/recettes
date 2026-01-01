@@ -16,19 +16,43 @@
   "packages": null,
   "files": {
     "_quarto.yml": {
-      "checksum": "506244ede1b57bf36cc2048c12425eef"
+      "checksum": "70f5c9caa58b9ee8d7e0bd56be34000b"
     },
     "_site/index.html": {
-      "checksum": "e12bd7039eef5daebccb28b7ee57e4ef"
+      "checksum": "24ae09ad733e9a29a66cd0482f48451f"
     },
-    "_site/recettes/brioche.html": {
-      "checksum": "fe543815bbf1ac3362e6ecb40fb6f1b9"
+    "_site/recettes/biscuit-au-caramel-chocolat-amande.html": {
+      "checksum": "56098a9b9401d48c50abf222971e259d"
+    },
+    "_site/recettes/biscuit-au-chocolat-chaud.html": {
+      "checksum": "058566b9f2932b0fa76e98019cee46d5"
+    },
+    "_site/recettes/brioche-a-la-cannelle-et-pomme-de-terre.html": {
+      "checksum": "9d631ba829729ac28c948096c638b62f"
+    },
+    "_site/recettes/index.html": {
+      "checksum": "46ba68192c330b7bb7ecb20bffb4ff34"
+    },
+    "_site/recettes/jambon-erable-ananas-mijoteuse.html": {
+      "checksum": "878a2641bf23d78d7e845babf857d9e1"
+    },
+    "_site/recettes/porc-aux-champignons.html": {
+      "checksum": "3ae7ebd2f83a62b8af3bc7aa5dfb7645"
+    },
+    "_site/recettes/porc-aux-patates-douces-mijoteuse.html": {
+      "checksum": "5685ca1107e518faaa7da9427080fc80"
+    },
+    "_site/recettes/poulet-au-beurre-mijoteuse.html": {
+      "checksum": "835ed54c7b2dc2066a434fde3dfa65a8"
+    },
+    "_site/recettes/salade-de-legumineuses.html": {
+      "checksum": "fb49b0d2d99a8df9eac2bbc36d0edf86"
     },
     "_site/search.json": {
-      "checksum": "1288d87377943eb3275e78a0e8ae33f8"
+      "checksum": "fb27220db217b455c67c87c92816aa01"
     },
-    "_site/site_libs/bootstrap/bootstrap-51ddd5c08135aa96c27b3e317891dc71.min.css": {
-      "checksum": "51ddd5c08135aa96c27b3e317891dc71"
+    "_site/site_libs/bootstrap/bootstrap-7ebee9d6e4f766fb7fb926431a00ecf2.min.css": {
+      "checksum": "7ebee9d6e4f766fb7fb926431a00ecf2"
     },
     "_site/site_libs/bootstrap/bootstrap-icons.css": {
       "checksum": "886da841d7421705f715f600c5ff11bb"
@@ -51,8 +75,8 @@
     "_site/site_libs/quarto-html/popper.min.js": {
       "checksum": "3a4a291ccf3f1ea0f82b641542fd3827"
     },
-    "_site/site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css": {
-      "checksum": "b758ccaa5987ceb1b75504551e579abf"
+    "_site/site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css": {
+      "checksum": "587c61ba64f3a5504c4d52d930310e48"
     },
     "_site/site_libs/quarto-html/quarto.js": {
       "checksum": "a65a7780c10232b6515cdfb8beaaa221"
@@ -84,11 +108,89 @@
     "_site/styles.css": {
       "checksum": "e31c3cdea03dfab8a29456978017bd10"
     },
+    ".github/workflows/generate_qmds.yaml": {
+      "checksum": "d7aee9b57609257b3519f8da78b84a4a"
+    },
+    ".Rprofile": {
+      "checksum": "0fcba14813e5715cf77e9a2ca52339d6"
+    },
     "index.qmd": {
       "checksum": "f0bfdf34989f0c31424148085bcc8357"
     },
-    "recettes/brioche.qmd": {
-      "checksum": "2e8292a164e19a0a31ae4958ee28522a"
+    "R/generate_qmds.R": {
+      "checksum": "34a0c252a773a5520b2fec497b044492"
+    },
+    "R/yaml_to_qmd.R": {
+      "checksum": "528cf4cee524e1bac451dfdf9d00959a"
+    },
+    "recettes/biscuit-au-caramel-chocolat-amande.qmd": {
+      "checksum": "b1a14e1d31eabfe0aafc15bce609fb27"
+    },
+    "recettes/biscuit-au-caramel-chocolat-amande.yaml": {
+      "checksum": "2a7cc1174c32afc601b16a1d951b7feb"
+    },
+    "recettes/biscuit-au-chocolat-chaud.qmd": {
+      "checksum": "f24e70def7d59f311675fe8fbe0a2e39"
+    },
+    "recettes/biscuit-au-chocolat-chaud.yaml": {
+      "checksum": "2f43d175d0f2203841e6114a1d2815af"
+    },
+    "recettes/brioche-a-la-cannelle-et-pomme-de-terre.qmd": {
+      "checksum": "a8b8100249b442cc9d722209afd3d53b"
+    },
+    "recettes/brioche-a-la-cannelle-et-pomme-de-terre.yaml": {
+      "checksum": "991a8ad329a2f19e528c41a558196bf7"
+    },
+    "recettes/chou-creme-framboise.qmd": {
+      "checksum": "9ae19e0baaaf248cd4b53e6ca0ecf680"
+    },
+    "recettes/chou-creme-framboise.yaml": {
+      "checksum": "ffd4f724635173d49005623d5c6e8254"
+    },
+    "recettes/index.qmd": {
+      "checksum": "59fe0232c067809e405903db045421e5"
+    },
+    "recettes/jambon-erable-ananas-mijoteuse.qmd": {
+      "checksum": "5ecf0963c8e475cc6dbdf0a87f58bff2"
+    },
+    "recettes/jambon-erable-ananas-mijoteuse.yaml": {
+      "checksum": "cb212b19da2a05510b949b78a31bfe8a"
+    },
+    "recettes/porc-aux-champignons.qmd": {
+      "checksum": "db9b79da7d5d9063f62be326b74aa464"
+    },
+    "recettes/porc-aux-champignons.yaml": {
+      "checksum": "8663c5eb9bad477dca2d860cb3280f2c"
+    },
+    "recettes/porc-aux-patates-douces-mijoteuse.qmd": {
+      "checksum": "fe9e0b6f4d2a59b1a2393afb66bfd634"
+    },
+    "recettes/porc-aux-patates-douces-mijoteuse.yaml": {
+      "checksum": "cffc6abbe121096ead9e3a4cb285a0f8"
+    },
+    "recettes/poulet-au-beurre-mijoteuse.qmd": {
+      "checksum": "3927524721265aabcb810295662acc98"
+    },
+    "recettes/poulet-au-beurre-mijoteuse.yaml": {
+      "checksum": "23aa796c8dd70fa68124d64b384bad38"
+    },
+    "recettes/salade-de-legumineuses.qmd": {
+      "checksum": "7b58f25d231caaaa7f3c0f554bdd1ccd"
+    },
+    "recettes/salade-de-legumineuses.yaml": {
+      "checksum": "84dbf91bb2be0f87ca05efd78c3a07ef"
+    },
+    "recettes/spag-andre.qmd": {
+      "checksum": "7b2b3bd0e1b87c6286bbd88ef1eb4701"
+    },
+    "recettes/spag-andre.yaml": {
+      "checksum": "3adeb566cf94c2d0dcfe5dc32d584443"
+    },
+    "recettes/template.yaml": {
+      "checksum": "b0be756c9eb58a27e1bdc9e5f996f2cf"
+    },
+    "renv.lock": {
+      "checksum": "cce033fb865d757188143c4e1fe91290"
     },
     "styles.css": {
       "checksum": "e31c3cdea03dfab8a29456978017bd10"
