@@ -1,0 +1,7 @@
+---
+order: 1
+---
+
+# Accompagnements
+
+TODO PRO-57: Lister les recettes

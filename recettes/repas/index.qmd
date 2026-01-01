@@ -1,0 +1,7 @@
+---
+order: 2
+---
+
+# Repas
+
+TODO PRO-57: Lister les recettes
