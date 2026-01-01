@@ -40,13 +40,13 @@ for (yaml in yaml_files) {
 
   if (!existed) {
     created <- created + 1
-    state <- "Créé    "
+    state <- "Créé   "
   } else if (identical(old_content, new_content)) {
     unchanged <- unchanged + 1
     state <- "Inchangé"
   } else {
     modified <- modified + 1
-    state <- "Modifié "
+    state <- "Modifié"
   }
 
   if (state != "Inchangé") {
