@@ -1,4 +1,4 @@
-name: Generate QMDs from YAML recipes
+name: Generate QMDs from YAML recipes CHANGE
 
 on:
   pull_request:
