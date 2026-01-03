@@ -31,12 +31,24 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     lines,
     "---",
     paste0("title: ", recipe$nom_court),
-    paste0("image: ", image_name),
-    "categories:",
-    paste0("  - ", recipe$categories),
-    "---",
-    ""
+    paste0("image: ", image_name)
   )
+
+  # ---- Categories (optional: 0 / 1 / n) ----
+  if (!is.null(recipe$categories)) {
+    cats <- recipe$categories
+
+    if (is.character(cats)) {
+      cats <- as.character(cats)
+    } else {
+      cats <- unlist(cats, use.names = FALSE)
+    }
+
+    lines <- c(lines, "categories:")
+    lines <- c(lines, paste0("  - ", cats))
+  }
+
+  lines <- c(lines, "---", "")
 
   # ---- Title ----
   lines <- c(lines, paste0("# ", recipe$nom), "")
