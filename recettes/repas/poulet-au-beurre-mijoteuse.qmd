@@ -1,3 +1,10 @@
+---
+title: poulet-beurre-mijoteuse
+image: poulet-au-beurre-mijoteuse.jpg
+categories:
+  - 
+---
+
 # Poulet au beurre à la mijoteuse
 
 ## Ingrédients

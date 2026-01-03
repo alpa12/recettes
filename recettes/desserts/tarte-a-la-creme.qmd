@@ -1,3 +1,10 @@
+---
+title: Tarte à la crème
+image: tarte-a-la-creme.jpg
+categories:
+  - 
+---
+
 # Tarte à la crème de Monique
 
 ## Ingrédients

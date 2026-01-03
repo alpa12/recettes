@@ -1,3 +1,10 @@
+---
+title: jambon-erable-ananas-mijoteuse
+image: jambon-erable-ananas-mijoteuse.jpg
+categories:
+  - 
+---
+
 # Jambon à l’érable et à l’ananas à la mijoteuse
 
 ## Ingrédients

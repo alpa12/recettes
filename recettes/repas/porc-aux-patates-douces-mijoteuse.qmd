@@ -1,3 +1,10 @@
+---
+title: mijote-porc-patates-douces
+image: porc-aux-patates-douces-mijoteuse.jpg
+categories:
+  - 
+---
+
 # Mijoté de porc aux patates douces
 
 ## Ingrédients
