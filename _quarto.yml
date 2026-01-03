@@ -2,19 +2,54 @@ project:
   type: website
 
 website:
-  title: "Livre de recettes"
+  back-to-top-navigation: true
+  title: "Nos Recettes"
+  page-footer: "Livre de recettes de M. et Mme"
+
   navbar:
     left:
       - href: index.qmd
         text: Accueil
+      - sidebar:desserts
+      - sidebar:repas
+      - sidebar:collation
+    background: primary
+
   sidebar:
-    style: docked
-    search: true
-    contents: recettes
+    - id: desserts
+      title: "Desserts"
+      contents:
+        - recettes/desserts/biscuit-au-caramel-chocolat-amande.qmd
+        - recettes/desserts/biscuit-au-chocolat-chaud.qmd
+        - recettes/desserts/brioche-a-la-cannelle-et-pomme-de-terre.qmd
+        - recettes/desserts/chou-creme-framboise.qmd
+        - recettes/desserts/tarte-a-la-creme.qmd
+
+    - id: repas
+      title: "Repas"
+      contents:
+        - recettes/repas/jambon-erable-ananas-mijoteuse.qmd
+        - recettes/repas/porc-aux-champignons.qmd
+        - recettes/repas/porc-aux-patates-douces-mijoteuse.qmd
+        - recettes/repas/poulet-au-beurre-mijoteuse.qmd
+        - recettes/repas/spag-andre.qmd
+
+
+    - id: collation
+      title: "Collations"
+      contents:
+        - recettes/collation/salade-de-legumineuses.qmd
+
 format:
   html:
     theme:
-      - flatly
-      - brand
+      light: litera
+      dark: superhero
     css: styles.css
     toc: true
+    respect-user-color-scheme: true
+
+title: "Nos Recettes"
+listing:
+  contents: TODO
+  type: grid

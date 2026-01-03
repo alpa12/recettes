@@ -1,0 +1,11 @@
+---
+title: "Desserts"
+image: desserts.jpg
+listing:
+  type: grid
+  contents:
+    - "*.qmd"
+  fields: [title, image]
+  sort: title
+  grid-columns: 3
+---

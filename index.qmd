@@ -3,3 +3,15 @@
 Ceci est la page d'accueil du livre de recettes de madame et monsieur.
 
 Des détails seront ajoutés à cette page à mesure que le site évolue.
+
+---
+title: "Nos Recettes"
+listing:
+  type: grid
+  contents:
+    - recettes/repas/index.qmd
+    - recettes/desserts/index.qmd
+    - recettes/collation/index.qmd
+  fields: [title, image]
+  grid-columns: 3
+---
