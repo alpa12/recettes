@@ -2,6 +2,10 @@
 title: Desserts
 order: 3
 image: index.jpg
+listing:
+  type: grid
+  fields: [title, image]
+  categories: true
 ---
 
 TODO PRO-57: Lister les recettes
