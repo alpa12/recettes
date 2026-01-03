@@ -11,8 +11,6 @@ website:
   navbar:
     background: primary
     left:
-      - href: index.qmd
-        text: Accueil
       - href: recettes/accompagnements/index.qmd
         text: Accompagnements
       - href: recettes/repas/index.qmd
