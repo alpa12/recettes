@@ -7,14 +7,20 @@ website:
   back-to-top-navigation: true
   title: "Nos Recettes"
   page-footer: "Livre de recettes de Mme et M."
+
   navbar:
+    background: primary
     left:
       - href: index.qmd
         text: Accueil
-  sidebar:
+      - href: recettes/accompagnements/index.qmd
+        text: Accompagnements
+      - href: recettes/repas/index.qmd
+        text: Repas
+      - href: recettes/desserts/index.qmd
+        text: Desserts
     style: docked
     search: true
-    contents: recettes
 
 format:
   html:
