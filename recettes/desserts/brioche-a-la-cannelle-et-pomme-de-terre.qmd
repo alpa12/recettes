@@ -1,8 +1,6 @@
 ---
 title: Brioche à la cannelle
 image: brioche-a-la-cannelle-et-pomme-de-terre.jpg
-categories:
-  - 
 ---
 
 # Brioche à la cannelle (et à la pomme de terre)

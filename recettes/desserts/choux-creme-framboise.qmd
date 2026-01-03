@@ -1,8 +1,6 @@
 ---
 title: choux
 image: choux-creme-framboise.jpg
-categories:
-  - 
 ---
 
 # Choux à la crème framboise

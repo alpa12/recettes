@@ -1,8 +1,6 @@
 ---
 title: Spaghetti
 image: spag-andre.jpg
-categories:
-  - 
 ---
 
 # Sauce à spaghetti de Nathalie Davignon
