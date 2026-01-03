@@ -11,10 +11,12 @@ website:
     style: docked
     search: true
     contents: recettes
+
 format:
   html:
     theme:
-      - flatly
-      - brand
+      light: litera
+      dark: superhero
     css: styles.css
     toc: true
+    respect-user-color-scheme: true
