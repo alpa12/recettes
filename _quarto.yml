@@ -1,6 +1,8 @@
 project:
   type: website
 
+lang: fr
+
 website:
   back-to-top-navigation: true
   title: "Nos Recettes"
