@@ -1,3 +1,8 @@
+---
+title: Biscuit chocolat chaud
+image: biscuit-au-chocolat-chaud.jpg
+---
+
 # Biscuits au chocolat chaud
 
 ## Ingrédients

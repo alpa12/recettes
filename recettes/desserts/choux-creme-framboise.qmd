@@ -1,3 +1,8 @@
+---
+title: choux
+image: choux-creme-framboise.jpg
+---
+
 # Choux à la crème framboise
 
 ## Ingrédients

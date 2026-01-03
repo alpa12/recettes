@@ -2,7 +2,7 @@
 #'
 #' @param yaml_path Path to the input YAML file
 #' @param qmd_path Path to the output .qmd file.
-#'  If NULL, same name as yaml with .qmd extension.
+#'   If NULL, same name as yaml with .qmd extension.
 #'
 #' @details
 #' This function reads a structured recipe YAML file and renders it into
@@ -10,7 +10,7 @@
 #' a schema compatible with the example provided.
 #'
 #' @importFrom yaml read_yaml
-#' @importFrom fs path_ext_set
+#' @importFrom fs path_ext_set path_file
 #' @importFrom stringr str_trim
 #' @export
 yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
@@ -23,6 +23,32 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   recipe <- yaml::read_yaml(yaml_path)
 
   lines <- character()
+
+  # ---- YAML metadata (Quarto front-matter) ----
+  image_name <- fs::path_ext_set(fs::path_file(yaml_path), "jpg")
+
+  lines <- c(
+    lines,
+    "---",
+    paste0("title: ", recipe$nom_court),
+    paste0("image: ", image_name)
+  )
+
+  # ---- Categories (optional: 0 / 1 / n) ----
+  if (!is.null(recipe$categories)) {
+    cats <- recipe$categories
+
+    if (is.character(cats)) {
+      cats <- as.character(cats)
+    } else {
+      cats <- unlist(cats, use.names = FALSE)
+    }
+
+    lines <- c(lines, "categories:")
+    lines <- c(lines, paste0("  - ", cats))
+  }
+
+  lines <- c(lines, "---", "")
 
   # ---- Title ----
   lines <- c(lines, paste0("# ", recipe$nom), "")

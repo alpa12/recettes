@@ -1,3 +1,8 @@
+---
+title: Salade de légumineuses
+image: salade-de-legumineuses.jpg
+---
+
 # Salade de légumineuses André
 
 ## Ingrédients
