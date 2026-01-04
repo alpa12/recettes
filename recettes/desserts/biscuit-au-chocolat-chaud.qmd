@@ -1,48 +1,39 @@
 ---
 title: Biscuit chocolat chaud
 image: biscuit-au-chocolat-chaud.jpg
+categories:
+  - Biscuit
+  - Chocolat
 ---
 
 # Biscuits au chocolat chaud
 
 ## Ingrédients
 
-### Ingrédients secs
-
-- 2 tasse farine
-- 0.5 tasse chocolat chaud en poudre
-- 1 c. à soupe cacao
-- 1 c. à thé bicarbonate
-- 0.5 c. à thé poudre à pâte
-
-### Ingrédients mouillés
-
-- 0.33 tasse beurre
-- 0.5 tasse sucre
-- 0.5 tasse cassonade
-- 2 unité oeuf
-
-### Décoration
-
-- 0.5 tasse pépites de chocolat mi-sucré
-- 0.75 tasse miniguimauves
-
 ## Préparation
 
 ### Préparation des biscuits
 
-- Mélanger les ingrédients secs à la cuilllère.
+- Mélanger les ingrédients secs.
+- list(list(nom = "Farine", qte = 2, uni = "tasse"), list(nom = "Chocolat chaud en poudre", qte = 0.5, uni = "tasse"), list(nom = "Cacao", qte = 1, uni = "c. à soupe"), list(nom = "Bicarbonate", qte = 1, uni = "c. à thé"), list(nom = "Poudre à pâte", qte = 0.5, uni = "c. à thé"))
+- c("Bol", "Cuillère")
 
-- Mélanger les ingrédients mouillés au mélangeur électrique.
+- Mélanger les ingrédients mouillés au batteur électrique.
+- list(list(nom = "Beurre", qte = 0.33, uni = "tasse"), list(nom = "Sucre", qte = 0.5, uni = "tasse"), list(nom = "Cassonade", qte = 0.5, uni = "tasse"), list(nom = "Œufs", qte = 2, uni = "unité"))
+- Batteur électrique
 
-- Mélanger tout ensemble, puis ajouter les pépites de chocolat
+- Mélanger tout ensemble puis ajouter les pépites de chocolat.
+- list(list(nom = "Pépites de chocolat mi-sucré", qte = 0.5, uni = "tasse"))
+- Spatule
 
-- Cuire au four (375°) pendant 6 minutes
+- Cuire au four 6 minutes à 375°F.
+- list(list(nom = "Pâte à biscuits", qte = 1, uni = "lot"))
+- Four
 
-- Ajouter les miniguimauves
-
-- Reprendre la cuisson au four pour 6 à 8 minutes
+- Ajouter les miniguimauves et reprendre la cuisson 6 à 8 minutes.
+- list(list(nom = "Miniguimauves", qte = 0.75, uni = "tasse"))
+- Four
 
 ## Notes
 
-- Les miniguimauves sont facultatives
+- Les miniguimauves sont facultatives.

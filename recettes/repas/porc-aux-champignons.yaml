@@ -1,19 +1,19 @@
-nom: Médaillons de porc, sauce crémeuse aux champignons & à l’érable
-nom_court: Médaillons porc champignons érable
+nom: Médaillons de porc, sauce crémeuse aux champignons et à l’érable
+nom_court: Médaillons porc sauce champignons
 source: Trois Fois par Jour
 portions: 3
 se_congele: true
 categories:
 - Porc
-- Poêle
 - Sauce
 temps:
   preparation: 10
   cuisson: 15
   refrigeration: null
 preparation:
-- section: Cuisson
-  - etape: Cuire les médaillons et la sauce.
+- section: Préparation
+  etapes:
+  - etape: Délayer la fécule de maïs dans l’eau et réserver.
     ingredients:
     - nom: Fécule de maïs
       qte: 2
@@ -21,21 +21,40 @@ preparation:
     - nom: Eau
       qte: 60
       uni: ml
+    equipements:
+    - Bol
+    - Cuillère
+  - etape: Couper le filet de porc en médaillons, assaisonner sel et poivre.
+    ingredients:
     - nom: Filet de porc
       qte: 1
       uni: unité
     - nom: Sel et poivre
       qte: 1
       uni: au goût
+    equipements:
+    - Planche à découper
+    - Couteau
+  - etape: Faire chauffer beurre dans poêle, saisir les champignons et réserver.
+    ingredients:
     - nom: Beurre
       qte: 1
       uni: c. à soupe
     - nom: Champignons blancs (ou autres)
       qte: 227
       uni: g
+    equipements:
+    - Poêle
+    - Spatule
+  - etape: Ajouter huile et saisir les médaillons 2 min de chaque côté.
+    ingredients:
     - nom: Huile végétale
       qte: 1
       uni: c. à soupe
+    equipements:
+    - Poêle
+  - etape: Ajouter champignons, mélange de fécule et le reste des ingrédients, porter à ébullition et laisser mijoter 5 minutes.
+    ingredients:
     - nom: Sirop d’érable
       qte: 60
       uni: ml
@@ -49,7 +68,6 @@ preparation:
       qte: 2
       uni: c. à soupe
     equipements:
-    - Grande poêle
-    - Couteau
+    - Poêle
 commentaires:
-- Recette sans gluten, sans œufs et sans noix.
+  - 'Recette sans gluten, œufs et noix.'

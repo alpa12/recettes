@@ -1,64 +1,51 @@
 ---
 title: Brioche à la cannelle
 image: brioche-a-la-cannelle-et-pomme-de-terre.jpg
+categories:
+  - Brioche
+  - Dessert
 ---
 
-# Brioche à la cannelle (et à la pomme de terre)
+# Brioche à la cannelle et à la pomme de terre
 
 ## Ingrédients
-
-### Brioches
-
-- 1 unité Pomme de terre
-- 250 ml Lait
-- 105 g Sucre
-- 715 g Farine tout usage non blanchie
-- 12.5 ml Levure instantanée
-- 5 ml Sel
-- 2 unité Oeufs
-- 55 g Beurre non salé
-- 45 ml Huile de canola
-
-### Garniture
-
-- 315 g Cassonade
-- 15 ml Cannelle moulue
-- 30 ml Beurre non salé
-- 30 ml Lait
-
-### Glaçage
-
-- 135 g Sucre à glacer
-- 15 ml Lait
 
 ## Préparation
 
 ### Brioches
 
-- Cuire la pomme de terre dans l’eau bouillante jusqu’à tendreté, peler et réduire en purée. Mesurer 250 ml de purée et réserver.
+- Cuire la pomme de terre dans l’eau bouillante, peler et réduire en purée. Mesurer 250 ml de purée.
+- list(list(nom = "Pomme de terre", qte = 1, uni = "unité"))
+- c("Casserole", "Épluche-légumes", "Fourchette")
 
-- Mélanger le lait et le sucre dans un bol.
+- Mélanger le lait et le sucre.
+- list(list(nom = "Lait", qte = 250, uni = "ml"), list(nom = "Sucre", qte = 105, uni = "g"))
+- c("Bol", "Cuillère")
 
-- Mélanger la farine, la levure et le sel. Ajouter le mélange de lait, les oeufs et la purée de pomme de terre, puis mélanger jusqu’à formation de la pâte.
+- Mélanger la farine, la levure et le sel. Ajouter lait-sucre, œufs et purée. Pétrir jusqu’à formation de la pâte.
+- list(list(nom = "Farine tout usage non blanchie", qte = 715, uni = "g"), list(nom = "Levure instantanée", qte = 12.5, uni = "ml"), list(nom = "Sel", qte = 5, uni = "ml"), list(nom = "Œufs", qte = 2, uni = "unité"))
+- c("Bol", "Spatule")
 
-- Incorporer le beurre et l’huile, puis pétrir environ 5 minutes. Déposer la pâte dans un bol huilé, couvrir et laisser reposer 20 minutes.
+- Incorporer beurre et huile, pétrir 5 minutes. Déposer dans bol huilé, couvrir et laisser reposer 20 minutes.
+- list(list(nom = "Beurre non salé", qte = 55, uni = "g"), list(nom = "Huile de canola", qte = 45, uni = "ml"))
+- c("Bol", "Plan de travail")
 
 ### Garniture
 
-- Mélanger la cassonade et la cannelle.
+- Mélanger la cassonade et la cannelle. Abaisser la pâte, badigeonner de beurre fondu et répartir la garniture.
+- list(list(nom = "Cassonade", qte = 315, uni = "g"), list(nom = "Cannelle moulue", qte = 15, uni = "ml"), list(nom = "Beurre non salé", qte = 30, uni = "ml"))
+- c("Rouleau à pâtisserie", "Pinceau")
 
-- Abaisser la pâte en rectangle, badigeonner de beurre fondu et répartir la garniture.
-
-- Rouler la pâte, couper en 12 tranches et disposer dans un moule beurré.
-
-- Laisser lever environ 1 h 30, badigeonner de lait et cuire à 180 °C pendant environ 30 minutes.
+- Rouler la pâte, couper en 12 tranches et disposer dans un moule beurré. Laisser lever 1h30 et badigeonner de lait avant cuisson.
+- list(list(nom = "Lait", qte = 30, uni = "ml"))
+- c("Moule", "Pinceau")
 
 ### Glaçage
 
-- Mélanger le sucre à glacer et le lait jusqu’à consistance homogène.
-
-- Glacer les brioches au moment de servir.
+- Mélanger le sucre à glacer et le lait, glacer les brioches au moment de servir.
+- list(list(nom = "Sucre à glacer", qte = 135, uni = "g"), list(nom = "Lait", qte = 15, uni = "ml"))
+- c("Bol", "Fouet")
 
 ## Notes
 
-- Pour les préparer la veille, il suffit de couvrir d'une pellicule de plastique le plat en pyrex contenant les brioches non levées et de le réfrigérer jusqu'au lendemain. Retirez la pellicule de plastique et faites les lever comme à l'habitude dans un endroit tiède et humide ou, pour accélérer le processus, déposez le plat en pyrex dans un bain d'eau chaude.
+- Pour préparer la veille, couvrir le plat en pyrex avec pellicule plastique et réfrigérer jusqu'au lendemain. Faire lever ensuite dans endroit tiède ou bain d'eau chaude.

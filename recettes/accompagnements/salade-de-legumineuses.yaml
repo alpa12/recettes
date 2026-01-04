@@ -6,14 +6,14 @@ se_congele: false
 categories:
 - Salade
 - Légumineuses
-- Froid
 temps:
   preparation: 20
   cuisson: null
   refrigeration: null
 preparation:
 - section: Salade
-  - etape: Mélanger le tout.
+  etapes:
+  - etape: Mélanger tous les ingrédients de la salade.
     ingredients:
     - nom: Pois chiches
       qte: 19
@@ -29,10 +29,17 @@ preparation:
       uni: gousses
     - nom: Échalottes
       qte: 1
-      uni: unités
+      uni: unité
     - nom: Poivron
       qte: 3
       uni: unités
+    equipements:
+    - Bol
+    - Cuillère
+- section: Vinaigrette
+  etapes:
+  - etape: Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
+    ingredients:
     - nom: Sucre
       qte: 1/2
       uni: tasse
@@ -52,5 +59,7 @@ preparation:
       qte: 1
       uni: c. à thé
     equipements:
-    - Grand bol
-    - Cuillère
+    - Bol
+    - Fouet
+commentaires:
+  - 'On peut préparer cette salade à l’avance, elle se conserve bien quelques heures au réfrigérateur.'

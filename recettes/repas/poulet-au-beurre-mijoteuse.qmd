@@ -1,45 +1,27 @@
 ---
-title: poulet-beurre-mijoteuse
+title: Poulet beurre mijoteuse
 image: poulet-au-beurre-mijoteuse.jpg
+categories:
+  - Poulet
+  - Mijoteuse
 ---
 
 # Poulet au beurre à la mijoteuse
 
 ## Ingrédients
 
-### Section TODO
-
-- 25 g farine tout usage non blanchie
-- 15 ml garam masala
-- 5 ml cumin moulu
-- 5 ml poudre de cari
-- 1400 g hauts de cuisses de poulet désossés et sans la peau, coupés en morceaux
-- 65 g noix de cajou
-- 1 unité oignon haché
-- 4 unité gousses d’ail hachées
-- 1 unité piment jalapeño, épépiné et haché
-- 15 ml gingembre frais haché
-- 2 unité tomates épépinées et coupées en dés
-- 180 ml crème 35 %
-- 30 ml pâte de tomates
-- 180 ml yogourt grec nature
-- 1 au goût feuilles de coriandre fraîche
-- 1 au goût sel et poivre
-
 ## Préparation
 
-### Section TODO
+### Préparation
 
-- Dans la mijoteuse, mélanger la farine et les épices. Ajouter le poulet et bien enrober du mélange de farine.
+- Mélanger la farine et les épices dans la mijoteuse, ajouter le poulet et enrober.
+- list(list(nom = "Farine tout usage non blanchie", qte = 25, uni = "g"), list(nom = "Garam masala", qte = 15, uni = "ml"), list(nom = "Cumin moulu", qte = 5, uni = "ml"), list(nom = "Poudre de cari", qte = 5, uni = "ml"), list(nom = "Hauts de cuisses de poulet désossés et sans la peau, coupés en morceaux", qte = 1400, uni = "g"))
+- Mijoteuse
 
-- Au petit robot culinaire ou au mortier, broyer finement les noix de cajou.
+- Broyer finement les noix de cajou au robot culinaire ou mortier.
+- list(list(nom = "Noix de cajou", qte = 65, uni = "g"))
+- c("Robot culinaire", "Mortier")
 
-- Ajouter les noix et le reste des ingrédients dans la mijoteuse, sauf le yogourt et la coriandre. Saler, poivrer et mélanger. Couvrir.
+- Ajouter noix broyées et le reste des ingrédients sauf yogourt et coriandre dans la mijoteuse, saler, poivrer et mélanger.
+- list(list(nom = "Oignon haché", qte = 1, uni = "unité"), list(nom = "Gousses d’ail hachées", qte = 4, uni = "unité"), list(nom = "Piment jalapeño, épépiné et haché", qte = 1, uni = "unité"), list(nom = "Gingembre frais haché", qte = 15, uni = "ml"), list(nom = "Tomates épépinées et coupées en dés", qte = NULL))
 
-- Couvrir et cuire à basse température (Low) 4 heures. On peut maintenir à réchaud jusqu’à 4 heures.
-
-- Au moment de servir, ajouter le yogourt et bien mélanger. Garnir de feuilles de coriandre et servir avec du riz pilaf et du pain naan.
-
-## Notes
-
-- On enlève la peau des hauts de cuisses pour réduire le gras dans ce plat à la mijoteuse.

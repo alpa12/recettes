@@ -6,24 +6,33 @@ se_congele: true
 categories:
 - Porc
 - Mijoteuse
-- Ragoût
 temps:
   preparation: 20
   cuisson: 480
   refrigeration: null
 preparation:
 - section: Préparation
-  - etape: Préparer et cuire le mijoté.
+  etapes:
+  - etape: Déposer patates douces dans la mijoteuse.
     ingredients:
     - nom: Patates douces pelées et coupées en cubes
       qte: 2
       uni: unité
+    equipements:
+    - Mijoteuse
+  - etape: Faire dorer les cubes de porc à la poêle et transférer dans la mijoteuse.
+    ingredients:
     - nom: Cubes de porc à ragoût
       qte: 795
       uni: g
     - nom: Huile de canola
       qte: 30
       uni: ml
+    equipements:
+    - Poêle
+    - Mijoteuse
+  - etape: Cuire oignons, ail et céleri dans la poêle, saupoudrer de farine, transférer dans la mijoteuse.
+    ingredients:
     - nom: Oignons perlés pelés
       qte: 12
       uni: unité
@@ -36,6 +45,11 @@ preparation:
     - nom: Farine
       qte: 60
       uni: ml
+    equipements:
+    - Poêle
+    - Mijoteuse
+  - etape: Ajouter bouillon, sirop d’érable, feuille de laurier, romarin, sel et poivre, puis cuire 8 à 10 heures à faible intensité.
+    ingredients:
     - nom: Bouillon de poulet
       qte: 1000
       uni: ml
@@ -53,6 +67,5 @@ preparation:
       uni: au goût
     equipements:
     - Mijoteuse
-    - Casserole
 commentaires:
-- Mijoté réconfortant à cuisson lente.
+  - 'Un mijoté réconfortant qui se prépare lentement à la mijoteuse pour des saveurs optimales.'

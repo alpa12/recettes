@@ -1,32 +1,46 @@
 nom: Sauce à spaghetti de Nathalie Davignon
-nom_court: Sauce à spaghetti
+nom_court: Spaghetti
 source: Nathalie Davignon
 portions: null
 se_congele: true
 categories:
 - Sauce
-- Pâtes
-- Congélation
+- Spaghetti
 temps:
   preparation: null
   cuisson: 180
   refrigeration: null
 preparation:
 - section: Préparation
-  - etape: Préparer et cuire la sauce.
+  etapes:
+  - etape: Couper tous les légumes en dés et faire revenir.
     ingredients:
-    - nom: Boeuf haché
-      qte: 2
-      uni: lbs
     - nom: Poivron vert
       qte: 1
       uni: unité
     - nom: Oignon
       qte: 1
       uni: unité
-    - nom: Gousse d'ail
-      qte: 3
+    - nom: Carottes
+      qte: 2
       uni: unité
+    - nom: Barquette de champignons
+      qte: 1
+      uni: unité
+    equipements:
+    - Poêle
+    - Couteau
+    - Planche à découper
+  - etape: Ajouter le boeuf haché et cuire jusqu’à coloration.
+    ingredients:
+    - nom: Boeuf haché
+      qte: 2
+      uni: lbs
+    equipements:
+    - Poêle
+    - Spatule
+  - etape: Ajouter tous les autres ingrédients et cuire 3 heures à 350°.
+    ingredients:
     - nom: Grosse boîte de tomates
       qte: 1
       uni: unité
@@ -57,21 +71,14 @@ preparation:
     - nom: Moutarde sèche
       qte: 0.5
       uni: c. à thé
-    - nom: Sauce worchestershier
+    - nom: Sauce Worcestershire
       qte: 2
       uni: c. à table
     - nom: Huile
       qte: 0.75
       uni: tasse
-    - nom: Carottes
-      qte: 2
-      uni: unité
-    - nom: Barquette de champignons
-      qte: 1
-      uni: unité
     equipements:
-    - Chaudron
-    - Couteau
-    - Plaque de cuisson
+    - Casserole
+    - Cuillère
 commentaires:
-- Sauce idéale à congeler.
+  - 'Cette sauce se congèle très bien et peut être utilisée pour plusieurs repas.'

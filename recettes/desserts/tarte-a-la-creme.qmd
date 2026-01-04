@@ -1,61 +1,44 @@
 ---
 title: Tarte à la crème
 image: tarte-a-la-creme.jpg
+categories:
+  - Tarte
+  - Dessert
 ---
 
 # Tarte à la crème de Monique
 
 ## Ingrédients
 
-### Croûte
-
-- 1.25 t Miettes de biscuit Graham
-- 0.25 t Beurre fondu
-- 0.25 t Sucre
-
-### Crème patissière
-
-- 2 t Lait
-- 3 unité Jaune d'oeuf
-- 5 c à table Sucre
-- 1 pincée Sel
-
-### Meringue
-
-- 3 unité Blancs d'oeufs
-- 3 c à table Sucre
-
 ## Préparation
 
 ### Croûte
 
-- Beurrer une assiette à tarte d'au moins 9 po de diamètre (assez grosse).
-
-- Mélanger tous les ingrédients de la croûte.
-
-- Taper le mélange dans le fond de l'assiette à tarte.
+- Beurrer une assiette à tarte de 9 po minimum, mélanger les ingrédients et taper au fond.
+- list(list(nom = "Miettes de biscuit Graham", qte = 1.25, uni = "t"), list(nom = "Beurre fondu", qte = 0.25, uni = "t"), list(nom = "Sucre", qte = 0.25, uni = "t"))
+- c("Assiette à tarte", "Bol", "Cuillère")
 
 ### Crème patissière
 
-- Dans un bol à bain marie, mélanger tous les ingrédients de la crème patissière.
-
-- Cuire au bain marie en mélangeant souvent jusqu'à épaississement.
-
-- Verser sur la croûte
+- Mélanger les ingrédients dans un bol à bain-marie, cuire en remuant jusqu’à épaississement, verser sur la croûte.
+- list(list(nom = "Lait", qte = 2, uni = "t"), list(nom = "Jaune d'œuf", qte = 3, uni = "unité"), list(nom = "Sucre", qte = 5, uni = "c à table"), list(nom = "Sel", qte = 1, uni = "pincée"))
+- c("Bol", "Bain-marie", "Fouet")
 
 ### Meringue
 
-- Mélanger les blancs d'oeufs au fouet électrique, ajouter le sucre seulement après que les blancs d'oeufs ont commencé à monter.
+- Monter les blancs d’œufs au batteur électrique, ajouter le sucre progressivement jusqu’à pics fermes.
+- list(list(nom = "Blancs d'œufs", qte = 3, uni = "unité"), list(nom = "Sucre", qte = 3, uni = "c à table"))
+- c("Batteur électrique", "Bol")
 
-- Mélanger jusqu'à avoir des pics fermes
-
-- Étendre au dessus de la crème patissière
+- Étendre la meringue sur la crème pâtissière.
+- list(list(nom = "Meringue", qte = 1, uni = "lot"))
+- Spatule
 
 ### Finale
 
-- Cuire au four à 350°F environ 5 minutes, jusqu'à ce que la meringue brunisse
-
-- Réfrigérer au moins 2 heures
+- Cuire au four 350°F environ 5 minutes jusqu’à ce que la meringue brunisse, puis réfrigérer au moins 2 heures.
+- list(list(nom = "Tarte montée", qte = 1, uni = "lot"))
+- Four
 
 ## Notes
 

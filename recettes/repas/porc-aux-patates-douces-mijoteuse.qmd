@@ -1,42 +1,34 @@
 ---
-title: mijote-porc-patates-douces
+title: Mijoté porc patates douces
 image: porc-aux-patates-douces-mijoteuse.jpg
+categories:
+  - Porc
+  - Mijoteuse
 ---
 
 # Mijoté de porc aux patates douces
 
 ## Ingrédients
 
-### Section TODO
-
-- 2 unité patates douces pelées et coupées en cubes
-- 795 g cubes de porc à ragoût
-- 30 ml huile de canola
-- 12 unité oignons perlés pelés
-- 10 ml ail haché
-- 2 unité branches de céleri émincées
-- 60 ml farine
-- 1000 ml bouillon de poulet
-- 80 ml sirop d’érable
-- 1 unité feuille de laurier
-- 1 unité tige de romarin
-- 1 au goût sel et poivre
-
 ## Préparation
 
-### Section TODO
+### Préparation
 
-- Déposer les patates douces dans la mijoteuse.
+- Déposer patates douces dans la mijoteuse.
+- list(list(nom = "Patates douces pelées et coupées en cubes", qte = 2, uni = "unité"))
+- Mijoteuse
 
-- Assécher la viande à l’aide de papier absorbant.
+- Faire dorer les cubes de porc à la poêle et transférer dans la mijoteuse.
+- list(list(nom = "Cubes de porc à ragoût", qte = 795, uni = "g"), list(nom = "Huile de canola", qte = 30, uni = "ml"))
+- c("Poêle", "Mijoteuse")
 
-- Dans une casserole, chauffer la moitié de l’huile à feu moyen. Faire dorer les cubes de viande 2 à 3 minutes et transférer dans la mijoteuse.
+- Cuire oignons, ail et céleri dans la poêle, saupoudrer de farine, transférer dans la mijoteuse.
+- list(list(nom = "Oignons perlés pelés", qte = 12, uni = "unité"), list(nom = "Ail haché", qte = 10, uni = "ml"), list(nom = "Branches de céleri émincées", qte = 2, uni = "unité"), list(nom = "Farine", qte = 60, uni = "ml"))
+- c("Poêle", "Mijoteuse")
 
-- Dans la même casserole, cuire les oignons perlés, l’ail et le céleri 2 à 3 minutes. Saupoudrer de farine et remuer, puis transférer dans la mijoteuse.
-
-- Ajouter le bouillon de poulet, le sirop d’érable, la feuille de laurier et le romarin dans la mijoteuse. Saler, poivrer et remuer.
-
-- Couvrir et cuire 8 à 10 heures à faible intensité (mijoteuse).
+- Ajouter bouillon, sirop d’érable, feuille de laurier, romarin, sel et poivre, puis cuire 8 à 10 heures à faible intensité.
+- list(list(nom = "Bouillon de poulet", qte = 1000, uni = "ml"), list(nom = "Sirop d’érable", qte = 80, uni = "ml"), list(nom = "Feuille de laurier", qte = 1, uni = "unité"), list(nom = "Tige de romarin", qte = 1, uni = "unité"), list(nom = "Sel et poivre", qte = 1, uni = "au goût"))
+- Mijoteuse
 
 ## Notes
 

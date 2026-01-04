@@ -1,5 +1,5 @@
-nom: Choux à la crème et aux framboises
-nom_court: Choux à la crème
+nom: Choux à la crème framboise
+nom_court: Choux
 source: Ricardo
 portions: 33
 se_congele: true
@@ -12,7 +12,8 @@ temps:
   refrigeration: null
 preparation:
 - section: Pâte à choux
-  - etape: Préparer et cuire la pâte à choux.
+  etapes:
+  - etape: Porter l’eau et le beurre à ébullition, retirer du feu. Ajouter la farine et mélanger vigoureusement jusqu’à formation d’une boule.
     ingredients:
     - nom: Eau
       qte: 125
@@ -26,20 +27,45 @@ preparation:
     - nom: Farine tout usage non blanchie
       qte: 125
       uni: ml
+    equipements:
+    - Casserole
+    - Cuillère en bois
+  - etape: Cuire sur feu doux 2 minutes en remuant. Laisser tiédir 10 minutes puis ajouter les œufs un à un en battant.
+    ingredients:
     - nom: Œufs
       qte: 2
       uni: unité
     equipements:
-    - Casserole
-    - Cuillère de bois
+    - Cuillère en bois
+    - Bol
+  - etape: Former des éclairs ou petits choux sur plaque tapissée de papier parchemin à l’aide d’une poche à pâtisserie.
+    ingredients:
+    - nom: Pâte à choux
+      qte: 1
+      uni: lot
+    equipements:
+    - Poche à pâtisserie
     - Plaque de cuisson
+    - Papier parchemin
+  - etape: Cuire 30 minutes à 190 °C jusqu’à doré. Fendre pour laisser échapper la vapeur, remettre 10-15 minutes dans four éteint.
+    ingredients:
+    - nom: Pâte à choux formée
+      qte: 1
+      uni: lot
+    equipements:
     - Four
 - section: Confiture de framboises
-  - etape: Préparer la confiture.
+  etapes:
+  - etape: Déposer les framboises dans une casserole, porter à ébullition en écrasant les baies.
     ingredients:
     - nom: Framboises fraîches
       qte: 900
       uni: g
+    equipements:
+    - Casserole
+    - Cuillère
+  - etape: Ajouter le sucre et le jus de citron, porter de nouveau à ébullition et mijoter 15 à 20 minutes jusqu’à épaississement. Verser dans bocaux stérilisés et laisser refroidir.
+    ingredients:
     - nom: Sucre granulé
       qte: 900
       uni: g
@@ -47,8 +73,8 @@ preparation:
       qte: 15
       uni: ml
     equipements:
-    - Grande casserole
-    - Cuillère
+    - Casserole
+    - Bocaux
 commentaires:
-- Ajouter de la crème fouettée dans les choux.
-- Les choux se congèlent très bien.
+  - 'Ajouter de la crème fouettée dans les choux.'
+  - 'Pour retrouver la texture croustillante après congélation, cuire 8 à 10 minutes à 150 °C.'

@@ -1,59 +1,46 @@
 ---
-title: choux
+title: Choux
 image: choux-creme-framboise.jpg
+categories:
+  - Pâtisserie
+  - Dessert
 ---
 
 # Choux à la crème framboise
 
 ## Ingrédients
 
-### Pâte à choux
-
-- 125 ml eau
-- 60 ml beurre non salé, coupé en cubes
-- 1 pincée sel
-- 125 ml farine tout usage non blanchie
-- 2 unité œufs
-
-### Confiture de framboises
-
-- 900 g framboises fraîches
-- 900 g sucre granulé
-- 15 ml jus de citron
-
-### Chocolat
-
-- 75 g pépites de chocolat au lait
-
 ## Préparation
 
 ### Pâte à choux
 
-- Dans une casserole, porter l’eau et le beurre à ébullition. Retirer du feu. Ajouter la farine d’un seul coup et brasser vigoureusement à la cuillère de bois jusqu’à ce que la pâte forme une boule lisse qui se détache des parois.
+- Porter l’eau et le beurre à ébullition, retirer du feu. Ajouter la farine et mélanger vigoureusement jusqu’à formation d’une boule.
+- list(list(nom = "Eau", qte = 125, uni = "ml"), list(nom = "Beurre non salé, coupé en cubes", qte = 60, uni = "ml"), list(nom = "Sel", qte = 1, uni = "pincée"), list(nom = "Farine tout usage non blanchie", qte = 125, uni = "ml"))
+- c("Casserole", "Cuillère en bois")
 
-- Remettre la casserole sur feu doux et cuire en remuant environ 2 minutes.
+- Cuire sur feu doux 2 minutes en remuant. Laisser tiédir 10 minutes puis ajouter les œufs un à un en battant.
+- list(list(nom = "Œufs", qte = 2, uni = "unité"))
+- c("Cuillère en bois", "Bol")
 
-- Retirer du feu et laisser tiédir 10 minutes. Ajouter les œufs, un à la fois, en battant vigoureusement à la cuillère de bois entre chaque addition, jusqu’à ce que la pâte soit lisse et homogène.
+- Former des éclairs ou petits choux sur plaque tapissée de papier parchemin à l’aide d’une poche à pâtisserie.
+- list(list(nom = "Pâte à choux", qte = 1, uni = "lot"))
+- c("Poche à pâtisserie", "Plaque de cuisson", "Papier parchemin")
 
-- Préchauffer le four à 190 °C (375 °F). Tapisser une plaque de cuisson de papier parchemin.
+- Cuire 30 minutes à 190 °C jusqu’à doré. Fendre pour laisser échapper la vapeur, remettre 10-15 minutes dans four éteint.
+- list(list(nom = "Pâte à choux formée", qte = 1, uni = "lot"))
+- Four
 
-- À l’aide d’une poche à pâtisserie munie d’une douille ronde d’environ 1 cm, former des éclairs ou des petits choux sur la plaque.
+### Confiture de framboises
 
-- Cuire au centre du four environ 30 minutes jusqu’à ce que la pâte soit dorée. Fendre les éclairs ou les choux pour laisser échapper la vapeur et remettre dans le four éteint 10 à 15 minutes.
+- Déposer les framboises dans une casserole, porter à ébullition en écrasant les baies.
+- list(list(nom = "Framboises fraîches", qte = 900, uni = "g"))
+- c("Casserole", "Cuillère")
 
-### Confiture de framboise
-
-- Dans une grande casserole, déposer les framboises.
-
-- Porter à ébullition à feu vif en écrasant les baies.
-
-- Ajouter le sucre et le jus de citron.
-
-- Porter de nouveau à ébullition et laisser mijoter jusqu’à ce que la confiture épaississe, environ 15 à 20 minutes.
-
-- Verser dans des bocaux stérilisés et laisser refroidir.
+- Ajouter le sucre et le jus de citron, porter de nouveau à ébullition et mijoter 15 à 20 minutes jusqu’à épaississement. Verser dans bocaux stérilisés et laisser refroidir.
+- list(list(nom = "Sucre granulé", qte = 900, uni = "g"), list(nom = "Jus de citron", qte = 15, uni = "ml"))
+- c("Casserole", "Bocaux")
 
 ## Notes
 
 - Ajouter de la crème fouettée dans les choux.
-- Les choux se congèlent très bien. Pour leur redonner leur texture croustillante, cuire 8 à 10 minutes dans un four préchauffé à 150 °C (300 °F).
+- Pour retrouver la texture croustillante après congélation, cuire 8 à 10 minutes à 150 °C.

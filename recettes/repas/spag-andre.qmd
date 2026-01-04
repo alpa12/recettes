@@ -1,40 +1,32 @@
 ---
 title: Spaghetti
 image: spag-andre.jpg
+categories:
+  - Sauce
+  - Spaghetti
 ---
 
 # Sauce à spaghetti de Nathalie Davignon
 
 ## Ingrédients
 
-### Ingrédients
-
-- 2 lbs boeuf haché
-- 1 unité poivron vert
-- 1 unité oignon
-- 3 unité gousse d'ail
-- 1 unité grosse boîte de tomates
-- 1 unité boîte moyenne jus de tomate
-- 2 unité petites boîtes de pâte de tomate
-- 1 unité feuille de laurier
-- 0.5 c. à thé cayenne rouge
-- 0.25 c. à thé poivre noir
-- 0.5 c. à thé sel
-- 1 c. à soupe persil haché
-- 0.5 c. à thé origan
-- 0.5 c. à thé moutarde sèche
-- 2 c. à table sauce worchestershier
-- 0.75 tasse huile
-- 2 unité carottes
-- 1 unité barquette de champignons
-
 ## Préparation
 
 ### Préparation
 
-- Tous les légumes coupés en dés et faire revenir
+- Couper tous les légumes en dés et faire revenir.
+- list(list(nom = "Poivron vert", qte = 1, uni = "unité"), list(nom = "Oignon", qte = 1, uni = "unité"), list(nom = "Carottes", qte = 2, uni = "unité"), list(nom = "Barquette de champignons", qte = 1, uni = "unité"))
+- c("Poêle", "Couteau", "Planche à découper")
 
-- Ensuite, faire revenir la ciande et mettre dans le chaudron
+- Ajouter le boeuf haché et cuire jusqu’à coloration.
+- list(list(nom = "Boeuf haché", qte = 2, uni = "lbs"))
+- c("Poêle", "Spatule")
 
-- Mettre tous les ingrédients et faire cuire 3 heures à 350°
+- Ajouter tous les autres ingrédients et cuire 3 heures à 350°.
+- list(list(nom = "Grosse boîte de tomates", qte = 1, uni = "unité"), list(nom = "Boîte moyenne jus de tomate", qte = 1, uni = "unité"), list(nom = "Petites boîtes de pâte de tomate", qte = 2, uni = "unité"), list(nom = "Feuille de laurier", qte = 1, uni = "unité"), list(nom = "Cayenne rouge", qte = 0.5, uni = "c. à thé"), list(nom = "Poivre noir", qte = 0.25, uni = "c. à thé"), list(nom = "Sel", qte = 0.5, uni = "c. à thé"), list(nom = "Persil haché", qte = 1, uni = "c. à soupe"), 
+    list(nom = "Origan", qte = 0.5, uni = "c. à thé"), list(nom = "Moutarde sèche", qte = 0.5, uni = "c. à thé"), list(nom = "Sauce Worcestershire", qte = 2, uni = "c. à table"), list(nom = "Huile", qte = 0.75, uni = "tasse"))
+- c("Casserole", "Cuillère")
 
+## Notes
+
+- Cette sauce se congèle très bien et peut être utilisée pour plusieurs repas.

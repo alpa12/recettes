@@ -1,33 +1,29 @@
 ---
 title: Salade de légumineuses
 image: salade-de-legumineuses.jpg
+categories:
+  - Salade
+  - Légumineuses
 ---
 
 # Salade de légumineuses André
 
 ## Ingrédients
 
-### Salade
-
-- 19 onces pois chiches
-- 19 onces fèves rouges
-- 19 onces fèves mélangées
-- 5 gousses ail
-- 1 unités échalottes
-- 3 unités poivron
-
-### Vinaigrette
-
-- 1/2 tasse sucre
-- 1/4 tasse huile d'olive
-- 1/3 tasse vinaigre de vin rouge
-- 1 c. à thé persil
-- 1 c. à thé basilic
-- 1 c. à thé origan
-
 ## Préparation
 
 ### Salade
 
-- Mélanger le tout!
+- Mélanger tous les ingrédients de la salade.
+- list(list(nom = "Pois chiches", qte = 19, uni = "onces"), list(nom = "Fèves rouges", qte = 19, uni = "onces"), list(nom = "Fèves mélangées", qte = 19, uni = "onces"), list(nom = "Ail", qte = 5, uni = "gousses"), list(nom = "Échalottes", qte = 1, uni = "unité"), list(nom = "Poivron", qte = 3, uni = "unités"))
+- c("Bol", "Cuillère")
 
+### Vinaigrette
+
+- Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
+- list(list(nom = "Sucre", qte = "1/2", uni = "tasse"), list(nom = "Huile d'olive", qte = "1/4", uni = "tasse"), list(nom = "Vinaigre de vin rouge", qte = "1/3", uni = "tasse"), list(nom = "Persil", qte = 1, uni = "c. à thé"), list(nom = "Basilic", qte = 1, uni = "c. à thé"), list(nom = "Origan", qte = 1, uni = "c. à thé"))
+- c("Bol", "Fouet")
+
+## Notes
+
+- On peut préparer cette salade à l’avance, elle se conserve bien quelques heures au réfrigérateur.

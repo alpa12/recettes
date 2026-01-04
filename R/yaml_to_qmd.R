@@ -1,13 +1,13 @@
-#' Convert a recipe YAML file to a Quarto (.qmd) recipe
+#' Convert a recipe YAML file to a Quarto (.qmd) recipe using the new template
 #'
 #' @param yaml_path Path to the input YAML file
 #' @param qmd_path Path to the output .qmd file.
 #'   If NULL, same name as yaml with .qmd extension.
 #'
 #' @details
-#' This function reads a structured recipe YAML file and renders it into
-#' a human-readable Quarto Markdown recipe. It assumes UTF-8 encoding and
-#' a schema compatible with the example provided.
+#' This function reads a structured recipe YAML file following the new template
+#' and renders it into a human-readable Quarto Markdown recipe. It assumes UTF-8
+#' encoding and a schema compatible with the updated YAML structure.
 #'
 #' @importFrom yaml read_yaml
 #' @importFrom fs path_ext_set path_file
@@ -21,7 +21,6 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
 
   recipe <- yaml::read_yaml(yaml_path)
-
   lines <- character()
 
   # ---- YAML metadata (Quarto front-matter) ----
@@ -34,16 +33,10 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     paste0("image: ", image_name)
   )
 
-  # ---- Categories (optional: 0 / 1 / n) ----
+  # ---- Categories ----
   if (!is.null(recipe$categories)) {
     cats <- recipe$categories
-
-    if (is.character(cats)) {
-      cats <- as.character(cats)
-    } else {
-      cats <- unlist(cats, use.names = FALSE)
-    }
-
+    if (!is.character(cats)) cats <- unlist(cats, use.names = FALSE)
     lines <- c(lines, "categories:")
     lines <- c(lines, paste0("  - ", cats))
   }
@@ -56,41 +49,55 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   # ---- Ingredients ----
   lines <- c(lines, "## Ingrédients", "")
 
-  for (section in recipe$ingredients) {
-    lines <- c(lines, paste0("### ", section$section), "")
+  if (!is.null(recipe$ingredients)) {
+    for (section in recipe$ingredients) {
+      lines <- c(lines, paste0("### ", section$section), "")
 
-    for (ing in section$ingredients) {
-      if (is.null(ing$qte) || is.na(ing$qte)) {
-        item <- ing$nom
-      } else {
-        item <- paste(ing$qte, ing$uni, ing$nom)
+      for (ing in section$ingredients) {
+        # Format quantity if present
+        if (is.null(ing$qte) || is.na(ing$qte)) {
+          item <- ing$nom
+        } else {
+          item <- paste(ing$qte, ing$uni, ing$nom)
+        }
+        # Include equipment if present
+        if (!is.null(ing$equipement)) {
+          item <- paste(item, "(Équipement: ", ing$equipement, ")", sep = "")
+        }
+        lines <- c(lines, paste0("- ", stringr::str_trim(item)))
       }
-      lines <- c(lines, paste0("- ", stringr::str_trim(item)))
-    }
 
-    lines <- c(lines, "")
+      # List section-level equipment if present
+      if (!is.null(section$equipements)) {
+        lines <- c(lines, "")
+        lines <- c(lines, "Équipements nécessaires:")
+        for (eq in section$equipements) {
+          lines <- c(lines, paste0("- ", eq))
+        }
+      }
+
+      lines <- c(lines, "")
+    }
   }
 
   # ---- Preparation ----
   lines <- c(lines, "## Préparation", "")
 
-  prep <- recipe$preparation
+  if (!is.null(recipe$preparation)) {
+    for (section in recipe$preparation) {
+      lines <- c(lines, paste0("### ", section$section), "")
 
-  for (i in seq_along(prep)) {
-    section_name <- prep[[i]]$section
-    steps <- prep[[i]]$etapes
-
-    lines <- c(lines, paste0("### ", section_name), "")
-
-    for (step in steps) {
-      lines <- c(lines, paste0("- ", step), "")
+      if (!is.null(section$etapes)) {
+        for (step in section$etapes) {
+          lines <- c(lines, paste0("- ", step), "")
+        }
+      }
     }
   }
 
   # ---- Notes / Comments ----
   if (!is.null(recipe$commentaires) && length(recipe$commentaires) > 0) {
     lines <- c(lines, "## Notes", "")
-
     for (comment in recipe$commentaires) {
       lines <- c(lines, paste0("- ", comment))
     }
@@ -98,6 +105,5 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   # ---- Write file ----
   writeLines(enc2utf8(lines), qmd_path)
-
   invisible(qmd_path)
 }

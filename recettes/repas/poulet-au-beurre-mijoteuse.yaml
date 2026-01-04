@@ -1,19 +1,19 @@
 nom: Poulet au beurre à la mijoteuse
-nom_court: Poulet au beurre mijoteuse
+nom_court: Poulet beurre mijoteuse
 source: Ricardo Cuisine
 portions: 8
 se_congele: true
 categories:
 - Poulet
 - Mijoteuse
-- Indien
 temps:
   preparation: 40
   cuisson: 240
   refrigeration: null
 preparation:
 - section: Préparation
-  - etape: Préparer et cuire le poulet.
+  etapes:
+  - etape: Mélanger la farine et les épices dans la mijoteuse, ajouter le poulet et enrober.
     ingredients:
     - nom: Farine tout usage non blanchie
       qte: 25
@@ -27,44 +27,32 @@ preparation:
     - nom: Poudre de cari
       qte: 5
       uni: ml
-    - nom: Hauts de cuisses de poulet désossés et sans la peau
+    - nom: Hauts de cuisses de poulet désossés et sans la peau, coupés en morceaux
       qte: 1400
       uni: g
+    equipements:
+    - Mijoteuse
+  - etape: Broyer finement les noix de cajou au robot culinaire ou mortier.
+    ingredients:
     - nom: Noix de cajou
       qte: 65
       uni: g
+    equipements:
+    - Robot culinaire
+    - Mortier
+  - etape: Ajouter noix broyées et le reste des ingrédients sauf yogourt et coriandre dans la mijoteuse, saler, poivrer et mélanger.
+    ingredients:
     - nom: Oignon haché
       qte: 1
       uni: unité
     - nom: Gousses d’ail hachées
       qte: 4
       uni: unité
-    - nom: Piment jalapeño
+    - nom: Piment jalapeño, épépiné et haché
       qte: 1
       uni: unité
     - nom: Gingembre frais haché
       qte: 15
       uni: ml
     - nom: Tomates épépinées et coupées en dés
-      qte: 2
-      uni: unité
-    - nom: Crème 35 %
-      qte: 180
-      uni: ml
-    - nom: Pâte de tomates
-      qte: 30
-      uni: ml
-    - nom: Yogourt grec nature
-      qte: 180
-      uni: ml
-    - nom: Feuilles de coriandre fraîche
-      qte: 1
-      uni: au goût
-    - nom: Sel et poivre
-      qte: 1
-      uni: au goût
-    equipements:
-    - Mijoteuse
-    - Robot culinaire
-commentaires:
-- Retirer la peau du poulet réduit le gras du plat.
+      qte:
