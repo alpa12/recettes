@@ -1,60 +1,56 @@
 nom: Biscuits au chocolat chaud
-nom_court: Biscuit chocolat chaud
+nom_court: Biscuits chocolat chaud
 source: Nathalie R
 portions: 12
+se_congele: false
+categories:
+- Biscuit
+- Chocolat
 temps:
   preparation: null
   cuisson: 14
   refrigeration: null
-se_congele: false
-ingredients:
-  - section: Ingrédients secs
+preparation:
+- section: Préparation
+  - etape: Préparer et cuire les biscuits.
     ingredients:
-    - nom: farine
+    - nom: Farine
       qte: 2
       uni: tasse
-    - nom: chocolat chaud en poudre
+    - nom: Chocolat chaud en poudre
       qte: 0.5
       uni: tasse
-    - nom: cacao
+    - nom: Cacao
       qte: 1
       uni: c. à soupe
-    - nom: bicarbonate
+    - nom: Bicarbonate
       qte: 1
       uni: c. à thé
-    - nom: poudre à pâte
+    - nom: Poudre à pâte
       qte: 0.5
       uni: c. à thé
-  - section: Ingrédients mouillés
-    ingredients:
-    - nom: beurre
+    - nom: Beurre
       qte: 0.33
       uni: tasse
-    - nom: sucre
+    - nom: Sucre
       qte: 0.5
       uni: tasse
-    - nom: cassonade
+    - nom: Cassonade
       qte: 0.5
       uni: tasse
-    - nom: oeuf
+    - nom: Oeuf
       qte: 2
       uni: unité
-  - section: Décoration
-    ingredients:
-    - nom: pépites de chocolat mi-sucré
+    - nom: Pépites de chocolat mi-sucré
       qte: 0.5
       uni: tasse
-    - nom: miniguimauves
+    - nom: Miniguimauves
       qte: 0.75
       uni: tasse
-preparation:
-  - section: Préparation des biscuits
-    etapes:
-    - 'Mélanger les ingrédients secs à la cuilllère.'
-    - 'Mélanger les ingrédients mouillés au mélangeur électrique.'
-    - 'Mélanger tout ensemble, puis ajouter les pépites de chocolat'
-    - 'Cuire au four (375°) pendant 6 minutes'
-    - 'Ajouter les miniguimauves'
-    - 'Reprendre la cuisson au four pour 6 à 8 minutes'
+    equipements:
+    - Bols
+    - Batteur électrique
+    - Plaque de cuisson
+    - Four
 commentaires:
-  - 'Les miniguimauves sont facultatives'
+- Les miniguimauves sont facultatives
