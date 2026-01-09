@@ -10,35 +10,71 @@ categories:
 
 ## Ingrédients
 
-## Préparation
-
 ### Croûte
 
-- Beurrer une assiette à tarte de 9 po minimum, mélanger les ingrédients et taper au fond.
-- list(list(nom = "Miettes de biscuit Graham", qte = 1.25, uni = "t"), list(nom = "Beurre fondu", qte = 0.25, uni = "t"), list(nom = "Sucre", qte = 0.25, uni = "t"))
-- c("Assiette à tarte", "Bol", "Cuillère")
+- 1.25 t Miettes de biscuit Graham
+- 0.25 t Beurre fondu
+- 0.25 t Sucre
 
 ### Crème patissière
 
-- Mélanger les ingrédients dans un bol à bain-marie, cuire en remuant jusqu’à épaississement, verser sur la croûte.
-- list(list(nom = "Lait", qte = 2, uni = "t"), list(nom = "Jaune d'œuf", qte = 3, uni = "unité"), list(nom = "Sucre", qte = 5, uni = "c à table"), list(nom = "Sel", qte = 1, uni = "pincée"))
-- c("Bol", "Bain-marie", "Fouet")
+- 2 t Lait
+- 3 unité Jaune d'œuf
+- 5 c à table Sucre
+- 1 pincée Sel
 
 ### Meringue
 
-- Monter les blancs d’œufs au batteur électrique, ajouter le sucre progressivement jusqu’à pics fermes.
-- list(list(nom = "Blancs d'œufs", qte = 3, uni = "unité"), list(nom = "Sucre", qte = 3, uni = "c à table"))
-- c("Batteur électrique", "Bol")
+- 3 unité Blancs d'œufs
+- 3 c à table Sucre
+- 1 lot Meringue
 
-- Étendre la meringue sur la crème pâtissière.
-- list(list(nom = "Meringue", qte = 1, uni = "lot"))
+### Finale
+
+- 1 lot Tarte montée
+
+## Équipements
+
+### Croûte
+
+- Assiette à tarte
+- Bol
+- Cuillère
+
+### Crème patissière
+
+- Bol
+- Bain-marie
+- Fouet
+
+### Meringue
+
+- Batteur électrique
+- Bol
 - Spatule
 
 ### Finale
 
-- Cuire au four 350°F environ 5 minutes jusqu’à ce que la meringue brunisse, puis réfrigérer au moins 2 heures.
-- list(list(nom = "Tarte montée", qte = 1, uni = "lot"))
 - Four
+
+## Préparation
+
+### Croûte
+
+1. Beurrer une assiette à tarte de 9 po minimum, mélanger les ingrédients et taper au fond.
+
+### Crème patissière
+
+1. Mélanger les ingrédients dans un bol à bain-marie, cuire en remuant jusqu’à épaississement, verser sur la croûte.
+
+### Meringue
+
+1. Monter les blancs d’œufs au batteur électrique, ajouter le sucre progressivement jusqu’à pics fermes.
+2. Étendre la meringue sur la crème pâtissière.
+
+### Finale
+
+1. Cuire au four 350°F environ 5 minutes jusqu’à ce que la meringue brunisse, puis réfrigérer au moins 2 heures.
 
 ## Notes
 

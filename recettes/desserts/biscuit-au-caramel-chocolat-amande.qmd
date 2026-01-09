@@ -10,45 +10,70 @@ categories:
 
 ## Ingrédients
 
-## Préparation
-
 ### Pâte
 
-- Mélanger la farine, le cacao, le bicarbonate et le sel dans un bol.
-- list(list(nom = "Farine tout usage non blanchie", qte = 225, uni = "g"), list(nom = "Cacao", qte = 50, uni = "g"), list(nom = "Bicarbonate de soude", qte = 2.5, uni = "ml"), list(nom = "Sel", qte = 1, uni = "ml"))
-- c("Bol", "Cuillère")
-
-- Mélanger le beurre fondu, la cassonade, le sucre et le beurre d’amandes au batteur électrique.
-- list(list(nom = "Beurre non salé, fondu et tempéré", qte = 170, uni = "g"), list(nom = "Cassonade", qte = 160, uni = "g"), list(nom = "Sucre", qte = 105, uni = "g"), list(nom = "Beurre d’amandes", qte = 45, uni = "ml"))
-- c("Bol", "Batteur électrique")
-
-- Ajouter les œufs, un à la fois, puis incorporer les ingrédients secs, 170 g de chocolat et 85 g d'amandes à basse vitesse.
-- list(list(nom = "Œufs", qte = 2, uni = "unité"), list(nom = "Chocolat au lait, en pastilles ou haché grossièrement", qte = 170, uni = "g"), list(nom = "Amandes, grillées et hachées", qte = 85, uni = "g"))
-- c("Batteur électrique", "Spatule")
+- 225 g Farine tout usage non blanchie
+- 50 g Cacao
+- 2.5 ml Bicarbonate de soude
+- 1 ml Sel
+- 170 g Beurre non salé, fondu et tempéré
+- 160 g Cassonade
+- 105 g Sucre
+- 45 ml Beurre d’amandes
+- 2 unité Œufs
+- 170 g Chocolat au lait, en pastilles ou haché grossièrement
+- 85 g Amandes, grillées et hachées
 
 ### Formation
 
-- Former des boules de pâte à l’aide d’une cuillère à crème glacée de 45 ml et réfrigérer 5 à 10 minutes.
-- list(list(nom = "Pâte à biscuits", qte = 1, uni = "lot"))
-- c("Cuillère à crème glacée", "Plaque de cuisson")
+- 1 lot Pâte à biscuits
+- 20 unité Caramels mous du commerce
+- 80 g Chocolat restant
+- 45 g Amandes restantes
 
-- Insérer un caramel au centre de chaque boule et refermer la pâte.
-- list(list(nom = "Caramels mous du commerce", qte = 20, uni = "unité"))
-- Plaque de cuisson
+### Cuisson
 
-- Ajouter le reste du chocolat et des amandes sur les boules de pâte. Réfrigérer 2 heures ou congeler.
-- list(list(nom = "Chocolat restant", qte = 80, uni = "g"), list(nom = "Amandes restantes", qte = 45, uni = "g"))
+- 1 lot Biscuits formés
+- 1 au goût Fleur de sel
+
+## Équipements
+
+### Pâte
+
+- Bol
+- Cuillère
+- Batteur électrique
+- Spatule
+
+### Formation
+
+- Cuillère à crème glacée
 - Plaque de cuisson
 
 ### Cuisson
 
-- Préchauffer le four à 190 °C et tapisser deux plaques de cuisson de papier parchemin. Répartir 6 à 8 biscuits par plaque.
-- list(list(nom = "Biscuits formés", qte = 1, uni = "lot"))
-- c("Four", "Papier parchemin")
+- Four
+- Papier parchemin
+- Plaque de cuisson
 
-- Cuire au four 8 à 10 minutes jusqu’à ce que les biscuits soient cuits à l’extérieur mais encore mous au centre. Parsemer de fleur de sel.
-- list(list(nom = "Fleur de sel", qte = 1, uni = "au goût"))
-- c("Four", "Plaque de cuisson")
+## Préparation
+
+### Pâte
+
+1. Mélanger la farine, le cacao, le bicarbonate et le sel dans un bol.
+2. Mélanger le beurre fondu, la cassonade, le sucre et le beurre d’amandes au batteur électrique.
+3. Ajouter les œufs, un à la fois, puis incorporer les ingrédients secs, 170 g de chocolat et 85 g d'amandes à basse vitesse.
+
+### Formation
+
+1. Former des boules de pâte à l’aide d’une cuillère à crème glacée de 45 ml et réfrigérer 5 à 10 minutes.
+2. Insérer un caramel au centre de chaque boule et refermer la pâte.
+3. Ajouter le reste du chocolat et des amandes sur les boules de pâte. Réfrigérer 2 heures ou congeler.
+
+### Cuisson
+
+1. Préchauffer le four à 190 °C et tapisser deux plaques de cuisson de papier parchemin. Répartir 6 à 8 biscuits par plaque.
+2. Cuire au four 8 à 10 minutes jusqu’à ce que les biscuits soient cuits à l’extérieur mais encore mous au centre. Parsemer de fleur de sel.
 
 ## Notes
 

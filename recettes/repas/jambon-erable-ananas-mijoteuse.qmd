@@ -10,33 +10,38 @@ categories:
 
 ## Ingrédients
 
+### Préparation
+
+- 1134 g Jambon cuit (tranche ou cube)
+- 180 ml Sirop d’érable
+- 60 ml Cassonade
+- 15 ml Moutarde de Dijon
+- 15 ml Vinaigre de cidre
+- 1 unité Rondelles d’ananas (jus inclus)
+- 125 ml Jus d’ananas
+- 6 unité Clous de girofle
+- 1 lot Jambon préparé
+- 15 ml Fécule de maïs
+- 30 ml Eau
+
+## Équipements
+
+### Préparation
+
+- Mijoteuse
+- Bol
+- Fouet
+
 ## Préparation
 
 ### Préparation
 
-- Déposer le jambon dans la mijoteuse.
-- list(list(nom = "Jambon cuit (tranche ou cube)", qte = 1134, uni = "g"))
-- Mijoteuse
-
-- Mélanger sirop d’érable, cassonade, moutarde de Dijon et vinaigre de cidre dans un bol.
-- list(list(nom = "Sirop d’érable", qte = 180, uni = "ml"), list(nom = "Cassonade", qte = 60, uni = "ml"), list(nom = "Moutarde de Dijon", qte = 15, uni = "ml"), list(nom = "Vinaigre de cidre", qte = 15, uni = "ml"))
-- c("Bol", "Fouet")
-
-- Ajouter le sirop et le jus d’ananas dans la mijoteuse, verser le mélange d’érable dessus.
-- list(list(nom = "Rondelles d’ananas (jus inclus)", qte = 1, uni = "unité"), list(nom = "Jus d’ananas", qte = 125, uni = "ml"))
-- Mijoteuse
-
-- Déposer les rondelles d’ananas sur le jambon et piquer chaque rondelle avec un clou de girofle.
-- list(list(nom = "Clous de girofle", qte = 6, uni = "unité"))
-- Mijoteuse
-
-- Couvrir et cuire 4 heures à faible intensité (Low).
-- list(list(nom = "Jambon préparé", qte = 1, uni = "lot"))
-- Mijoteuse
-
-- 30 minutes avant la fin, délayer fécule de maïs dans l’eau et ajouter pour épaissir la sauce.
-- list(list(nom = "Fécule de maïs", qte = 15, uni = "ml"), list(nom = "Eau", qte = 30, uni = "ml"))
-- c("Bol", "Mijoteuse")
+1. Déposer le jambon dans la mijoteuse.
+2. Mélanger sirop d’érable, cassonade, moutarde de Dijon et vinaigre de cidre dans un bol.
+3. Ajouter le sirop et le jus d’ananas dans la mijoteuse, verser le mélange d’érable dessus.
+4. Déposer les rondelles d’ananas sur le jambon et piquer chaque rondelle avec un clou de girofle.
+5. Couvrir et cuire 4 heures à faible intensité (Low).
+6. 30 minutes avant la fin, délayer fécule de maïs dans l’eau et ajouter pour épaissir la sauce.
 
 ## Notes
 

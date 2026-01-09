@@ -10,18 +10,33 @@ categories:
 
 ## Ingrédients
 
+### Préparation
+
+- 25 g Farine tout usage non blanchie
+- 15 ml Garam masala
+- 5 ml Cumin moulu
+- 5 ml Poudre de cari
+- 1400 g Hauts de cuisses de poulet désossés et sans la peau, coupés en morceaux
+- 65 g Noix de cajou
+- 1 unité Oignon haché
+- 4 unité Gousses d’ail hachées
+- 1 unité Piment jalapeño, épépiné et haché
+- 15 ml Gingembre frais haché
+- Tomates épépinées et coupées en dés
+
+## Équipements
+
+### Préparation
+
+- Mijoteuse
+- Robot culinaire
+- Mortier
+
 ## Préparation
 
 ### Préparation
 
-- Mélanger la farine et les épices dans la mijoteuse, ajouter le poulet et enrober.
-- list(list(nom = "Farine tout usage non blanchie", qte = 25, uni = "g"), list(nom = "Garam masala", qte = 15, uni = "ml"), list(nom = "Cumin moulu", qte = 5, uni = "ml"), list(nom = "Poudre de cari", qte = 5, uni = "ml"), list(nom = "Hauts de cuisses de poulet désossés et sans la peau, coupés en morceaux", qte = 1400, uni = "g"))
-- Mijoteuse
-
-- Broyer finement les noix de cajou au robot culinaire ou mortier.
-- list(list(nom = "Noix de cajou", qte = 65, uni = "g"))
-- c("Robot culinaire", "Mortier")
-
-- Ajouter noix broyées et le reste des ingrédients sauf yogourt et coriandre dans la mijoteuse, saler, poivrer et mélanger.
-- list(list(nom = "Oignon haché", qte = 1, uni = "unité"), list(nom = "Gousses d’ail hachées", qte = 4, uni = "unité"), list(nom = "Piment jalapeño, épépiné et haché", qte = 1, uni = "unité"), list(nom = "Gingembre frais haché", qte = 15, uni = "ml"), list(nom = "Tomates épépinées et coupées en dés", qte = NULL))
+1. Mélanger la farine et les épices dans la mijoteuse, ajouter le poulet et enrober.
+2. Broyer finement les noix de cajou au robot culinaire ou mortier.
+3. Ajouter noix broyées et le reste des ingrédients sauf yogourt et coriandre dans la mijoteuse, saler, poivrer et mélanger.
 

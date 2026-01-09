@@ -10,22 +10,44 @@ categories:
 
 ## Ingrédients
 
+### Préparation
+
+- 1 unité Poivron vert
+- 1 unité Oignon
+- 2 unité Carottes
+- 1 unité Barquette de champignons
+- 2 lbs Boeuf haché
+- 1 unité Grosse boîte de tomates
+- 1 unité Boîte moyenne jus de tomate
+- 2 unité Petites boîtes de pâte de tomate
+- 1 unité Feuille de laurier
+- 0.5 c. à thé Cayenne rouge
+- 0.25 c. à thé Poivre noir
+- 0.5 c. à thé Sel
+- 1 c. à soupe Persil haché
+- 0.5 c. à thé Origan
+- 0.5 c. à thé Moutarde sèche
+- 2 c. à table Sauce Worcestershire
+- 0.75 tasse Huile
+
+## Équipements
+
+### Préparation
+
+- Poêle
+- Couteau
+- Planche à découper
+- Spatule
+- Casserole
+- Cuillère
+
 ## Préparation
 
 ### Préparation
 
-- Couper tous les légumes en dés et faire revenir.
-- list(list(nom = "Poivron vert", qte = 1, uni = "unité"), list(nom = "Oignon", qte = 1, uni = "unité"), list(nom = "Carottes", qte = 2, uni = "unité"), list(nom = "Barquette de champignons", qte = 1, uni = "unité"))
-- c("Poêle", "Couteau", "Planche à découper")
-
-- Ajouter le boeuf haché et cuire jusqu’à coloration.
-- list(list(nom = "Boeuf haché", qte = 2, uni = "lbs"))
-- c("Poêle", "Spatule")
-
-- Ajouter tous les autres ingrédients et cuire 3 heures à 350°.
-- list(list(nom = "Grosse boîte de tomates", qte = 1, uni = "unité"), list(nom = "Boîte moyenne jus de tomate", qte = 1, uni = "unité"), list(nom = "Petites boîtes de pâte de tomate", qte = 2, uni = "unité"), list(nom = "Feuille de laurier", qte = 1, uni = "unité"), list(nom = "Cayenne rouge", qte = 0.5, uni = "c. à thé"), list(nom = "Poivre noir", qte = 0.25, uni = "c. à thé"), list(nom = "Sel", qte = 0.5, uni = "c. à thé"), list(nom = "Persil haché", qte = 1, uni = "c. à soupe"), 
-    list(nom = "Origan", qte = 0.5, uni = "c. à thé"), list(nom = "Moutarde sèche", qte = 0.5, uni = "c. à thé"), list(nom = "Sauce Worcestershire", qte = 2, uni = "c. à table"), list(nom = "Huile", qte = 0.75, uni = "tasse"))
-- c("Casserole", "Cuillère")
+1. Couper tous les légumes en dés et faire revenir.
+2. Ajouter le boeuf haché et cuire jusqu’à coloration.
+3. Ajouter tous les autres ingrédients et cuire 3 heures à 350°.
 
 ## Notes
 

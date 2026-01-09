@@ -10,29 +10,40 @@ categories:
 
 ## Ingrédients
 
+### Préparation des biscuits
+
+- 2 tasse Farine
+- 0.5 tasse Chocolat chaud en poudre
+- 1 c. à soupe Cacao
+- 1 c. à thé Bicarbonate
+- 0.5 c. à thé Poudre à pâte
+- 0.33 tasse Beurre
+- 0.5 tasse Sucre
+- 0.5 tasse Cassonade
+- 2 unité Œufs
+- 0.5 tasse Pépites de chocolat mi-sucré
+- 1 lot Pâte à biscuits
+- 0.75 tasse Miniguimauves
+
+## Équipements
+
+### Préparation des biscuits
+
+- Bol
+- Cuillère
+- Batteur électrique
+- Spatule
+- Four
+
 ## Préparation
 
 ### Préparation des biscuits
 
-- Mélanger les ingrédients secs.
-- list(list(nom = "Farine", qte = 2, uni = "tasse"), list(nom = "Chocolat chaud en poudre", qte = 0.5, uni = "tasse"), list(nom = "Cacao", qte = 1, uni = "c. à soupe"), list(nom = "Bicarbonate", qte = 1, uni = "c. à thé"), list(nom = "Poudre à pâte", qte = 0.5, uni = "c. à thé"))
-- c("Bol", "Cuillère")
-
-- Mélanger les ingrédients mouillés au batteur électrique.
-- list(list(nom = "Beurre", qte = 0.33, uni = "tasse"), list(nom = "Sucre", qte = 0.5, uni = "tasse"), list(nom = "Cassonade", qte = 0.5, uni = "tasse"), list(nom = "Œufs", qte = 2, uni = "unité"))
-- Batteur électrique
-
-- Mélanger tout ensemble puis ajouter les pépites de chocolat.
-- list(list(nom = "Pépites de chocolat mi-sucré", qte = 0.5, uni = "tasse"))
-- Spatule
-
-- Cuire au four 6 minutes à 375°F.
-- list(list(nom = "Pâte à biscuits", qte = 1, uni = "lot"))
-- Four
-
-- Ajouter les miniguimauves et reprendre la cuisson 6 à 8 minutes.
-- list(list(nom = "Miniguimauves", qte = 0.75, uni = "tasse"))
-- Four
+1. Mélanger les ingrédients secs.
+2. Mélanger les ingrédients mouillés au batteur électrique.
+3. Mélanger tout ensemble puis ajouter les pépites de chocolat.
+4. Cuire au four 6 minutes à 375°F.
+5. Ajouter les miniguimauves et reprendre la cuisson 6 à 8 minutes.
 
 ## Notes
 

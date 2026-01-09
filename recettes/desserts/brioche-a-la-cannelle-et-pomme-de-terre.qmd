@@ -10,41 +10,70 @@ categories:
 
 ## Ingrédients
 
+### Brioches
+
+- 1 unité Pomme de terre
+- 250 ml Lait
+- 105 g Sucre
+- 715 g Farine tout usage non blanchie
+- 12.5 ml Levure instantanée
+- 5 ml Sel
+- 2 unité Œufs
+- 55 g Beurre non salé
+- 45 ml Huile de canola
+
+### Garniture
+
+- 315 g Cassonade
+- 15 ml Cannelle moulue
+- 30 ml Beurre non salé
+- 30 ml Lait
+
+### Glaçage
+
+- 135 g Sucre à glacer
+- 15 ml Lait
+
+## Équipements
+
+### Brioches
+
+- Casserole
+- Épluche-légumes
+- Fourchette
+- Bol
+- Cuillère
+- Spatule
+- Plan de travail
+
+### Garniture
+
+- Rouleau à pâtisserie
+- Pinceau
+- Moule
+
+### Glaçage
+
+- Bol
+- Fouet
+
 ## Préparation
 
 ### Brioches
 
-- Cuire la pomme de terre dans l’eau bouillante, peler et réduire en purée. Mesurer 250 ml de purée.
-- list(list(nom = "Pomme de terre", qte = 1, uni = "unité"))
-- c("Casserole", "Épluche-légumes", "Fourchette")
-
-- Mélanger le lait et le sucre.
-- list(list(nom = "Lait", qte = 250, uni = "ml"), list(nom = "Sucre", qte = 105, uni = "g"))
-- c("Bol", "Cuillère")
-
-- Mélanger la farine, la levure et le sel. Ajouter lait-sucre, œufs et purée. Pétrir jusqu’à formation de la pâte.
-- list(list(nom = "Farine tout usage non blanchie", qte = 715, uni = "g"), list(nom = "Levure instantanée", qte = 12.5, uni = "ml"), list(nom = "Sel", qte = 5, uni = "ml"), list(nom = "Œufs", qte = 2, uni = "unité"))
-- c("Bol", "Spatule")
-
-- Incorporer beurre et huile, pétrir 5 minutes. Déposer dans bol huilé, couvrir et laisser reposer 20 minutes.
-- list(list(nom = "Beurre non salé", qte = 55, uni = "g"), list(nom = "Huile de canola", qte = 45, uni = "ml"))
-- c("Bol", "Plan de travail")
+1. Cuire la pomme de terre dans l’eau bouillante, peler et réduire en purée. Mesurer 250 ml de purée.
+2. Mélanger le lait et le sucre.
+3. Mélanger la farine, la levure et le sel. Ajouter lait-sucre, œufs et purée. Pétrir jusqu’à formation de la pâte.
+4. Incorporer beurre et huile, pétrir 5 minutes. Déposer dans bol huilé, couvrir et laisser reposer 20 minutes.
 
 ### Garniture
 
-- Mélanger la cassonade et la cannelle. Abaisser la pâte, badigeonner de beurre fondu et répartir la garniture.
-- list(list(nom = "Cassonade", qte = 315, uni = "g"), list(nom = "Cannelle moulue", qte = 15, uni = "ml"), list(nom = "Beurre non salé", qte = 30, uni = "ml"))
-- c("Rouleau à pâtisserie", "Pinceau")
-
-- Rouler la pâte, couper en 12 tranches et disposer dans un moule beurré. Laisser lever 1h30 et badigeonner de lait avant cuisson.
-- list(list(nom = "Lait", qte = 30, uni = "ml"))
-- c("Moule", "Pinceau")
+1. Mélanger la cassonade et la cannelle. Abaisser la pâte, badigeonner de beurre fondu et répartir la garniture.
+2. Rouler la pâte, couper en 12 tranches et disposer dans un moule beurré. Laisser lever 1h30 et badigeonner de lait avant cuisson.
 
 ### Glaçage
 
-- Mélanger le sucre à glacer et le lait, glacer les brioches au moment de servir.
-- list(list(nom = "Sucre à glacer", qte = 135, uni = "g"), list(nom = "Lait", qte = 15, uni = "ml"))
-- c("Bol", "Fouet")
+1. Mélanger le sucre à glacer et le lait, glacer les brioches au moment de servir.
 
 ## Notes
 

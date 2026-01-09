@@ -10,19 +10,45 @@ categories:
 
 ## Ingrédients
 
+### Salade
+
+- 19 onces Pois chiches
+- 19 onces Fèves rouges
+- 19 onces Fèves mélangées
+- 5 gousses Ail
+- 1 unité Échalottes
+- 3 unités Poivron
+
+### Vinaigrette
+
+- 1/2 tasse Sucre
+- 1/4 tasse Huile d'olive
+- 1/3 tasse Vinaigre de vin rouge
+- 1 c. à thé Persil
+- 1 c. à thé Basilic
+- 1 c. à thé Origan
+
+## Équipements
+
+### Salade
+
+- Bol
+- Cuillère
+
+### Vinaigrette
+
+- Bol
+- Fouet
+
 ## Préparation
 
 ### Salade
 
-- Mélanger tous les ingrédients de la salade.
-- list(list(nom = "Pois chiches", qte = 19, uni = "onces"), list(nom = "Fèves rouges", qte = 19, uni = "onces"), list(nom = "Fèves mélangées", qte = 19, uni = "onces"), list(nom = "Ail", qte = 5, uni = "gousses"), list(nom = "Échalottes", qte = 1, uni = "unité"), list(nom = "Poivron", qte = 3, uni = "unités"))
-- c("Bol", "Cuillère")
+1. Mélanger tous les ingrédients de la salade.
 
 ### Vinaigrette
 
-- Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
-- list(list(nom = "Sucre", qte = "1/2", uni = "tasse"), list(nom = "Huile d'olive", qte = "1/4", uni = "tasse"), list(nom = "Vinaigre de vin rouge", qte = "1/3", uni = "tasse"), list(nom = "Persil", qte = 1, uni = "c. à thé"), list(nom = "Basilic", qte = 1, uni = "c. à thé"), list(nom = "Origan", qte = 1, uni = "c. à thé"))
-- c("Bol", "Fouet")
+1. Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
 
 ## Notes
 
