@@ -1,59 +1,71 @@
 nom: Mijoté de porc aux patates douces
-nom_court: mijote-porc-patates-douces
+nom_court: Mijoté porc patates douces
 source: Les recettes de Caty
 portions: 4
+se_congele: true
+categories:
+- Porc
+- Mijoteuse
 temps:
   preparation: 20
   cuisson: 480
   refrigeration: null
-se_congele: true
-ingredients:
-  - section: Section TODO
+preparation:
+- section: Préparation
+  etapes:
+  - etape: Déposer patates douces dans la mijoteuse.
     ingredients:
-    - nom: patates douces pelées et coupées en cubes
+    - nom: Patates douces pelées et coupées en cubes
       qte: 2
       uni: unité
-    - nom: cubes de porc à ragoût
+    equipements:
+    - Mijoteuse
+  - etape: Faire dorer les cubes de porc à la poêle et transférer dans la mijoteuse.
+    ingredients:
+    - nom: Cubes de porc à ragoût
       qte: 795
       uni: g
-    - nom: huile de canola
+    - nom: Huile de canola
       qte: 30
       uni: ml
-    - nom: oignons perlés pelés
+    equipements:
+    - Poêle
+    - Mijoteuse
+  - etape: Cuire oignons, ail et céleri dans la poêle, saupoudrer de farine, transférer dans la mijoteuse.
+    ingredients:
+    - nom: Oignons perlés pelés
       qte: 12
       uni: unité
-    - nom: ail haché
+    - nom: Ail haché
       qte: 10
       uni: ml
-    - nom: branches de céleri émincées
+    - nom: Branches de céleri émincées
       qte: 2
       uni: unité
-    - nom: farine
+    - nom: Farine
       qte: 60
       uni: ml
-    - nom: bouillon de poulet
+    equipements:
+    - Poêle
+    - Mijoteuse
+  - etape: Ajouter bouillon, sirop d’érable, feuille de laurier, romarin, sel et poivre, puis cuire 8 à 10 heures à faible intensité.
+    ingredients:
+    - nom: Bouillon de poulet
       qte: 1000
       uni: ml
-    - nom: sirop d’érable
+    - nom: Sirop d’érable
       qte: 80
       uni: ml
-    - nom: feuille de laurier
+    - nom: Feuille de laurier
       qte: 1
       uni: unité
-    - nom: tige de romarin
+    - nom: Tige de romarin
       qte: 1
       uni: unité
-    - nom: sel et poivre
+    - nom: Sel et poivre
       qte: 1
       uni: au goût
-preparation:
-  - section: Section TODO
-    etapes:
-    - 'Déposer les patates douces dans la mijoteuse.'
-    - 'Assécher la viande à l’aide de papier absorbant.'
-    - 'Dans une casserole, chauffer la moitié de l’huile à feu moyen. Faire dorer les cubes de viande 2 à 3 minutes et transférer dans la mijoteuse.'
-    - 'Dans la même casserole, cuire les oignons perlés, l’ail et le céleri 2 à 3 minutes. Saupoudrer de farine et remuer, puis transférer dans la mijoteuse.'
-    - 'Ajouter le bouillon de poulet, le sirop d’érable, la feuille de laurier et le romarin dans la mijoteuse. Saler, poivrer et remuer.'
-    - 'Couvrir et cuire 8 à 10 heures à faible intensité (mijoteuse).'
+    equipements:
+    - Mijoteuse
 commentaires:
   - 'Un mijoté réconfortant qui se prépare lentement à la mijoteuse pour des saveurs optimales.'

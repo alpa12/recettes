@@ -4,11 +4,6 @@
 #' @param qmd_path Path to the output .qmd file.
 #'   If NULL, same name as yaml with .qmd extension.
 #'
-#' @details
-#' This function reads a structured recipe YAML file and renders it into
-#' a human-readable Quarto Markdown recipe. It assumes UTF-8 encoding and
-#' a schema compatible with the example provided.
-#'
 #' @importFrom yaml read_yaml
 #' @importFrom fs path_ext_set path_file
 #' @importFrom stringr str_trim
@@ -21,83 +16,89 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
 
   recipe <- yaml::read_yaml(yaml_path)
-
   lines <- character()
 
-  # ---- YAML metadata (Quarto front-matter) ----
+  # ---- Quarto front-matter ----
   image_name <- fs::path_ext_set(fs::path_file(yaml_path), "jpg")
+  lines <- c(lines, "---",
+             paste0("title: ", recipe$nom_court),
+             paste0("image: ", image_name))
 
-  lines <- c(
-    lines,
-    "---",
-    paste0("title: ", recipe$nom_court),
-    paste0("image: ", image_name)
-  )
-
-  # ---- Categories (optional: 0 / 1 / n) ----
   if (!is.null(recipe$categories)) {
-    cats <- recipe$categories
-
-    if (is.character(cats)) {
-      cats <- as.character(cats)
-    } else {
-      cats <- unlist(cats, use.names = FALSE)
-    }
-
-    lines <- c(lines, "categories:")
-    lines <- c(lines, paste0("  - ", cats))
+    cats <- unlist(recipe$categories, use.names = FALSE)
+    lines <- c(lines, "categories:", paste0("  - ", cats))
   }
-
   lines <- c(lines, "---", "")
 
   # ---- Title ----
   lines <- c(lines, paste0("# ", recipe$nom), "")
 
-  # ---- Ingredients ----
+  # ---- Ingredients (grouped by section) ----
   lines <- c(lines, "## Ingrédients", "")
 
-  for (section in recipe$ingredients) {
+  for (section in recipe$preparation) {
     lines <- c(lines, paste0("### ", section$section), "")
 
-    for (ing in section$ingredients) {
-      if (is.null(ing$qte) || is.na(ing$qte)) {
-        item <- ing$nom
-      } else {
-        item <- paste(ing$qte, ing$uni, ing$nom)
+    # Collect ingredients for this section
+    ing_list <- list()
+    for (step in section$etapes) {
+      if (!is.null(step$ingredients)) {
+        for (ing in step$ingredients) {
+          key <- paste(ing$nom, ing$uni)
+          if (!key %in% names(ing_list)) {
+            ing_list[[key]] <- paste(ing$qte, ing$uni, ing$nom)
+          }
+        }
       }
+    }
+    # Write ingredients in order
+    for (item in ing_list) {
       lines <- c(lines, paste0("- ", stringr::str_trim(item)))
     }
-
     lines <- c(lines, "")
   }
 
-  # ---- Preparation ----
-  lines <- c(lines, "## Préparation", "")
+  # ---- Equipment (grouped by section) ----
+  lines <- c(lines, "## Équipements", "")
 
-  prep <- recipe$preparation
+  for (section in recipe$preparation) {
+    lines <- c(lines, paste0("### ", section$section), "")
 
-  for (i in seq_along(prep)) {
-    section_name <- prep[[i]]$section
-    steps <- prep[[i]]$etapes
-
-    lines <- c(lines, paste0("### ", section_name), "")
-
-    for (step in steps) {
-      lines <- c(lines, paste0("- ", step), "")
+    equip_list <- character()
+    for (step in section$etapes) {
+      if (!is.null(step$equipements)) {
+        equip_list <- c(equip_list, step$equipements)
+      }
     }
+    equip_list <- unique(equip_list)  # remove duplicates
+
+    for (eq in equip_list) {
+      lines <- c(lines, paste0("- ", stringr::str_trim(eq)))
+    }
+    lines <- c(lines, "")
   }
 
-  # ---- Notes / Comments ----
+  # ---- Preparation steps ----
+  lines <- c(lines, "## Préparation", "")
+
+  for (section in recipe$preparation) {
+    lines <- c(lines, paste0("### ", section$section), "")
+    for (i in seq_along(section$etapes)) {
+      step_text <- section$etapes[[i]]$etape
+      lines <- c(lines, paste0(i, ". ", step_text))
+    }
+    lines <- c(lines, "")
+  }
+
+  # ---- Comments / Notes ----
   if (!is.null(recipe$commentaires) && length(recipe$commentaires) > 0) {
     lines <- c(lines, "## Notes", "")
-
     for (comment in recipe$commentaires) {
       lines <- c(lines, paste0("- ", comment))
     }
   }
 
-  # ---- Write file ----
+  # ---- Write to file ----
   writeLines(enc2utf8(lines), qmd_path)
-
   invisible(qmd_path)
 }

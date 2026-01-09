@@ -1,6 +1,9 @@
 ---
 title: Tarte à la crème
 image: tarte-a-la-creme.jpg
+categories:
+  - Tarte
+  - Dessert
 ---
 
 # Tarte à la crème de Monique
@@ -16,46 +19,62 @@ image: tarte-a-la-creme.jpg
 ### Crème patissière
 
 - 2 t Lait
-- 3 unité Jaune d'oeuf
+- 3 unité Jaune d'œuf
 - 5 c à table Sucre
 - 1 pincée Sel
 
 ### Meringue
 
-- 3 unité Blancs d'oeufs
+- 3 unité Blancs d'œufs
 - 3 c à table Sucre
+- 1 lot Meringue
+
+### Finale
+
+- 1 lot Tarte montée
+
+## Équipements
+
+### Croûte
+
+- Assiette à tarte
+- Bol
+- Cuillère
+
+### Crème patissière
+
+- Bol
+- Bain-marie
+- Fouet
+
+### Meringue
+
+- Batteur électrique
+- Bol
+- Spatule
+
+### Finale
+
+- Four
 
 ## Préparation
 
 ### Croûte
 
-- Beurrer une assiette à tarte d'au moins 9 po de diamètre (assez grosse).
-
-- Mélanger tous les ingrédients de la croûte.
-
-- Taper le mélange dans le fond de l'assiette à tarte.
+1. Beurrer une assiette à tarte de 9 po minimum, mélanger les ingrédients et taper au fond.
 
 ### Crème patissière
 
-- Dans un bol à bain marie, mélanger tous les ingrédients de la crème patissière.
-
-- Cuire au bain marie en mélangeant souvent jusqu'à épaississement.
-
-- Verser sur la croûte
+1. Mélanger les ingrédients dans un bol à bain-marie, cuire en remuant jusqu’à épaississement, verser sur la croûte.
 
 ### Meringue
 
-- Mélanger les blancs d'oeufs au fouet électrique, ajouter le sucre seulement après que les blancs d'oeufs ont commencé à monter.
-
-- Mélanger jusqu'à avoir des pics fermes
-
-- Étendre au dessus de la crème patissière
+1. Monter les blancs d’œufs au batteur électrique, ajouter le sucre progressivement jusqu’à pics fermes.
+2. Étendre la meringue sur la crème pâtissière.
 
 ### Finale
 
-- Cuire au four à 350°F environ 5 minutes, jusqu'à ce que la meringue brunisse
-
-- Réfrigérer au moins 2 heures
+1. Cuire au four 350°F environ 5 minutes jusqu’à ce que la meringue brunisse, puis réfrigérer au moins 2 heures.
 
 ## Notes
 

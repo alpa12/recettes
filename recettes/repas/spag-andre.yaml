@@ -2,73 +2,83 @@ nom: Sauce à spaghetti de Nathalie Davignon
 nom_court: Spaghetti
 source: Nathalie Davignon
 portions: null
+se_congele: true
+categories:
+- Sauce
+- Spaghetti
 temps:
   preparation: null
   cuisson: 180
   refrigeration: null
-se_congele: true
-ingredients:
-  - section: Ingrédients
+preparation:
+- section: Préparation
+  etapes:
+  - etape: Couper tous les légumes en dés et faire revenir.
     ingredients:
-    - nom: boeuf haché
+    - nom: Poivron vert
+      qte: 1
+      uni: unité
+    - nom: Oignon
+      qte: 1
+      uni: unité
+    - nom: Carottes
+      qte: 2
+      uni: unité
+    - nom: Barquette de champignons
+      qte: 1
+      uni: unité
+    equipements:
+    - Poêle
+    - Couteau
+    - Planche à découper
+  - etape: Ajouter le boeuf haché et cuire jusqu’à coloration.
+    ingredients:
+    - nom: Boeuf haché
       qte: 2
       uni: lbs
-    - nom: poivron vert
+    equipements:
+    - Poêle
+    - Spatule
+  - etape: Ajouter tous les autres ingrédients et cuire 3 heures à 350°.
+    ingredients:
+    - nom: Grosse boîte de tomates
       qte: 1
       uni: unité
-    - nom: oignon
+    - nom: Boîte moyenne jus de tomate
       qte: 1
       uni: unité
-    - nom: gousse d'ail
-      qte: 3
-      uni: unité
-    - nom: grosse boîte de tomates
-      qte: 1
-      uni: unité
-    - nom: boîte moyenne jus de tomate
-      qte: 1
-      uni: unité
-    - nom: petites boîtes de pâte de tomate
+    - nom: Petites boîtes de pâte de tomate
       qte: 2
       uni: unité
-    - nom: feuille de laurier
+    - nom: Feuille de laurier
       qte: 1
       uni: unité
-    - nom: cayenne rouge
+    - nom: Cayenne rouge
       qte: 0.5
       uni: c. à thé
-    - nom: poivre noir
+    - nom: Poivre noir
       qte: 0.25
       uni: c. à thé
-    - nom: sel
+    - nom: Sel
       qte: 0.5
       uni: c. à thé
-    - nom: persil haché
+    - nom: Persil haché
       qte: 1
       uni: c. à soupe
-    - nom: origan
+    - nom: Origan
       qte: 0.5
       uni: c. à thé
-    - nom: moutarde sèche
+    - nom: Moutarde sèche
       qte: 0.5
       uni: c. à thé
-    - nom: sauce worchestershier
+    - nom: Sauce Worcestershire
       qte: 2
       uni: c. à table
-    - nom: huile
+    - nom: Huile
       qte: 0.75
       uni: tasse
-    - nom: carottes
-      qte: 2
-      uni: unité
-    - nom: barquette de champignons
-      qte: 1
-      uni: unité
-
-preparation:
-  - section: Préparation
-    etapes:
-    - 'Tous les légumes coupés en dés et faire revenir'
-    - 'Ensuite, faire revenir la ciande et mettre dans le chaudron'
-    - 'Mettre tous les ingrédients et faire cuire 3 heures à 350°'
-
+    equipements:
+    - Casserole
+    - Cuillère
+commentaires:
+  - 'Cette sauce se congèle très bien et peut être utilisée pour plusieurs repas.'

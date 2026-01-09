@@ -1,56 +1,73 @@
-nom: Médaillons de porc, sauce crémeuse aux champignons & à l’érable
-nom_court: medaillons-porc-sauce-champignons-erable
+nom: Médaillons de porc, sauce crémeuse aux champignons et à l’érable
+nom_court: Médaillons porc sauce champignons
 source: Trois Fois par Jour
 portions: 3
+se_congele: true
+categories:
+- Porc
+- Sauce
 temps:
   preparation: 10
   cuisson: 15
   refrigeration: null
-se_congele: true
-ingredients:
-  - section: Section TODO
+preparation:
+- section: Préparation
+  etapes:
+  - etape: Délayer la fécule de maïs dans l’eau et réserver.
     ingredients:
-    - nom: fécule de maïs
+    - nom: Fécule de maïs
       qte: 2
       uni: c. à thé
-    - nom: eau
+    - nom: Eau
       qte: 60
       uni: ml
-    - nom: filet de porc
+    equipements:
+    - Bol
+    - Cuillère
+  - etape: Couper le filet de porc en médaillons, assaisonner sel et poivre.
+    ingredients:
+    - nom: Filet de porc
       qte: 1
       uni: unité
-    - nom: sel et poivre
+    - nom: Sel et poivre
       qte: 1
       uni: au goût
-    - nom: beurre
+    equipements:
+    - Planche à découper
+    - Couteau
+  - etape: Faire chauffer beurre dans poêle, saisir les champignons et réserver.
+    ingredients:
+    - nom: Beurre
       qte: 1
       uni: c. à soupe
-    - nom: champignons blancs (ou autres)
+    - nom: Champignons blancs (ou autres)
       qte: 227
       uni: g
-    - nom: huile végétale
+    equipements:
+    - Poêle
+    - Spatule
+  - etape: Ajouter huile et saisir les médaillons 2 min de chaque côté.
+    ingredients:
+    - nom: Huile végétale
       qte: 1
       uni: c. à soupe
-    - nom: sirop d’érable
+    equipements:
+    - Poêle
+  - etape: Ajouter champignons, mélange de fécule et le reste des ingrédients, porter à ébullition et laisser mijoter 5 minutes.
+    ingredients:
+    - nom: Sirop d’érable
       qte: 60
       uni: ml
-    - nom: vinaigre balsamique
+    - nom: Vinaigre balsamique
       qte: 2
       uni: c. à soupe
-    - nom: crème champêtre 15 %
+    - nom: Crème champêtre 15 %
       qte: 60
       uni: ml
-    - nom: ciboulette émincée
+    - nom: Ciboulette émincée
       qte: 2
       uni: c. à soupe
-preparation:
-  - section: Section TODO
-    etapes:
-    - 'Délayer la fécule de maïs dans l’eau. Réserver.'
-    - 'Couper le filet de porc en médaillons d’environ 2,5 cm d’épaisseur. Assaisonner de sel et de poivre et réserver.'
-    - 'Dans une grande poêle, faire chauffer le beurre et saisir les champignons jusqu’à belle coloration. Assaisonner puis réserver.'
-    - 'Dans la même poêle, ajouter l’huile et saisir les médaillons de porc environ 2 minutes de chaque côté.'
-    - 'Ajouter les champignons cuits, le mélange de fécule et le reste des ingrédients. Assaisonner généreusement puis porter à ébullition.'
-    - 'Laisser mijoter environ 5 minutes jusqu’à ce que la sauce soit crémeuse et servir.'
+    equipements:
+    - Poêle
 commentaires:
-  - 'La recette est sans gluten, sans œufs et sans noix.'
+  - 'Recette sans gluten, œufs et noix.'

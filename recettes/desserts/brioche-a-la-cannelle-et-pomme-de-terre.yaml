@@ -1,25 +1,40 @@
-nom: Brioche à la cannelle (et à la pomme de terre)
+nom: Brioche à la cannelle et à la pomme de terre
 nom_court: Brioche à la cannelle
 source: https://www.ricardocuisine.com/recettes/5038-brioches-a-la-cannelle-et-a-la-pomme-de-terre-
 portions: 12
+se_congele: false
+categories:
+- Brioche
+- Dessert
 temps:
   preparation: 30
   cuisson: 30
-  attente: 110
-se_congele: false
-
-ingredients:
-  - section: Brioches
+  refrigeration: 110
+preparation:
+- section: Brioches
+  etapes:
+  - etape: Cuire la pomme de terre dans l’eau bouillante, peler et réduire en purée. Mesurer 250 ml de purée.
     ingredients:
     - nom: Pomme de terre
       qte: 1
       uni: unité
+    equipements:
+    - Casserole
+    - Épluche-légumes
+    - Fourchette
+  - etape: Mélanger le lait et le sucre.
+    ingredients:
     - nom: Lait
       qte: 250
       uni: ml
     - nom: Sucre
       qte: 105
       uni: g
+    equipements:
+    - Bol
+    - Cuillère
+  - etape: Mélanger la farine, la levure et le sel. Ajouter lait-sucre, œufs et purée. Pétrir jusqu’à formation de la pâte.
+    ingredients:
     - nom: Farine tout usage non blanchie
       qte: 715
       uni: g
@@ -29,17 +44,26 @@ ingredients:
     - nom: Sel
       qte: 5
       uni: ml
-    - nom: Oeufs
+    - nom: Œufs
       qte: 2
       uni: unité
+    equipements:
+    - Bol
+    - Spatule
+  - etape: Incorporer beurre et huile, pétrir 5 minutes. Déposer dans bol huilé, couvrir et laisser reposer 20 minutes.
+    ingredients:
     - nom: Beurre non salé
       qte: 55
       uni: g
     - nom: Huile de canola
       qte: 45
       uni: ml
-
-  - section: Garniture
+    equipements:
+    - Bol
+    - Plan de travail
+- section: Garniture
+  etapes:
+  - etape: Mélanger la cassonade et la cannelle. Abaisser la pâte, badigeonner de beurre fondu et répartir la garniture.
     ingredients:
     - nom: Cassonade
       qte: 315
@@ -50,11 +74,20 @@ ingredients:
     - nom: Beurre non salé
       qte: 30
       uni: ml
+    equipements:
+    - Rouleau à pâtisserie
+    - Pinceau
+  - etape: Rouler la pâte, couper en 12 tranches et disposer dans un moule beurré. Laisser lever 1h30 et badigeonner de lait avant cuisson.
+    ingredients:
     - nom: Lait
       qte: 30
       uni: ml
-
-  - section: Glaçage
+    equipements:
+    - Moule
+    - Pinceau
+- section: Glaçage
+  etapes:
+  - etape: Mélanger le sucre à glacer et le lait, glacer les brioches au moment de servir.
     ingredients:
     - nom: Sucre à glacer
       qte: 135
@@ -62,24 +95,8 @@ ingredients:
     - nom: Lait
       qte: 15
       uni: ml
-
-preparation:
-  - section: Brioches
-    etapes:
-    - "Cuire la pomme de terre dans l’eau bouillante jusqu’à tendreté, peler et réduire en purée. Mesurer 250 ml de purée et réserver."
-    - "Mélanger le lait et le sucre dans un bol."
-    - "Mélanger la farine, la levure et le sel. Ajouter le mélange de lait, les oeufs et la purée de pomme de terre, puis mélanger jusqu’à formation de la pâte."
-    - "Incorporer le beurre et l’huile, puis pétrir environ 5 minutes. Déposer la pâte dans un bol huilé, couvrir et laisser reposer 20 minutes."
-  - section: Garniture
-    etapes:
-    - "Mélanger la cassonade et la cannelle."
-    - "Abaisser la pâte en rectangle, badigeonner de beurre fondu et répartir la garniture."
-    - "Rouler la pâte, couper en 12 tranches et disposer dans un moule beurré."
-    - "Laisser lever environ 1 h 30, badigeonner de lait et cuire à 180 °C pendant environ 30 minutes."
-  - section: Glaçage
-    etapes:
-    - "Mélanger le sucre à glacer et le lait jusqu’à consistance homogène."
-    - "Glacer les brioches au moment de servir."
-
+    equipements:
+    - Bol
+    - Fouet
 commentaires:
-  - "Pour les préparer la veille, il suffit de couvrir d'une pellicule de plastique le plat en pyrex contenant les brioches non levées et de le réfrigérer jusqu'au lendemain. Retirez la pellicule de plastique et faites les lever comme à l'habitude dans un endroit tiède et humide ou, pour accélérer le processus, déposez le plat en pyrex dans un bain d'eau chaude."
+  - "Pour préparer la veille, couvrir le plat en pyrex avec pellicule plastique et réfrigérer jusqu'au lendemain. Faire lever ensuite dans endroit tiède ou bain d'eau chaude."
