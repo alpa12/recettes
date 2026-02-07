@@ -27,6 +27,16 @@ Utilisez ce formulaire pour proposer une nouvelle recette. Une fois soumise, une
     </div>
     
     <div class="form-group">
+      <label for="type_recette">Type de recette *</label>
+      <select id="type_recette" name="type_recette" required>
+        <option value="repas">Repas</option>
+        <option value="desserts">Desserts</option>
+        <option value="accompagnements">Accompagnements</option>
+      </select>
+      <small>Détermine dans quelle section du site la recette apparaîtra</small>
+    </div>
+    
+    <div class="form-group">
       <label for="portions">Nombre de portions</label>
       <input type="number" id="portions" name="portions" min="1" placeholder="Ex: 4">
     </div>
@@ -532,6 +542,7 @@ document.getElementById('recipe-form').addEventListener('submit', async function
       nom: document.getElementById('nom').value.trim(),
       nom_court: document.getElementById('nom_court').value.trim(),
       source: document.getElementById('source').value.trim(),
+      type_recette: document.getElementById('type_recette').value,
       portions: document.getElementById('portions').value ? parseInt(document.getElementById('portions').value) : null,
       se_congele: document.getElementById('se_congele').value === 'true'
     };
@@ -647,7 +658,7 @@ document.getElementById('recipe-form').addEventListener('submit', async function
     }
     
     // Create pull request
-    await createPullRequest(formData.nom_court, yamlContent, formData.nom, token, username);
+    await createPullRequest(formData.nom_court, yamlContent, formData.nom, token, username, formData.type_recette);
     
     successDiv.textContent = 'Recette soumise avec succès ! Une pull request a été créée sur GitHub.';
     successDiv.style.display = 'block';
@@ -730,12 +741,12 @@ function convertToYAML(data) {
   return yaml;
 }
 
-async function createPullRequest(nomCourt, yamlContent, nomRecette, token, username) {
+async function createPullRequest(nomCourt, yamlContent, nomRecette, token, username, typeRecette) {
   const owner = 'alpa12';
   const repo = 'recettes';
   const baseBranch = 'dev';
   const newBranch = `recipe/${nomCourt}-${Date.now()}`;
-  const filePath = `recettes/${nomCourt}.yaml`;
+  const filePath = `recettes/${typeRecette}/${nomCourt}.yaml`;
   
   // Get the base branch SHA
   const baseBranchResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${baseBranch}`, {
