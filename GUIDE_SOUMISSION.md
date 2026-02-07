@@ -75,10 +75,11 @@ Le formulaire utilise un token GitHub configuré par les administrateurs du site
 ## Support technique
 
 En cas de problème :
-1. Vérifiez que votre token GitHub a les bonnes permissions
-2. Assurez-vous que tous les champs obligatoires sont remplis
-3. Vérifiez les messages d'erreur affichés dans le formulaire
-4. Contactez les mainteneurs du dépôt si le problème persiste
+1. Vérifiez que tous les champs obligatoires sont remplis
+2. Vérifiez les messages d'erreur affichés dans le formulaire
+3. Contactez les administrateurs du site si le problème persiste
+
+**Pour les administrateurs** : Consultez `README_CONFIG.md` et `TOKEN_SETUP.md` pour la configuration du token.
 
 ## Structure technique
 
