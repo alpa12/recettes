@@ -83,8 +83,7 @@ Extrais maintenant les informations de la recette et génère le YAML complet.
 cat("🤖 Extraction des informations avec GitHub Copilot...\n")
 
 chat <- chat_github(
-  system_prompt = "Tu es un expert en extraction de recettes. Tu réponds uniquement avec du YAML valide, sans texte additionnel.",
-  api_key = Sys.getenv("GITHUB_TOKEN")
+  system_prompt = "Tu es un expert en extraction de recettes. Tu réponds uniquement avec du YAML valide, sans texte additionnel."
 )
 
 response <- chat$chat(prompt)
