@@ -7,6 +7,7 @@ on:
       - 'recettes/**/*.yaml'
       - 'recettes/**/*.yml'
       - 'R/generate_qmds.R'
+      - '!recettes/pending/**'
 
 permissions:
   contents: write
@@ -46,9 +47,15 @@ jobs:
           echo "Changed files since last generation:"
           echo "$CHANGED_FILES"
 
-          if echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|R/generate_qmds\.R)$'; then
+          # Exclure les fichiers dans recettes/pending/ (URLs en attente d'import LLM)
+          RELEVANT_FILES=$(echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|R/generate_qmds\.R)$' | grep -v '^recettes/pending/' || true)
+
+          if [ -n "$RELEVANT_FILES" ]; then
+            echo "Relevant changes found:"
+            echo "$RELEVANT_FILES"
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
+            echo "No relevant changes found (ignoring recettes/pending/)"
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
 
