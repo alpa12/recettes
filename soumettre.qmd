@@ -56,27 +56,14 @@ Utilisez ce formulaire pour proposer une nouvelle recette. Une fois soumise, une
       </select>
     </div>
     
-    <h2>Ingrédients</h2>
-    <div id="ingredients-container">
-      <div class="ingredient-section" data-section-index="0">
-        <h3>Section <span class="section-number">1</span></h3>
-        <div class="form-group">
-          <label>Nom de la section</label>
-          <input type="text" class="section-name" placeholder="Ex: Ingrédients" value="Ingrédients">
-        </div>
-        <div class="ingredients-list">
-          <div class="ingredient-item">
-            <input type="text" class="ing-nom" placeholder="Nom de l'ingrédient" required>
-            <input type="number" class="ing-qte" placeholder="Qté" step="0.01" min="0">
-            <input type="text" class="ing-uni" placeholder="Unité (g, ml, tasse, etc.)">
-            <button type="button" class="btn-remove-ingredient">Supprimer</button>
-          </div>
-        </div>
-        <button type="button" class="btn-add-ingredient">+ Ajouter un ingrédient</button>
-        <button type="button" class="btn-remove-section">Supprimer cette section</button>
+    <h2>Catégories</h2>
+    <div id="categories-container">
+      <div class="category-item">
+        <input type="text" class="category-text" placeholder="Ex: Plats principaux">
+        <button type="button" class="btn-remove-category">Supprimer</button>
       </div>
     </div>
-    <button type="button" id="btn-add-ingredient-section">+ Ajouter une section d'ingrédients</button>
+    <button type="button" id="btn-add-category">+ Ajouter une catégorie</button>
     
     <h2>Préparation</h2>
     <div id="preparation-container">
@@ -88,8 +75,33 @@ Utilisez ce formulaire pour proposer une nouvelle recette. Une fois soumise, une
         </div>
         <div class="steps-list">
           <div class="step-item">
-            <textarea class="step-text" placeholder="Décrivez une étape de préparation" required></textarea>
-            <button type="button" class="btn-remove-step">Supprimer</button>
+            <div class="step-description">
+              <label>Description de l'étape</label>
+              <textarea class="step-text" placeholder="Décrivez une étape de préparation" required></textarea>
+            </div>
+            <div class="step-ingredients">
+              <label>Ingrédients pour cette étape</label>
+              <div class="step-ingredients-list">
+                <div class="ingredient-item">
+                  <input type="text" class="ing-nom" placeholder="Nom de l'ingrédient">
+                  <input type="number" class="ing-qte" placeholder="Qté" step="0.01" min="0">
+                  <input type="text" class="ing-uni" placeholder="Unité">
+                  <button type="button" class="btn-remove-step-ingredient">Supprimer</button>
+                </div>
+              </div>
+              <button type="button" class="btn-add-step-ingredient">+ Ajouter un ingrédient</button>
+            </div>
+            <div class="step-equipment">
+              <label>Équipements pour cette étape</label>
+              <div class="step-equipment-list">
+                <div class="equipment-item">
+                  <input type="text" class="equip-name" placeholder="Ex: Mélangeur">
+                  <button type="button" class="btn-remove-equipment">Supprimer</button>
+                </div>
+              </div>
+              <button type="button" class="btn-add-equipment">+ Ajouter un équipement</button>
+            </div>
+            <button type="button" class="btn-remove-step">Supprimer cette étape</button>
           </div>
         </div>
         <button type="button" class="btn-add-step">+ Ajouter une étape</button>
@@ -166,12 +178,61 @@ Utilisez ce formulaire pour proposer une nouvelle recette. Une fois soumise, une
 }
 
 .ingredient-item,
-.step-item,
 .comment-item {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
   align-items: start;
+}
+
+.category-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: start;
+}
+
+.category-item input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.step-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.step-description,
+.step-ingredients,
+.step-equipment {
+  margin-bottom: 15px;
+}
+
+.step-description label,
+.step-ingredients label,
+.step-equipment label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.equipment-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: start;
+}
+
+.equipment-item input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
 .ingredient-item input {
@@ -232,7 +293,10 @@ button[type="submit"]:hover {
 }
 
 .btn-remove-ingredient,
+.btn-remove-step-ingredient,
+.btn-remove-equipment,
 .btn-remove-step,
+.btn-remove-category,
 .btn-remove-comment,
 .btn-remove-section,
 .btn-remove-prep-section {
@@ -242,7 +306,10 @@ button[type="submit"]:hover {
 }
 
 .btn-remove-ingredient:hover,
+.btn-remove-step-ingredient:hover,
+.btn-remove-equipment:hover,
 .btn-remove-step:hover,
+.btn-remove-category:hover,
 .btn-remove-comment:hover,
 .btn-remove-section:hover,
 .btn-remove-prep-section:hover {
@@ -256,70 +323,21 @@ button[type="submit"]:hover {
 </style>
 
 <script>
-// Dynamic ingredient management
-document.getElementById('btn-add-ingredient-section').addEventListener('click', function() {
-  const container = document.getElementById('ingredients-container');
-  const sectionIndex = container.children.length;
-  const sectionHTML = `
-    <div class="ingredient-section" data-section-index="${sectionIndex}">
-      <h3>Section <span class="section-number">${sectionIndex + 1}</span></h3>
-      <div class="form-group">
-        <label>Nom de la section</label>
-        <input type="text" class="section-name" placeholder="Ex: Sauce" value="Section ${sectionIndex + 1}">
-      </div>
-      <div class="ingredients-list">
-        <div class="ingredient-item">
-          <input type="text" class="ing-nom" placeholder="Nom de l'ingrédient" required>
-          <input type="number" class="ing-qte" placeholder="Qté" step="0.01" min="0">
-          <input type="text" class="ing-uni" placeholder="Unité">
-          <button type="button" class="btn-remove-ingredient">Supprimer</button>
-        </div>
-      </div>
-      <button type="button" class="btn-add-ingredient">+ Ajouter un ingrédient</button>
-      <button type="button" class="btn-remove-section">Supprimer cette section</button>
+// Dynamic category management
+document.getElementById('btn-add-category').addEventListener('click', function() {
+  const container = document.getElementById('categories-container');
+  const categoryHTML = `
+    <div class="category-item">
+      <input type="text" class="category-text" placeholder="Ex: Desserts">
+      <button type="button" class="btn-remove-category">Supprimer</button>
     </div>
   `;
-  container.insertAdjacentHTML('beforeend', sectionHTML);
+  container.insertAdjacentHTML('beforeend', categoryHTML);
 });
 
-document.getElementById('ingredients-container').addEventListener('click', function(e) {
-  if (e.target.classList.contains('btn-add-ingredient')) {
-    const section = e.target.closest('.ingredient-section');
-    const ingredientsList = section.querySelector('.ingredients-list');
-    const ingredientHTML = `
-      <div class="ingredient-item">
-        <input type="text" class="ing-nom" placeholder="Nom de l'ingrédient" required>
-        <input type="number" class="ing-qte" placeholder="Qté" step="0.01" min="0">
-        <input type="text" class="ing-uni" placeholder="Unité">
-        <button type="button" class="btn-remove-ingredient">Supprimer</button>
-      </div>
-    `;
-    ingredientsList.insertAdjacentHTML('beforeend', ingredientHTML);
-  }
-  
-  if (e.target.classList.contains('btn-remove-ingredient')) {
-    const ingredientsList = e.target.closest('.ingredients-list');
-    if (ingredientsList.children.length > 1) {
-      e.target.closest('.ingredient-item').remove();
-    } else {
-      const errorDiv = document.getElementById('error-message');
-      errorDiv.textContent = 'Une section doit contenir au moins un ingrédient';
-      errorDiv.style.display = 'block';
-      setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
-    }
-  }
-  
-  if (e.target.classList.contains('btn-remove-section')) {
-    const container = document.getElementById('ingredients-container');
-    if (container.children.length > 1) {
-      e.target.closest('.ingredient-section').remove();
-      updateSectionNumbers();
-    } else {
-      const errorDiv = document.getElementById('error-message');
-      errorDiv.textContent = 'La recette doit contenir au moins une section d\'ingrédients';
-      errorDiv.style.display = 'block';
-      setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
-    }
+document.getElementById('categories-container').addEventListener('click', function(e) {
+  if (e.target.classList.contains('btn-remove-category')) {
+    e.target.closest('.category-item').remove();
   }
 });
 
@@ -336,8 +354,33 @@ document.getElementById('btn-add-preparation-section').addEventListener('click',
       </div>
       <div class="steps-list">
         <div class="step-item">
-          <textarea class="step-text" placeholder="Décrivez une étape de préparation" required></textarea>
-          <button type="button" class="btn-remove-step">Supprimer</button>
+          <div class="step-description">
+            <label>Description de l'étape</label>
+            <textarea class="step-text" placeholder="Décrivez une étape de préparation" required></textarea>
+          </div>
+          <div class="step-ingredients">
+            <label>Ingrédients pour cette étape</label>
+            <div class="step-ingredients-list">
+              <div class="ingredient-item">
+                <input type="text" class="ing-nom" placeholder="Nom de l'ingrédient">
+                <input type="number" class="ing-qte" placeholder="Qté" step="0.01" min="0">
+                <input type="text" class="ing-uni" placeholder="Unité">
+                <button type="button" class="btn-remove-step-ingredient">Supprimer</button>
+              </div>
+            </div>
+            <button type="button" class="btn-add-step-ingredient">+ Ajouter un ingrédient</button>
+          </div>
+          <div class="step-equipment">
+            <label>Équipements pour cette étape</label>
+            <div class="step-equipment-list">
+              <div class="equipment-item">
+                <input type="text" class="equip-name" placeholder="Ex: Mélangeur">
+                <button type="button" class="btn-remove-equipment">Supprimer</button>
+              </div>
+            </div>
+            <button type="button" class="btn-add-equipment">+ Ajouter un équipement</button>
+          </div>
+          <button type="button" class="btn-remove-step">Supprimer cette étape</button>
         </div>
       </div>
       <button type="button" class="btn-add-step">+ Ajouter une étape</button>
@@ -353,11 +396,70 @@ document.getElementById('preparation-container').addEventListener('click', funct
     const stepsList = section.querySelector('.steps-list');
     const stepHTML = `
       <div class="step-item">
-        <textarea class="step-text" placeholder="Décrivez une étape de préparation" required></textarea>
-        <button type="button" class="btn-remove-step">Supprimer</button>
+        <div class="step-description">
+          <label>Description de l'étape</label>
+          <textarea class="step-text" placeholder="Décrivez une étape de préparation" required></textarea>
+        </div>
+        <div class="step-ingredients">
+          <label>Ingrédients pour cette étape</label>
+          <div class="step-ingredients-list">
+            <div class="ingredient-item">
+              <input type="text" class="ing-nom" placeholder="Nom de l'ingrédient">
+              <input type="number" class="ing-qte" placeholder="Qté" step="0.01" min="0">
+              <input type="text" class="ing-uni" placeholder="Unité">
+              <button type="button" class="btn-remove-step-ingredient">Supprimer</button>
+            </div>
+          </div>
+          <button type="button" class="btn-add-step-ingredient">+ Ajouter un ingrédient</button>
+        </div>
+        <div class="step-equipment">
+          <label>Équipements pour cette étape</label>
+          <div class="step-equipment-list">
+            <div class="equipment-item">
+              <input type="text" class="equip-name" placeholder="Ex: Mélangeur">
+              <button type="button" class="btn-remove-equipment">Supprimer</button>
+            </div>
+          </div>
+          <button type="button" class="btn-add-equipment">+ Ajouter un équipement</button>
+        </div>
+        <button type="button" class="btn-remove-step">Supprimer cette étape</button>
       </div>
     `;
     stepsList.insertAdjacentHTML('beforeend', stepHTML);
+  }
+  
+  if (e.target.classList.contains('btn-add-step-ingredient')) {
+    const stepItem = e.target.closest('.step-item');
+    const ingredientsList = stepItem.querySelector('.step-ingredients-list');
+    const ingredientHTML = `
+      <div class="ingredient-item">
+        <input type="text" class="ing-nom" placeholder="Nom de l'ingrédient">
+        <input type="number" class="ing-qte" placeholder="Qté" step="0.01" min="0">
+        <input type="text" class="ing-uni" placeholder="Unité">
+        <button type="button" class="btn-remove-step-ingredient">Supprimer</button>
+      </div>
+    `;
+    ingredientsList.insertAdjacentHTML('beforeend', ingredientHTML);
+  }
+  
+  if (e.target.classList.contains('btn-remove-step-ingredient')) {
+    e.target.closest('.ingredient-item').remove();
+  }
+  
+  if (e.target.classList.contains('btn-add-equipment')) {
+    const stepItem = e.target.closest('.step-item');
+    const equipmentList = stepItem.querySelector('.step-equipment-list');
+    const equipmentHTML = `
+      <div class="equipment-item">
+        <input type="text" class="equip-name" placeholder="Ex: Four">
+        <button type="button" class="btn-remove-equipment">Supprimer</button>
+      </div>
+    `;
+    equipmentList.insertAdjacentHTML('beforeend', equipmentHTML);
+  }
+  
+  if (e.target.classList.contains('btn-remove-equipment')) {
+    e.target.closest('.equipment-item').remove();
   }
   
   if (e.target.classList.contains('btn-remove-step')) {
@@ -404,13 +506,6 @@ document.getElementById('comments-container').addEventListener('click', function
   }
 });
 
-function updateSectionNumbers() {
-  const sections = document.querySelectorAll('.ingredient-section');
-  sections.forEach((section, index) => {
-    section.querySelector('.section-number').textContent = index + 1;
-  });
-}
-
 function updatePrepSectionNumbers() {
   const sections = document.querySelectorAll('.preparation-section');
   sections.forEach((section, index) => {
@@ -438,39 +533,27 @@ document.getElementById('recipe-form').addEventListener('submit', async function
       nom_court: document.getElementById('nom_court').value.trim(),
       source: document.getElementById('source').value.trim(),
       portions: document.getElementById('portions').value ? parseInt(document.getElementById('portions').value) : null,
-      temps: {
-        preparation: document.getElementById('temps_preparation').value ? parseInt(document.getElementById('temps_preparation').value) : null,
-        cuisson: document.getElementById('temps_cuisson').value ? parseInt(document.getElementById('temps_cuisson').value) : null,
-        refrigeration: document.getElementById('temps_refrigeration').value ? parseInt(document.getElementById('temps_refrigeration').value) : null
-      },
       se_congele: document.getElementById('se_congele').value === 'true'
     };
     
-    // Collect ingredients
-    formData.ingredients = [];
-    const ingredientSections = document.querySelectorAll('.ingredient-section');
-    ingredientSections.forEach(section => {
-      const sectionName = section.querySelector('.section-name').value.trim() || 'Ingrédients';
-      const ingredients = [];
-      section.querySelectorAll('.ingredient-item').forEach(item => {
-        const nom = item.querySelector('.ing-nom').value.trim();
-        if (nom) {
-          const qte = item.querySelector('.ing-qte').value;
-          const uni = item.querySelector('.ing-uni').value.trim();
-          ingredients.push({
-            nom: nom,
-            qte: qte ? parseFloat(qte) : null,
-            uni: uni || 'unité'
-          });
-        }
-      });
-      if (ingredients.length > 0) {
-        formData.ingredients.push({
-          section: sectionName,
-          ingredients: ingredients
-        });
+    // Collect categories
+    const categories = [];
+    document.querySelectorAll('.category-item').forEach(item => {
+      const text = item.querySelector('.category-text').value.trim();
+      if (text) {
+        categories.push(text);
       }
     });
+    if (categories.length > 0) {
+      formData.categories = categories;
+    }
+    
+    // Add temps after categories
+    formData.temps = {
+      preparation: document.getElementById('temps_preparation').value ? parseInt(document.getElementById('temps_preparation').value) : null,
+      cuisson: document.getElementById('temps_cuisson').value ? parseInt(document.getElementById('temps_cuisson').value) : null,
+      refrigeration: document.getElementById('temps_refrigeration').value ? parseInt(document.getElementById('temps_refrigeration').value) : null
+    };
     
     // Collect preparation steps
     formData.preparation = [];
@@ -479,9 +562,43 @@ document.getElementById('recipe-form').addEventListener('submit', async function
       const sectionName = section.querySelector('.prep-section-name').value.trim() || 'Préparation';
       const etapes = [];
       section.querySelectorAll('.step-item').forEach(item => {
-        const text = item.querySelector('.step-text').value.trim();
-        if (text) {
-          etapes.push(text);
+        const stepText = item.querySelector('.step-text').value.trim();
+        if (stepText) {
+          const stepData = {
+            etape: stepText
+          };
+          
+          // Collect ingredients for this step
+          const stepIngredients = [];
+          item.querySelectorAll('.step-ingredients-list .ingredient-item').forEach(ingItem => {
+            const nom = ingItem.querySelector('.ing-nom').value.trim();
+            if (nom) {
+              const qte = ingItem.querySelector('.ing-qte').value;
+              const uni = ingItem.querySelector('.ing-uni').value.trim();
+              stepIngredients.push({
+                nom: nom,
+                qte: qte ? parseFloat(qte) : null,
+                uni: uni || 'unité'
+              });
+            }
+          });
+          if (stepIngredients.length > 0) {
+            stepData.ingredients = stepIngredients;
+          }
+          
+          // Collect equipment for this step
+          const stepEquipment = [];
+          item.querySelectorAll('.step-equipment-list .equipment-item').forEach(eqItem => {
+            const equipName = eqItem.querySelector('.equip-name').value.trim();
+            if (equipName) {
+              stepEquipment.push(equipName);
+            }
+          });
+          if (stepEquipment.length > 0) {
+            stepData.equipements = stepEquipment;
+          }
+          
+          etapes.push(stepData);
         }
       });
       if (etapes.length > 0) {
@@ -507,10 +624,6 @@ document.getElementById('recipe-form').addEventListener('submit', async function
     // Validate required fields
     if (!formData.nom || !formData.nom_court || !formData.source) {
       throw new Error('Veuillez remplir tous les champs obligatoires');
-    }
-    
-    if (formData.ingredients.length === 0) {
-      throw new Error('Veuillez ajouter au moins un ingrédient');
     }
     
     if (formData.preparation.length === 0) {
@@ -570,29 +683,40 @@ function convertToYAML(data) {
   yaml += `nom_court: ${escapeYamlString(data.nom_court)}\n`;
   yaml += `source: ${escapeYamlString(data.source)}\n`;
   yaml += `portions: ${data.portions !== null ? data.portions : 'null'}\n`;
+  yaml += `se_congele: ${data.se_congele}\n`;
+  
+  if (data.categories && data.categories.length > 0) {
+    yaml += `categories:\n`;
+    data.categories.forEach(category => {
+      yaml += `  - ${escapeYamlString(category)}\n`;
+    });
+  }
+  
   yaml += `temps:\n`;
   yaml += `  preparation: ${data.temps.preparation !== null ? data.temps.preparation : 'null'}\n`;
   yaml += `  cuisson: ${data.temps.cuisson !== null ? data.temps.cuisson : 'null'}\n`;
   yaml += `  refrigeration: ${data.temps.refrigeration !== null ? data.temps.refrigeration : 'null'}\n`;
-  yaml += `se_congele: ${data.se_congele}\n`;
-  
-  yaml += `ingredients:\n`;
-  data.ingredients.forEach(section => {
-    yaml += `  - section: ${escapeYamlString(section.section)}\n`;
-    yaml += `    ingredients:\n`;
-    section.ingredients.forEach(ing => {
-      yaml += `    - nom: ${escapeYamlString(ing.nom)}\n`;
-      yaml += `      qte: ${ing.qte !== null ? ing.qte : 'null'}\n`;
-      yaml += `      uni: ${escapeYamlString(ing.uni)}\n`;
-    });
-  });
   
   yaml += `preparation:\n`;
   data.preparation.forEach(section => {
     yaml += `  - section: ${escapeYamlString(section.section)}\n`;
     yaml += `    etapes:\n`;
     section.etapes.forEach(step => {
-      yaml += `    - ${escapeYamlString(step)}\n`;
+      yaml += `    - etape: ${escapeYamlString(step.etape)}\n`;
+      if (step.ingredients && step.ingredients.length > 0) {
+        yaml += `      ingredients:\n`;
+        step.ingredients.forEach(ing => {
+          yaml += `      - nom: ${escapeYamlString(ing.nom)}\n`;
+          yaml += `        qte: ${ing.qte !== null ? ing.qte : 'null'}\n`;
+          yaml += `        uni: ${escapeYamlString(ing.uni)}\n`;
+        });
+      }
+      if (step.equipements && step.equipements.length > 0) {
+        yaml += `      equipements:\n`;
+        step.equipements.forEach(equip => {
+          yaml += `      - ${escapeYamlString(equip)}\n`;
+        });
+      }
     });
   });
   
