@@ -17,7 +17,7 @@ website:
         text: Repas
       - href: recettes/desserts/index.qmd
         text: Desserts
-      - href: soumettre-recette.html
+      - href: soumettre-recette.qmd
         text: Soumettre une recette
     style: docked
     search: true
@@ -33,3 +33,4 @@ format:
 
 resources:
   - config.js
+  - recettes/template.yaml
