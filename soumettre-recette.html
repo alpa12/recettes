@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soumettre une recette - Nos Recettes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .section-header {
+            background-color: #e9ecef;
+            padding: 10px 15px;
+            margin: 20px -15px 15px;
+            border-left: 4px solid #007bff;
+            font-weight: bold;
+        }
+        .step-item {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .btn-remove {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .ingredient-item, .equipment-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .navbar {
+            background-color: #007bff !important;
+            margin-bottom: 0;
+        }
+        .navbar-brand {
+            color: white !important;
+            font-weight: bold;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .required::after {
+            content: " *";
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Nos Recettes</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="recettes/accompagnements/index.html">Accompagnements</a>
+                <a class="nav-link" href="recettes/repas/index.html">Repas</a>
+                <a class="nav-link" href="recettes/desserts/index.html">Desserts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mb-4">Soumettre une nouvelle recette</h1>
+        <p class="text-muted">Remplissez le formulaire ci-dessous pour soumettre une nouvelle recette. Une fois soumise, votre recette créera automatiquement une pull request sur GitHub pour révision.</p>
+        
+        <form id="recipeForm">
+            <!-- Basic Information -->
+            <div class="section-header">Informations de base</div>
+            
+            <div class="mb-3">
+                <label for="nom" class="form-label required">Nom complet de la recette</label>
+                <input type="text" class="form-control" id="nom" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="nom_court" class="form-label required">Nom court (pour la table des matières)</label>
+                <input type="text" class="form-control" id="nom_court" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="source" class="form-label required">Source de la recette</label>
+                <input type="text" class="form-control" id="source" placeholder="ex: Ricardo Cuisine, Grand-mère, etc." required>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="portions" class="form-label required">Nombre de portions</label>
+                    <input type="number" class="form-control" id="portions" min="1" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="se_congele" class="form-label required">Se congèle?</label>
+                    <select class="form-control" id="se_congele" required>
+                        <option value="">Sélectionner...</option>
+                        <option value="true">Oui</option>
+                        <option value="false">Non</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="categorie" class="form-label required">Catégorie principale</label>
+                <select class="form-control" id="categorie" required>
+                    <option value="">Sélectionner...</option>
+                    <option value="accompagnements">Accompagnements</option>
+                    <option value="repas">Repas</option>
+                    <option value="desserts">Desserts</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="categories" class="form-label">Tags/Catégories (séparés par des virgules)</label>
+                <input type="text" class="form-control" id="categories" placeholder="ex: Poulet, Mijoteuse, Rapide">
+                <small class="form-text text-muted">Exemples: Poulet, Bœuf, Poisson, Végétarien, Mijoteuse, Rapide, etc.</small>
+            </div>
+
+            <!-- Time Information -->
+            <div class="section-header">Temps de préparation</div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="temps_preparation" class="form-label">Temps de préparation (minutes)</label>
+                    <input type="number" class="form-control" id="temps_preparation" min="0" placeholder="null si aucun">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="temps_cuisson" class="form-label">Temps de cuisson (minutes)</label>
+                    <input type="number" class="form-control" id="temps_cuisson" min="0" placeholder="null si aucun">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="temps_refrigeration" class="form-label">Temps de réfrigération (minutes)</label>
+                    <input type="number" class="form-control" id="temps_refrigeration" min="0" placeholder="null si aucun">
+                </div>
+            </div>
+
+            <!-- Preparation Steps -->
+            <div class="section-header">Préparation</div>
+            <div id="sections"></div>
+            <button type="button" class="btn-add" onclick="addSection()">+ Ajouter une section</button>
+
+            <!-- Comments -->
+            <div class="section-header">Commentaires/Notes (optionnel)</div>
+            <div id="comments"></div>
+            <button type="button" class="btn-add" onclick="addComment()">+ Ajouter un commentaire</button>
+
+            <!-- GitHub Token -->
+            <div class="section-header">Informations GitHub</div>
+            <div class="mb-3">
+                <label for="github_token" class="form-label required">Token GitHub Personnel (PAT)</label>
+                <input type="password" class="form-control" id="github_token" required>
+                <small class="form-text text-muted">
+                    Créez un token avec les permissions <code>repo</code> sur 
+                    <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>
+                </small>
+            </div>
+
+            <div class="mb-3">
+                <label for="github_username" class="form-label required">Votre nom d'utilisateur GitHub</label>
+                <input type="text" class="form-control" id="github_username" required>
+            </div>
+
+            <div id="alertContainer"></div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement...</span>
+                </div>
+                <p class="mt-2">Création de la pull request en cours...</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">Soumettre la recette</button>
+        </form>
+    </div>
+
+    <script>
+        let sectionCounter = 0;
+        let commentCounter = 0;
+
+        function addSection() {
+            sectionCounter++;
+            const sectionsDiv = document.getElementById('sections');
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'step-item';
+            sectionDiv.id = `section_${sectionCounter}`;
+            sectionDiv.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5>Section ${sectionCounter}</h5>
+                    <button type="button" class="btn-remove" onclick="removeSection(${sectionCounter})">Supprimer</button>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label required">Nom de la section</label>
+                    <input type="text" class="form-control section-name" required>
+                </div>
+                <div class="steps" id="steps_${sectionCounter}"></div>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="addStep(${sectionCounter})">+ Ajouter une étape</button>
+            `;
+            sectionsDiv.appendChild(sectionDiv);
+        }
+
+        function removeSection(id) {
+            document.getElementById(`section_${id}`).remove();
+        }
+
+        function addStep(sectionId) {
+            const stepsDiv = document.getElementById(`steps_${sectionId}`);
+            const stepId = `step_${sectionId}_${Date.now()}`;
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'step-item';
+            stepDiv.id = stepId;
+            stepDiv.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <strong>Étape</strong>
+                    <button type="button" class="btn-remove btn-sm" onclick="removeStep('${stepId}')">Supprimer</button>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Description de l'étape</label>
+                    <textarea class="form-control step-description" rows="2" required></textarea>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Ingrédients</label>
+                    <div class="ingredients" id="ingredients_${stepId}"></div>
+                    <button type="button" class="btn btn-sm btn-outline-success" onclick="addIngredient('${stepId}')">+ Ingrédient</button>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Équipements</label>
+                    <div class="equipments" id="equipments_${stepId}"></div>
+                    <button type="button" class="btn btn-sm btn-outline-success" onclick="addEquipment('${stepId}')">+ Équipement</button>
+                </div>
+            `;
+            stepsDiv.appendChild(stepDiv);
+        }
+
+        function removeStep(id) {
+            document.getElementById(id).remove();
+        }
+
+        function addIngredient(stepId) {
+            const ingredientsDiv = document.getElementById(`ingredients_${stepId}`);
+            const ingredientId = `ingredient_${Date.now()}`;
+            const ingredientDiv = document.createElement('div');
+            ingredientDiv.className = 'ingredient-item';
+            ingredientDiv.id = ingredientId;
+            ingredientDiv.innerHTML = `
+                <input type="text" class="form-control ingredient-name" placeholder="Nom de l'ingrédient" style="flex: 2;">
+                <input type="number" class="form-control ingredient-qte" placeholder="Qté" step="0.01" style="flex: 1;">
+                <input type="text" class="form-control ingredient-unit" placeholder="Unité" style="flex: 1;">
+                <button type="button" class="btn-remove btn-sm" onclick="removeElement('${ingredientId}')">×</button>
+            `;
+            ingredientsDiv.appendChild(ingredientDiv);
+        }
+
+        function addEquipment(stepId) {
+            const equipmentsDiv = document.getElementById(`equipments_${stepId}`);
+            const equipmentId = `equipment_${Date.now()}`;
+            const equipmentDiv = document.createElement('div');
+            equipmentDiv.className = 'equipment-item';
+            equipmentDiv.id = equipmentId;
+            equipmentDiv.innerHTML = `
+                <input type="text" class="form-control equipment-name" placeholder="Nom de l'équipement" style="flex: 1;">
+                <button type="button" class="btn-remove btn-sm" onclick="removeElement('${equipmentId}')">×</button>
+            `;
+            equipmentsDiv.appendChild(equipmentDiv);
+        }
+
+        function addComment() {
+            commentCounter++;
+            const commentsDiv = document.getElementById('comments');
+            const commentId = `comment_${commentCounter}`;
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'mb-2';
+            commentDiv.id = commentId;
+            commentDiv.innerHTML = `
+                <div class="input-group">
+                    <input type="text" class="form-control comment-text" placeholder="Commentaire ou note">
+                    <button type="button" class="btn btn-outline-danger" onclick="removeElement('${commentId}')">Supprimer</button>
+                </div>
+            `;
+            commentsDiv.appendChild(commentDiv);
+        }
+
+        function removeElement(id) {
+            document.getElementById(id).remove();
+        }
+
+        // Initialize with one section and one comment
+        addSection();
+        addStep(1);
+        addComment();
+
+        document.getElementById('recipeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = collectFormData();
+            const yamlContent = generateYAML(formData);
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('button[type="submit"]').disabled = true;
+            
+            try {
+                await createPullRequest(formData, yamlContent);
+            } catch (error) {
+                showAlert('Erreur lors de la création de la pull request: ' + error.message, 'danger');
+                document.getElementById('loading').style.display = 'none';
+                document.querySelector('button[type="submit"]').disabled = false;
+            }
+        });
+
+        function collectFormData() {
+            const data = {
+                nom: document.getElementById('nom').value.trim(),
+                nom_court: document.getElementById('nom_court').value.trim(),
+                source: document.getElementById('source').value.trim(),
+                portions: parseInt(document.getElementById('portions').value),
+                se_congele: document.getElementById('se_congele').value === 'true',
+                categorie: document.getElementById('categorie').value,
+                categories: document.getElementById('categories').value.split(',').map(c => c.trim()).filter(c => c),
+                temps: {
+                    preparation: document.getElementById('temps_preparation').value ? parseInt(document.getElementById('temps_preparation').value) : null,
+                    cuisson: document.getElementById('temps_cuisson').value ? parseInt(document.getElementById('temps_cuisson').value) : null,
+                    refrigeration: document.getElementById('temps_refrigeration').value ? parseInt(document.getElementById('temps_refrigeration').value) : null
+                },
+                preparation: [],
+                commentaires: [],
+                github_token: document.getElementById('github_token').value,
+                github_username: document.getElementById('github_username').value
+            };
+
+            // Collect sections and steps
+            const sections = document.querySelectorAll('.step-item[id^="section_"]');
+            sections.forEach(section => {
+                const sectionName = section.querySelector('.section-name').value.trim();
+                if (!sectionName) return;
+
+                const sectionData = {
+                    section: sectionName,
+                    etapes: []
+                };
+
+                const steps = section.querySelectorAll('.step-item[id^="step_"]');
+                steps.forEach(step => {
+                    const stepDescription = step.querySelector('.step-description').value.trim();
+                    if (!stepDescription) return;
+
+                    const stepData = {
+                        etape: stepDescription,
+                        ingredients: [],
+                        equipements: []
+                    };
+
+                    // Collect ingredients
+                    const ingredients = step.querySelectorAll('.ingredient-item');
+                    ingredients.forEach(ing => {
+                        const name = ing.querySelector('.ingredient-name').value.trim();
+                        const qte = ing.querySelector('.ingredient-qte').value;
+                        const unit = ing.querySelector('.ingredient-unit').value.trim();
+                        if (name) {
+                            stepData.ingredients.push({
+                                nom: name,
+                                qte: qte ? parseFloat(qte) : null,
+                                uni: unit || 'unité'
+                            });
+                        }
+                    });
+
+                    // Collect equipment
+                    const equipments = step.querySelectorAll('.equipment-item');
+                    equipments.forEach(eq => {
+                        const name = eq.querySelector('.equipment-name').value.trim();
+                        if (name) {
+                            stepData.equipements.push(name);
+                        }
+                    });
+
+                    sectionData.etapes.push(stepData);
+                });
+
+                if (sectionData.etapes.length > 0) {
+                    data.preparation.push(sectionData);
+                }
+            });
+
+            // Collect comments
+            const comments = document.querySelectorAll('.comment-text');
+            comments.forEach(comment => {
+                const text = comment.value.trim();
+                if (text) {
+                    data.commentaires.push(text);
+                }
+            });
+
+            return data;
+        }
+
+        function generateYAML(data) {
+            let yaml = '';
+            yaml += `nom: ${data.nom}\n`;
+            yaml += `nom_court: ${data.nom_court}\n`;
+            yaml += `source: ${data.source}\n`;
+            yaml += `portions: ${data.portions}\n`;
+            yaml += `se_congele: ${data.se_congele}\n`;
+            yaml += `categories:\n`;
+            data.categories.forEach(cat => {
+                yaml += `- ${cat}\n`;
+            });
+            yaml += `temps:\n`;
+            yaml += `  preparation: ${data.temps.preparation}\n`;
+            yaml += `  cuisson: ${data.temps.cuisson}\n`;
+            yaml += `  refrigeration: ${data.temps.refrigeration}\n`;
+            yaml += `preparation:\n`;
+            data.preparation.forEach(section => {
+                yaml += `- section: ${section.section}\n`;
+                yaml += `  etapes:\n`;
+                section.etapes.forEach(etape => {
+                    yaml += `  - etape: ${etape.etape}\n`;
+                    yaml += `    ingredients:\n`;
+                    etape.ingredients.forEach(ing => {
+                        yaml += `    - nom: ${ing.nom}\n`;
+                        yaml += `      qte: ${ing.qte}\n`;
+                        yaml += `      uni: ${ing.uni}\n`;
+                    });
+                    yaml += `    equipements:\n`;
+                    etape.equipements.forEach(eq => {
+                        yaml += `    - ${eq}\n`;
+                    });
+                });
+            });
+            if (data.commentaires.length > 0) {
+                yaml += `commentaires:\n`;
+                data.commentaires.forEach(comment => {
+                    yaml += `  - '${comment.replace(/'/g, "'')}'\n`;
+                });
+            }
+            return yaml;
+        }
+
+        async function createPullRequest(data, yamlContent) {
+            const token = data.github_token;
+            const username = data.github_username;
+            const owner = 'alpa12';
+            const repo = 'recettes';
+            
+            // Create filename from nom_court
+            const filename = data.nom_court.toLowerCase()
+                .replace(/[àáâãäå]/g, 'a')
+                .replace(/[èéêë]/g, 'e')
+                .replace(/[ìíîï]/g, 'i')
+                .replace(/[òóôõö]/g, 'o')
+                .replace(/[ùúûü]/g, 'u')
+                .replace(/[ç]/g, 'c')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            
+            const filepath = `recettes/${data.categorie}/${filename}.yaml`;
+            const branchName = `recipe-submission-${filename}-${Date.now()}`;
+
+            try {
+                // Get the default branch SHA
+                const refResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/dev`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (!refResponse.ok) {
+                    throw new Error('Impossible de récupérer la branche dev');
+                }
+                
+                const refData = await refResponse.json();
+                const baseSha = refData.object.sha;
+
+                // Create a new branch
+                await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ref: `refs/heads/${branchName}`,
+                        sha: baseSha
+                    })
+                });
+
+                // Create the file
+                const createFileResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Ajout de la recette: ${data.nom}`,
+                        content: btoa(unescape(encodeURIComponent(yamlContent))),
+                        branch: branchName
+                    })
+                });
+
+                if (!createFileResponse.ok) {
+                    const errorData = await createFileResponse.json();
+                    throw new Error('Impossible de créer le fichier: ' + (errorData.message || 'Erreur inconnue'));
+                }
+
+                // Create pull request
+                const prResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: `Nouvelle recette: ${data.nom}`,
+                        body: `## Nouvelle recette soumise\n\n**Nom:** ${data.nom}\n**Source:** ${data.source}\n**Catégorie:** ${data.categorie}\n**Portions:** ${data.portions}\n\nSoumis par @${username} via le formulaire de soumission de recettes.`,
+                        head: branchName,
+                        base: 'dev'
+                    })
+                });
+
+                if (!prResponse.ok) {
+                    const errorData = await prResponse.json();
+                    throw new Error('Impossible de créer la pull request: ' + (errorData.message || 'Erreur inconnue'));
+                }
+
+                const prData = await prResponse.json();
+                
+                showAlert(`Pull request créée avec succès! <a href="${prData.html_url}" target="_blank">Voir la PR #${prData.number}</a>`, 'success');
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    document.getElementById('recipeForm').reset();
+                    document.getElementById('sections').innerHTML = '';
+                    document.getElementById('comments').innerHTML = '';
+                    sectionCounter = 0;
+                    commentCounter = 0;
+                    addSection();
+                    addStep(1);
+                    addComment();
+                }, 3000);
+                
+            } catch (error) {
+                throw error;
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.querySelector('button[type="submit"]').disabled = false;
+            }
+        }
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+            
+            // Auto-dismiss after 10 seconds
+            setTimeout(() => {
+                alert.remove();
+            }, 10000);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

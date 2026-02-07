@@ -17,6 +17,8 @@ website:
         text: Repas
       - href: recettes/desserts/index.qmd
         text: Desserts
+      - href: soumettre-recette.html
+        text: Soumettre une recette
     style: docked
     search: true
 
