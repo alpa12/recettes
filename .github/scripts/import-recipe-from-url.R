@@ -41,7 +41,13 @@ if (nchar(page_text) > 50000) {
 # Charger le template
 template <- yaml::read_yaml("recettes/template.yaml")
 
-# Créer le prompt pour le LLM
+cat("📋 Template chargé avec structure:\n")
+str(template, max.level = 2)
+
+# Convertir le template en exemple YAML pour le prompt (avec indentation correcte)
+template_example <- yaml::as.yaml(template)
+
+# Créer le prompt pour le LLM de manière dynamique basé sur le template
 prompt <- glue::glue('
 Tu es un assistant qui extrait des recettes depuis des pages web.
 
@@ -53,51 +59,24 @@ Voici le contenu d\'une page web contenant une recette :
 
 SOURCE URL: {recipe_url}
 
-Extrais les informations de cette recette et génère un fichier YAML avec la structure suivante :
+Extrais les informations de cette recette et génère un fichier YAML avec EXACTEMENT la même structure que cet exemple de template :
 
-- titre: Le nom de la recette
-- description: Une courte description (1-2 phrases)
-- temps_preparation: Temps de préparation en minutes (nombre entier, ex: 30)
-- temps_cuisson: Temps de cuisson en minutes (nombre entier, ex: 45)
-- portions: Nombre de portions (nombre entier, ex: 4)
-- difficulte: Niveau de difficulté (Facile/Moyen/Difficile)
-- categorie: Catégorie principale (Repas/Dessert/Accompagnement)
-- ingredients: Liste des ingrédients (tableau YAML avec champs "nom" et "quantite")
-- instructions: Liste des étapes (tableau de chaînes)
-- tags: Liste de mots-clés pertinents (tableau)
-- source_url: URL de la source ({recipe_url})
-- soumis_par: "{submitted_by}"
+{template_example}
 
-IMPORTANT:
+RÈGLES IMPORTANTES:
 1. Réponds UNIQUEMENT avec le YAML valide, sans texte d\'introduction ni conclusion
-2. Ne mets PAS le YAML entre des triple backticks
-3. Commence directement par "titre:"
-4. Utilise des tirets (-) pour les listes
-5. Les valeurs numériques (temps, portions) doivent être des nombres entiers sans guillemets
-6. Si une information est manquante, utilise une valeur par défaut raisonnable
+2. Ne mets PAS le YAML entre des triple backticks  
+3. Commence directement par le premier champ du template
+4. Respecte EXACTEMENT la même structure que le template fourni ci-dessus
+5. Remplace les valeurs d\'exemple du template par les vraies informations extraites de la recette
+6. Les valeurs numériques doivent être des nombres entiers sans guillemets
+7. Utilise des tirets (-) pour les listes avec indentation correcte (2 espaces)
+8. Si une information est manquante, utilise null ou une valeur par défaut raisonnable
+9. Pour nom_court: enlève les accents, articles, et garde maximum 5 mots
+10. Pour la source: utilise {recipe_url}
+11. Le champ soumis_par sera ajouté automatiquement après, ne l\'inclus PAS dans ta réponse
 
-Exemple de format attendu:
-
-titre: Nom de la recette
-description: Description courte
-temps_preparation: 30
-temps_cuisson: 45
-portions: 4
-difficulte: Moyen
-categorie: Repas
-ingredients:
-  - nom: Ingrédient 1
-    quantite: 200g
-  - nom: Ingrédient 2
-    quantite: 3 unités
-instructions:
-  - Étape 1
-  - Étape 2
-tags:
-  - tag1
-  - tag2
-source_url: {recipe_url}
-soumis_par: {submitted_by}
+Extrais maintenant les informations de la recette et génère le YAML complet.
 ')
 
 # Appeler le LLM avec ellmer (GitHub Copilot)
@@ -114,10 +93,13 @@ yaml_content <- response
 cat("📝 Réponse du LLM reçue\n")
 
 # Nettoyer la réponse (enlever les backticks si présents)
-yaml_content <- gsub("^```yaml\\n?", "", yaml_content)
-yaml_content <- gsub("^```\\n?", "", yaml_content)
-yaml_content <- gsub("\\n?```$", "", yaml_content)
+yaml_content <- gsub("^```yaml\\s*", "", yaml_content)
+yaml_content <- gsub("^```\\s*", "", yaml_content)
+yaml_content <- gsub("\\s*```$", "", yaml_content)
 yaml_content <- trimws(yaml_content)
+
+cat("📄 YAML nettoyé:\n")
+cat(substr(yaml_content, 1, 500), "...\n")
 
 # Valider et parser le YAML
 recipe_data <- tryCatch({
@@ -130,27 +112,27 @@ recipe_data <- tryCatch({
 
 cat("✅ YAML valide généré\n")
 
+# Ajouter le champ soumis_par
+recipe_data$soumis_par <- submitted_by
+
 # Générer le nom de fichier
-filename_base <- gsub("[^a-z0-9]+", "-", tolower(recipe_data$titre))
+filename_base <- gsub("[^a-z0-9]+", "-", tolower(recipe_data$nom_court))
 filename_base <- gsub("^-|-$", "", filename_base)
 
 yaml_file <- glue("recettes/{filename_base}.yaml")
 qmd_file <- glue("recettes/{filename_base}.qmd")
 
-# Sauvegarder le YAML
+# Sauvegarder le fichier YAML
 cat("💾 Sauvegarde de", yaml_file, "\n")
 yaml::write_yaml(recipe_data, yaml_file)
 
-# Générer le fichier QMD
-cat("💾 Génération de", qmd_file, "\n")
-qmd_content <- glue('---
-title: "{recipe_data$titre}"
----
+# Charger la fonction yaml_to_qmd depuis le projet
+cat("📦 Chargement de la fonction yaml_to_qmd...\n")
+source("R/yaml_to_qmd.R")
 
-{{{{< include _recette.qmd >}}}}
-')
-
-writeLines(qmd_content, qmd_file)
+# Générer le fichier QMD avec la fonction existante
+cat("💾 Génération de", qmd_file, "avec yaml_to_qmd()...\n")
+yaml_recipe_to_qmd(yaml_path = yaml_file, qmd_path = qmd_file)
 
 cat("✅ Import terminé avec succès!\n")
 cat("📄 Fichiers générés:\n")
