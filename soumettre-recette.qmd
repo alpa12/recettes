@@ -5,16 +5,17 @@ format:
     toc: false
 ---
 
+```{=html}
 <!-- Système d'onglets -->
 <ul class="nav nav-tabs mb-4" id="submissionTabs" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manual" type="button" role="tab" aria-controls="manual" aria-selected="true">
-      📝 Formulaire manuel
+      Formulaire manuel
     </button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="url-tab" data-bs-toggle="tab" data-bs-target="#url" type="button" role="tab" aria-controls="url" aria-selected="false">
-      🔗 Importer depuis une URL
+      Importer depuis une URL
     </button>
   </li>
 </ul>
@@ -80,7 +81,9 @@ format:
 
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+```
 
+```{=html}
 <style>
 .nav-tabs {
   border-bottom: 2px solid var(--bs-primary);
@@ -788,4 +791,5 @@ function showUrlError(message) {
   }, 10000);
 }
 </script>
+```
 ```
