@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soumettre une recette - Nos Recettes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="config.js"></script>
     <style>
         body {
             background-color: #f8f9fa;
@@ -178,27 +179,15 @@
             <div id="comments"></div>
             <button type="button" class="btn-add" onclick="addComment()">+ Ajouter un commentaire</button>
 
-            <!-- GitHub Token -->
-            <div class="section-header">Informations GitHub</div>
-            <div class="alert alert-warning" role="alert">
-                <strong>⚠️ Note de sécurité:</strong> Votre token GitHub est nécessaire pour créer la pull request. 
-                Il ne sera pas sauvegardé et sera utilisé uniquement pour cette soumission. 
-                Pour plus de sécurité, créez un token avec des permissions limitées (<code>public_repo</code> uniquement) 
-                et révoquez-le après utilisation.
-            </div>
+            <!-- Submitter Information -->
+            <div class="section-header">Informations sur le soumetteur</div>
             <div class="mb-3">
-                <label for="github_token" class="form-label required">Token GitHub Personnel (PAT)</label>
-                <input type="password" class="form-control" id="github_token" required autocomplete="off">
+                <label for="submitted_by" class="form-label required">Soumis par (votre nom)</label>
+                <input type="text" class="form-control" id="submitted_by" required placeholder="ex: Marie Tremblay">
                 <small class="form-text text-muted">
-                    Créez un token avec les permissions <code>public_repo</code> sur 
-                    <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=Recipe%20Submission" target="_blank">github.com/settings/tokens</a>
-                    <br>Conseil: Révoquez ce token après utilisation pour plus de sécurité.
+                    Indiquez votre nom pour que nous sachions qui a partagé cette recette. 
+                    Cela nous permettra de vous remercier dans la pull request!
                 </small>
-            </div>
-
-            <div class="mb-3">
-                <label for="github_username" class="form-label required">Votre nom d'utilisateur GitHub</label>
-                <input type="text" class="form-control" id="github_username" required autocomplete="username">
             </div>
 
             <div id="alertContainer"></div>
@@ -374,8 +363,7 @@
                 },
                 preparation: [],
                 commentaires: [],
-                github_token: document.getElementById('github_token').value,
-                github_username: document.getElementById('github_username').value
+                submitted_by: document.getElementById('submitted_by').value.trim()
             };
 
             // Collect sections and steps
@@ -504,10 +492,15 @@
         }
 
         async function createPullRequest(data, yamlContent) {
-            const token = data.github_token;
-            const username = data.github_username;
-            const owner = 'alpa12';
-            const repo = 'recettes';
+            // Vérifier que la configuration est chargée
+            if (typeof GITHUB_CONFIG === 'undefined' || !GITHUB_CONFIG.token || GITHUB_CONFIG.token === 'VOTRE_TOKEN_ICI') {
+                throw new Error('Configuration GitHub manquante. Veuillez configurer le fichier config.js avec un token valide.');
+            }
+            
+            const token = GITHUB_CONFIG.token;
+            const owner = GITHUB_CONFIG.owner;
+            const repo = GITHUB_CONFIG.repo;
+            const baseBranch = GITHUB_CONFIG.baseBranch;
             
             // Create filename from nom_court
             const filename = data.nom_court.toLowerCase()
@@ -525,7 +518,7 @@
 
             try {
                 // Get the default branch SHA
-                const refResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/dev`, {
+                const refResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${baseBranch}`, {
                     headers: {
                         'Authorization': `token ${token}`,
                         'Accept': 'application/vnd.github.v3+json'
@@ -533,7 +526,7 @@
                 });
                 
                 if (!refResponse.ok) {
-                    throw new Error('Impossible de récupérer la branche dev');
+                    throw new Error(`Impossible de récupérer la branche ${baseBranch}`);
                 }
                 
                 const refData = await refResponse.json();
@@ -583,9 +576,9 @@
                     },
                     body: JSON.stringify({
                         title: `Nouvelle recette: ${data.nom}`,
-                        body: `## Nouvelle recette soumise\n\n**Nom:** ${data.nom}\n**Source:** ${data.source}\n**Catégorie:** ${data.categorie}\n**Portions:** ${data.portions}\n\nSoumis par @${username} via le formulaire de soumission de recettes.`,
+                        body: `## Nouvelle recette soumise\n\n**Nom:** ${data.nom}\n**Source:** ${data.source}\n**Catégorie:** ${data.categorie}\n**Portions:** ${data.portions}\n\n**Soumis par:** ${data.submitted_by}\n\nRecette ajoutée via le formulaire de soumission de recettes.`,
                         head: branchName,
-                        base: 'dev'
+                        base: baseBranch
                     })
                 });
 

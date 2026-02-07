@@ -44,15 +44,9 @@ Le formulaire permet d'organiser la recette en sections avec plusieurs étapes :
 
 Ajoutez des notes ou conseils optionnels sur la recette.
 
-### 5. Informations GitHub
+### 5. Informations sur le soumetteur
 
-Pour créer la pull request, vous devez fournir :
-
-- **Token GitHub Personnel (PAT)** : Un token d'accès GitHub
-  - Créez-le sur [github.com/settings/tokens](https://github.com/settings/tokens/new?scopes=public_repo&description=Recipe%20Submission)
-  - Permissions nécessaires : `public_repo`
-  - ⚠️ **Important** : Pour des raisons de sécurité, révoquez ce token après utilisation
-- **Nom d'utilisateur GitHub** : Votre nom d'utilisateur GitHub
+Indiquez votre nom pour que nous sachions qui a partagé cette recette. Cela nous permet de vous remercier!
 
 ### 6. Soumission
 
@@ -74,10 +68,9 @@ Une fois la pull request créée, un lien vous sera fourni pour la consulter.
 
 ## Sécurité
 
-- Le token GitHub n'est **jamais sauvegardé** et est utilisé uniquement pour cette soumission
-- Utilisez un token avec des **permissions limitées** (`public_repo` uniquement)
-- **Révoquez le token** après utilisation pour plus de sécurité
-- Toutes les données sont **validées et échappées** avant la génération du YAML
+Le formulaire utilise un token GitHub configuré par les administrateurs du site. Vous n'avez pas besoin de compte GitHub pour soumettre une recette.
+
+**Note pour les administrateurs** : Consultez le fichier `TOKEN_SETUP.md` pour la configuration du token.
 
 ## Support technique
 
