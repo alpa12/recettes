@@ -41,7 +41,7 @@ jobs:
         id: find-url
         run: |
           # Chercher le fichier YAML dans recettes/pending/
-          URL_FILE=$(find recettes/pending -name "url-*.yaml" -type f | head -n 1)
+          URL_FILE=$(find recettes/pending -name "pending-*.yaml" -type f | head -n 1)
           
           if [ -z "$URL_FILE" ]; then
             echo "Aucun fichier URL trouvé dans recettes/pending/"
