@@ -69,7 +69,7 @@ format:
 
 #recipe-form .form-label {
   font-weight: 500;
-  color: var(--bs-emphasis-color);
+  color: var(--bs-body-color);
 }
 
 .required-field::after {
