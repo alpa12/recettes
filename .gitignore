@@ -56,5 +56,3 @@ rsconnect/
 /.quarto/
 **/*.quarto_ipynb
 
-# Config file with GitHub token (keep config.js.example in git)
-config.js
