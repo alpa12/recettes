@@ -1,0 +1,553 @@
+---
+title: "Soumettre une recette"
+format:
+  html:
+    toc: false
+---
+
+```{=html}
+<div id="recipe-form-container">
+  <div class="alert alert-info" role="alert">
+    Chargement du formulaire...
+  </div>
+</div>
+
+<div id="success-message" class="alert alert-success d-none" role="alert">
+  <h4 class="alert-heading">✅ Recette soumise avec succès!</h4>
+  <p>Votre recette a été soumise et une Pull Request a été créée.</p>
+  <p class="mb-0">Vous pouvez la voir ici: <a id="pr-link" href="#" target="_blank" class="alert-link"></a></p>
+</div>
+
+<div id="error-message" class="alert alert-danger d-none" role="alert">
+  <h4 class="alert-heading">❌ Erreur</h4>
+  <p id="error-text"></p>
+</div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+
+<style>
+.dynamic-array-item {
+  background-color: var(--bs-light);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--bs-border-color);
+}
+
+.nested-section {
+  background-color: var(--bs-body-bg);
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: 0.375rem;
+  border: 2px solid var(--bs-primary);
+}
+
+.section-header {
+  color: var(--bs-primary);
+  border-bottom: 2px solid var(--bs-primary);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.btn-remove {
+  float: right;
+}
+
+.ingredient-row, .equipement-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 0.5rem;
+  align-items: start;
+  margin-bottom: 0.5rem;
+}
+
+.ingredient-row input, .equipement-row input {
+  width: 100%;
+}
+
+#recipe-form .form-label {
+  font-weight: 500;
+  color: var(--bs-emphasis-color);
+}
+
+.required-field::after {
+  content: " *";
+  color: var(--bs-danger);
+}
+</style>
+
+<script>
+// État global pour stocker la structure du template
+let templateStructure = null;
+let formData = {};
+
+// Charger et parser le template YAML
+async function loadTemplate() {
+  try {
+    const response = await fetch('recettes/template.yaml');
+    const yamlText = await response.text();
+    templateStructure = jsyaml.load(yamlText);
+    console.log('Template chargé:', templateStructure);
+    generateForm();
+  } catch (error) {
+    console.error('Erreur lors du chargement du template:', error);
+    document.getElementById('recipe-form-container').innerHTML = 
+      '<div class="alert alert-danger">Erreur lors du chargement du template.</div>';
+  }
+}
+
+// Générer le formulaire basé sur le template
+function generateForm() {
+  const container = document.getElementById('recipe-form-container');
+  
+  let html = '<form id="recipe-form" class="needs-validation" novalidate>';
+  
+  // Informations de base
+  html += '<div class="mb-4">';
+  html += '<h3 class="section-header">Informations de base</h3>';
+  html += generateField('nom', 'text', 'Nom complet de la recette', true);
+  html += generateField('nom_court', 'text', 'Nom court (pour table des matières)', true);
+  html += generateField('source', 'text', "D'où vient la recette", true);
+  html += generateField('portions', 'number', 'Nombre de portions', true);
+  html += generateField('se_congele', 'checkbox', 'Se congèle?', false);
+  html += '</div>';
+  
+  // Catégories
+  html += '<div class="mb-4">';
+  html += '<h3 class="section-header">Catégories</h3>';
+  html += '<div id="categories-container"></div>';
+  html += '<button type="button" class="btn btn-sm btn-success" onclick="addCategory()">+ Ajouter une catégorie</button>';
+  html += '</div>';
+  
+  // Temps
+  html += '<div class="mb-4">';
+  html += '<h3 class="section-header">Temps</h3>';
+  html += '<div class="row">';
+  html += '<div class="col-md-4">' + generateField('temps.preparation', 'number', 'Préparation (minutes)', false) + '</div>';
+  html += '<div class="col-md-4">' + generateField('temps.cuisson', 'number', 'Cuisson (minutes)', false) + '</div>';
+  html += '<div class="col-md-4">' + generateField('temps.refrigeration', 'number', 'Réfrigération (minutes)', false) + '</div>';
+  html += '</div>';
+  html += '</div>';
+  
+  // Préparation (sections avec étapes)
+  html += '<div class="mb-4">';
+  html += '<h3 class="section-header">Préparation</h3>';
+  html += '<div id="preparation-container"></div>';
+  html += '<button type="button" class="btn btn-sm btn-success" onclick="addSection()">+ Ajouter une section</button>';
+  html += '</div>';
+  
+  // Commentaires
+  html += '<div class="mb-4">';
+  html += '<h3 class="section-header">Commentaires</h3>';
+  html += '<div id="commentaires-container"></div>';
+  html += '<button type="button" class="btn btn-sm btn-success" onclick="addCommentaire()">+ Ajouter un commentaire</button>';
+  html += '</div>';
+  
+  // Soumetteur
+  html += '<div class="mb-4">';
+  html += generateField('submitted_by', 'text', 'Votre nom (optionnel)', false);
+  html += '</div>';
+  
+  // Bouton de soumission
+  html += '<div class="d-grid gap-2">';
+  html += '<button type="submit" class="btn btn-primary btn-lg">Soumettre la recette</button>';
+  html += '</div>';
+  
+  html += '</form>';
+  
+  container.innerHTML = html;
+  
+  // Initialiser avec une catégorie, une section, et un commentaire par défaut
+  addCategory();
+  addSection();
+  addCommentaire();
+  
+  // Ajouter l'écouteur de soumission
+  document.getElementById('recipe-form').addEventListener('submit', handleSubmit);
+}
+
+// Générer un champ de formulaire
+function generateField(name, type, label, required = false) {
+  const id = name.replace(/\./g, '-');
+  const requiredClass = required ? 'required-field' : '';
+  const requiredAttr = required ? 'required' : '';
+  
+  if (type === 'checkbox') {
+    return `
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="${id}" name="${name}">
+        <label class="form-check-label ${requiredClass}" for="${id}">
+          ${label}
+        </label>
+      </div>
+    `;
+  }
+  
+  return `
+    <div class="mb-3">
+      <label for="${id}" class="form-label ${requiredClass}">${label}</label>
+      <input type="${type}" class="form-control" id="${id}" name="${name}" ${requiredAttr}>
+      <div class="invalid-feedback">Ce champ est requis.</div>
+    </div>
+  `;
+}
+
+// Fonctions pour gérer les catégories
+let categoryCount = 0;
+function addCategory() {
+  const container = document.getElementById('categories-container');
+  const id = `category-${categoryCount++}`;
+  const html = `
+    <div class="input-group mb-2" id="${id}">
+      <input type="text" class="form-control" placeholder="Ex: Poulet, Rapide, Biscuit..." name="category">
+      <button class="btn btn-outline-danger" type="button" onclick="removeElement('${id}')">Retirer</button>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+}
+
+// Fonctions pour gérer les sections de préparation
+let sectionCount = 0;
+function addSection() {
+  const container = document.getElementById('preparation-container');
+  const sectionId = `section-${sectionCount++}`;
+  const html = `
+    <div class="nested-section" id="${sectionId}">
+      <button type="button" class="btn btn-sm btn-danger btn-remove" onclick="removeElement('${sectionId}')">Retirer la section</button>
+      <div class="mb-3">
+        <label class="form-label required-field">Nom de la section</label>
+        <input type="text" class="form-control" name="section-name" placeholder="Ex: Pâte, Garniture, Sauce..." required>
+      </div>
+      <h5 class="mt-3 mb-2">Étapes</h5>
+      <div class="etapes-container" id="${sectionId}-etapes"></div>
+      <button type="button" class="btn btn-sm btn-success" onclick="addEtape('${sectionId}')">+ Ajouter une étape</button>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+  addEtape(sectionId);
+}
+
+// Fonctions pour gérer les étapes
+let etapeCount = 0;
+function addEtape(sectionId) {
+  const container = document.getElementById(`${sectionId}-etapes`);
+  const etapeId = `etape-${etapeCount++}`;
+  const html = `
+    <div class="dynamic-array-item" id="${etapeId}">
+      <button type="button" class="btn btn-sm btn-danger btn-remove" onclick="removeElement('${etapeId}')">Retirer l'étape</button>
+      <div class="mb-3">
+        <label class="form-label required-field">Description de l'étape</label>
+        <textarea class="form-control" rows="2" name="etape-text" required></textarea>
+      </div>
+      
+      <h6>Ingrédients</h6>
+      <div class="ingredients-container" id="${etapeId}-ingredients"></div>
+      <button type="button" class="btn btn-sm btn-outline-success btn-sm mb-3" onclick="addIngredient('${etapeId}')">+ Ajouter un ingrédient</button>
+      
+      <h6>Équipements</h6>
+      <div class="equipements-container" id="${etapeId}-equipements"></div>
+      <button type="button" class="btn btn-sm btn-outline-success btn-sm" onclick="addEquipement('${etapeId}')">+ Ajouter un équipement</button>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+  addIngredient(etapeId);
+  addEquipement(etapeId);
+}
+
+// Fonctions pour gérer les ingrédients
+let ingredientCount = 0;
+function addIngredient(etapeId) {
+  const container = document.getElementById(`${etapeId}-ingredients`);
+  const ingredientId = `ingredient-${ingredientCount++}`;
+  const html = `
+    <div class="ingredient-row" id="${ingredientId}">
+      <input type="text" class="form-control form-control-sm" placeholder="Nom" name="ingredient-nom">
+      <input type="number" class="form-control form-control-sm" placeholder="Qté" name="ingredient-qte" step="0.01">
+      <input type="text" class="form-control form-control-sm" placeholder="Unité" name="ingredient-uni">
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeElement('${ingredientId}')">×</button>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+}
+
+// Fonctions pour gérer les équipements
+let equipementCount = 0;
+function addEquipement(etapeId) {
+  const container = document.getElementById(`${etapeId}-equipements`);
+  const equipementId = `equipement-${equipementCount++}`;
+  const html = `
+    <div class="input-group input-group-sm mb-2" id="${equipementId}">
+      <input type="text" class="form-control" placeholder="Équipement" name="equipement-nom">
+      <button class="btn btn-outline-danger" type="button" onclick="removeElement('${equipementId}')">×</button>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+}
+
+// Fonctions pour gérer les commentaires
+let commentaireCount = 0;
+function addCommentaire() {
+  const container = document.getElementById('commentaires-container');
+  const id = `commentaire-${commentaireCount++}`;
+  const html = `
+    <div class="input-group mb-2" id="${id}">
+      <input type="text" class="form-control" placeholder="Commentaire" name="commentaire">
+      <button class="btn btn-outline-danger" type="button" onclick="removeElement('${id}')">Retirer</button>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+}
+
+// Fonction générique pour retirer un élément
+function removeElement(id) {
+  document.getElementById(id).remove();
+}
+
+// Collecter les données du formulaire et générer le YAML
+function collectFormData() {
+  const data = {
+    nom: document.getElementById('nom').value,
+    nom_court: document.getElementById('nom-court').value,
+    source: document.getElementById('source').value,
+    portions: parseInt(document.getElementById('portions').value),
+    se_congele: document.getElementById('se-congele').checked,
+    categories: [],
+    temps: {
+      preparation: parseInt(document.getElementById('temps-preparation').value) || null,
+      cuisson: parseInt(document.getElementById('temps-cuisson').value) || null,
+      refrigeration: parseInt(document.getElementById('temps-refrigeration').value) || null
+    },
+    preparation: [],
+    commentaires: []
+  };
+  
+  // Collecter les catégories
+  document.querySelectorAll('[name="category"]').forEach(input => {
+    if (input.value.trim()) {
+      data.categories.push(input.value.trim());
+    }
+  });
+  
+  // Collecter les sections de préparation
+  document.querySelectorAll('.nested-section').forEach(section => {
+    const sectionData = {
+      section: section.querySelector('[name="section-name"]').value,
+      etapes: []
+    };
+    
+    // Collecter les étapes de cette section
+    section.querySelectorAll('.dynamic-array-item').forEach(etape => {
+      const etapeData = {
+        etape: etape.querySelector('[name="etape-text"]').value,
+        ingredients: [],
+        equipements: []
+      };
+      
+      // Collecter les ingrédients
+      etape.querySelectorAll('.ingredient-row').forEach(ing => {
+        const nom = ing.querySelector('[name="ingredient-nom"]').value;
+        const qte = ing.querySelector('[name="ingredient-qte"]').value;
+        const uni = ing.querySelector('[name="ingredient-uni"]').value;
+        if (nom) {
+          etapeData.ingredients.push({
+            nom: nom,
+            qte: parseFloat(qte) || 1,
+            uni: uni || 'unité'
+          });
+        }
+      });
+      
+      // Collecter les équipements
+      etape.querySelectorAll('[name="equipement-nom"]').forEach(eq => {
+        if (eq.value.trim()) {
+          etapeData.equipements.push(eq.value.trim());
+        }
+      });
+      
+      sectionData.etapes.push(etapeData);
+    });
+    
+    data.preparation.push(sectionData);
+  });
+  
+  // Collecter les commentaires
+  document.querySelectorAll('[name="commentaire"]').forEach(input => {
+    if (input.value.trim()) {
+      data.commentaires.push(input.value.trim());
+    }
+  });
+  
+  // Ajouter submitted_by si fourni
+  const submittedBy = document.getElementById('submitted-by').value;
+  if (submittedBy.trim()) {
+    data.submitted_by = submittedBy.trim();
+  }
+  
+  return data;
+}
+
+// Gérer la soumission du formulaire
+async function handleSubmit(e) {
+  e.preventDefault();
+  
+  const form = e.target;
+  if (!form.checkValidity()) {
+    e.stopPropagation();
+    form.classList.add('was-validated');
+    return;
+  }
+  
+  try {
+    const data = collectFormData();
+    console.log('Données collectées:', data);
+    
+    // Générer le contenu YAML
+    const yamlContent = jsyaml.dump(data, {
+      indent: 2,
+      lineWidth: -1,
+      noRefs: true
+    });
+    
+    console.log('YAML généré:', yamlContent);
+    
+    // Créer le nom de fichier
+    const filename = data.nom_court
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Retirer les accents
+      .replace(/[^a-z0-9]+/g, '-') // Remplacer caractères spéciaux par -
+      .replace(/^-+|-+$/g, ''); // Retirer - au début/fin
+    
+    // Créer la PR via GitHub API
+    await createPullRequest(data, yamlContent, filename);
+    
+  } catch (error) {
+    console.error('Erreur:', error);
+    showError(error.message);
+  }
+}
+
+// Créer une Pull Request sur GitHub
+async function createPullRequest(data, yamlContent, filename) {
+  const { token, owner, repo, baseBranch } = GITHUB_CONFIG;
+  
+  if (!token || !owner || !repo) {
+    throw new Error('Configuration GitHub manquante.');
+  }
+  
+  try {
+    // Déterminer la catégorie (dossier)
+    let folder = 'repas'; // Par défaut
+    const categories = data.categories.map(c => c.toLowerCase());
+    if (categories.some(c => c.includes('accompagnement'))) {
+      folder = 'accompagnements';
+    } else if (categories.some(c => c.includes('dessert') || c.includes('biscuit') || c.includes('gâteau'))) {
+      folder = 'desserts';
+    }
+    
+    const filepath = `recettes/${folder}/${filename}.yaml`;
+    const branchName = `recipe-${filename}-${Date.now()}`;
+    
+    // Obtenir le SHA de la branche de base
+    const refResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${baseBranch}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    
+    if (!refResponse.ok) {
+      const errorData = await refResponse.json();
+      throw new Error(`Impossible de récupérer la branche ${baseBranch}: ` + (errorData.message || 'Erreur inconnue'));
+    }
+    
+    const refData = await refResponse.json();
+    const baseSha = refData.object.sha;
+    
+    // Créer une nouvelle branche
+    await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ref: `refs/heads/${branchName}`,
+        sha: baseSha
+      })
+    });
+    
+    // Créer le fichier
+    const createFileResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Ajout de la recette: ${data.nom}`,
+        content: btoa(unescape(encodeURIComponent(yamlContent))),
+        branch: branchName
+      })
+    });
+    
+    if (!createFileResponse.ok) {
+      const errorData = await createFileResponse.json();
+      throw new Error('Impossible de créer le fichier: ' + (errorData.message || 'Erreur inconnue'));
+    }
+    
+    // Créer la pull request
+    const prResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: `Nouvelle recette: ${data.nom}`,
+        body: `## Nouvelle recette soumise\n\n**Nom:** ${data.nom}\n**Source:** ${data.source}\n**Catégories:** ${data.categories.join(', ')}\n**Portions:** ${data.portions}\n\n${data.submitted_by ? `**Soumis par:** ${data.submitted_by}\n\n` : ''}Recette ajoutée via le formulaire de soumission.`,
+        head: branchName,
+        base: baseBranch
+      })
+    });
+    
+    if (!prResponse.ok) {
+      const errorData = await prResponse.json();
+      throw new Error('Impossible de créer la pull request: ' + (errorData.message || 'Erreur inconnue'));
+    }
+    
+    const prData = await prResponse.json();
+    showSuccess(prData.html_url);
+    
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Afficher le message de succès
+function showSuccess(prUrl) {
+  document.getElementById('recipe-form').style.display = 'none';
+  document.getElementById('success-message').classList.remove('d-none');
+  document.getElementById('pr-link').href = prUrl;
+  document.getElementById('pr-link').textContent = prUrl;
+  window.scrollTo(0, 0);
+}
+
+// Afficher le message d'erreur
+function showError(message) {
+  document.getElementById('error-message').classList.remove('d-none');
+  document.getElementById('error-text').textContent = message;
+  window.scrollTo(0, 0);
+  setTimeout(() => {
+    document.getElementById('error-message').classList.add('d-none');
+  }, 10000);
+}
+
+// Charger le template au chargement de la page
+document.addEventListener('DOMContentLoaded', loadTemplate);
+</script>
+```
