@@ -5,13 +5,68 @@ format:
     toc: false
 ---
 
-```{=html}
-<div id="recipe-form-container">
-  <div class="alert alert-info" role="alert">
-    Chargement du formulaire...
+<!-- Système d'onglets -->
+<ul class="nav nav-tabs mb-4" id="submissionTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manual" type="button" role="tab" aria-controls="manual" aria-selected="true">
+      📝 Formulaire manuel
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="url-tab" data-bs-toggle="tab" data-bs-target="#url" type="button" role="tab" aria-controls="url" aria-selected="false">
+      🔗 Importer depuis une URL
+    </button>
+  </li>
+</ul>
+
+<div class="tab-content" id="submissionTabsContent">
+  <!-- Onglet 1: Formulaire manuel -->
+  <div class="tab-pane fade show active" id="manual" role="tabpanel" aria-labelledby="manual-tab">
+    <div id="recipe-form-container">
+      <div class="alert alert-info" role="alert">
+        Chargement du formulaire...
+      </div>
+    </div>
+  </div>
+  
+  <!-- Onglet 2: Formulaire URL -->
+  <div class="tab-pane fade" id="url" role="tabpanel" aria-labelledby="url-tab">
+    <div class="alert alert-warning" role="alert">
+      <h5>⚠️ Import automatique avec IA</h5>
+      <p class="mb-0">Cette fonctionnalité utilise un LLM pour extraire automatiquement les informations de la recette depuis une URL. L'import sera validé manuellement avant publication.</p>
+    </div>
+    
+    <form id="url-form" class="mb-4">
+      <div class="mb-3">
+        <label for="recipe-url" class="form-label required-field">URL de la recette</label>
+        <input type="url" class="form-control" id="recipe-url" placeholder="https://exemple.com/ma-recette" required>
+        <div class="form-text">Entrez l'URL complète d'une recette sur un site web externe.</div>
+      </div>
+      
+      <div class="mb-3">
+        <label for="url-submitted-by" class="form-label">Votre nom (optionnel)</label>
+        <input type="text" class="form-control" id="url-submitted-by" placeholder="Votre nom">
+      </div>
+      
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary btn-lg">Soumettre l'URL</button>
+      </div>
+    </form>
+    
+    <div id="url-success-message" class="alert alert-success d-none" role="alert">
+      <h4 class="alert-heading">✅ URL soumise avec succès!</h4>
+      <p>Une Pull Request a été créée avec votre URL. L'import automatique sera effectué après validation manuelle.</p>
+      <p class="mb-0">Vous pouvez la voir ici: <a id="url-pr-link" href="#" target="_blank" class="alert-link"></a></p>
+    </div>
+    
+    <div id="url-error-message" class="alert alert-danger d-none" role="alert">
+      <h4 class="alert-heading">❌ Erreur</h4>
+      <p id="url-error-text"></p>
+    </div>
   </div>
 </div>
 
+<!-- Messages pour le formulaire manuel -->
 <div id="success-message" class="alert alert-success d-none" role="alert">
   <h4 class="alert-heading">✅ Recette soumise avec succès!</h4>
   <p>Votre recette a été soumise et une Pull Request a été créée.</p>
@@ -27,6 +82,30 @@ format:
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 
 <style>
+.nav-tabs {
+  border-bottom: 2px solid var(--bs-primary);
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  color: var(--bs-secondary);
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+  border: none;
+  color: var(--bs-primary);
+  background-color: var(--bs-light);
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--bs-primary);
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid var(--bs-primary);
+}
+
 .dynamic-array-item {
   background-color: var(--bs-light);
   padding: 1rem;
@@ -547,7 +626,166 @@ function showError(message) {
   }, 10000);
 }
 
-// Charger le template au chargement de la page
-document.addEventListener('DOMContentLoaded', loadTemplate);
+// Gérer la soumission du formulaire URL
+document.addEventListener('DOMContentLoaded', () => {
+  loadTemplate();
+  
+  const urlForm = document.getElementById('url-form');
+  if (urlForm) {
+    urlForm.addEventListener('submit', handleUrlSubmit);
+  }
+});
+
+async function handleUrlSubmit(e) {
+  e.preventDefault();
+  
+  const form = e.target;
+  if (!form.checkValidity()) {
+    e.stopPropagation();
+    form.classList.add('was-validated');
+    return;
+  }
+  
+  try {
+    const url = document.getElementById('recipe-url').value;
+    const submittedBy = document.getElementById('url-submitted-by').value;
+    
+    // Créer le contenu du fichier pending
+    const pendingContent = {
+      url: url,
+      submitted_at: new Date().toISOString(),
+      status: 'pending'
+    };
+    
+    if (submittedBy.trim()) {
+      pendingContent.submitted_by = submittedBy.trim();
+    }
+    
+    // Créer le nom de fichier basé sur le timestamp
+    const filename = `pending-${Date.now()}.yaml`;
+    
+    // Créer la PR
+    await createUrlPullRequest(pendingContent, filename, url);
+    
+  } catch (error) {
+    console.error('Erreur:', error);
+    showUrlError(error.message);
+  }
+}
+
+async function createUrlPullRequest(pendingContent, filename, url) {
+  const { token, owner, repo, baseBranch } = GITHUB_CONFIG;
+  
+  if (!token || !owner || !repo) {
+    throw new Error('Configuration GitHub manquante.');
+  }
+  
+  try {
+    const yamlContent = jsyaml.dump(pendingContent, {
+      indent: 2,
+      lineWidth: -1,
+      noRefs: true
+    });
+    
+    const filepath = `recettes/pending/${filename}`;
+    const branchName = `recipe-url-${Date.now()}`;
+    
+    // Obtenir le SHA de la branche de base
+    const refResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${baseBranch}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    
+    if (!refResponse.ok) {
+      const errorData = await refResponse.json();
+      throw new Error(`Impossible de récupérer la branche ${baseBranch}: ` + (errorData.message || 'Erreur inconnue'));
+    }
+    
+    const refData = await refResponse.json();
+    const baseSha = refData.object.sha;
+    
+    // Créer une nouvelle branche
+    await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ref: `refs/heads/${branchName}`,
+        sha: baseSha
+      })
+    });
+    
+    // Créer le fichier pending
+    const createFileResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Import de recette depuis URL: ${url}`,
+        content: btoa(unescape(encodeURIComponent(yamlContent))),
+        branch: branchName
+      })
+    });
+    
+    if (!createFileResponse.ok) {
+      const errorData = await createFileResponse.json();
+      throw new Error('Impossible de créer le fichier: ' + (errorData.message || 'Erreur inconnue'));
+    }
+    
+    // Créer la pull request
+    const prBody = `## Import de recette depuis URL\n\n**URL:** ${url}\n${pendingContent.submitted_by ? `**Soumis par:** ${pendingContent.submitted_by}\n` : ''}\nCette recette nécessite un import automatique via LLM.\n\n---\n\n⚠️ Cette PR sera traitée automatiquement par le workflow d'import.`;
+    
+    const prResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: `Import recette: ${url}`,
+        body: prBody,
+        head: branchName,
+        base: baseBranch
+      })
+    });
+    
+    if (!prResponse.ok) {
+      const errorData = await prResponse.json();
+      throw new Error('Impossible de créer la pull request: ' + (errorData.message || 'Erreur inconnue'));
+    }
+    
+    const prData = await prResponse.json();
+    showUrlSuccess(prData.html_url);
+    
+  } catch (error) {
+    throw error;
+  }
+}
+
+function showUrlSuccess(prUrl) {
+  document.getElementById('url-form').style.display = 'none';
+  document.getElementById('url-success-message').classList.remove('d-none');
+  document.getElementById('url-pr-link').href = prUrl;
+  document.getElementById('url-pr-link').textContent = prUrl;
+  window.scrollTo(0, 0);
+}
+
+function showUrlError(message) {
+  document.getElementById('url-error-message').classList.remove('d-none');
+  document.getElementById('url-error-text').textContent = message;
+  window.scrollTo(0, 0);
+  setTimeout(() => {
+    document.getElementById('url-error-message').classList.add('d-none');
+  }, 10000);
+}
 </script>
 ```
