@@ -1,0 +1,19 @@
+nom: TEst
+nom_court: TEst
+source: TEst
+portions: 2
+se_congele: true
+categories:
+- fds
+temps:
+  preparation: 5
+  cuisson: 4
+  refrigeration: 4
+preparation:
+- section: FAire la recette
+  etapes:
+  - etape: Test
+    ingredients:
+    equipements:
+commentaires:
+  - 'Commentaire test'
