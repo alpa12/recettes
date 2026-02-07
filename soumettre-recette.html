@@ -518,25 +518,34 @@
 
             try {
                 // Get the default branch SHA
+                console.log(`Tentative de récupération de la branche: ${baseBranch}`);
+                console.log(`Owner: ${owner}, Repo: ${repo}`);
+                console.log(`URL: https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${baseBranch}`);
+                
                 const refResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${baseBranch}`, {
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `Bearer ${token}`,
                         'Accept': 'application/vnd.github.v3+json'
                     }
                 });
                 
+                console.log(`Status de la réponse: ${refResponse.status}`);
+                
                 if (!refResponse.ok) {
-                    throw new Error(`Impossible de récupérer la branche ${baseBranch}`);
+                    const errorText = await refResponse.text();
+                    console.error(`Erreur API GitHub:`, errorText);
+                    throw new Error(`Impossible de récupérer la branche ${baseBranch}: ${refResponse.status} - ${errorText}`);
                 }
                 
                 const refData = await refResponse.json();
+                console.log(`SHA de la branche récupéré:`, refData.object.sha);
                 const baseSha = refData.object.sha;
 
                 // Create a new branch
                 await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs`, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `Bearer ${token}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },
@@ -550,7 +559,7 @@
                 const createFileResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `Bearer ${token}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },
@@ -570,7 +579,7 @@
                 const prResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `Bearer ${token}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },

@@ -5,14 +5,14 @@ const GITHUB_CONFIG = {
     get token() {
         const parts = [
             'github_pat_',
-            '11AHEFEKI0yVUL1Y',
-            '8qbQZs_ObMlOskCwuC',
-            'SaLxTMeIECX50ZlL4',
-            'bUn1Kyb7M40qxVJZHEN6NZZamx49MMV'
+            '11AHEFEKI0IYwcD0',
+            'UhWWde_XaxUb3jIWpn',
+            'XMAj2osDYHFJ27QU',
+            'SpM1FZA3kYAc3vHJJZZG326CBucJ9z53'
         ];
         return parts.join('');
     },
-    owner: 'alex-parent',
+    owner: 'alpa12',
     repo: 'recettes',
-    baseBranch: 'main'
+    baseBranch: 'dev'
 };
