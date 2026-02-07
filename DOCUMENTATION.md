@@ -29,6 +29,7 @@ The form includes all fields from the recipe YAML schema:
 - `nom`: Full recipe name (required)
 - `nom_court`: Short name for URL (required, lowercase with hyphens only)
 - `source`: Recipe source/author (required)
+- `type_recette`: Recipe type/category - repas, desserts, or accompagnements (required)
 - `portions`: Number of servings (optional)
 
 **Timing:**
@@ -38,33 +39,35 @@ The form includes all fields from the recipe YAML schema:
 
 **Other:**
 - `se_congele`: Can be frozen? (boolean, default: yes)
+- `categories`: List of categories/tags (e.g., Poulet, Mijoteuse, Rapide)
 
 **Dynamic Sections:**
-- **Ingredients**: Multiple sections, each containing multiple ingredients with name, quantity, and unit
-- **Preparation**: Multiple sections, each containing multiple preparation steps
+- **Preparation**: Multiple sections, each containing multiple preparation steps. Each step includes:
+  - Step description
+  - Ingredients specific to that step (name, quantity, unit)
+  - Equipment needed for that step
 - **Comments**: Optional comments/notes (multiple allowed)
 
 #### User Experience Features
 
-- **Dynamic field management**: Users can add/remove ingredient sections, ingredients, preparation sections, steps, and comments
+- **Dynamic field management**: Users can add/remove categories, preparation sections, steps, ingredients per step, equipment per step, and comments
 - **Validation**: Client-side validation ensures required fields are filled and formats are correct
 - **Visual feedback**: Success/error messages displayed after submission
 - **Section numbering**: Automatic renumbering when sections are added/removed
+- **Recipe categorization**: Users select whether the recipe is a main dish (repas), dessert, or side dish (accompagnements)
 
-### 2. GitHub Action Workflow (`.github/workflows/convert-recipe-yaml-to-qmd.yml`)
+### 2. GitHub Action Workflow (`.github/workflows/generate_qmds.yaml`)
 
 Automatically triggered when:
 - A pull request is opened, synchronized, or reopened
-- Changes include files in `recettes/*.yaml`
+- Changes include files in `recettes/**/*.yaml` (any subdirectory)
 
 **Workflow steps:**
 1. Checks out the PR branch
 2. Sets up R environment
-3. Installs required R packages (`yaml`, `fs`, `stringr`)
-4. Sources the conversion function from `R/yaml_to_qmd.R`
-5. Identifies changed/new YAML files
-6. Converts each YAML file to a `.qmd` file using the existing R function
-7. Commits and pushes the generated `.qmd` files back to the PR
+3. Restores R packages using renv
+4. Runs `R/generate_qmds.R` script to convert YAML files to QMD
+5. Commits and pushes the generated `.qmd` files back to the PR
 
 ### 3. Navigation Integration
 
