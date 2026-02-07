@@ -180,25 +180,18 @@
 
             <!-- GitHub Token -->
             <div class="section-header">Informations GitHub</div>
-            <div class="alert alert-warning" role="alert">
-                <strong>⚠️ Note de sécurité:</strong> Votre token GitHub est nécessaire pour créer la pull request. 
-                Il ne sera pas sauvegardé et sera utilisé uniquement pour cette soumission. 
-                Pour plus de sécurité, créez un token avec des permissions limitées (<code>public_repo</code> uniquement) 
-                et révoquez-le après utilisation.
-            </div>
             <div class="mb-3">
                 <label for="github_token" class="form-label required">Token GitHub Personnel (PAT)</label>
-                <input type="password" class="form-control" id="github_token" required autocomplete="off">
+                <input type="password" class="form-control" id="github_token" required>
                 <small class="form-text text-muted">
-                    Créez un token avec les permissions <code>public_repo</code> sur 
-                    <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=Recipe%20Submission" target="_blank">github.com/settings/tokens</a>
-                    <br>Conseil: Révoquez ce token après utilisation pour plus de sécurité.
+                    Créez un token avec les permissions <code>repo</code> sur 
+                    <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>
                 </small>
             </div>
 
             <div class="mb-3">
                 <label for="github_username" class="form-label required">Votre nom d'utilisateur GitHub</label>
-                <input type="text" class="form-control" id="github_username" required autocomplete="username">
+                <input type="text" class="form-control" id="github_username" required>
             </div>
 
             <div id="alertContainer"></div>
@@ -285,17 +278,7 @@
             ingredientDiv.innerHTML = `
                 <input type="text" class="form-control ingredient-name" placeholder="Nom de l'ingrédient" style="flex: 2;">
                 <input type="number" class="form-control ingredient-qte" placeholder="Qté" step="0.01" style="flex: 1;">
-                <select class="form-control ingredient-unit" style="flex: 1;">
-                    <option value="unité">unité</option>
-                    <option value="g">g</option>
-                    <option value="kg">kg</option>
-                    <option value="ml">ml</option>
-                    <option value="l">l</option>
-                    <option value="t">c. à thé (t)</option>
-                    <option value="T">c. à table (T)</option>
-                    <option value="tasse">tasse</option>
-                    <option value="pincée">pincée</option>
-                </select>
+                <input type="text" class="form-control ingredient-unit" placeholder="Unité" style="flex: 1;">
                 <button type="button" class="btn-remove btn-sm" onclick="removeElement('${ingredientId}')">×</button>
             `;
             ingredientsDiv.appendChild(ingredientDiv);
@@ -444,33 +427,16 @@
             return data;
         }
 
-        // Helper function to escape YAML string values
-        function escapeYAMLString(str) {
-            // Replace single quotes with doubled single quotes
-            // Remove or replace problematic characters
-            return str.replace(/'/g, "''").replace(/\n/g, ' ').replace(/\r/g, '');
-        }
-
-        // Helper function to quote YAML values if needed
-        function quoteYAMLValue(value) {
-            // Quote if contains special characters or starts with special chars
-            const needsQuoting = /[:#@&*!|>\'"%\[\]{}]/.test(value) || /^[\s-]/.test(value);
-            if (needsQuoting) {
-                return `'${escapeYAMLString(value)}'`;
-            }
-            return value;
-        }
-
         function generateYAML(data) {
             let yaml = '';
-            yaml += `nom: ${quoteYAMLValue(data.nom)}\n`;
-            yaml += `nom_court: ${quoteYAMLValue(data.nom_court)}\n`;
-            yaml += `source: ${quoteYAMLValue(data.source)}\n`;
+            yaml += `nom: ${data.nom}\n`;
+            yaml += `nom_court: ${data.nom_court}\n`;
+            yaml += `source: ${data.source}\n`;
             yaml += `portions: ${data.portions}\n`;
             yaml += `se_congele: ${data.se_congele}\n`;
             yaml += `categories:\n`;
             data.categories.forEach(cat => {
-                yaml += `- ${quoteYAMLValue(cat)}\n`;
+                yaml += `- ${cat}\n`;
             });
             yaml += `temps:\n`;
             yaml += `  preparation: ${data.temps.preparation}\n`;
@@ -478,26 +444,26 @@
             yaml += `  refrigeration: ${data.temps.refrigeration}\n`;
             yaml += `preparation:\n`;
             data.preparation.forEach(section => {
-                yaml += `- section: ${quoteYAMLValue(section.section)}\n`;
+                yaml += `- section: ${section.section}\n`;
                 yaml += `  etapes:\n`;
                 section.etapes.forEach(etape => {
-                    yaml += `  - etape: ${quoteYAMLValue(etape.etape)}\n`;
+                    yaml += `  - etape: ${etape.etape}\n`;
                     yaml += `    ingredients:\n`;
                     etape.ingredients.forEach(ing => {
-                        yaml += `    - nom: ${quoteYAMLValue(ing.nom)}\n`;
+                        yaml += `    - nom: ${ing.nom}\n`;
                         yaml += `      qte: ${ing.qte}\n`;
-                        yaml += `      uni: ${quoteYAMLValue(ing.uni)}\n`;
+                        yaml += `      uni: ${ing.uni}\n`;
                     });
                     yaml += `    equipements:\n`;
                     etape.equipements.forEach(eq => {
-                        yaml += `    - ${quoteYAMLValue(eq)}\n`;
+                        yaml += `    - ${eq}\n`;
                     });
                 });
             });
             if (data.commentaires.length > 0) {
                 yaml += `commentaires:\n`;
                 data.commentaires.forEach(comment => {
-                    yaml += `  - '${escapeYAMLString(comment)}'\n`;
+                    yaml += `  - '${comment.replace(/'/g, "'')}'\n`;
                 });
             }
             return yaml;
@@ -563,7 +529,7 @@
                     },
                     body: JSON.stringify({
                         message: `Ajout de la recette: ${data.nom}`,
-                        content: btoa(new TextEncoder().encode(yamlContent).reduce((data, byte) => data + String.fromCharCode(byte), '')),
+                        content: btoa(unescape(encodeURIComponent(yamlContent))),
                         branch: branchName
                     })
                 });
