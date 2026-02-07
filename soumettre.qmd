@@ -302,7 +302,10 @@ document.getElementById('ingredients-container').addEventListener('click', funct
     if (ingredientsList.children.length > 1) {
       e.target.closest('.ingredient-item').remove();
     } else {
-      alert('Une section doit contenir au moins un ingrédient');
+      const errorDiv = document.getElementById('error-message');
+      errorDiv.textContent = 'Une section doit contenir au moins un ingrédient';
+      errorDiv.style.display = 'block';
+      setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
     }
   }
   
@@ -312,7 +315,10 @@ document.getElementById('ingredients-container').addEventListener('click', funct
       e.target.closest('.ingredient-section').remove();
       updateSectionNumbers();
     } else {
-      alert('La recette doit contenir au moins une section d\'ingrédients');
+      const errorDiv = document.getElementById('error-message');
+      errorDiv.textContent = 'La recette doit contenir au moins une section d\'ingrédients';
+      errorDiv.style.display = 'block';
+      setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
     }
   }
 });
@@ -359,7 +365,10 @@ document.getElementById('preparation-container').addEventListener('click', funct
     if (stepsList.children.length > 1) {
       e.target.closest('.step-item').remove();
     } else {
-      alert('Une section doit contenir au moins une étape');
+      const errorDiv = document.getElementById('error-message');
+      errorDiv.textContent = 'Une section doit contenir au moins une étape';
+      errorDiv.style.display = 'block';
+      setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
     }
   }
   
@@ -369,7 +378,10 @@ document.getElementById('preparation-container').addEventListener('click', funct
       e.target.closest('.preparation-section').remove();
       updatePrepSectionNumbers();
     } else {
-      alert('La recette doit contenir au moins une section de préparation');
+      const errorDiv = document.getElementById('error-message');
+      errorDiv.textContent = 'La recette doit contenir au moins une section de préparation';
+      errorDiv.style.display = 'block';
+      setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
     }
   }
 });
@@ -543,9 +555,20 @@ document.getElementById('recipe-form').addEventListener('submit', async function
 function convertToYAML(data) {
   let yaml = '';
   
-  yaml += `nom: ${data.nom}\n`;
-  yaml += `nom_court: ${data.nom_court}\n`;
-  yaml += `source: ${data.source}\n`;
+  // Helper function to escape YAML string values
+  function escapeYamlString(str) {
+    // If string contains special YAML characters, quote it and escape internal quotes
+    const needsQuoting = /[:\-\[\]{}#&*!|>'"%@`]/.test(str) || str.startsWith(' ') || str.endsWith(' ');
+    if (needsQuoting) {
+      // Use double quotes and escape internal double quotes and backslashes
+      return '"' + str.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
+    }
+    return str;
+  }
+  
+  yaml += `nom: ${escapeYamlString(data.nom)}\n`;
+  yaml += `nom_court: ${escapeYamlString(data.nom_court)}\n`;
+  yaml += `source: ${escapeYamlString(data.source)}\n`;
   yaml += `portions: ${data.portions !== null ? data.portions : 'null'}\n`;
   yaml += `temps:\n`;
   yaml += `  preparation: ${data.temps.preparation !== null ? data.temps.preparation : 'null'}\n`;
@@ -555,31 +578,28 @@ function convertToYAML(data) {
   
   yaml += `ingredients:\n`;
   data.ingredients.forEach(section => {
-    yaml += `  - section: ${section.section}\n`;
+    yaml += `  - section: ${escapeYamlString(section.section)}\n`;
     yaml += `    ingredients:\n`;
     section.ingredients.forEach(ing => {
-      yaml += `    - nom: ${ing.nom}\n`;
+      yaml += `    - nom: ${escapeYamlString(ing.nom)}\n`;
       yaml += `      qte: ${ing.qte !== null ? ing.qte : 'null'}\n`;
-      yaml += `      uni: ${ing.uni}\n`;
+      yaml += `      uni: ${escapeYamlString(ing.uni)}\n`;
     });
   });
   
   yaml += `preparation:\n`;
   data.preparation.forEach(section => {
-    yaml += `  - section: ${section.section}\n`;
+    yaml += `  - section: ${escapeYamlString(section.section)}\n`;
     yaml += `    etapes:\n`;
     section.etapes.forEach(step => {
-      // Escape single quotes in step text
-      const escapedStep = step.replace(/'/g, "''");
-      yaml += `    - '${escapedStep}'\n`;
+      yaml += `    - ${escapeYamlString(step)}\n`;
     });
   });
   
   if (data.commentaires && data.commentaires.length > 0) {
     yaml += `commentaires:\n`;
     data.commentaires.forEach(comment => {
-      const escapedComment = comment.replace(/'/g, "''");
-      yaml += `  - '${escapedComment}'\n`;
+      yaml += `  - ${escapeYamlString(comment)}\n`;
     });
   }
   
@@ -596,7 +616,7 @@ async function createPullRequest(nomCourt, yamlContent, nomRecette, token, usern
   // Get the base branch SHA
   const baseBranchResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${baseBranch}`, {
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json'
     }
   });
@@ -612,7 +632,7 @@ async function createPullRequest(nomCourt, yamlContent, nomRecette, token, usern
   const createBranchResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs`, {
     method: 'POST',
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'Content-Type': 'application/json'
     },
@@ -630,12 +650,12 @@ async function createPullRequest(nomCourt, yamlContent, nomRecette, token, usern
   const createBlobResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/blobs`, {
     method: 'POST',
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      content: btoa(unescape(encodeURIComponent(yamlContent))),
+      content: btoa(String.fromCharCode(...new TextEncoder().encode(yamlContent))),
       encoding: 'base64'
     })
   });
@@ -649,7 +669,7 @@ async function createPullRequest(nomCourt, yamlContent, nomRecette, token, usern
   // Get the base tree
   const baseTreeResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${baseSha}`, {
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json'
     }
   });
@@ -664,7 +684,7 @@ async function createPullRequest(nomCourt, yamlContent, nomRecette, token, usern
   const createTreeResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees`, {
     method: 'POST',
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'Content-Type': 'application/json'
     },
@@ -689,7 +709,7 @@ async function createPullRequest(nomCourt, yamlContent, nomRecette, token, usern
   const createCommitResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/commits`, {
     method: 'POST',
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'Content-Type': 'application/json'
     },
@@ -710,7 +730,7 @@ async function createPullRequest(nomCourt, yamlContent, nomRecette, token, usern
   const updateRefResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${newBranch}`, {
     method: 'PATCH',
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'Content-Type': 'application/json'
     },
@@ -727,7 +747,7 @@ async function createPullRequest(nomCourt, yamlContent, nomRecette, token, usern
   const createPRResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
     method: 'POST',
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'Content-Type': 'application/json'
     },
