@@ -1,0 +1,58 @@
+nom: Poulet au beurre à la mijoteuse
+nom_court: Poulet beurre mijoteuse
+source: Ricardo Cuisine
+portions: 8
+se_congele: true
+categories:
+- Poulet
+- Mijoteuse
+temps:
+  preparation: 40
+  cuisson: 240
+  refrigeration: null
+preparation:
+- section: Préparation
+  etapes:
+  - etape: Mélanger la farine et les épices dans la mijoteuse, ajouter le poulet et enrober.
+    ingredients:
+    - nom: Farine tout usage non blanchie
+      qte: 25
+      uni: g
+    - nom: Garam masala
+      qte: 15
+      uni: ml
+    - nom: Cumin moulu
+      qte: 5
+      uni: ml
+    - nom: Poudre de cari
+      qte: 5
+      uni: ml
+    - nom: Hauts de cuisses de poulet désossés et sans la peau, coupés en morceaux
+      qte: 1400
+      uni: g
+    equipements:
+    - Mijoteuse
+  - etape: Broyer finement les noix de cajou au robot culinaire ou mortier.
+    ingredients:
+    - nom: Noix de cajou
+      qte: 65
+      uni: g
+    equipements:
+    - Robot culinaire
+    - Mortier
+  - etape: Ajouter noix broyées et le reste des ingrédients sauf yogourt et coriandre dans la mijoteuse, saler, poivrer et mélanger.
+    ingredients:
+    - nom: Oignon haché
+      qte: 1
+      uni: unité
+    - nom: Gousses d’ail hachées
+      qte: 4
+      uni: unité
+    - nom: Piment jalapeño, épépiné et haché
+      qte: 1
+      uni: unité
+    - nom: Gingembre frais haché
+      qte: 15
+      uni: ml
+    - nom: Tomates épépinées et coupées en dés
+      qte:

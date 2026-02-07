@@ -2,27 +2,57 @@ nom: Nom complet de la recette
 nom_court: Nom court, pour table des matières
 source: D'où vient la recette
 portions: Nombre de portions (chiffres uniquement)
+se_congele: Est-ce que ça se congèle? (inscrire true ou false)
+categories:
+- Catégories dans laquelle se retrouve la recette (Poulet, Biscuit, Rapide, etc.)
+- Catégorie
+
 temps:
   preparation: Temps de preparation à deux personnes (chiffre en minute, null si aucun)
   cuisson: Temps de cuisson (chiffre en minute, null si aucun)
   refrigeration: Temps de réfrigération (chiffre en minute, null si aucun)
-se_congele: Est-ce que ça se congèle? (inscrire true ou false)
-ingredients:
-  section1:
+
+preparation:
+- section: Nom de la section
+  etapes:
+  - etape: Texte qui explique l'étape.
+    ingredients:
     - nom: Nom de l'ingrédient
       qte: Quantité (chiffres uniquement)
       uni: Unité (unité, ml, t, g, ...)
     - nom: Ingrédient
       qte: 1
-      uni: unité
-  section2:
+      uni: t
+    equipements:
+    - Équipement requis pour cette étape 1
+    - Équipement 2
+
+  - etape: Étape
+    ingredients:
     - nom: Ingrédient
       qte: 1
-      uni: unité
-preparation:
-  section1:
-    - 'Texte qui explique la première étape. TODO PRO-36 comprendre comment gérer les multilines'
-    - 'Deuxième étape'
+      uni: t
+    equipements:
+    - Équipement
+
+- section: Section
+  etapes:
+  - etape: Étape
+    ingredients:
+    - nom: Ingrédient
+      qte: 1
+      uni: t
+    equipements:
+    - Équipement
+
+  - etape: Étape
+    ingredients:
+    - nom: Ingrédient
+      qte: 1
+      uni: t
+    equipements:
+    - Équipement
+
 commentaires:
   - 'Commentaire 1'
   - 'Commentaire 2'
