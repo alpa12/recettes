@@ -23,25 +23,8 @@ preparation:
       à feu élevé en remuant régulièrement environ 10 minutes ou jusqu’à ce que les
       pommes McIntosh soient compotées, les Cortland fondantes et le sirop presque
       à sec. Verser dans un bol et laisser refroidir complètement.
-    ingredients:
-    - nom: beurre
-      qte: 60
-      uni: ml
-    - nom: sucre
-      qte: 250
-      uni: ml
-    - nom: pommes Cortland
-      qte: 2500
-      uni: ml
-    - nom: pommes McIntosh
-      qte: 500
-      uni: ml
-    - nom: cannelle moulue
-      qte: 1
-      uni: ml
-    equipements:
-    - poêle
-    - bol
+    ingredients: []
+    equipements: []
 - section: Croûte
   etapes:
   - etape: Au robot culinaire, mélanger la farine, le sel et le beurre jusqu’à ce
@@ -49,26 +32,11 @@ preparation:
       Mélanger de nouveau jusqu’à ce qu’une boule commence à se former. Retirer la
       pâte du robot. Former deux disques avec les mains. Envelopper de pellicule plastique
       et réfrigérer 30 minutes.
-    ingredients:
-    - nom: farine tout usage
-      qte: 500
-      uni: ml
-    - nom: sel
-      qte: 1
-      uni: ml
-    - nom: beurre non salé froid
-      qte: 250
-      uni: ml
-    - nom: eau glacée
-      qte: 75
-      uni: ml
-    - nom: vinaigre de cidre ou de vinaigre blanc
-      qte: 5
-      uni: ml
-    equipements: robot culinaire
+    ingredients: []
+    equipements: []
   - etape: Placer la grille dans le bas du four. Préchauffer le four à 220°C (425°F).
     ingredients: []
-    equipements: four
+    equipements: []
   - etape: Sur un plan de travail fariné, abaisser les deux disques de pâte. Foncer
       un moule à tarte de 23cm (9po) de diamètre sur 2,5cm (1po) de hauteur avec une
       abaisse. Y répartir la garniture aux pommes en formant un amoncellement au centre
@@ -78,17 +46,11 @@ preparation:
       avec les doigts ou à l’aide d’une fourchette. À l’aide d’un pinceau, badigeonner
       de lait.
     ingredients: []
-    equipements:
-    - plan de travail
-    - moule à tarte
-    - emporte-pièce
-    - douille
-    - fourchette
-    - pinceau
+    equipements: []
   - etape: Cuire au four environ 35 minutes ou jusqu’à ce que la croûte soit bien
       dorée. Laisser tiédir. La tarte se conserve 3 jours à la température ambiante.
     ingredients: []
-    equipements: four
+    equipements: []
 commentaires:
 - C'est vrai que c'est la meilleure tarte aux pommes. J'ai parsemé de sucre demerara.
   Je vais devoir en refaire car une seule ne suffit pas!
@@ -118,7 +80,7 @@ commentaires:
   de la pate a tarte du commerce cette fois ci mais ta pate au beurre est meilleure
   pour l’avoir déjà fait souvent. Merci Ricardo!
 - Enfin une bonne tarte, les enfants ont adoré, merci pour cette savoureuse tarte
-  aux pommes, j'ai mis du sirop d’érable dans la cuisson des pommes au lieu du sucre
+  aux pommes, j'ai mis du sirop d'érable dans la cuisson des pommes au lieu du sucre
   pour garder le goût de la pomme, encore mieux. Merci Ricardo pour tes succulentes
   recettes.
 - Ex-cel-len-te ! La croûte était feuilletée à souhait et d’un beau doré. J’ai fait

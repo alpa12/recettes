@@ -84,7 +84,10 @@ Extrais maintenant les informations de la recette et génère le YAML complet.
 cat("🤖 Extraction des informations avec GitHub Copilot...\n")
 
 chat <- chat_google_gemini(
-  system_prompt = "Tu es un expert en extraction de recettes. Tu réponds uniquement avec du YAML valide, sans texte additionnel."
+  system_prompt = paste(
+    "Tu es un expert en extraction de recettes.",
+    "Tu réponds uniquement avec du YAML valide, sans texte additionnel, à moins qu'on demande explicitement autre chose."
+  )
 )
 
 response <- chat$chat(prompt)
@@ -115,12 +118,16 @@ cat("✅ YAML valide généré\n")
 # Ajouter le champ soumis_par
 recipe_data$soumis_par <- submitted_by
 
+# Demander la catégorie de la recette au LLM
+recipe_category <- chat$chat("Dans quelle catégorie classerais-tu cette recette? Réponds en un seul mot. Choix : Accompagnements, Repas, Desserts.") |>
+  trimws() |> 
+  tolower()
+
 # Générer le nom de fichier
 filename_base <- gsub("[^a-z0-9]+", "-", tolower(recipe_data$nom_court))
 filename_base <- gsub("^-|-$", "", filename_base)
 
-yaml_file <- glue("recettes/{filename_base}.yaml")
-qmd_file <- glue("recettes/{filename_base}.qmd")
+yaml_file <- glue("recettes/{recipe_category}/{filename_base}.yaml")
 
 # Sauvegarder le fichier YAML
 cat("💾 Sauvegarde de", yaml_file, "\n")
@@ -132,9 +139,8 @@ source("R/yaml_to_qmd.R")
 
 # Générer le fichier QMD avec la fonction existante
 cat("💾 Génération de", qmd_file, "avec yaml_to_qmd()...\n")
-yaml_recipe_to_qmd(yaml_path = yaml_file, qmd_path = qmd_file)
+yaml_recipe_to_qmd(yaml_path = yaml_file)
 
 cat("✅ Import terminé avec succès!\n")
-cat("📄 Fichiers générés:\n")
+cat("📄 Fichier yaml généré:\n")
 cat("  -", yaml_file, "\n")
-cat("  -", qmd_file, "\n")
