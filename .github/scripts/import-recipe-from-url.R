@@ -6,6 +6,7 @@ library(rvest)
 library(jsonlite)
 library(glue)
 library(ellmer)
+library(gargle)
 
 # Lire le fichier URL
 url_file <- Sys.getenv("RECIPE_URL_FILE")
