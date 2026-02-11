@@ -35,7 +35,7 @@ jobs:
       - name: Install R packages
         run: |
           Rscript -e 'install.packages(c("yaml", "httr", "rvest", "jsonlite", "glue", "fs", "stringr", "here"), repos="https://cloud.r-project.org")'
-          Rscript -e 'install.packages(c("ellmer", "gitcreds"), repos="https://cloud.r-project.org")'
+          Rscript -e 'install.packages(c("ellmer", "gitcreds", "gargle"), repos="https://cloud.r-project.org")'
       
       - name: Find pending recipe URL file
         id: find-url
