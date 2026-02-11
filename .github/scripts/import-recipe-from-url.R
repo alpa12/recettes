@@ -22,7 +22,7 @@ cat("📥 Import de la recette depuis:", recipe_url, "\n")
 # Scraper la page web
 cat("🌐 Téléchargement de la page...\n")
 page <- tryCatch({
-  read_html(recipe_url)
+  rvest::read_html(recipe_url)
 }, error = function(e) {
   stop("Erreur lors du téléchargement de l'URL: ", e$message)
 })
@@ -82,7 +82,7 @@ Extrais maintenant les informations de la recette et génère le YAML complet.
 # Appeler le LLM avec ellmer (GitHub Copilot)
 cat("🤖 Extraction des informations avec GitHub Copilot...\n")
 
-chat <- chat_github(
+chat <- chat_google_gemini(
   system_prompt = "Tu es un expert en extraction de recettes. Tu réponds uniquement avec du YAML valide, sans texte additionnel."
 )
 

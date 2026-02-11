@@ -54,7 +54,7 @@ jobs:
       - name: Import recipe from URL
         env:
           RECIPE_URL_FILE: ${{ steps.find-url.outputs.url_file }}
-          GITHUB_PAT: ${{ github.token }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           Rscript .github/scripts/import-recipe-from-url.R
       
