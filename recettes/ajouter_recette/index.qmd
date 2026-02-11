@@ -1,8 +1,7 @@
 ---
-title: "Soumettre une recette"
-format:
-  html:
-    toc: false
+title: Ajouter une recette
+order: 4
+image: index.jpg
 ---
 
 ```{=html}
@@ -79,7 +78,6 @@ format:
   <p id="error-text"></p>
 </div>
 
-<script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 ```
 
@@ -168,7 +166,7 @@ let formData = {};
 // Charger et parser le template YAML
 async function loadTemplate() {
   try {
-    const response = await fetch('recettes/template.yaml');
+    const response = await fetch('../template.yaml');
     const yamlText = await response.text();
     templateStructure = jsyaml.load(yamlText);
     console.log('Template chargé:', templateStructure);
@@ -791,5 +789,4 @@ function showUrlError(message) {
   }, 10000);
 }
 </script>
-```
 ```
