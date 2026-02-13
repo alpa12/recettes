@@ -4,62 +4,65 @@ source: André Parent
 portions: 8
 se_congele: false
 categories:
-- Salade
-- Légumineuses
+  - Salade
+  - Légumineuses
 temps:
   preparation: 20
   cuisson: null
   refrigeration: null
 preparation:
-- section: Salade
-  etapes:
-  - etape: Mélanger tous les ingrédients de la salade.
-    ingredients:
-    - nom: Pois chiches
-      qte: 19
-      uni: onces
-    - nom: Fèves rouges
-      qte: 19
-      uni: onces
-    - nom: Fèves mélangées
-      qte: 19
-      uni: onces
-    - nom: Ail
-      qte: 5
-      uni: gousses
-    - nom: Échalottes
-      qte: 1
-      uni: unité
-    - nom: Poivron
-      qte: 3
-      uni: unités
-    equipements:
-    - Bol
-    - Cuillère
-- section: Vinaigrette
-  etapes:
-  - etape: Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
-    ingredients:
-    - nom: Sucre
-      qte: 1/2
-      uni: tasse
-    - nom: Huile d'olive
-      qte: 1/4
-      uni: tasse
-    - nom: Vinaigre de vin rouge
-      qte: 1/3
-      uni: tasse
-    - nom: Persil
-      qte: 1
-      uni: c. à thé
-    - nom: Basilic
-      qte: 1
-      uni: c. à thé
-    - nom: Origan
-      qte: 1
-      uni: c. à thé
-    equipements:
-    - Bol
-    - Fouet
+  - section: Salade
+    etapes:
+      - etape: Mélanger tous les ingrédients de la salade.
+        ingredients:
+          - nom: Pois chiches
+            qte: 19
+            uni: onces
+          - nom: Fèves rouges
+            qte: 19
+            uni: onces
+          - nom: Fèves mélangées
+            qte: 19
+            uni: onces
+          - nom: Ail
+            qte: 5
+            uni: gousses
+          - nom: Échalottes
+            qte: 1
+            uni: unité
+          - nom: Poivron
+            qte: 3
+            uni: unités
+        equipements:
+          - Bol
+          - Cuillère
+  - section: Vinaigrette
+    etapes:
+      - etape: Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
+        ingredients:
+          - nom: Sucre
+            qte: 0.5
+            uni: tasse
+          - nom: Huile d'olive
+            qte: 0.25
+            uni: tasse
+          - nom: Vinaigre de vin rouge
+            qte: 0.33
+            uni: tasse
+          - nom: Persil
+            qte: 1
+            uni: c. à thé
+          - nom: Basilic
+            qte: 1
+            uni: c. à thé
+          - nom: Origan
+            qte: 1
+            uni: c. à thé
+        equipements:
+          - Bol
+          - Fouet
 commentaires:
-  - 'On peut préparer cette salade à l’avance, elle se conserve bien quelques heures au réfrigérateur.'
+  - commentaire: Ceci est un test
+    evaluation: 4
+    nom: Alexandre Parent
+    date: '2026-02-13'
