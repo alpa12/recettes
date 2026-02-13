@@ -64,7 +64,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           
           # Ajouter les nouveaux fichiers de recette
-          git add recettes/*.yaml recettes/*.qmd
+          git add recettes/**/*.yaml recettes/**/*.qmd
           
           # Supprimer le fichier URL temporaire
           git rm ${{ steps.find-url.outputs.url_file }}
