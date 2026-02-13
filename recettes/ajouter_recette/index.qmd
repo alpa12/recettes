@@ -15,11 +15,14 @@ library(jsonlite)
 template <- yaml::read_yaml("../template.yaml")
 schema <- template$`_schema`
 token <- Sys.getenv("GITHUB_PAT")
+mot_de_passe <- Sys.getenv("MOT_DE_PASSE")
 
 cat(
   "<script>",
   "window.RECIPE_SCHEMA = ", jsonlite::toJSON(schema, auto_unbox = TRUE), ";",
-  "window.GITHUB_PAT = ",  jsonlite::toJSON(token, auto_unbox = TRUE), ";",
+  "window.GITHUB_PAT = ",  jsonlite::toJSON(token, auto_unbox = TRUE), ";
+",
+  "window.RECIPE_PASSWORD = ", jsonlite::toJSON(mot_de_passe, auto_unbox = TRUE), ";",
   "</script>"
 )
 ```
@@ -29,6 +32,19 @@ cat(
 ## Formulaire manuel
 
 <div id="edit-banner" class="alert alert-info d-none" role="alert"></div>
+
+
+```{=html}
+<div class="card mb-3">
+  <div class="card-body">
+    <label for="site-password-manual" class="form-label required-field">Mot de passe</label>
+    <input type="password" class="form-control" id="site-password-manual" placeholder="Entrez le mot de passe du site" autocomplete="off" required>
+    <div class="form-text">Le bouton <strong>Soumettre</strong> sera activé seulement si le mot de passe correspond.</div>
+    <div id="pw-feedback-manual" class="qrf-inline-warning d-none">Mot de passe incorrect.</div>
+  </div>
+</div>
+```
+
 
 <div id="recipe-form-container"></div>
 
@@ -50,8 +66,16 @@ cat(
     <input type="text" class="form-control" id="url-submitted-by" placeholder="Votre nom">
   </div>
 
+
+  <div class="mb-3">
+    <label for="site-password-url" class="form-label required-field">Mot de passe</label>
+    <input type="password" class="form-control" id="site-password-url" placeholder="Entrez le mot de passe du site" autocomplete="off" required>
+    <div class="form-text">Le bouton <strong>Soumettre l'URL</strong> sera activé seulement si le mot de passe correspond.</div>
+    <div id="pw-feedback-url" class="invalid-feedback">Mot de passe incorrect.</div>
+  </div>
+
   <div class="d-grid gap-2">
-    <button type="submit" class="btn btn-primary btn-lg">Soumettre l'URL</button>
+    <button type="submit" class="btn btn-primary btn-lg" id="url-submit-btn" disabled>Soumettre l'URL</button>
   </div>
 </form>
 
@@ -152,7 +176,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
-    renderFromData(schema, data, document.getElementById("recipe-form-container"));
+    const form = renderFromData(schema, data, document.getElementById("recipe-form-container"));
+    setupPasswordGateForManualForm(form);
+    setupPasswordGateForUrlForm();
   } catch (e) {
     showError(e?.message || "Erreur au chargement du formulaire.");
   }
@@ -189,6 +215,69 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+
+// ---------------------------
+//  Password gate (manual + URL)
+// ---------------------------
+function isPasswordValid(pw) {
+  const expected = window.RECIPE_PASSWORD || "";
+  return String(pw || "") !== "" && String(pw) === String(expected);
+}
+
+function setupPasswordGateForManualForm(form) {
+  const pwInput = document.getElementById("site-password-manual");
+  const fb = document.getElementById("pw-feedback-manual");
+  const submitBtn = form?.querySelector('button[type="submit"]');
+  if (!pwInput || !submitBtn) return;
+
+  submitBtn.disabled = true;
+
+  const refresh = () => {
+    const ok = isPasswordValid(pwInput.value);
+    submitBtn.disabled = !ok;
+
+    if (!ok && pwInput.value !== "") {
+      fb?.classList.remove("d-none");
+    } else {
+      fb?.classList.add("d-none");
+    }
+  };
+
+  pwInput.addEventListener("input", refresh);
+  refresh();
+}
+
+function setupPasswordGateForUrlForm() {
+  const form = document.getElementById("url-form");
+  const pwInput = document.getElementById("site-password-url");
+  const submitBtn = document.getElementById("url-submit-btn") || form?.querySelector('button[type="submit"]');
+  if (!form || !pwInput || !submitBtn) return;
+
+  const refresh = () => {
+    const ok = isPasswordValid(pwInput.value);
+    submitBtn.disabled = !ok;
+
+    if (!ok && pwInput.value !== "") {
+      pwInput.classList.add("is-invalid");
+    } else {
+      pwInput.classList.remove("is-invalid");
+    }
+  };
+
+  pwInput.addEventListener("input", refresh);
+  refresh();
+
+  form.addEventListener("submit", (e) => {
+    if (!isPasswordValid(pwInput.value)) {
+      e.preventDefault();
+      e.stopPropagation();
+      pwInput.classList.add("is-invalid");
+    }
+  }, true);
+}
+
+
 
 // ---------------------------
 //  UI messages
@@ -283,6 +372,7 @@ function renderFromData(schema, data, container) {
 
   form.addEventListener("submit", handleSubmit);
   container.appendChild(form);
+  return form;
 }
 
 function renderNode(schema, value, path, formRoot) {
