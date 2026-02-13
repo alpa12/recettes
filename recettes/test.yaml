@@ -1,0 +1,13 @@
+nom: Test
+nom_court: test
+source: Moi
+portions: 342
+se_congele: false
+categories: []
+temps:
+  preparation: null
+  cuisson: null
+  refrigeration: null
+preparation: []
+commentaires: []
+image_guid: 056b2e8a-0767-4fd6-84de-217977d3323e
