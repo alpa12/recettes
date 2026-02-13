@@ -1,58 +1,131 @@
-nom: Nom complet de la recette
-nom_court: Nom court, pour table des matières
-source: D'où vient la recette
-portions: Nombre de portions (chiffres uniquement)
-se_congele: Est-ce que ça se congèle? (inscrire true ou false)
-categories:
-- Catégories dans laquelle se retrouve la recette (Poulet, Biscuit, Rapide, etc.)
-- Catégorie
+# ============================================================
+# Exemple complet de recette (sert uniquement de référence)
+# ============================================================
 
-temps:
-  preparation: Temps de preparation à deux personnes (chiffre en minute, null si aucun)
-  cuisson: Temps de cuisson (chiffre en minute, null si aucun)
-  refrigeration: Temps de réfrigération (chiffre en minute, null si aucun)
+exemple:
 
-preparation:
-- section: Nom de la section
-  etapes:
-  - etape: Texte qui explique l'étape.
-    ingredients:
-    - nom: Nom de l'ingrédient
-      qte: Quantité (chiffres uniquement)
-      uni: Unité (unité, ml, t, g, ...)
-    - nom: Ingrédient
-      qte: 1
-      uni: t
-    equipements:
-    - Équipement requis pour cette étape 1
-    - Équipement 2
+  nom: Poulet Alfredo
+  nom_court: poulet-alfredo
+  source: Ricardo
+  portions: 4
+  se_congele: true
 
-  - etape: Étape
-    ingredients:
-    - nom: Ingrédient
-      qte: 1
-      uni: t
-    equipements:
-    - Équipement
+  categories:
+    - Poulet
+    - Rapide
 
-- section: Section
-  etapes:
-  - etape: Étape
-    ingredients:
-    - nom: Ingrédient
-      qte: 1
-      uni: t
-    equipements:
-    - Équipement
+  temps:
+    preparation: 20
+    cuisson: 30
+    refrigeration: null
 
-  - etape: Étape
-    ingredients:
-    - nom: Ingrédient
-      qte: 1
-      uni: t
-    equipements:
-    - Équipement
+  preparation:
+    - section: Sauce
+      etapes:
+        - etape: Mélanger les ingrédients.
+          ingredients:
+            - nom: Crème
+              qte: 1
+              uni: t
+          equipements:
+            - Bol
 
-commentaires:
-  - 'Commentaire 1'
-  - 'Commentaire 2'
+  commentaires:
+    - Excellent
+    - À refaire
+
+# ============================================================
+# Schéma dynamique du formulaire
+# ============================================================
+
+_schema:
+
+  type: object
+  required:
+    - nom
+    - nom_court
+    - source
+    - portions
+
+  properties:
+
+    nom:
+      type: string
+      title: Nom
+      description: Nom complet de la recette
+
+    nom_court:
+      type: string
+      title: Nom court
+      description: Nom court pour la table des matières
+
+    source:
+      type: string
+      title: Source
+      description: D'où vient la recette
+
+    portions:
+      type: integer
+      title: Portions
+      description: Nombre de portions
+
+    se_congele:
+      type: boolean
+      title: Se congèle
+      description: Est-ce que la recette peut être congelée ?
+
+    categories:
+      type: array
+      title: Catégories
+      items:
+        type: string
+
+    temps:
+      type: object
+      title: Temps
+      properties:
+        preparation:
+          type: integer
+          nullable: true
+        cuisson:
+          type: integer
+          nullable: true
+        refrigeration:
+          type: integer
+          nullable: true
+
+    preparation:
+      type: array
+      title: Préparation
+      items:
+        type: object
+        properties:
+          section:
+            type: string
+          etapes:
+            type: array
+            items:
+              type: object
+              properties:
+                etape:
+                  type: string
+                ingredients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      nom:
+                        type: string
+                      qte:
+                        type: number
+                      uni:
+                        type: string
+                equipements:
+                  type: array
+                  items:
+                    type: string
+
+    commentaires:
+      type: array
+      items:
+        type: string
