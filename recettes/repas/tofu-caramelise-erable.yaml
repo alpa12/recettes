@@ -65,10 +65,6 @@ preparation:
   - etape: Dans la poêle, verser le mélange de sirop d’érable. Poursuivre la cuisson
       de 3 à 4 minutes ou jusqu’à ce que la sauce soit sirupeuse, en remuant pour
       bien en enrober le tofu.
-    ingredients:
-    - nom: mélange de sirop d’érable
-      qte: ~
-      uni: ~
     equipements: poêle
   - etape: Garnir de l’oignon vert. Accompagner d’un riz blanc et d’un légume vert,
       si désiré.

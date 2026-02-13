@@ -84,27 +84,49 @@ cat(
 
 /* Compact row for primitive array items: input + remove on one line */
 .qrf-inline-row { display:flex; align-items:flex-start; gap:.5rem; }
-.qrf-inline-row .form-control { flex: 1 1 auto; min-width: 0; }
+.qrf-inline-row .form-control,
+.qrf-inline-row .form-select,
+.qrf-inline-row textarea { flex: 1 1 auto; min-width: 0; }
 .qrf-inline-row .btn { flex: 0 0 auto; white-space: nowrap; }
 
 /* Three-up rows (temps, ingredients) */
 .qrf-row-3 { display:flex; flex-wrap: wrap; gap: .75rem; }
 .qrf-row-3 .qrf-col { flex: 1 1 200px; min-width: 200px; }
 
+/* Comment row: meta (stars/name/date) on one line */
+.qrf-row-comment-meta { display:flex; flex-wrap: wrap; gap: .75rem; align-items:flex-end; }
+.qrf-row-comment-meta .qrf-col { flex: 1 1 200px; min-width: 200px; }
+.qrf-row-comment-meta .qrf-col.small { flex: 0 0 220px; }
+.qrf-row-comment-meta .qrf-col.tiny { flex: 0 0 180px; }
+
 /* Slightly smaller labels inside dense rows */
 .qrf-dense .form-label { margin-bottom: .25rem; font-size: .9rem; }
+
+/* Star rating widget */
+.qrf-stars { display:inline-flex; gap:.25rem; line-height:1; user-select:none; }
+.qrf-star-btn { border:none; background:transparent; padding:0; font-size:1.25rem; cursor:pointer; }
+.qrf-star-btn:focus { outline: 2px solid rgba(13,110,253,.35); outline-offset: 2px; border-radius: .25rem; }
+.qrf-stars-muted { color: rgba(0,0,0,.25); }
+.qrf-stars-active { color: #f0ad4e; } /* bootstrap-ish amber */
+.qrf-stars-clear { font-size:.85rem; margin-left:.5rem; }
+
 </style>
 
 <script>
 /**
- * Visual improvements requested:
- * 1) Banner in edit mode naming the recipe
- * 2) Remove "Item 0 / Item 1" => use friendly titles (Catégorie 1, Ingrédient 2, etc.)
- * 3) For list items, put "Retirer" inline with the field
- * 4) User-friendly labels => done in template.yaml (nested titles)
- * 5) Special layouts:
- *    - Temps: 3 fields on one line
- *    - Ingrédients: (nom, qte, uni) on one line
+ * Add support for commentaires as array of objects:
+ * - commentaire (string)   [textarea]
+ * - evaluation (int 1-5)  [select]
+ * - nom (string)
+ * - date (date)
+ *
+ * Existing behavior preserved:
+ * - Edit banner
+ * - No "Item 0/1"
+ * - Inline remove for primitive arrays
+ * - Special layouts: temps + ingredients
+ *
+ * Numeric strictness for qte remains: must be a number (blocks submit if YAML had non-numeric).
  */
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -122,7 +144,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       data = jsyaml.load(text) || {};
       window.__EDIT_MODE__ = { yamlPath, original: data };
 
-      // Banner
       const banner = document.getElementById("edit-banner");
       if (banner) {
         const name = data?.nom || "cette recette";
@@ -231,6 +252,16 @@ function setSubmitLoading(form, isLoading, label="Soumettre la recette") {
   }
 }
 
+
+function isQtePath(path) {
+  return String(path[path.length - 1] || "") === "qte";
+}
+
+function normalizeNumericString(s) {
+  // Accept both "0.5" and "0,5"
+  return String(s ?? "").trim().replace(",", ".");
+}
+
 // ---------------------------
 //  Renderer (schema -> DOM) : renderFromData
 // ---------------------------
@@ -256,7 +287,6 @@ function renderFromData(schema, data, container) {
 
 function renderNode(schema, value, path, formRoot) {
   if (!schema) return document.createElement("div");
-
   if (schema.type === "object") return renderObject(schema, value, path, formRoot);
   if (schema.type === "array") return renderArray(schema, value, path, formRoot);
   return renderPrimitive(schema, value, path);
@@ -270,18 +300,27 @@ function isIngredientObjectSchema(schema) {
     && Object.prototype.hasOwnProperty.call(props, "uni");
 }
 
+function isCommentObjectSchema(schema) {
+  if (!schema || schema.type !== "object") return false;
+  const props = schema.properties || {};
+  return Object.prototype.hasOwnProperty.call(props, "commentaire")
+    && Object.prototype.hasOwnProperty.call(props, "evaluation")
+    && Object.prototype.hasOwnProperty.call(props, "nom")
+    && Object.prototype.hasOwnProperty.call(props, "date");
+}
+
 function isTempsObjectPath(path, schema) {
   const last = path[path.length - 1];
   return last === "temps" || schema?.title === "Temps";
 }
 
 function renderObject(schema, value, path, formRoot) {
-  // Special layout: ingredient row
   if (isIngredientObjectSchema(schema)) {
     return renderIngredientRow(schema, value, path);
   }
-
-  // Special layout: temps row (3 fields)
+  if (isCommentObjectSchema(schema)) {
+    return renderCommentRow(schema, value, path);
+  }
   if (isTempsObjectPath(path, schema)) {
     return renderTempsRow(schema, value, path);
   }
@@ -292,7 +331,6 @@ function renderObject(schema, value, path, formRoot) {
 
   Object.entries(props).forEach(([key, prop]) => {
     const fieldPath = [...path, key];
-
     if (prop.type === "object") {
       wrapper.appendChild(renderSection(prop, key, obj[key], fieldPath, formRoot));
     } else {
@@ -314,7 +352,7 @@ function renderTempsRow(schema, value, path) {
     if (!props[k]) return;
     const col = document.createElement("div");
     col.className = "qrf-col";
-    col.appendChild(renderPrimitive(props[k], obj[k], [...path, k]));
+    col.appendChild(renderPrimitive(props[k], obj[k], [...path, k], true));
     wrap.appendChild(col);
   });
 
@@ -328,16 +366,47 @@ function renderIngredientRow(schema, value, path) {
   const wrap = document.createElement("div");
   wrap.className = "qrf-row-3 qrf-dense";
 
-  // Name wider by default, qty/unit smaller
-  const order = ["nom","qte","uni"];
-  order.forEach((k) => {
+  ["nom","qte","uni"].forEach((k) => {
     const col = document.createElement("div");
     col.className = "qrf-col";
-    col.appendChild(renderPrimitive(props[k], obj[k], [...path, k], true /* dense */));
+    col.appendChild(renderPrimitive(props[k], obj[k], [...path, k], true));
     wrap.appendChild(col);
   });
 
   return wrap;
+}
+
+function renderCommentRow(schema, value, path) {
+  const obj = (value && typeof value === "object" && !Array.isArray(value)) ? value : {};
+  const props = schema.properties || {};
+
+  const wrapper = document.createElement("div");
+
+  // Meta row: evaluation / nom / date
+  const meta = document.createElement("div");
+  meta.className = "qrf-row-comment-meta qrf-dense";
+
+  const colEval = document.createElement("div");
+  colEval.className = "qrf-col tiny";
+  colEval.appendChild(renderPrimitive(props["evaluation"], obj["evaluation"], [...path, "evaluation"], true));
+  meta.appendChild(colEval);
+
+  const colNom = document.createElement("div");
+  colNom.className = "qrf-col small";
+  colNom.appendChild(renderPrimitive(props["nom"], obj["nom"], [...path, "nom"], true));
+  meta.appendChild(colNom);
+
+  const colDate = document.createElement("div");
+  colDate.className = "qrf-col tiny";
+  colDate.appendChild(renderPrimitive(props["date"], obj["date"], [...path, "date"], true));
+  meta.appendChild(colDate);
+
+  wrapper.appendChild(meta);
+
+  // Comment text (full width)
+  wrapper.appendChild(renderPrimitive(props["commentaire"], obj["commentaire"], [...path, "commentaire"], false));
+
+  return wrapper;
 }
 
 function renderSection(schema, title, value, path, formRoot) {
@@ -398,7 +467,6 @@ function renderArray(schema, value, path, formRoot) {
     addArrayItem(list, schema.items, path, arr[i], formRoot);
   }
 
-  // For primitive arrays, show 1 empty item if none
   if (arr.length === 0 && schema.items?.type !== "object") {
     addArrayItem(list, schema.items, path, null, formRoot);
   }
@@ -424,22 +492,18 @@ function renderArrayItem(itemSchema, path, initialData, formRoot) {
   const itemDiv = document.createElement("div");
   itemDiv.className = "qrf-array-item";
 
-  const arrayName = path[path.length - 2]; // parent key
   const idx = Number(path[path.length - 1] || 0) + 1;
   const friendly = labelForArrayItems(path.slice(0, -1), itemSchema);
 
-  // Primitive array items: inline row with remove button, no "Item 0/1"
+  // Primitive arrays => inline input + remove
   if (itemSchema.type !== "object") {
     const row = document.createElement("div");
     row.className = "qrf-inline-row";
 
-    const field = renderPrimitive(itemSchema, initialData, path, true /* dense */);
-    // renderPrimitive returns a div.mb-3; for inline, we want just the input container
-    // We'll unwrap its input into inline row for cleaner UI.
+    const field = renderPrimitive(itemSchema, initialData, path, true);
     const input = field.querySelector("input, select, textarea");
     const label = field.querySelector("label");
     const warn = field.querySelector(".qrf-inline-warning");
-    // Remove label for inline items (array already labeled)
     if (label) label.remove();
 
     const inputWrap = document.createElement("div");
@@ -462,7 +526,7 @@ function renderArrayItem(itemSchema, path, initialData, formRoot) {
     return itemDiv;
   }
 
-  // Object array items: keep header but friendly, no index lines
+  // Object array items => header + body
   const header = document.createElement("div");
   header.className = "qrf-array-item-header";
 
@@ -486,9 +550,7 @@ function renderArrayItem(itemSchema, path, initialData, formRoot) {
   return itemDiv;
 }
 
-function listFromItem(itemDiv) {
-  return itemDiv.parentElement;
-}
+function listFromItem(itemDiv) { return itemDiv.parentElement; }
 
 function renumberArray(listEl, arrayPath) {
   if (!listEl) return;
@@ -515,15 +577,19 @@ function renumberArray(listEl, arrayPath) {
       if (p && p.startsWith(from)) n.setAttribute("data-array-path", to + p.slice(from.length));
     });
 
-    // Update header numbering for object items
     const title = itemDiv.querySelector(".qrf-array-item-title");
-    if (title) {
-      title.textContent = title.textContent.replace(/\d+$/, String(i + 1));
-    }
+    if (title) title.textContent = title.textContent.replace(/\d+$/, String(i + 1));
   });
 }
 
 function escapeRegExp(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+// ui helpers
+function getUiWidget(schema) {
+  const ui = schema && schema.ui;
+  return ui && ui.widget ? String(ui.widget) : null;
+}
+
 
 function renderPrimitive(schema, value, path, dense=false) {
   const key = path[path.length - 1] || "";
@@ -535,30 +601,129 @@ function renderPrimitive(schema, value, path, dense=false) {
   label.textContent = schema.title || key;
   div.appendChild(label);
 
-  let input;
+  // Enum => widget (stars) for evaluation 1..5, otherwise select
+  if (Array.isArray(schema.enum) && schema.enum.length > 0) {
+    const isStars =
+      schema.enum.length === 5 &&
+      schema.enum.every((v, i) => Number(v) === i + 1) &&
+      String(path[path.length - 1] || "") === "evaluation";
 
+    if (isStars) {
+      const hidden = document.createElement("input");
+      hidden.type = "number";
+      hidden.className = "form-control d-none";
+      hidden.dataset.path = path.join(".");
+      hidden.min = "1";
+      hidden.max = "5";
+      hidden.step = "1";
+      hidden.value = (value ?? "") === "" ? "" : String(value);
+
+      const wrap = document.createElement("div");
+      wrap.className = "d-flex align-items-center gap-2";
+
+      const stars = document.createElement("div");
+      stars.className = "qrf-stars";
+      stars.setAttribute("role", "radiogroup");
+
+      function currentVal() {
+        if (hidden.value === "") return null;
+        const n = parseInt(hidden.value, 10);
+        return Number.isFinite(n) ? n : null;
+      }
+
+      function renderStars() {
+        const v = currentVal();
+        stars.querySelectorAll("button").forEach((btn, i) => {
+          const n = i + 1;
+          btn.textContent = v !== null && n <= v ? "★" : "☆";
+        });
+      }
+
+      for (let i = 1; i <= 5; i++) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "qrf-star-btn";
+        b.textContent = "☆";
+        b.onclick = () => {
+          hidden.value = (currentVal() === i) ? "" : String(i);
+          renderStars();
+        };
+        stars.appendChild(b);
+      }
+
+      const clear = document.createElement("button");
+      clear.type = "button";
+      clear.className = "btn btn-link p-0 qrf-stars-clear";
+      clear.textContent = "Effacer";
+      clear.onclick = () => { hidden.value = ""; renderStars(); };
+
+      wrap.appendChild(stars);
+      wrap.appendChild(clear);
+
+      div.appendChild(wrap);
+      div.appendChild(hidden);
+      renderStars();
+      return div;
+    }
+
+    const select = document.createElement("select");
+    select.className = "form-select";
+    select.dataset.path = path.join(".");
+
+    const opt0 = document.createElement("option");
+    opt0.value = "";
+    opt0.textContent = "—";
+    select.appendChild(opt0);
+
+    for (const v of schema.enum) {
+      const opt = document.createElement("option");
+      opt.value = String(v);
+      opt.textContent = String(v);
+      select.appendChild(opt);
+    }
+
+    if (value !== null && value !== undefined && value !== "") {
+      select.value = String(value);
+    }
+
+    div.appendChild(select);
+    return div;
+  }
+
+  let input = document.createElement("input");
+  input.className = "form-control";
+  input.dataset.path = path.join(".");
+
+  // Boolean
   if (schema.type === "boolean") {
-    input = document.createElement("input");
     input.type = "checkbox";
     input.className = "form-check-input ms-2";
-    input.dataset.path = path.join(".");
     input.checked = !!value;
     div.appendChild(input);
     return div;
   }
 
-  input = document.createElement("input");
-  input.className = "form-control";
-  input.dataset.path = path.join(".");
-
+  // Numeric
   if (schema.type === "integer" || schema.type === "number") {
-    input.type = "number";
+    const isQte = String(path[path.length - 1] || "") === "qte";
 
-    // Force numeric: if loaded value isn't a number, keep empty and flag.
-    if (value === null || value === undefined) {
-      input.value = "";
-    } else if (typeof value === "number" && !Number.isNaN(value)) {
+    if (schema.type === "number" && isQte) {
+      input.type = "text";
+      input.inputMode = "decimal";
+      input.placeholder = "Ex: 0.5 ou 0,5";
+      input.pattern = "^\\s*\\d+(?:[\\.,]\\d+)?\\s*$";
+      input.addEventListener("input", () => {
+        if (input.value.includes(",")) input.value = input.value.replace(",", ".");
+      });
+    } else {
+      input.type = "number";
+      input.step = schema.type === "integer" ? "1" : "any";
+    }
+
+    if (typeof value === "number" && !Number.isNaN(value)) {
       input.value = String(value);
+    } else if (value === null || value === undefined) {
+      input.value = "";
     } else {
       input.value = "";
       input.dataset.nonNumericLoaded = "true";
@@ -567,18 +732,27 @@ function renderPrimitive(schema, value, path, dense=false) {
       warn.textContent = "Valeur non numérique dans le YAML (corriger: ex. 0.5 au lieu de 1/2).";
       div.appendChild(warn);
     }
-  } else {
-    input.type = "text";
-    input.value = (value === null || value === undefined) ? "" : String(value);
+
+    div.appendChild(input);
+    return div;
   }
 
-  if (schema.description) input.placeholder = schema.description;
+  // Text / date
+  if (schema.format === "date") {
+    input.type = "date";
+    input.value = value ?? "";
+  } else {
+    input.type = "text";
+    input.value = value ?? "";
+  }
+
   div.appendChild(input);
   return div;
 }
 
+
 // ---------------------------
-//  Serialize (DOM -> data) : serializeToData
+//  Serialize (DOM -> data)
 // ---------------------------
 function serializeToData(schema, container, path=[]) {
   if (schema.type === "object") {
@@ -601,9 +775,9 @@ function serializeToData(schema, container, path=[]) {
       const v = serializeToData(schema.items, itemDiv, itemPath);
 
       if (schema.items.type === "object") {
-        out.push(v);
+        // Drop empty objects (all fields null/empty)
+        if (!isEmptyObject(v)) out.push(v);
       } else {
-        // primitive arrays: drop empty
         if (v !== null && v !== "") out.push(v);
       }
     });
@@ -614,10 +788,22 @@ function serializeToData(schema, container, path=[]) {
   if (!input) return null;
 
   if (schema.type === "boolean") return input.checked;
-  if (schema.type === "integer") return input.value === "" ? null : parseInt(input.value, 10);
-  if (schema.type === "number")  return input.value === "" ? null : parseFloat(input.value);
 
+  // select
+  if (input.tagName === "SELECT") {
+    const v = input.value;
+    if (v === "") return null;
+    return schema.type === "integer" ? parseInt(normalizeNumericString(v), 10) : v;
+  }
+
+  if (schema.type === "integer") return input.value === "" ? null : parseInt(normalizeNumericString(input.value), 10);
+  if (schema.type === "number")  return input.value === "" ? null : parseFloat(normalizeNumericString(input.value));
   return input.value === "" ? null : input.value;
+}
+
+function isEmptyObject(obj) {
+  if (!obj || typeof obj !== "object") return true;
+  return Object.values(obj).every(v => v === null || v === "" || v === undefined);
 }
 
 // ---------------------------

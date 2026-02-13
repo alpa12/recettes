@@ -25,9 +25,9 @@ categories:
 
 ### Vinaigrette
 
-- 1/2 tasse Sucre
-- 1/4 tasse Huile d'olive
-- 1/3 tasse Vinaigre de vin rouge
+- 0.5 tasse Sucre
+- 0.25 tasse Huile d'olive
+- 0.33 tasse Vinaigre de vin rouge
 - 1 c. à thé Persil
 - 1 c. à thé Basilic
 - 1 c. à thé Origan
@@ -55,5 +55,7 @@ categories:
 1. Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
 
 ## Notes
+
+_1 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
 
 - On peut préparer cette salade à l’avance, elle se conserve bien quelques heures au réfrigérateur.

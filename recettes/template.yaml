@@ -31,8 +31,13 @@ exemple:
             - Bol
 
   commentaires:
-    - Excellent
-    - À refaire
+    - commentaire: Excellent!
+      evaluation: 5
+      nom: Élodie Bourgeois
+      date: 2026-02-13
+    - commentaire: Bon, mais j'ajouterais plus d'ail.
+      evaluation: 4
+      nom: Alexandre Parent
 
 # ============================================================
 # Schéma dynamique du formulaire
@@ -151,7 +156,28 @@ _schema:
     commentaires:
       type: array
       title: Commentaires
-      description: Notes ou conseils (optionnel)
+      description: Notes et évaluations (optionnel)
       items:
-        type: string
+        type: object
         title: Commentaire
+        properties:
+          commentaire:
+            type: string
+            title: Commentaire
+            ui:
+              widget: textarea
+            description: Texte du commentaire
+          evaluation:
+            type: integer
+            title: Évaluation
+            description: Note de 1 à 5 étoiles (optionnel)
+            enum: [1,2,3,4,5]
+          nom:
+            type: string
+            title: Nom
+            description: Nom de la personne (optionnel)
+          date:
+            type: string
+            title: Date
+            description: Date du commentaire (optionnel)
+            format: date
