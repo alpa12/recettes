@@ -25,9 +25,9 @@ categories:
 
 ### Vinaigrette
 
-- 1/2 tasse Sucre
-- 1/4 tasse Huile d'olive
-- 1/3 tasse Vinaigre de vin rouge
+- tasse Sucre
+- tasse Huile d'olive
+- tasse Vinaigre de vin rouge
 - 1 c. à thé Persil
 - 1 c. à thé Basilic
 - 1 c. à thé Origan
