@@ -1,16 +1,12 @@
 ---
-title: Choux
-image: choux-creme-framboise.jpg
+title: Choux à la crème framboise
+
 categories:
   - Pâtisserie
   - Dessert
 ---
 
-# Choux à la crème framboise
-
-::: {.text-end}
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fchoux-creme-framboise.yaml){.btn .btn-outline-primary .btn-sm}
-:::
 
 ## Ingrédients
 

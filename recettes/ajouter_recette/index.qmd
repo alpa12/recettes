@@ -216,6 +216,36 @@ function escapeHtml(s) {
     .replace(/'/g, "&#039;");
 }
 
+// ---------------------------
+//  Image upload (cover)
+//  - We store images in /images/<guid>.jpg in the repo
+//  - YAML stores only image_guid
+// ---------------------------
+window.__PENDING_IMAGE__ = null; // { guid, base64 } or null
+
+function newGuid() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  // fallback (not perfect, but fine)
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Impossible de lire le fichier image."));
+    reader.onload = () => {
+      const result = reader.result || "";
+      // result looks like "data:image/jpeg;base64,...."
+      const parts = String(result).split(",");
+      resolve(parts.length > 1 ? parts[1] : "");
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 
 // ---------------------------
 //  Password gate (manual + URL)
@@ -690,6 +720,86 @@ function renderPrimitive(schema, value, path, dense=false) {
   label.className = "form-label";
   label.textContent = schema.title || key;
   div.appendChild(label);
+
+  // Special: image cover upload (image_guid)
+  if (String(path[path.length - 1] || "") === "image_guid") {
+    // Hidden input stores the guid in the YAML
+    const hidden = document.createElement("input");
+    hidden.type = "text";
+    hidden.className = "form-control d-none";
+    hidden.dataset.path = path.join(".");
+    hidden.value = (value ?? "") === "" ? "" : String(value);
+
+    const row = document.createElement("div");
+    row.className = "d-flex flex-wrap gap-2 align-items-end";
+
+    const left = document.createElement("div");
+    left.className = "flex-grow-1";
+
+    const file = document.createElement("input");
+    file.type = "file";
+    file.accept = "image/jpeg";
+    file.className = "form-control";
+    file.id = "cover-image-file";
+    left.appendChild(file);
+
+    const help = document.createElement("div");
+    help.className = "form-text";
+    help.textContent = "Formats acceptés : JPG seulement.";
+    left.appendChild(help);
+
+    const right = document.createElement("div");
+    right.className = "d-flex gap-2";
+
+    const preview = document.createElement("img");
+    preview.id = "cover-image-preview";
+    preview.style.maxHeight = "80px";
+    preview.style.borderRadius = ".5rem";
+    preview.style.display = "none";
+    preview.alt = "Aperçu de l'image";
+    right.appendChild(preview);
+
+    const clearBtn = document.createElement("button");
+    clearBtn.type = "button";
+    clearBtn.className = "btn btn-outline-secondary";
+    clearBtn.textContent = "Retirer l'image";
+    clearBtn.onclick = () => {
+      file.value = "";
+      preview.style.display = "none";
+      preview.removeAttribute("src");
+      // If we are editing, keep existing guid unless user explicitly clears
+      hidden.value = "";
+      window.__PENDING_IMAGE__ = null;
+    };
+    right.appendChild(clearBtn);
+
+    row.appendChild(left);
+    row.appendChild(right);
+
+    // If editing and a guid exists, show current image (best-effort)
+    if (hidden.value) {
+      preview.src = "/images/" + hidden.value + ".jpg";
+      preview.style.display = "block";
+    }
+
+    file.addEventListener("change", async () => {
+      const f = file.files && file.files[0] ? file.files[0] : null;
+      if (!f) return;
+      const guid = newGuid();
+      const b64 = await fileToBase64(f);
+      window.__PENDING_IMAGE__ = { guid, base64: b64 };
+      hidden.value = guid;
+
+      // preview
+      preview.src = URL.createObjectURL(f);
+      preview.style.display = "block";
+    });
+
+    div.appendChild(row);
+    div.appendChild(hidden);
+    return div;
+  }
+
 
   // Enum => widget (stars) for evaluation 1..5, otherwise select
   if (Array.isArray(schema.enum) && schema.enum.length > 0) {

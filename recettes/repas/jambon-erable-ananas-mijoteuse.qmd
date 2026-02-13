@@ -1,16 +1,12 @@
 ---
-title: Jambon érable ananas
-image: jambon-erable-ananas-mijoteuse.jpg
+title: Jambon à l’érable et à l’ananas à la mijoteuse
+
 categories:
   - Porc
   - Mijoteuse
 ---
 
-# Jambon à l’érable et à l’ananas à la mijoteuse
-
-::: {.text-end}
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fjambon-erable-ananas-mijoteuse.yaml){.btn .btn-outline-primary .btn-sm}
-:::
 
 ## Ingrédients
 

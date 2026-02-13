@@ -1,16 +1,12 @@
 ---
-title: Médaillons porc sauce champignons
-image: porc-aux-champignons.jpg
+title: Médaillons de porc, sauce crémeuse aux champignons et à l’érable
+
 categories:
   - Porc
   - Sauce
 ---
 
-# Médaillons de porc, sauce crémeuse aux champignons et à l’érable
-
-::: {.text-end}
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fporc-aux-champignons.yaml){.btn .btn-outline-primary .btn-sm}
-:::
 
 ## Ingrédients
 

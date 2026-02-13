@@ -1,16 +1,12 @@
 ---
-title: Salade de légumineuses
-image: salade-de-legumineuses.jpg
+title: Salade de légumineuses André
+image: /images/index.jpg
 categories:
   - Salade
   - Légumineuses
 ---
 
-# Salade de légumineuses André
-
-::: {.text-end}
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Faccompagnements%2Fsalade-de-legumineuses.yaml){.btn .btn-outline-primary .btn-sm}
-:::
 
 ## Ingrédients
 
