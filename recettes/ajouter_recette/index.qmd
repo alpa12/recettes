@@ -132,11 +132,11 @@ cat(paste0(
 
 /* Star rating widget */
 .qrf-stars { display:inline-flex; gap:.25rem; line-height:1; user-select:none; }
-.qrf-star-btn { border:none; background:transparent; padding:0; font-size:1.25rem; cursor:pointer; }
-.qrf-star-btn:focus { outline: 2px solid rgba(13,110,253,.35); outline-offset: 2px; border-radius: .25rem; }
-.qrf-stars-muted { color: rgba(0,0,0,.25); }
-.qrf-stars-active { color: #f0ad4e; } /* bootstrap-ish amber */
-.qrf-stars-clear { font-size:.85rem; margin-left:.5rem; }
+.qrf-star-btn { border:none; background:transparent; padding:0; font-size:1.4rem; cursor:pointer; color: var(--bs-secondary-color); }
+.qrf-star-btn:focus { outline: 2px solid var(--bs-primary); outline-offset: 2px; border-radius: .25rem; }
+.qrf-star-btn.qrf-stars-muted { color: color-mix(in srgb, var(--bs-secondary-color) 75%, transparent); }
+.qrf-star-btn.qrf-stars-active { color: var(--bs-warning); text-shadow: 0 0 .22rem color-mix(in srgb, var(--bs-warning) 55%, transparent); }
+.qrf-stars-clear { margin-left:.5rem; }
 
 </style>
 
@@ -146,8 +146,8 @@ cat(paste0(
 /**
  * Add support for commentaires as array of objects:
  * - commentaire (string)   [textarea]
- * - evaluation (int 1-5)  [select]
- * - nom (string)
+ * - evaluation (int 1-5)  [stars]
+ * - auteur (string)
  * - date (date)
  *
  * Existing behavior preserved:
@@ -653,6 +653,19 @@ function normalizeNumericString(s) {
   return String(s ?? "").trim().replace(",", ".");
 }
 
+function normalizeDateSlash(s) {
+  const v = String(s ?? "").trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v.replace(/-/g, "/");
+  return v;
+}
+
+function toDateDash(s) {
+  const v = String(s ?? "").trim();
+  if (/^\d{4}\/\d{2}\/\d{2}$/.test(v)) return v.replace(/\//g, "-");
+  if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+  return "";
+}
+
 // ---------------------------
 //  Renderer (schema -> DOM) : renderFromData
 // ---------------------------
@@ -697,7 +710,7 @@ function isCommentObjectSchema(schema) {
   const props = schema.properties || {};
   return Object.prototype.hasOwnProperty.call(props, "commentaire")
     && Object.prototype.hasOwnProperty.call(props, "evaluation")
-    && Object.prototype.hasOwnProperty.call(props, "nom")
+    && Object.prototype.hasOwnProperty.call(props, "auteur")
     && Object.prototype.hasOwnProperty.call(props, "date");
 }
 
@@ -774,19 +787,19 @@ function renderCommentRow(schema, value, path) {
 
   const wrapper = document.createElement("div");
 
-  // Meta row: evaluation / nom / date
+  // Meta row: evaluation / auteur / date
   const meta = document.createElement("div");
   meta.className = "qrf-row-comment-meta qrf-dense";
 
-  const colEval = document.createElement("div");
-  colEval.className = "qrf-col tiny";
-  colEval.appendChild(renderPrimitive(props["evaluation"], obj["evaluation"], [...path, "evaluation"], true));
-  meta.appendChild(colEval);
+  const colEvaluation = document.createElement("div");
+  colEvaluation.className = "qrf-col tiny";
+  colEvaluation.appendChild(renderPrimitive(props["evaluation"], obj["evaluation"], [...path, "evaluation"], true));
+  meta.appendChild(colEvaluation);
 
-  const colNom = document.createElement("div");
-  colNom.className = "qrf-col small";
-  colNom.appendChild(renderPrimitive(props["nom"], obj["nom"], [...path, "nom"], true));
-  meta.appendChild(colNom);
+  const colAuteur = document.createElement("div");
+  colAuteur.className = "qrf-col small";
+  colAuteur.appendChild(renderPrimitive(props["auteur"], obj["auteur"], [...path, "auteur"], true));
+  meta.appendChild(colAuteur);
 
   const colDate = document.createElement("div");
   colDate.className = "qrf-col tiny";
@@ -866,7 +879,8 @@ function renderArray(schema, value, path, formRoot) {
   const addBtn = document.createElement("button");
   addBtn.type = "button";
   addBtn.className = "btn btn-outline-primary btn-sm mt-2";
-  addBtn.textContent = "+ Ajouter";
+  const addLabel = labelForArrayItems(path, schema.items);
+  addBtn.textContent = `+ Ajouter ${String(addLabel || "élément").toLowerCase()}`;
   addBtn.onclick = () => addArrayItem(list, schema.items, path, null, formRoot);
   div.appendChild(addBtn);
 
@@ -906,7 +920,7 @@ function renderArrayItem(itemSchema, path, initialData, formRoot) {
     const removeBtn = document.createElement("button");
     removeBtn.type = "button";
     removeBtn.className = "btn btn-sm btn-outline-danger";
-    removeBtn.textContent = "Retirer";
+    removeBtn.textContent = `Retirer ${String(friendly || "élément").toLowerCase()}`;
     removeBtn.onclick = () => {
       itemDiv.remove();
       renumberArray(listFromItem(itemDiv), path.slice(0, -1).join("."));
@@ -930,7 +944,7 @@ function renderArrayItem(itemSchema, path, initialData, formRoot) {
   const removeBtn = document.createElement("button");
   removeBtn.type = "button";
   removeBtn.className = "btn btn-sm btn-outline-danger";
-  removeBtn.textContent = "Retirer";
+  removeBtn.textContent = `Retirer ${String(friendly || "élément").toLowerCase()}`;
   removeBtn.onclick = () => {
     itemDiv.remove();
     renumberArray(listFromItem(itemDiv), path.slice(0, -1).join("."));
@@ -1115,10 +1129,11 @@ function renderPrimitive(schema, value, path, dense=false) {
 
   // Enum => widget (stars) for evaluation 1..5, otherwise select
   if (Array.isArray(schema.enum) && schema.enum.length > 0) {
-    const isStars =
+    const keyName = String(path[path.length - 1] || "");
+    const isOneToFive =
       schema.enum.length === 5 &&
-      schema.enum.every((v, i) => Number(v) === i + 1) &&
-      String(path[path.length - 1] || "") === "evaluation";
+      schema.enum.every((v, i) => Number(v) === i + 1);
+    const isStars = isOneToFive && keyName === "evaluation";
 
     if (isStars) {
       const hidden = document.createElement("input");
@@ -1148,6 +1163,8 @@ function renderPrimitive(schema, value, path, dense=false) {
         stars.querySelectorAll("button").forEach((btn, i) => {
           const n = i + 1;
           btn.textContent = v !== null && n <= v ? "★" : "☆";
+          btn.classList.toggle("qrf-stars-active", v !== null && n <= v);
+          btn.classList.toggle("qrf-stars-muted", !(v !== null && n <= v));
         });
       }
 
@@ -1157,7 +1174,7 @@ function renderPrimitive(schema, value, path, dense=false) {
         b.className = "qrf-star-btn";
         b.textContent = "☆";
         b.onclick = () => {
-          hidden.value = (currentVal() === i) ? "" : String(i);
+          hidden.value = String(i);
           renderStars();
         };
         stars.appendChild(b);
@@ -1165,8 +1182,15 @@ function renderPrimitive(schema, value, path, dense=false) {
 
       const clear = document.createElement("button");
       clear.type = "button";
-      clear.className = "btn btn-link p-0 qrf-stars-clear";
-      clear.textContent = "Effacer";
+      clear.className = "btn btn-outline-secondary btn-sm qrf-stars-clear";
+      clear.setAttribute("aria-label", "Effacer l'évaluation");
+      clear.title = "Effacer l'évaluation";
+      clear.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0A.5.5 0 0 1 8.5 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 1 1 0-2H5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1h2.5a1 1 0 0 1 1 1zM6 2a.5.5 0 0 0-.5.5V3h5v-.5A.5.5 0 0 0 10 2H6zm-2 2v9a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4H4z"/>
+        </svg>
+      `;
       clear.onclick = () => { hidden.value = ""; renderStars(); };
 
       wrap.appendChild(stars);
@@ -1251,15 +1275,71 @@ function renderPrimitive(schema, value, path, dense=false) {
 
   // Text / date
   if (schema.format === "date") {
-    input.type = "date";
-    input.value = value ?? "";
+    input.type = "text";
+    input.inputMode = "numeric";
+    input.placeholder = "yyyy/mm/dd";
+    input.pattern = "^\\d{4}/\\d{2}/\\d{2}$";
+    input.title = "Expected format: yyyy/mm/dd";
+    input.value = normalizeDateSlash(value ?? "");
+
+    const wrap = document.createElement("div");
+    wrap.className = "input-group";
+
+    const pickerBtn = document.createElement("button");
+    pickerBtn.type = "button";
+    pickerBtn.className = "btn btn-outline-secondary";
+    pickerBtn.setAttribute("aria-label", "Open calendar");
+    pickerBtn.title = "Open calendar";
+    pickerBtn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1A2 2 0 0 1 16 3v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 5v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5H1z"/>
+      </svg>
+    `;
+
+    const nativePicker = document.createElement("input");
+    nativePicker.type = "date";
+    nativePicker.tabIndex = -1;
+    nativePicker.setAttribute("aria-hidden", "true");
+    nativePicker.style.position = "absolute";
+    nativePicker.style.opacity = "0";
+    nativePicker.style.pointerEvents = "none";
+    nativePicker.style.width = "0";
+    nativePicker.style.height = "0";
+    nativePicker.value = toDateDash(input.value);
+
+    const syncTextToPicker = () => {
+      nativePicker.value = toDateDash(input.value);
+    };
+    const syncPickerToText = () => {
+      if (nativePicker.value) input.value = normalizeDateSlash(nativePicker.value);
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    };
+
+    input.addEventListener("change", syncTextToPicker);
+    input.addEventListener("input", syncTextToPicker);
+    nativePicker.addEventListener("change", syncPickerToText);
+
+    pickerBtn.addEventListener("click", () => {
+      syncTextToPicker();
+      if (typeof nativePicker.showPicker === "function") {
+        nativePicker.showPicker();
+      } else {
+        nativePicker.focus();
+      }
+    });
+
+    wrap.appendChild(input);
+    wrap.appendChild(pickerBtn);
+    wrap.appendChild(nativePicker);
+    div.appendChild(wrap);
+    return div;
   } else {
     input.type = "text";
     input.value = value ?? "";
+    div.appendChild(input);
+    return div;
   }
-
-  div.appendChild(input);
-  return div;
 }
 
 
@@ -1316,6 +1396,15 @@ function serializeToData(schema, container, path=[]) {
 function isEmptyObject(obj) {
   if (!obj || typeof obj !== "object") return true;
   return Object.values(obj).every(v => v === null || v === "" || v === undefined);
+}
+
+function autofillCommentDates(data) {
+  const today = new Date().toISOString().slice(0, 10).replace(/-/g, "/");
+  const comments = Array.isArray(data?.commentaires) ? data.commentaires : [];
+  comments.forEach((c) => {
+    if (!c || typeof c !== "object") return;
+    if (c.date === null || c.date === undefined || c.date === "") c.date = today;
+  });
 }
 
 // ---------------------------
@@ -1433,6 +1522,7 @@ async function handleSubmit(e) {
 
   try {
     const data = serializeToData(window.RECIPE_SCHEMA, form, []);
+    autofillCommentDates(data);
     const yamlContent = jsyaml.dump(data, { indent: 2, lineWidth: -1 });
 
     const token = window.GITHUB_PAT;

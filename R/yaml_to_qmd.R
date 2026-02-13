@@ -8,7 +8,9 @@
 # - recipe$commentaires can be:
 #   (A) old format: character vector
 #   (B) new format: list of dict with optional fields:
-#       commentaire (string), evaluation (int 1..5), nom (string), date (YYYY-MM-DD)
+#       commentaire (string), evaluation (int 1..5), auteur (string), date (YYYY-MM-DD)
+#   Backward compatibility:
+#       note -> evaluation, nom -> auteur
 #
 # In the generated recipe page, we display:
 # - Average stars (from available evaluations)
@@ -164,7 +166,7 @@ normalize_comments <- function(commentaires) {
 
   # Old format: vector of strings
   if (is.character(commentaires)) {
-    return(lapply(commentaires, function(s) list(commentaire = s, evaluation = NULL, nom = NULL, date = NULL)))
+    return(lapply(commentaires, function(s) list(commentaire = s, evaluation = NULL, auteur = NULL, date = NULL)))
   }
 
   # Some YAML parsers may give a list with unnamed entries
@@ -173,12 +175,14 @@ normalize_comments <- function(commentaires) {
     for (i in seq_along(commentaires)) {
       x <- commentaires[[i]]
       if (is.character(x)) {
-        out[[length(out) + 1]] <- list(commentaire = x, evaluation = NULL, nom = NULL, date = NULL)
+        out[[length(out) + 1]] <- list(commentaire = x, evaluation = NULL, auteur = NULL, date = NULL)
       } else if (is.list(x)) {
+        raw_evaluation <- if (!is.null(x$evaluation)) x$evaluation else x$note
+        raw_author <- if (!is.null(x$auteur)) x$auteur else x$nom
         out[[length(out) + 1]] <- list(
           commentaire = if (!is.null(x$commentaire)) x$commentaire else NULL,
-          evaluation = if (!is.null(x$evaluation)) as.numeric(x$evaluation) else NULL,
-          nom = if (!is.null(x$nom)) x$nom else NULL,
+          evaluation = if (!is.null(raw_evaluation)) as.numeric(raw_evaluation) else NULL,
+          auteur = if (!is.null(raw_author)) raw_author else NULL,
           date = if (!is.null(x$date)) x$date else NULL
         )
       }
@@ -211,7 +215,7 @@ norm_name <- function(x) {
 
 count_by_author <- function(comments, author) {
   a <- norm_name(author)
-  sum(vapply(comments, function(cmt) norm_name(cmt$nom) == a, logical(1)))
+  sum(vapply(comments, function(cmt) norm_name(cmt$auteur) == a, logical(1)))
 }
 
 format_comment_line <- function(cmt) {
@@ -224,7 +228,7 @@ format_comment_line <- function(cmt) {
     }
   }
 
-  if (!is.null(cmt$nom) && cmt$nom != "") parts <- c(parts, cmt$nom)
+  if (!is.null(cmt$auteur) && cmt$auteur != "") parts <- c(parts, cmt$auteur)
   if (!is.null(cmt$date) && cmt$date != "") parts <- c(parts, cmt$date)
 
   prefix <- if (length(parts) > 0) paste0("[", paste(parts, collapse = " · "), "] ") else ""

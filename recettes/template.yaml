@@ -31,8 +31,14 @@ exemple:
             - Bol
 
   commentaires:
-    - Excellent
-    - À refaire
+    - commentaire: Excellent
+      date: 2026-02-13
+      auteur: Alex
+      evaluation: 5
+    - commentaire: À refaire
+      date: 2026-02-13
+      auteur: Alex
+      evaluation: 4
 
 # ============================================================
 # Schéma dynamique du formulaire
@@ -128,7 +134,22 @@ _schema:
     commentaires:
       type: array
       items:
-        type: string
+        type: object
+        properties:
+          commentaire:
+            type: string
+            nullable: true
+          date:
+            type: string
+            format: date
+            nullable: true
+          auteur:
+            type: string
+            nullable: true
+          evaluation:
+            type: integer
+            enum: [1, 2, 3, 4, 5]
+            nullable: true
 
     image_guid:
       type: string
