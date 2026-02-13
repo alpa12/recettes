@@ -37,17 +37,90 @@ cat(
 
 ## Importer depuis une URL
 
-<!-- Section réservée pour import futur -->
+<div class="alert alert-warning" role="alert">
+  <h5>⚠️ Import automatique avec IA</h5>
+  <p class="mb-0">Cette fonctionnalité utilise un LLM pour extraire automatiquement les informations de la recette depuis une URL. L'import sera validé manuellement avant publication.</p>
+</div>
+
+<form id="url-form" class="mb-4 needs-validation" novalidate>
+  <div class="mb-3">
+    <label for="recipe-url" class="form-label required-field">URL de la recette</label>
+    <input type="url" class="form-control" id="recipe-url" placeholder="https://exemple.com/ma-recette" required>
+    <div class="invalid-feedback">Veuillez entrer une URL valide.</div>
+    <div class="form-text">Entrez l'URL complète d'une recette sur un site web externe.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="url-submitted-by" class="form-label">Votre nom (optionnel)</label>
+    <input type="text" class="form-control" id="url-submitted-by" placeholder="Votre nom">
+  </div>
+
+  <div class="d-grid gap-2">
+    <button type="submit" class="btn btn-primary btn-lg">Soumettre l'URL</button>
+  </div>
+</form>
+
+<div id="url-success-message" class="alert alert-success d-none" role="alert">
+  <h4 class="alert-heading">✅ URL soumise avec succès!</h4>
+  <p>Une Pull Request a été créée avec votre URL. L'import automatique sera effectué après validation manuelle.</p>
+  <p class="mb-0">Vous pouvez la voir ici: <a id="url-pr-link" href="#" target="_blank" class="alert-link" rel="noopener noreferrer"></a></p>
+</div>
+
+<div id="url-error-message" class="alert alert-danger d-none" role="alert">
+  <h4 class="alert-heading">❌ Erreur</h4>
+  <p id="url-error-text"></p>
+</div>
 
 :::
 
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 
+<style>
+/* Reproduit le look des onglets de l'ancien code (s'applique aussi au panel-tabset Quarto) */
+.nav-tabs {
+  border-bottom: 2px solid var(--bs-primary);
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  color: var(--bs-secondary);
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+  border: none;
+  color: var(--bs-primary);
+  background-color: var(--bs-light);
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--bs-primary);
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid var(--bs-primary);
+}
+
+/* Petit détail visuel utilisé par l'ancienne version */
+.required-field::after {
+  content: " *";
+  color: var(--bs-danger);
+}
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   renderForm(window.RECIPE_SCHEMA, "recipe-form-container", []);
+
+  const urlForm = document.getElementById("url-form");
+  if (urlForm) {
+    urlForm.addEventListener("submit", handleUrlSubmit);
+  }
 });
 
+// ---------------------------
+//  Helpers UI (manuel)
+// ---------------------------
 function showSuccess(prUrl) {
   const success = document.getElementById("success-message");
   const error = document.getElementById("error-message");
@@ -112,6 +185,9 @@ function setSubmitLoading(form, isLoading, label="Soumettre la recette") {
   }
 }
 
+// ---------------------------
+//  Form rendering (manuel)
+// ---------------------------
 function renderForm(schema, containerId, path) {
   const container = document.getElementById(containerId);
   container.innerHTML = "";
@@ -242,6 +318,9 @@ function renderPrimitive(schema, key, path, required=false) {
   return div;
 }
 
+// ---------------------------
+//  GitHub helpers
+// ---------------------------
 async function safeJson(resp) {
   try { return await resp.json(); } catch { return null; }
 }
@@ -279,6 +358,9 @@ async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBra
   throw new Error("Impossible de créer une branche unique après plusieurs tentatives.");
 }
 
+// ---------------------------
+//  Submit handler (manuel)
+// ---------------------------
 async function handleSubmit(e) {
   e.preventDefault();
   clearMessages();
@@ -300,9 +382,6 @@ async function handleSubmit(e) {
     const owner = "alpa12";
     const repo = "recettes";
     const base = "dev";
-
-    // Avoid logging secrets
-    console.log("GitHub Owner:", owner, "Repo:", repo);
 
     const headers = {
       "Authorization": "token " + token,
@@ -362,7 +441,6 @@ async function handleSubmit(e) {
     if (prData && prData.html_url) {
       showSuccess(prData.html_url);
       resetForm(form);
-      // ✅ Ne pas ouvrir automatiquement la PR; on affiche simplement le lien
     } else {
       throw new Error("PR créée, mais URL introuvable.");
     }
@@ -400,5 +478,191 @@ function collectData(schema, container, path=[]) {
   if (schema.type === "number") return parseFloat(input.value) || null;
 
   return input.value || null;
+}
+
+// ---------------------------
+//  URL import tab (repro)
+// ---------------------------
+function showUrlSuccess(prUrl) {
+  const form = document.getElementById("url-form");
+  const success = document.getElementById("url-success-message");
+  const error = document.getElementById("url-error-message");
+  const link = document.getElementById("url-pr-link");
+
+  if (form) form.style.display = "none";
+
+  error.classList.add("d-none");
+  document.getElementById("url-error-text").textContent = "";
+
+  success.classList.remove("d-none");
+  link.href = prUrl;
+  link.textContent = prUrl;
+
+  window.scrollTo(0, 0);
+}
+
+function showUrlError(message) {
+  const success = document.getElementById("url-success-message");
+  const error = document.getElementById("url-error-message");
+
+  success.classList.add("d-none");
+
+  error.classList.remove("d-none");
+  document.getElementById("url-error-text").textContent = message;
+
+  window.scrollTo(0, 0);
+
+  setTimeout(() => {
+    error.classList.add("d-none");
+  }, 10000);
+}
+
+function setUrlSubmitLoading(form, isLoading) {
+  const btn = form.querySelector('button[type="submit"]');
+  if (!btn) return;
+
+  if (isLoading) {
+    btn.disabled = true;
+    btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
+    btn.innerHTML = `
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Soumission de l'URL...
+    `;
+    form.setAttribute("aria-busy", "true");
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = btn.dataset.originalText || "Soumettre l'URL";
+    form.removeAttribute("aria-busy");
+  }
+}
+
+async function handleUrlSubmit(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  if (!form.checkValidity()) {
+    e.stopPropagation();
+    form.classList.add("was-validated");
+    return;
+  }
+
+  setUrlSubmitLoading(form, true);
+
+  try {
+    const url = document.getElementById("recipe-url").value;
+    const submittedBy = document.getElementById("url-submitted-by").value;
+
+    const pendingContent = {
+      url: url,
+      submitted_at: new Date().toISOString(),
+      status: "pending"
+    };
+
+    if (submittedBy && submittedBy.trim()) {
+      pendingContent.submitted_by = submittedBy.trim();
+    }
+
+    const filename = `pending-${Date.now()}.yaml`;
+
+    const prUrl = await createUrlPullRequest(pendingContent, filename, url);
+    showUrlSuccess(prUrl);
+  } catch (err) {
+    showUrlError(err?.message || "Une erreur est survenue.");
+  } finally {
+    setUrlSubmitLoading(form, false);
+  }
+}
+
+async function createUrlPullRequest(pendingContent, filename, url) {
+  const token = window.GITHUB_PAT;
+  const owner = "alpa12";
+  const repo = "recettes";
+  const base = "dev";
+
+  if (!token || !owner || !repo) {
+    throw new Error("Configuration GitHub manquante.");
+  }
+
+  const headers = {
+    "Authorization": "token " + token,
+    "Accept": "application/vnd.github+json"
+  };
+
+  const yamlContent = jsyaml.dump(pendingContent, {
+    indent: 2,
+    lineWidth: -1,
+    noRefs: true
+  });
+
+  const filepath = `recettes/pending/${filename}`;
+
+  // 1️⃣ Get dev branch SHA
+  const refResp = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`,
+    { headers }
+  );
+  const refData = await safeJson(refResp);
+  if (!refResp.ok) throw new Error(refData?.message || `Impossible de récupérer la branche ${base}.`);
+  const baseSha = refData.object.sha;
+
+  // 2️⃣ Create branch (suffix if exists)
+  const baseBranchName = `recipe-url/${Date.now()}`;
+  const branchName = await createBranchWithSuffixes({
+    owner, repo, headers, baseSha, baseBranchName, maxAttempts: 20
+  });
+
+  // 3️⃣ Create the pending file
+  const createFileResponse = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`,
+    {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({
+        message: `Import de recette depuis URL: ${url}`,
+        content: btoa(unescape(encodeURIComponent(yamlContent))),
+        branch: branchName
+      })
+    }
+  );
+
+  const fileData = await safeJson(createFileResponse);
+  if (!createFileResponse.ok) {
+    throw new Error(fileData?.message || "Impossible de créer le fichier pending.");
+  }
+
+  // 4️⃣ Create PR (body identical to old version)
+  const prBody =
+`## Import de recette depuis URL
+
+**URL:** ${url}
+${pendingContent.submitted_by ? `**Soumis par:** ${pendingContent.submitted_by}
+` : ""}
+Cette recette nécessite un import automatique via LLM.
+
+---
+
+⚠️ Cette PR sera traitée automatiquement par le workflow d'import.`;
+
+  const prResponse = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/pulls`,
+    {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        title: `Import recette: ${url}`,
+        body: prBody,
+        head: branchName,
+        base: base
+      })
+    }
+  );
+
+  const prData = await safeJson(prResponse);
+  if (!prResponse.ok) {
+    throw new Error(prData?.message || "Impossible de créer la pull request.");
+  }
+
+  if (prData && prData.html_url) return prData.html_url;
+  throw new Error("PR créée, mais URL introuvable.");
 }
 </script>
