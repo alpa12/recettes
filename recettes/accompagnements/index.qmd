@@ -7,3 +7,5 @@ listing:
   fields: [title, image]
   categories: true
 ---
+
+Des salades, légumes et petits plus pour compléter n'importe quel repas.
