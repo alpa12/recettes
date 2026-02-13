@@ -45,6 +45,20 @@ cat(paste0(
 </div>
 ```
 
+```{=html}
+<div class="card mb-3" id="draft-tools-card">
+  <div class="card-body py-2">
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+      <div id="draft-status" class="small text-muted">Brouillon: non enregistré</div>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="save-draft-btn">Enregistrer le brouillon</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" id="clear-draft-btn">Effacer le brouillon</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
 
 <div id="recipe-form-container"></div>
 
@@ -182,10 +196,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
+    if (!yamlPath) {
+      const draft = loadDraftData();
+      if (draft && typeof draft === "object") {
+        data = draft;
+        setDraftStatus("Brouillon chargé automatiquement.");
+      }
+    }
+
     const form = renderFromData(schema, data, document.getElementById("recipe-form-container"));
     setupPasswordGateForManualForm(form);
     setupPasswordGateForUrlForm();
     setupUrlImportForm();
+    setupDraftAutosave(form, schema, { isEditMode: !!yamlPath });
   } catch (e) {
     showError(e?.message || "Erreur au chargement du formulaire.");
   }
@@ -222,6 +245,8 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+const DRAFT_KEY = "recipe_form_draft_v2";
 
 // ---------------------------
 //  Image upload (cover + steps)
@@ -606,10 +631,67 @@ function clearMessages() {
   error.innerHTML = "";
 }
 
+function setDraftStatus(text) {
+  const el = document.getElementById("draft-status");
+  if (el) el.textContent = text;
+}
+
+function loadDraftData() {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && parsed.data ? parsed.data : null;
+  } catch {
+    return null;
+  }
+}
+
+function setupDraftAutosave(form, schema, { isEditMode = false } = {}) {
+  const saveBtn = document.getElementById("save-draft-btn");
+  const clearBtn = document.getElementById("clear-draft-btn");
+  const card = document.getElementById("draft-tools-card");
+
+  if (isEditMode) {
+    if (card) card.classList.add("d-none");
+    return;
+  }
+
+  const saveNow = () => {
+    try {
+      const payload = {
+        updated_at: new Date().toISOString(),
+        data: serializeToData(schema, form, [])
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(payload));
+      const stamp = new Date(payload.updated_at).toLocaleTimeString();
+      setDraftStatus(`Brouillon enregistré à ${stamp}`);
+    } catch {
+      setDraftStatus("Erreur lors de l'enregistrement du brouillon.");
+    }
+  };
+
+  let timer = null;
+  const queueSave = () => {
+    if (timer) window.clearTimeout(timer);
+    timer = window.setTimeout(saveNow, 700);
+  };
+
+  form.addEventListener("input", queueSave);
+  form.addEventListener("change", queueSave);
+  saveBtn?.addEventListener("click", saveNow);
+  clearBtn?.addEventListener("click", () => {
+    localStorage.removeItem(DRAFT_KEY);
+    setDraftStatus("Brouillon effacé.");
+  });
+}
+
 function resetForm(form) {
   form.reset();
   form.classList.remove("was-validated");
   form.querySelectorAll("[data-array-list]").forEach((list) => (list.innerHTML = ""));
+  localStorage.removeItem(DRAFT_KEY);
+  setDraftStatus("Brouillon effacé.");
 
   // Clear pending image state + previews
   window.__PENDING_IMAGES__ = {};
