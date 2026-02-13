@@ -77,46 +77,108 @@ cat(
 </style>
 
 <script>
-/**
- * IMPORTANT
- * ----------
- * Ton code appelait renderForm(...) mais ces fonctions n'étaient plus présentes,
- * donc une erreur JS stoppait tout et le formulaire n'apparaissait pas.
- * Ci-dessous, on réintroduit le renderer du formulaire (renderForm/renderObject/...)
- * tout en gardant ta logique de soumission existante.
- */
-
-window.__EDIT_MODE__ = null;
-
-// On attend "load" (plus robuste avec panel-tabset) plutôt que DOMContentLoaded.
-window.addEventListener("load", async () => {
-  try {
-    if (!window.RECIPE_SCHEMA) {
-      throw new Error("RECIPE_SCHEMA est introuvable (injection R non exécutée).");
-    }
-
-    renderForm(window.RECIPE_SCHEMA, "recipe-form-container", []);
-    await maybeLoadYamlForEdit();
-  } catch (err) {
-    const error = document.getElementById("error-message");
-    if (error) {
-      error.classList.remove("d-none");
-      error.innerHTML = `<strong>Erreur :</strong> ${err?.message || err}`;
-    }
-    // Aide debug
-    console.error(err);
-  }
+document.addEventListener("DOMContentLoaded", async () => {
+  // Render form first (so inputs exist), then optionally load YAML (edit mode)
+  renderForm(window.RECIPE_SCHEMA, "recipe-form-container", []);
+  await maybeLoadYamlForEdit();
 });
 
 // ---------------------------
-//  Form rendering (manuel)
+//  Small helpers
+// ---------------------------
+function getQueryParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+function stripLeadingSlash(p) {
+  if (!p) return "";
+  return p.startsWith("/") ? p.slice(1) : p;
+}
+
+function slugify(str) {
+  return str
+    .toString()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+// ---------------------------
+//  UI messages
+// ---------------------------
+function showSuccess(prUrl) {
+  const success = document.getElementById("success-message");
+  const error = document.getElementById("error-message");
+
+  error.classList.add("d-none");
+  error.innerHTML = "";
+
+  success.classList.remove("d-none");
+  success.innerHTML = `
+    <div><strong>Demande créée avec succès !</strong></div>
+    <div><a href="${prUrl}" target="_blank" rel="noopener noreferrer">${prUrl}</a></div>
+  `;
+}
+
+function showError(message) {
+  const success = document.getElementById("success-message");
+  const error = document.getElementById("error-message");
+
+  success.classList.add("d-none");
+  success.innerHTML = "";
+
+  error.classList.remove("d-none");
+  error.innerHTML = `<strong>Erreur :</strong> ${message}`;
+}
+
+function clearMessages() {
+  const success = document.getElementById("success-message");
+  const error = document.getElementById("error-message");
+  success.classList.add("d-none");
+  success.innerHTML = "";
+  error.classList.add("d-none");
+  error.innerHTML = "";
+}
+
+function resetForm(form) {
+  form.reset();
+  form.classList.remove("was-validated");
+
+  // Clear dynamically added array items
+  form.querySelectorAll("[data-array-list]").forEach((list) => (list.innerHTML = ""));
+}
+
+function setSubmitLoading(form, isLoading, label="Soumettre la recette") {
+  const btn = form.querySelector('button[type="submit"]');
+  if (!btn) return;
+
+  if (isLoading) {
+    btn.disabled = true;
+    btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
+    btn.innerHTML = `
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Création de la demande...
+    `;
+    form.setAttribute("aria-busy", "true");
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = btn.dataset.originalText || label;
+    form.removeAttribute("aria-busy");
+  }
+}
+
+// ---------------------------
+//  Form rendering
 // ---------------------------
 function renderForm(schema, containerId, path) {
   const container = document.getElementById(containerId);
-  if (!container) throw new Error(`Container #${containerId} introuvable.`);
   container.innerHTML = "";
 
   const form = document.createElement("form");
+  form.id = "recipe-form";
   form.classList.add("needs-validation");
   form.noValidate = true;
 
@@ -135,7 +197,7 @@ function renderForm(schema, containerId, path) {
 function renderObject(schema, path) {
   const wrapper = document.createElement("div");
 
-  Object.entries(schema.properties || {}).forEach(([key, prop]) => {
+  Object.entries(schema.properties).forEach(([key, prop]) => {
     const fieldPath = [...path, key];
 
     if (prop.type === "object") {
@@ -143,12 +205,7 @@ function renderObject(schema, path) {
     } else if (prop.type === "array") {
       wrapper.appendChild(renderArray(prop, key, fieldPath));
     } else {
-      wrapper.appendChild(
-        renderPrimitive(
-          prop, key, fieldPath,
-          Array.isArray(schema.required) ? schema.required.includes(key) : false
-        )
-      );
+      wrapper.appendChild(renderPrimitive(prop, key, fieldPath, schema.required?.includes(key)));
     }
   });
 
@@ -182,6 +239,7 @@ function renderArray(schema, key, path) {
   div.appendChild(label);
 
   const list = document.createElement("div");
+  list.dataset.arrayList = "1";
   list.dataset.arrayPath = path.join(".");
   div.appendChild(list);
 
@@ -189,26 +247,38 @@ function renderArray(schema, key, path) {
   addBtn.type = "button";
   addBtn.className = "btn btn-outline-primary btn-sm mt-2";
   addBtn.textContent = "+ Ajouter";
-  addBtn.onclick = () => {
-    list.appendChild(renderArrayItem(schema.items, path));
-  };
-
-  // Si tu veux au moins 1 item par défaut pour les arrays de primitives, décommente:
-  // if (schema.items && schema.items.type !== "object") list.appendChild(renderArrayItem(schema.items, path));
+  addBtn.onclick = () => addArrayItem(list, schema.items, path, null);
 
   div.appendChild(addBtn);
+
+  // UX: start with 1 item for simple arrays (categories/commentaires) to avoid empty UI
+  // but keep complex arrays empty by default (preparation has nested objects)
+  if (schema.items?.type !== "object") {
+    addArrayItem(list, schema.items, path, null);
+  }
+
   return div;
+}
+
+function addArrayItem(list, itemSchema, path, initialData) {
+  const idx = list.children.length;
+  const itemPath = [...path, String(idx)];
+  const itemDiv = renderArrayItem(itemSchema, itemPath);
+  list.appendChild(itemDiv);
+
+  if (initialData !== null && initialData !== undefined) {
+    fillRecursive(itemSchema, initialData, itemPath, itemDiv);
+  }
 }
 
 function renderArrayItem(itemSchema, path) {
   const itemDiv = document.createElement("div");
   itemDiv.className = "border rounded p-3 mt-2";
 
-  if (itemSchema && itemSchema.type === "object") {
+  if (itemSchema.type === "object") {
     itemDiv.appendChild(renderObject(itemSchema, path));
   } else {
-    // Primitive item
-    itemDiv.appendChild(renderPrimitive(itemSchema || {type:"string"}, "", path, false));
+    itemDiv.appendChild(renderPrimitive(itemSchema, "", path));
   }
 
   const removeBtn = document.createElement("button");
@@ -227,118 +297,182 @@ function renderPrimitive(schema, key, path, required=false) {
 
   const label = document.createElement("label");
   label.className = "form-label";
-  label.textContent = (schema && schema.title) ? schema.title : (key || "");
-  if (required) label.classList.add("required-field");
+  label.textContent = schema.title || key;
   div.appendChild(label);
 
   let input;
 
-  if (schema && schema.type === "boolean") {
+  if (schema.type === "boolean") {
     input = document.createElement("input");
     input.type = "checkbox";
     input.className = "form-check-input ms-2";
   } else {
     input = document.createElement("input");
-    input.type = (schema && (schema.type === "integer" || schema.type === "number")) ? "number" : "text";
+    input.type = (schema.type === "integer" || schema.type === "number") ? "number" : "text";
     input.className = "form-control";
   }
 
   input.dataset.path = path.join(".");
   if (required) input.required = true;
-  if (schema && schema.description) input.placeholder = schema.description;
+
+  if (schema.description)
+    input.placeholder = schema.description;
 
   div.appendChild(input);
   return div;
 }
 
 // ---------------------------
-//  Helpers
-// ---------------------------
-function slugify(str) {
-  return str
-    .toString()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-function stripLeadingSlash(p) {
-  if (!p) return "";
-  return p.startsWith("/") ? p.slice(1) : p;
-}
-
-function getQueryParam(name) {
-  return new URLSearchParams(window.location.search).get(name);
-}
-
-function showError(message) {
-  const success = document.getElementById("success-message");
-  const error = document.getElementById("error-message");
-
-  if (success) {
-    success.classList.add("d-none");
-    success.innerHTML = "";
-  }
-  if (error) {
-    error.classList.remove("d-none");
-    error.innerHTML = `<strong>Erreur :</strong> ${message}`;
-  }
-}
-
-// ---------------------------
-//  (Optionnel) Edit mode : charge un YAML et pré-remplit
+//  Edit mode: load YAML and prefill
 // ---------------------------
 async function maybeLoadYamlForEdit() {
-  const yamlParam = getQueryParam("yaml");
-  if (!yamlParam) return;
+  const yamlPath = getQueryParam("yaml");
+  if (!yamlPath) return;
 
-  // Supporte:
-  //  - chemins absolus: /recettes/accompagnements/xxx.yaml
-  //  - chemins relatifs (par rapport à cette page): ../accompagnements/xxx.yaml
-  //  - anciens liens sans slash initial: recettes/accompagnements/xxx.yaml
-  const normalizedParam = yamlParam.startsWith("http")
-    ? yamlParam
-    : (yamlParam.startsWith("/") || yamlParam.startsWith("../") ? yamlParam : ("/" + yamlParam));
-
-  const yamlUrl = new URL(normalizedParam, window.location.href).toString();
-
-  const resp = await fetch(yamlUrl);
+  // yamlPath is relative to site root (e.g. recettes/repas/xxx.yaml)
+  const resp = await fetch(yamlPath);
   if (!resp.ok) throw new Error("Impossible de charger le YAML.");
   const text = await resp.text();
   const data = jsyaml.load(text);
 
-  // Chemin "repo" (pour GitHub Contents API) basé sur le pathname.
-  // Ex: /recettes/accompagnements/salade.yaml -> recettes/accompagnements/salade.yaml
-  const repoPath = stripLeadingSlash(new URL(normalizedParam, window.location.origin).pathname);
+  window.__EDIT_MODE__ = { yamlPath, original: data };
 
-  window.__EDIT_MODE__ = {
-    yamlParam: normalizedParam,
-    yamlUrl,
-    repoPath,
-    original: data
-  };
-
-  fillFormFromData(data);
+  const form = document.getElementById("recipe-form");
+  fillRecursive(window.RECIPE_SCHEMA, data, [], form);
 }
 
-function fillFormFromData(data, container=document) {
-  for (const [key, value] of Object.entries(data || {})) {
-    const input = container.querySelector(`[data-path="${key}"]`);
-    if (!input) continue;
+function fillRecursive(schema, value, path, container) {
+  if (!schema) return;
 
-    if (input.type === "checkbox") input.checked = !!value;
-    else if (value !== null && value !== undefined) input.value = value;
+  if (schema.type === "object") {
+    if (!value || typeof value !== "object") return;
+    for (const [key, prop] of Object.entries(schema.properties || {})) {
+      fillRecursive(prop, value[key], [...path, key], container);
+    }
+    return;
+  }
+
+  if (schema.type === "array") {
+    const list = container.querySelector(`[data-array-path="${path.join(".")}"]`);
+    if (!list) return;
+
+    // Clear existing items (including the default empty one)
+    list.innerHTML = "";
+
+    if (Array.isArray(value)) {
+      value.forEach((itemVal) => addArrayItem(list, schema.items, path, itemVal));
+    } else {
+      // keep one empty input for simple arrays
+      if (schema.items?.type !== "object") addArrayItem(list, schema.items, path, null);
+    }
+    return;
+  }
+
+  // primitive
+  const input = container.querySelector(`[data-path="${path.join(".")}"]`);
+  if (!input) return;
+
+  if (input.type === "checkbox") {
+    input.checked = !!value;
+  } else if (value !== null && value !== undefined) {
+    input.value = value;
   }
 }
 
 // ---------------------------
-//  Submit (ta logique, inchangée)
+//  GitHub helpers
+// ---------------------------
+async function safeJson(resp) {
+  try { return await resp.json(); } catch { return null; }
+}
+
+
+// Return the current file SHA on a given branch (needed to update an existing file via the Contents API)
+async function getFileSha({ owner, repo, headers, filePath, branch }) {
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${encodeURIComponent(branch)}`;
+  const resp = await fetch(url, { headers });
+  const data = await safeJson(resp);
+  if (resp.status === 404) return null; // file doesn't exist (create mode)
+  if (!resp.ok) throw new Error(data?.message || "Impossible de lire le fichier existant (SHA).");
+  return data?.sha || null;
+}
+
+async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName, maxAttempts=20 }) {
+  for (let i = 1; i <= maxAttempts; i++) {
+    const branchName = (i === 1) ? baseBranchName : `${baseBranchName}-${i}`;
+    const resp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/git/refs`,
+      { method: "POST", headers, body: JSON.stringify({ ref: `refs/heads/${branchName}`, sha: baseSha }) }
+    );
+    const data = await safeJson(resp);
+    if (resp.ok) return branchName;
+
+    const msg = (data && data.message) ? data.message : "";
+    const isAlreadyExists = resp.status === 422 && msg.toLowerCase().includes("reference already exists");
+    if (isAlreadyExists) continue;
+
+    throw new Error(msg || `Impossible de créer la branche (status ${resp.status}).`);
+  }
+  throw new Error("Impossible de créer une branche unique après plusieurs tentatives.");
+}
+
+// ---------------------------
+//  Collect form data (schema-driven, supports nested arrays/objects)
+// ---------------------------
+function collectData(schema, container, path=[]) {
+  if (schema.type === "object") {
+    const obj = {};
+    Object.entries(schema.properties || {}).forEach(([key, prop]) => {
+      obj[key] = collectData(prop, container, [...path, key]);
+    });
+    return obj;
+  }
+
+  if (schema.type === "array") {
+    const list = container.querySelector(`[data-array-path="${path.join(".")}"]`);
+    if (!list) return [];
+
+    const items = [];
+    const itemSchema = schema.items;
+
+    // Each direct child in list corresponds to one array item
+    Array.from(list.children).forEach((itemDiv) => {
+      // Ignore the remove button etc? itemDiv is wrapper; collect within it
+      // We store index inside data-path, so just recurse with index based on DOM order
+      const idx = items.length;
+      const itemPath = [...path, String(idx)];
+      const val = collectData(itemSchema, itemDiv, itemPath);
+      // Keep empty strings out for primitive arrays
+      if (itemSchema.type === "object") {
+        items.push(val);
+      } else {
+        if (val !== null && val !== "") items.push(val);
+      }
+    });
+
+    return items;
+  }
+
+  // primitive
+  const selector = `[data-path="${path.join(".")}"]`;
+  const input = container.querySelector(selector);
+
+  if (!input) return null;
+
+  if (schema.type === "boolean") return input.checked;
+  if (schema.type === "integer") return input.value === "" ? null : parseInt(input.value, 10);
+  if (schema.type === "number") return input.value === "" ? null : parseFloat(input.value);
+
+  return input.value === "" ? null : input.value;
+}
+
+// ---------------------------
+//  Submit handler (create or edit)
 // ---------------------------
 async function handleSubmit(e) {
   e.preventDefault();
+  clearMessages();
+
   const form = e.target;
 
   if (!form.checkValidity()) {
@@ -346,64 +480,59 @@ async function handleSubmit(e) {
     return;
   }
 
+  setSubmitLoading(form, true);
+
   try {
     const data = collectData(window.RECIPE_SCHEMA, form);
     const yamlContent = jsyaml.dump(data, { indent: 2, lineWidth: -1 });
 
-    const token = window.GITHUB_PAT || "";
+    const token = window.GITHUB_PAT;
     const owner = "alpa12";
     const repo = "recettes";
     const base = "dev";
-
-    // Permet de tester localement sans token (juste affichage)
-    if (!token) {
-      console.warn("GITHUB_PAT est vide: soumission désactivée en local (affichage OK).");
-      document.getElementById("success-message").classList.remove("d-none");
-      document.getElementById("success-message").textContent =
-        "✅ Formulaire affiché. (Soumission désactivée car GITHUB_PAT est vide en local.)";
-      return;
-    }
 
     const headers = {
       "Authorization": "token " + token,
       "Accept": "application/vnd.github+json"
     };
 
-    const refResp = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`,
-      { headers }
-    );
-    const refData = await refResp.json();
+    const refResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`, { headers });
+    const refData = await safeJson(refResp);
+    if (!refResp.ok) throw new Error(refData?.message || "Impossible de lire la branche de base.");
     const baseSha = refData.object.sha;
 
-    const slug = slugify(data.nom_court);
+    const slug = slugify(data.nom_court || data.nom || "recette");
 
     const filePath = window.__EDIT_MODE__
-      ? window.__EDIT_MODE__.repoPath
+      ? stripLeadingSlash(window.__EDIT_MODE__.yamlPath)
       : `recettes/${slug}.yaml`;
 
     const baseBranchName = window.__EDIT_MODE__
       ? `recette-modif/${slug}`
       : `recette/${slug}`;
 
-    const branchName = await createBranchWithSuffixes({
-      owner, repo, headers, baseSha, baseBranchName
-    });
+    const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
-    await fetch(
+    // If the file already exists on this branch, GitHub requires its SHA to update it
+    const existingSha = await getFileSha({ owner, repo, headers, filePath, branch: branchName });
+
+    const putBody = {
+      message: window.__EDIT_MODE__ ? `Modification recette ${slug}` : `Ajout recette ${slug}`,
+      content: btoa(unescape(encodeURIComponent(yamlContent))),
+      branch: branchName
+    };
+    if (existingSha) putBody.sha = existingSha;
+
+    const fileResp = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
       {
         method: "PUT",
         headers,
-        body: JSON.stringify({
-          message: window.__EDIT_MODE__
-            ? `Modification recette ${slug}`
-            : `Ajout recette ${slug}`,
-          content: btoa(unescape(encodeURIComponent(yamlContent))),
-          branch: branchName
-        })
+        body: JSON.stringify(putBody)
       }
     );
+    const fileData = await safeJson(fileResp);
+    if (!fileResp.ok) throw new Error(fileData?.message || "Impossible d'écrire le fichier.");
 
     const prResp = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/pulls`,
@@ -411,78 +540,26 @@ async function handleSubmit(e) {
         method: "POST",
         headers,
         body: JSON.stringify({
-          title: window.__EDIT_MODE__
-            ? `Modification recette ${slug}`
-            : `Ajout recette ${slug}`,
+          title: window.__EDIT_MODE__ ? `Modification recette ${slug}` : `Ajout recette ${slug}`,
           head: branchName,
-          base
+          base: base
         })
       }
     );
+    const prData = await safeJson(prResp);
+    if (!prResp.ok) throw new Error(prData?.message || "Impossible de créer la PR.");
 
-    const prData = await prResp.json();
-    document.getElementById("success-message").classList.remove("d-none");
-    document.getElementById("success-message").innerHTML =
-      `<a href="${prData.html_url}" target="_blank" rel="noopener noreferrer">${prData.html_url}</a>`;
+    if (prData && prData.html_url) {
+      showSuccess(prData.html_url);
+      resetForm(form);
+    } else {
+      throw new Error("PR créée, mais URL introuvable.");
+    }
   } catch (err) {
     showError(err?.message || "Une erreur est survenue.");
-    console.error(err);
+  } finally {
+    setSubmitLoading(form, false);
   }
-}
-
-function collectData(schema, container, path=[]) {
-  if (schema.type === "object") {
-    const obj = {};
-    for (const [key, prop] of Object.entries(schema.properties || {})) {
-      obj[key] = collectData(prop, container, [...path, key]);
-    }
-    return obj;
-  }
-
-  if (schema.type === "array") {
-    const items = [];
-    container.querySelectorAll(`[data-path^="${path.join(".")}"]`).forEach(el => {
-      if (el.type === "checkbox") {
-        // on ignore (arrays de boolean non utilisés ici)
-      } else if (el.value !== undefined && el.value !== null && String(el.value).trim() !== "") {
-        items.push(el.value);
-      }
-    });
-    return items;
-  }
-
-  const input = container.querySelector(`[data-path="${path.join(".")}"]`);
-  if (!input) return null;
-  if (schema.type === "boolean") return input.checked;
-  if (schema.type === "integer") return parseInt(input.value) || null;
-  if (schema.type === "number") return parseFloat(input.value) || null;
-  return input.value || null;
-}
-
-async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName }) {
-  for (let i = 1; i <= 20; i++) {
-    const branchName = i === 1 ? baseBranchName : `${baseBranchName}-${i}`;
-    const resp = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/git/refs`,
-      {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          ref: `refs/heads/${branchName}`,
-          sha: baseSha
-        })
-      }
-    );
-    if (resp.ok) return branchName;
-    // Si la branche existe déjà, on retente avec suffixe
-    const data = await safeJson(resp);
-    const msg = (data && data.message) ? data.message : "";
-    if (resp.status === 422 && msg.toLowerCase().includes("reference already exists")) continue;
-  }
-  throw new Error("Impossible de créer une branche unique.");
-}
-
-async function safeJson(resp) {
-  try { return await resp.json(); } catch { return null; }
 }
 </script>
+
