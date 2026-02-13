@@ -179,6 +179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const form = renderFromData(schema, data, document.getElementById("recipe-form-container"));
     setupPasswordGateForManualForm(form);
     setupPasswordGateForUrlForm();
+    setupUrlImportForm();
   } catch (e) {
     showError(e?.message || "Erreur au chargement du formulaire.");
   }
@@ -305,6 +306,168 @@ function setupPasswordGateForUrlForm() {
       pwInput.classList.add("is-invalid");
     }
   }, true);
+}
+
+// ---------------------------
+//  URL import (create PR with a small YAML request)
+// ---------------------------
+function showUrlSuccess(prUrl) {
+  const box = document.getElementById("url-success-message");
+  const errBox = document.getElementById("url-error-message");
+  const link = document.getElementById("url-pr-link");
+  if (errBox) errBox.classList.add("d-none");
+  if (box) box.classList.remove("d-none");
+  if (link) {
+    link.href = prUrl;
+    link.textContent = prUrl;
+  }
+}
+
+function showUrlError(message) {
+  const box = document.getElementById("url-success-message");
+  const errBox = document.getElementById("url-error-message");
+  const txt = document.getElementById("url-error-text");
+  if (box) box.classList.add("d-none");
+  if (errBox) errBox.classList.remove("d-none");
+  if (txt) txt.textContent = message;
+}
+
+function setUrlSubmitLoading(isLoading) {
+  const btn = document.getElementById("url-submit-btn");
+  if (!btn) return;
+  if (isLoading) {
+    btn.disabled = true;
+    btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
+    btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Création de la demande...`;
+  } else {
+    btn.innerHTML = btn.dataset.originalText || "Soumettre l'URL";
+    // re-check password gate state
+    const pw = document.getElementById("site-password-url")?.value || "";
+    btn.disabled = !isPasswordValid(pw);
+  }
+}
+
+function urlSafeSlug(u) {
+  try {
+    const url = new URL(u);
+    const host = url.hostname.replace(/^www\./, "");
+    const path = url.pathname.replace(/\/+$/, "");
+    const base = (host + (path ? "-" + path.split("/").filter(Boolean).slice(-2).join("-") : "")).slice(0, 80);
+    return slugify(base || "recette-url");
+  } catch {
+    return slugify(u || "recette-url");
+  }
+}
+
+function setupUrlImportForm() {
+  const form = document.getElementById("url-form");
+  if (!form) return;
+
+  // Prevent default navigation (Quarto tabset would reset otherwise)
+  form.addEventListener("submit", handleUrlSubmit);
+}
+
+async function handleUrlSubmit(e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  const form = e.target;
+  // Clear messages
+  document.getElementById("url-success-message")?.classList.add("d-none");
+  document.getElementById("url-error-message")?.classList.add("d-none");
+
+  // Validate HTML5
+  if (!form.checkValidity()) {
+    form.classList.add("was-validated");
+    return;
+  }
+
+  // Password gate (double check)
+  const pw = document.getElementById("site-password-url")?.value || "";
+  if (!isPasswordValid(pw)) {
+    showUrlError("Mot de passe incorrect.");
+    return;
+  }
+
+  const url = document.getElementById("recipe-url")?.value?.trim() || "";
+  const submittedBy = document.getElementById("url-submitted-by")?.value?.trim() || null;
+
+  setUrlSubmitLoading(true);
+
+  try {
+    const token = window.GITHUB_PAT;
+    const owner = "alpa12";
+    const repo = "recettes";
+    const base = "dev";
+
+    const headers = {
+      "Authorization": "token " + token,
+      "Accept": "application/vnd.github+json"
+    };
+
+    const refResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`, { headers });
+    const refData = await safeJson(refResp);
+    if (!refResp.ok) throw new Error(refData?.message || "Impossible de lire la branche de base.");
+    const baseSha = refData.object.sha;
+
+    const slug = urlSafeSlug(url);
+    const guid = newGuid();
+
+    // Store requests in a dedicated folder to avoid clashing with real recipes
+    const filePath = `recettes/url_imports/${slug}-${guid}.yaml`;
+    const baseBranchName = `recette-url/${slug}`;
+
+    const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
+
+    const payload = {
+      url: url,
+      submitted_by: submittedBy,
+      submitted_at: new Date().toISOString().slice(0, 10)
+    };
+
+    const yamlContent = jsyaml.dump(payload, { indent: 2, lineWidth: -1 });
+
+    const putBody = {
+      message: `Demande ajout via URL (${slug})`,
+      content: btoa(unescape(encodeURIComponent(yamlContent))),
+      branch: branchName
+    };
+
+    const fileResp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+      { method: "PUT", headers, body: JSON.stringify(putBody) }
+    );
+    const fileData = await safeJson(fileResp);
+    if (!fileResp.ok) throw new Error(fileData?.message || "Impossible d'écrire la demande URL.");
+
+    const prResp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/pulls`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          title: `Ajout recette via URL: ${slug}`,
+          head: branchName,
+          base: base,
+          body: `URL soumise: ${url}` + (submittedBy ? `\nSoumis par: ${submittedBy}` : "")
+        })
+      }
+    );
+    const prData = await safeJson(prResp);
+    if (!prResp.ok) throw new Error(prData?.message || "Impossible de créer la PR.");
+
+    if (prData?.html_url) {
+      showUrlSuccess(prData.html_url);
+      form.reset();
+      form.classList.remove("was-validated");
+    } else {
+      throw new Error("PR créée, mais URL introuvable.");
+    }
+  } catch (err) {
+    showUrlError(err?.message || "Une erreur est survenue.");
+  } finally {
+    setUrlSubmitLoading(false);
+  }
 }
 
 
@@ -745,7 +908,7 @@ function renderPrimitive(schema, value, path, dense=false) {
 
     const help = document.createElement("div");
     help.className = "form-text";
-    help.textContent = "Formats acceptés : JPG seulement.";
+    help.textContent = "Formats acceptés : JPG seulement. L'image sera enregistrée dans /images/ avec un GUID.";
     left.appendChild(help);
 
     const right = document.createElement("div");

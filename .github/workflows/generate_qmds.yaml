@@ -7,7 +7,7 @@ on:
       - 'recettes/**/*.yaml'
       - 'recettes/**/*.yml'
       - 'R/generate_qmds.R'
-      - '!recettes/pending/**'
+      - '!recettes/url_imports/**'
 
 permissions:
   contents: write
