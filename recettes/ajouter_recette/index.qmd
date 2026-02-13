@@ -1,6 +1,6 @@
 ---
 title: Ajouter une recette
-image: index.png
+image: index.jpg
 order: 4
 ---
 
@@ -9,17 +9,20 @@ order: 4
 #| results: asis
 #| message: false
 #| warning: false
-
 library(yaml)
 library(jsonlite)
 
 template <- yaml::read_yaml("../template.yaml")
 schema <- template$`_schema`
 
+token <- Sys.getenv("GITHUB_PAT")
+if (identical(token, "")) stop("GITHUB_PAT est vide/non défini sur Connect.")
+
 cat(
-  "<script>window.RECIPE_SCHEMA = ",
-  jsonlite::toJSON(schema, auto_unbox = TRUE),
-  ";</script>"
+  "<script>",
+  "window.RECIPE_SCHEMA = ", jsonlite::toJSON(schema, auto_unbox = TRUE), ";",
+  "window.GITHUB_PAT = ",  jsonlite::toJSON(token, auto_unbox = TRUE), ";",
+  "</script>"
 )
 ```
 
@@ -45,8 +48,74 @@ document.addEventListener("DOMContentLoaded", () => {
   renderForm(window.RECIPE_SCHEMA, "recipe-form-container", []);
 });
 
+function showSuccess(prUrl) {
+  const success = document.getElementById("success-message");
+  const error = document.getElementById("error-message");
+
+  error.classList.add("d-none");
+  error.innerHTML = "";
+
+  success.classList.remove("d-none");
+  success.innerHTML = `
+    <div><strong>Demande d'ajout créée avec succès !</strong></div>
+    <div><a href="${prUrl}" target="_blank" rel="noopener noreferrer">${prUrl}</a></div>
+  `;
+}
+
+function showError(message) {
+  const success = document.getElementById("success-message");
+  const error = document.getElementById("error-message");
+
+  success.classList.add("d-none");
+  success.innerHTML = "";
+
+  error.classList.remove("d-none");
+  error.innerHTML = `<strong>Erreur :</strong> ${message}`;
+}
+
+function clearMessages() {
+  const success = document.getElementById("success-message");
+  const error = document.getElementById("error-message");
+  success.classList.add("d-none");
+  success.innerHTML = "";
+  error.classList.add("d-none");
+  error.innerHTML = "";
+}
+
+function resetForm(form) {
+  form.reset();
+  form.classList.remove("was-validated");
+
+  // For safety with dynamic inputs
+  form.querySelectorAll("input").forEach((inp) => {
+    if (inp.type === "checkbox") inp.checked = false;
+    else inp.value = "";
+  });
+}
+
+function setSubmitLoading(form, isLoading, label="Soumettre la recette") {
+  const btn = form.querySelector('button[type="submit"]');
+  if (!btn) return;
+
+  if (isLoading) {
+    btn.disabled = true;
+    btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
+    btn.innerHTML = `
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Création de la demande d'ajout d'une recette...
+    `;
+    form.setAttribute("aria-busy", "true");
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = btn.dataset.originalText || label;
+    form.removeAttribute("aria-busy");
+  }
+}
+
 function renderForm(schema, containerId, path) {
   const container = document.getElementById(containerId);
+  container.innerHTML = "";
+
   const form = document.createElement("form");
   form.classList.add("needs-validation");
   form.noValidate = true;
@@ -159,7 +228,7 @@ function renderPrimitive(schema, key, path, required=false) {
     input.className = "form-check-input ms-2";
   } else {
     input = document.createElement("input");
-    input.type = schema.type === "integer" || schema.type === "number" ? "number" : "text";
+    input.type = (schema.type === "integer" || schema.type === "number") ? "number" : "text";
     input.className = "form-control";
   }
 
@@ -173,8 +242,47 @@ function renderPrimitive(schema, key, path, required=false) {
   return div;
 }
 
+async function safeJson(resp) {
+  try { return await resp.json(); } catch { return null; }
+}
+
+async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName, maxAttempts=20 }) {
+  // Try base branchName first, then add -2, -3, ...
+  for (let i = 1; i <= maxAttempts; i++) {
+    const branchName = (i === 1) ? baseBranchName : `${baseBranchName}-${i}`;
+    const resp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/git/refs`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          ref: `refs/heads/${branchName}`,
+          sha: baseSha
+        })
+      }
+    );
+
+    const data = await safeJson(resp);
+
+    if (resp.ok) {
+      return branchName;
+    }
+
+    // 422 typically means ref exists already (or validation error)
+    const msg = (data && data.message) ? data.message : "";
+    const isAlreadyExists = resp.status === 422 && msg.toLowerCase().includes("reference already exists");
+    if (isAlreadyExists) continue;
+
+    throw new Error(msg || `Impossible de créer la branche (status ${resp.status}).`);
+  }
+
+  throw new Error("Impossible de créer une branche unique après plusieurs tentatives.");
+}
+
 async function handleSubmit(e) {
   e.preventDefault();
+  clearMessages();
+
   const form = e.target;
 
   if (!form.checkValidity()) {
@@ -182,32 +290,90 @@ async function handleSubmit(e) {
     return;
   }
 
-  const data = collectData(window.RECIPE_SCHEMA, form);
-  const yamlContent = jsyaml.dump(data, { indent: 2, lineWidth: -1 });
+  setSubmitLoading(form, true);
 
-  const response = await fetch("/create-pr", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      yaml: yamlContent,
-      nom_court: data.nom_court
-    })
-  });
+  try {
+    const data = collectData(window.RECIPE_SCHEMA, form);
+    const yamlContent = jsyaml.dump(data, { indent: 2, lineWidth: -1 });
 
-  const result = await response.json();
+    const token = window.GITHUB_PAT;
+    const owner = "alpa12";
+    const repo = "recettes";
+    const base = "dev";
 
-  if (result.success) {
-    alert("PR créée : " + result.pr_url);
-    window.open(result.pr_url, "_blank");
-  } else {
-    alert("Erreur : " + result.error);
+    // Avoid logging secrets
+    console.log("GitHub Owner:", owner, "Repo:", repo);
+
+    const headers = {
+      "Authorization": "token " + token,
+      "Accept": "application/vnd.github+json"
+    };
+
+    // 1️⃣ Get dev branch SHA
+    const refResp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`,
+      { headers }
+    );
+    const refData = await safeJson(refResp);
+    if (!refResp.ok) throw new Error(refData?.message || "Impossible de lire la branche de base.");
+    const baseSha = refData.object.sha;
+
+    const baseBranchName = `recette/${data.nom_court}`;
+    const filePath = `recettes/${data.nom_court}.yaml`;
+
+    // 2️⃣ Create branch (with auto-suffix if it already exists)
+    const branchName = await createBranchWithSuffixes({
+      owner, repo, headers, baseSha, baseBranchName, maxAttempts: 20
+    });
+
+    // 3️⃣ Create file
+    const fileResp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+      {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({
+          message: `Ajout recette ${data.nom_court}`,
+          content: btoa(unescape(encodeURIComponent(yamlContent))),
+          branch: branchName
+        })
+      }
+    );
+    const fileData = await safeJson(fileResp);
+    if (!fileResp.ok) throw new Error(fileData?.message || "Impossible de créer le fichier.");
+
+    // 4️⃣ Create PR
+    const prResp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/pulls`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          title: `Ajout recette ${data.nom_court}`,
+          head: branchName,
+          base: base
+        })
+      }
+    );
+
+    const prData = await safeJson(prResp);
+    if (!prResp.ok) throw new Error(prData?.message || "Impossible de créer la PR.");
+
+    if (prData && prData.html_url) {
+      showSuccess(prData.html_url);
+      resetForm(form);
+      // ✅ Ne pas ouvrir automatiquement la PR; on affiche simplement le lien
+    } else {
+      throw new Error("PR créée, mais URL introuvable.");
+    }
+  } catch (err) {
+    showError(err?.message || "Une erreur est survenue.");
+  } finally {
+    setSubmitLoading(form, false);
   }
 }
 
 function collectData(schema, container, path=[]) {
-
   if (schema.type === "object") {
     const obj = {};
     Object.entries(schema.properties).forEach(([key, prop]) => {
