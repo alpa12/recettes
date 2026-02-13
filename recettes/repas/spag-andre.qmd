@@ -8,6 +8,10 @@ categories:
 
 # Sauce à spaghetti de Nathalie Davignon
 
+::: {.text-end}
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fspag-andre.yaml){.btn .btn-outline-primary .btn-sm}
+:::
+
 ## Ingrédients
 
 ### Préparation

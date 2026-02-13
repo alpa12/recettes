@@ -1,27 +1,34 @@
-# ============================================================
 # yaml_to_qmds.R
-# - Convertit toutes les recettes YAML -> QMD
-# - Ajoute un bouton "Modifier cette recette" sur chaque page
-# ============================================================
+# ------------------------------------------------------------------------------
+# Utilities to convert recipe YAML files into Quarto (.qmd) pages.
+# Adds an "Edit" button on every recipe page that links to an edit form page
+# with the YAML path as a query parameter (static-site friendly).
+#
+# Assumptions:
+# - YAML files live under ./recettes/*.yaml
+# - Generated QMD files live next to the YAML (same name, .qmd extension)
+# - Your edit form page (Quarto or HTML) is published at:
+#     /ajouter-recette.html
+#   and it can read the query parameter `path=recettes/<file>.yaml`
+#   to prefill the form.
+#
+# If your edit page has a different URL, change EDIT_PAGE_HREF below.
+# ------------------------------------------------------------------------------
+
+EDIT_PAGE_HREF <- "ajouter_recette/"   # <- change if needed
+EDIT_PARAM_NAME <- "yaml"                  # query parameter name
 
 #' Convert a recipe YAML file to a Quarto (.qmd) recipe
 #'
 #' @param yaml_path Path to the input YAML file
 #' @param qmd_path Path to the output .qmd file.
 #'   If NULL, same name as yaml with .qmd extension.
-#' @param edit_page_href Relative href (from the recipe HTML page) to the edit form page.
-#' @param edit_yaml_param Relative path (from the edit form page) to the YAML file to edit.
 #'
 #' @importFrom yaml read_yaml
-#' @importFrom fs path_ext_set path_file
+#' @importFrom fs path_ext_set path_file path_rel path_dir
 #' @importFrom stringr str_trim
 #' @export
-yaml_recipe_to_qmd <- function(
-  yaml_path,
-  qmd_path = NULL,
-  edit_page_href = "ajouter_recette/index.html",
-  edit_yaml_param = NULL
-) {
+yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   stopifnot(file.exists(yaml_path))
 
   if (is.null(qmd_path)) {
@@ -33,9 +40,12 @@ yaml_recipe_to_qmd <- function(
 
   # ---- Quarto front-matter ----
   image_name <- fs::path_ext_set(fs::path_file(yaml_path), "jpg")
-  lines <- c(lines, "---",
-             paste0("title: ", recipe$nom_court),
-             paste0("image: ", image_name))
+  lines <- c(
+    lines,
+    "---",
+    paste0("title: ", recipe$nom_court),
+    paste0("image: ", image_name)
+  )
 
   if (!is.null(recipe$categories)) {
     cats <- unlist(recipe$categories, use.names = FALSE)
@@ -46,28 +56,24 @@ yaml_recipe_to_qmd <- function(
   # ---- Title ----
   lines <- c(lines, paste0("# ", recipe$nom), "")
 
-  # ---- Edit button ----
-  # The edit form page is at: recettes/ajouter_recette/index.qmd (=> index.html).
-  # Recipe pages are at: recettes/<slug>.html
-  #
-  # From recettes/<slug>.html to the edit form page:
-  #   "ajouter_recette/index.html"
-  #
-  # From recettes/ajouter_recette/index.html to the YAML file in recettes/:
-  #   "../<slug>.yaml"
-  if (is.null(edit_yaml_param)) {
-    edit_yaml_param <- paste0("../", fs::path_file(yaml_path))
-  }
+  # ---- Edit button (static site) ----
+  # We link to ../<edit-page>?path=recettes/<file>.yaml because recipe pages are
+  # rendered under /recettes/*.html (one folder deeper than site root).
+  yaml_rel_to_root <- fs::path_rel(yaml_path, start = ".")  # e.g., recettes/salade-de-legumineuses.yaml
+  yaml_rel_to_root <- gsub("\\\\", "/", yaml_rel_to_root)   
+  if (!startsWith(yaml_rel_to_root, "/")) yaml_rel_to_root <- paste0("/", yaml_rel_to_root)
+# Windows safety
 
-  # URL-encode the param safely (keeps "/" but encodes spaces, accents, etc.)
-  encoded_param <- utils::URLencode(edit_yaml_param, reserved = TRUE)
-  edit_href <- paste0(edit_page_href, "?yaml=", encoded_param)
+  # Basic URL encoding for spaces (file names should already be safe, but just in case)
+  yaml_qp <- utils::URLencode(yaml_rel_to_root, reserved = TRUE)
+
+  edit_href <- paste0("../", EDIT_PAGE_HREF, "?", EDIT_PARAM_NAME, "=", yaml_qp)
 
   lines <- c(
     lines,
-    '<div class="text-end mb-3">',
-    paste0('  <a class="btn btn-outline-secondary btn-sm" href="', edit_href, '">✏️ Modifier cette recette</a>'),
-    "</div>",
+    "::: {.text-end}",
+    paste0("[✏️ Modifier cette recette](", edit_href, "){.btn .btn-outline-primary .btn-sm}"),
+    ":::",
     ""
   )
 
@@ -141,35 +147,17 @@ yaml_recipe_to_qmd <- function(
   invisible(qmd_path)
 }
 
-# ============================================================
-# Convert all YAML recipes to QMD
-# - Assumes:
-#   - YAML recipes live under: recettes/*.yaml
-#   - QMD recipes live under:  recettes/*.qmd
-#   - The form page is:         recettes/ajouter_recette/index.qmd
-# ============================================================
+#' Regenerate all recipe QMDs from YAMLs
+#'
+#' @param recipes_dir Directory that contains recipe YAML files (default: "recettes")
+#' @param pattern File pattern for YAMLs
+#' @export
+regenerate_recipe_qmds <- function(recipes_dir = "recettes", pattern = "\\.ya?ml$") {
+  yaml_files <- list.files(recipes_dir, pattern = pattern, full.names = TRUE)
+  yaml_files <- yaml_files[!grepl("template\\.ya?ml$", yaml_files, ignore.case = TRUE)]
 
-yaml_to_qmds <- function(recipes_dir = "recettes") {
-  yaml_files <- list.files(
-    recipes_dir,
-    pattern = "\\.ya?ml$",
-    full.names = TRUE
-  )
-
-  # Exclude template.yaml (and any other non-recipe yaml you might have)
-  yaml_files <- yaml_files[!grepl("template\\.ya?ml$", basename(yaml_files), ignore.case = TRUE)]
-
-  for (yaml_path in yaml_files) {
-    # Only convert top-level recipe yamls (skip subfolders like recettes/ajouter_recette/**)
-    # If you DO store recipe yamls in nested folders later, remove this filter.
-    if (dirname(yaml_path) != recipes_dir) next
-
-    yaml_recipe_to_qmd(
-      yaml_path = yaml_path,
-      qmd_path = fs::path_ext_set(yaml_path, "qmd"),
-      edit_page_href = "ajouter_recette/index.html",
-      edit_yaml_param = paste0("../", fs::path_file(yaml_path))
-    )
+  for (y in yaml_files) {
+    yaml_recipe_to_qmd(y)
   }
 
   invisible(yaml_files)

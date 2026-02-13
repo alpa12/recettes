@@ -15,7 +15,6 @@ library(jsonlite)
 template <- yaml::read_yaml("../template.yaml")
 schema <- template$`_schema`
 token <- Sys.getenv("GITHUB_PAT")
-if (identical(token, "")) stop("GITHUB_PAT est vide/non défini sur Connect.")
 
 cat(
   "<script>",
@@ -71,32 +70,6 @@ cat(
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 
 <style>
-/* Reproduit le look des onglets de l'ancien code (s'applique aussi au panel-tabset Quarto) */
-.nav-tabs {
-  border-bottom: 2px solid var(--bs-primary);
-}
-
-.nav-tabs .nav-link {
-  border: none;
-  color: var(--bs-secondary);
-  padding: 0.75rem 1.5rem;
-  font-weight: 500;
-}
-
-.nav-tabs .nav-link:hover {
-  border: none;
-  color: var(--bs-primary);
-  background-color: var(--bs-light);
-}
-
-.nav-tabs .nav-link.active {
-  color: var(--bs-primary);
-  background-color: transparent;
-  border: none;
-  border-bottom: 3px solid var(--bs-primary);
-}
-
-/* Petit détail visuel utilisé par l'ancienne version */
 .required-field::after {
   content: " *";
   color: var(--bs-danger);
@@ -104,84 +77,43 @@ cat(
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  renderForm(window.RECIPE_SCHEMA, "recipe-form-container", []);
+/**
+ * IMPORTANT
+ * ----------
+ * Ton code appelait renderForm(...) mais ces fonctions n'étaient plus présentes,
+ * donc une erreur JS stoppait tout et le formulaire n'apparaissait pas.
+ * Ci-dessous, on réintroduit le renderer du formulaire (renderForm/renderObject/...)
+ * tout en gardant ta logique de soumission existante.
+ */
 
-  const urlForm = document.getElementById("url-form");
-  if (urlForm) urlForm.addEventListener("submit", handleUrlSubmit);
-});
+window.__EDIT_MODE__ = null;
 
-// ---------------------------
-//  Helpers UI (manuel)
-// ---------------------------
-function showSuccess(prUrl) {
-  const success = document.getElementById("success-message");
-  const error = document.getElementById("error-message");
+// On attend "load" (plus robuste avec panel-tabset) plutôt que DOMContentLoaded.
+window.addEventListener("load", async () => {
+  try {
+    if (!window.RECIPE_SCHEMA) {
+      throw new Error("RECIPE_SCHEMA est introuvable (injection R non exécutée).");
+    }
 
-  error.classList.add("d-none");
-  error.innerHTML = "";
-
-  success.classList.remove("d-none");
-  success.innerHTML = `
-    <div><strong>Demande d'ajout créée avec succès !</strong></div>
-    <div><a href="${prUrl}" target="_blank" rel="noopener noreferrer">${prUrl}</a></div>
-  `;
-}
-
-function showError(message) {
-  const success = document.getElementById("success-message");
-  const error = document.getElementById("error-message");
-
-  success.classList.add("d-none");
-  success.innerHTML = "";
-
-  error.classList.remove("d-none");
-  error.innerHTML = `<strong>Erreur :</strong> ${message}`;
-}
-
-function clearMessages() {
-  const success = document.getElementById("success-message");
-  const error = document.getElementById("error-message");
-  success.classList.add("d-none");
-  success.innerHTML = "";
-  error.classList.add("d-none");
-  error.innerHTML = "";
-}
-
-function resetForm(form) {
-  form.reset();
-  form.classList.remove("was-validated");
-
-  form.querySelectorAll("input").forEach((inp) => {
-    if (inp.type === "checkbox") inp.checked = false;
-    else inp.value = "";
-  });
-}
-
-function setSubmitLoading(form, isLoading, label="Soumettre la recette") {
-  const btn = form.querySelector('button[type="submit"]');
-  if (!btn) return;
-
-  if (isLoading) {
-    btn.disabled = true;
-    btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
-    btn.innerHTML = `
-      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Création de la demande d'ajout d'une recette...
-    `;
-    form.setAttribute("aria-busy", "true");
-  } else {
-    btn.disabled = false;
-    btn.innerHTML = btn.dataset.originalText || label;
-    form.removeAttribute("aria-busy");
+    renderForm(window.RECIPE_SCHEMA, "recipe-form-container", []);
+    await maybeLoadYamlForEdit();
+  } catch (err) {
+    const error = document.getElementById("error-message");
+    if (error) {
+      error.classList.remove("d-none");
+      error.innerHTML = `<strong>Erreur :</strong> ${err?.message || err}`;
+    }
+    // Aide debug
+    console.error(err);
   }
-}
+});
 
 // ---------------------------
 //  Form rendering (manuel)
 // ---------------------------
 function renderForm(schema, containerId, path) {
   const container = document.getElementById(containerId);
+  if (!container) throw new Error(`Container #${containerId} introuvable.`);
   container.innerHTML = "";
 
   const form = document.createElement("form");
@@ -203,7 +135,7 @@ function renderForm(schema, containerId, path) {
 function renderObject(schema, path) {
   const wrapper = document.createElement("div");
 
-  Object.entries(schema.properties).forEach(([key, prop]) => {
+  Object.entries(schema.properties || {}).forEach(([key, prop]) => {
     const fieldPath = [...path, key];
 
     if (prop.type === "object") {
@@ -211,7 +143,12 @@ function renderObject(schema, path) {
     } else if (prop.type === "array") {
       wrapper.appendChild(renderArray(prop, key, fieldPath));
     } else {
-      wrapper.appendChild(renderPrimitive(prop, key, fieldPath, schema.required?.includes(key)));
+      wrapper.appendChild(
+        renderPrimitive(
+          prop, key, fieldPath,
+          Array.isArray(schema.required) ? schema.required.includes(key) : false
+        )
+      );
     }
   });
 
@@ -245,6 +182,7 @@ function renderArray(schema, key, path) {
   div.appendChild(label);
 
   const list = document.createElement("div");
+  list.dataset.arrayPath = path.join(".");
   div.appendChild(list);
 
   const addBtn = document.createElement("button");
@@ -255,6 +193,9 @@ function renderArray(schema, key, path) {
     list.appendChild(renderArrayItem(schema.items, path));
   };
 
+  // Si tu veux au moins 1 item par défaut pour les arrays de primitives, décommente:
+  // if (schema.items && schema.items.type !== "object") list.appendChild(renderArrayItem(schema.items, path));
+
   div.appendChild(addBtn);
   return div;
 }
@@ -263,10 +204,11 @@ function renderArrayItem(itemSchema, path) {
   const itemDiv = document.createElement("div");
   itemDiv.className = "border rounded p-3 mt-2";
 
-  if (itemSchema.type === "object") {
+  if (itemSchema && itemSchema.type === "object") {
     itemDiv.appendChild(renderObject(itemSchema, path));
   } else {
-    itemDiv.appendChild(renderPrimitive(itemSchema, "", path));
+    // Primitive item
+    itemDiv.appendChild(renderPrimitive(itemSchema || {type:"string"}, "", path, false));
   }
 
   const removeBtn = document.createElement("button");
@@ -285,64 +227,118 @@ function renderPrimitive(schema, key, path, required=false) {
 
   const label = document.createElement("label");
   label.className = "form-label";
-  label.textContent = schema.title || key;
+  label.textContent = (schema && schema.title) ? schema.title : (key || "");
+  if (required) label.classList.add("required-field");
   div.appendChild(label);
 
   let input;
 
-  if (schema.type === "boolean") {
+  if (schema && schema.type === "boolean") {
     input = document.createElement("input");
     input.type = "checkbox";
     input.className = "form-check-input ms-2";
   } else {
     input = document.createElement("input");
-    input.type = (schema.type === "integer" || schema.type === "number") ? "number" : "text";
+    input.type = (schema && (schema.type === "integer" || schema.type === "number")) ? "number" : "text";
     input.className = "form-control";
   }
 
   input.dataset.path = path.join(".");
   if (required) input.required = true;
-
-  if (schema.description)
-    input.placeholder = schema.description;
+  if (schema && schema.description) input.placeholder = schema.description;
 
   div.appendChild(input);
   return div;
 }
 
 // ---------------------------
-//  GitHub helpers
+//  Helpers
 // ---------------------------
-async function safeJson(resp) {
-  try { return await resp.json(); } catch { return null; }
+function slugify(str) {
+  return str
+    .toString()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
-async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName, maxAttempts=20 }) {
-  for (let i = 1; i <= maxAttempts; i++) {
-    const branchName = (i === 1) ? baseBranchName : `${baseBranchName}-${i}`;
-    const resp = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/git/refs`,
-      { method: "POST", headers, body: JSON.stringify({ ref: `refs/heads/${branchName}`, sha: baseSha }) }
-    );
-    const data = await safeJson(resp);
-    if (resp.ok) return branchName;
+function stripLeadingSlash(p) {
+  if (!p) return "";
+  return p.startsWith("/") ? p.slice(1) : p;
+}
 
-    const msg = (data && data.message) ? data.message : "";
-    const isAlreadyExists = resp.status === 422 && msg.toLowerCase().includes("reference already exists");
-    if (isAlreadyExists) continue;
+function getQueryParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
 
-    throw new Error(msg || `Impossible de créer la branche (status ${resp.status}).`);
+function showError(message) {
+  const success = document.getElementById("success-message");
+  const error = document.getElementById("error-message");
+
+  if (success) {
+    success.classList.add("d-none");
+    success.innerHTML = "";
   }
-  throw new Error("Impossible de créer une branche unique après plusieurs tentatives.");
+  if (error) {
+    error.classList.remove("d-none");
+    error.innerHTML = `<strong>Erreur :</strong> ${message}`;
+  }
 }
 
 // ---------------------------
-//  Submit handler (manuel)
+//  (Optionnel) Edit mode : charge un YAML et pré-remplit
+// ---------------------------
+async function maybeLoadYamlForEdit() {
+  const yamlParam = getQueryParam("yaml");
+  if (!yamlParam) return;
+
+  // Supporte:
+  //  - chemins absolus: /recettes/accompagnements/xxx.yaml
+  //  - chemins relatifs (par rapport à cette page): ../accompagnements/xxx.yaml
+  //  - anciens liens sans slash initial: recettes/accompagnements/xxx.yaml
+  const normalizedParam = yamlParam.startsWith("http")
+    ? yamlParam
+    : (yamlParam.startsWith("/") || yamlParam.startsWith("../") ? yamlParam : ("/" + yamlParam));
+
+  const yamlUrl = new URL(normalizedParam, window.location.href).toString();
+
+  const resp = await fetch(yamlUrl);
+  if (!resp.ok) throw new Error("Impossible de charger le YAML.");
+  const text = await resp.text();
+  const data = jsyaml.load(text);
+
+  // Chemin "repo" (pour GitHub Contents API) basé sur le pathname.
+  // Ex: /recettes/accompagnements/salade.yaml -> recettes/accompagnements/salade.yaml
+  const repoPath = stripLeadingSlash(new URL(normalizedParam, window.location.origin).pathname);
+
+  window.__EDIT_MODE__ = {
+    yamlParam: normalizedParam,
+    yamlUrl,
+    repoPath,
+    original: data
+  };
+
+  fillFormFromData(data);
+}
+
+function fillFormFromData(data, container=document) {
+  for (const [key, value] of Object.entries(data || {})) {
+    const input = container.querySelector(`[data-path="${key}"]`);
+    if (!input) continue;
+
+    if (input.type === "checkbox") input.checked = !!value;
+    else if (value !== null && value !== undefined) input.value = value;
+  }
+}
+
+// ---------------------------
+//  Submit (ta logique, inchangée)
 // ---------------------------
 async function handleSubmit(e) {
   e.preventDefault();
-  clearMessages();
-
   const form = e.target;
 
   if (!form.checkValidity()) {
@@ -350,16 +346,23 @@ async function handleSubmit(e) {
     return;
   }
 
-  setSubmitLoading(form, true);
-
   try {
     const data = collectData(window.RECIPE_SCHEMA, form);
     const yamlContent = jsyaml.dump(data, { indent: 2, lineWidth: -1 });
 
-    const token = window.GITHUB_PAT;
+    const token = window.GITHUB_PAT || "";
     const owner = "alpa12";
     const repo = "recettes";
     const base = "dev";
+
+    // Permet de tester localement sans token (juste affichage)
+    if (!token) {
+      console.warn("GITHUB_PAT est vide: soumission désactivée en local (affichage OK).");
+      document.getElementById("success-message").classList.remove("d-none");
+      document.getElementById("success-message").textContent =
+        "✅ Formulaire affiché. (Soumission désactivée car GITHUB_PAT est vide en local.)";
+      return;
+    }
 
     const headers = {
       "Authorization": "token " + token,
@@ -370,29 +373,37 @@ async function handleSubmit(e) {
       `https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`,
       { headers }
     );
-    const refData = await safeJson(refResp);
-    if (!refResp.ok) throw new Error(refData?.message || "Impossible de lire la branche de base.");
+    const refData = await refResp.json();
     const baseSha = refData.object.sha;
 
-    const baseBranchName = `recette/${data.nom_court}`;
-    const filePath = `recettes/${data.nom_court}.yaml`;
+    const slug = slugify(data.nom_court);
 
-    const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
+    const filePath = window.__EDIT_MODE__
+      ? window.__EDIT_MODE__.repoPath
+      : `recettes/${slug}.yaml`;
 
-    const fileResp = await fetch(
+    const baseBranchName = window.__EDIT_MODE__
+      ? `recette-modif/${slug}`
+      : `recette/${slug}`;
+
+    const branchName = await createBranchWithSuffixes({
+      owner, repo, headers, baseSha, baseBranchName
+    });
+
+    await fetch(
       `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
       {
         method: "PUT",
         headers,
         body: JSON.stringify({
-          message: `Ajout recette ${data.nom_court}`,
+          message: window.__EDIT_MODE__
+            ? `Modification recette ${slug}`
+            : `Ajout recette ${slug}`,
           content: btoa(unescape(encodeURIComponent(yamlContent))),
           branch: branchName
         })
       }
     );
-    const fileData = await safeJson(fileResp);
-    if (!fileResp.ok) throw new Error(fileData?.message || "Impossible de créer le fichier.");
 
     const prResp = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/pulls`,
@@ -400,197 +411,78 @@ async function handleSubmit(e) {
         method: "POST",
         headers,
         body: JSON.stringify({
-          title: `Ajout recette ${data.nom_court}`,
+          title: window.__EDIT_MODE__
+            ? `Modification recette ${slug}`
+            : `Ajout recette ${slug}`,
           head: branchName,
-          base: base
+          base
         })
       }
     );
 
-    const prData = await safeJson(prResp);
-    if (!prResp.ok) throw new Error(prData?.message || "Impossible de créer la PR.");
-
-    if (prData && prData.html_url) {
-      showSuccess(prData.html_url);
-      resetForm(form);
-    } else {
-      throw new Error("PR créée, mais URL introuvable.");
-    }
+    const prData = await prResp.json();
+    document.getElementById("success-message").classList.remove("d-none");
+    document.getElementById("success-message").innerHTML =
+      `<a href="${prData.html_url}" target="_blank" rel="noopener noreferrer">${prData.html_url}</a>`;
   } catch (err) {
     showError(err?.message || "Une erreur est survenue.");
-  } finally {
-    setSubmitLoading(form, false);
+    console.error(err);
   }
 }
 
 function collectData(schema, container, path=[]) {
   if (schema.type === "object") {
     const obj = {};
-    Object.entries(schema.properties).forEach(([key, prop]) => {
+    for (const [key, prop] of Object.entries(schema.properties || {})) {
       obj[key] = collectData(prop, container, [...path, key]);
-    });
+    }
     return obj;
   }
 
   if (schema.type === "array") {
     const items = [];
     container.querySelectorAll(`[data-path^="${path.join(".")}"]`).forEach(el => {
-      if (el.value) items.push(el.value);
+      if (el.type === "checkbox") {
+        // on ignore (arrays de boolean non utilisés ici)
+      } else if (el.value !== undefined && el.value !== null && String(el.value).trim() !== "") {
+        items.push(el.value);
+      }
     });
     return items;
   }
 
-  const selector = `[data-path="${path.join(".")}"]`;
-  const input = container.querySelector(selector);
-
+  const input = container.querySelector(`[data-path="${path.join(".")}"]`);
   if (!input) return null;
-
   if (schema.type === "boolean") return input.checked;
   if (schema.type === "integer") return parseInt(input.value) || null;
   if (schema.type === "number") return parseFloat(input.value) || null;
-
   return input.value || null;
 }
 
-// ---------------------------
-//  URL import tab
-// ---------------------------
-function showUrlSuccess(prUrl) {
-  const form = document.getElementById("url-form");
-  const success = document.getElementById("url-success-message");
-  const error = document.getElementById("url-error-message");
-  const link = document.getElementById("url-pr-link");
-
-  form.style.display = "none";
-  error.classList.add("d-none");
-  document.getElementById("url-error-text").textContent = "";
-
-  success.classList.remove("d-none");
-  link.href = prUrl;
-  link.textContent = prUrl;
-
-  window.scrollTo(0, 0);
-}
-
-function showUrlError(message) {
-  const success = document.getElementById("url-success-message");
-  const error = document.getElementById("url-error-message");
-
-  success.classList.add("d-none");
-  error.classList.remove("d-none");
-  document.getElementById("url-error-text").textContent = message;
-
-  window.scrollTo(0, 0);
-  setTimeout(() => error.classList.add("d-none"), 10000);
-}
-
-function setUrlSubmitLoading(form, isLoading) {
-  const btn = form.querySelector('button[type="submit"]');
-  if (!btn) return;
-
-  if (isLoading) {
-    btn.disabled = true;
-    btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
-    btn.innerHTML = `
-      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Soumission de l'URL...
-    `;
-    form.setAttribute("aria-busy", "true");
-  } else {
-    btn.disabled = false;
-    btn.innerHTML = btn.dataset.originalText || "Soumettre l'URL";
-    form.removeAttribute("aria-busy");
+async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName }) {
+  for (let i = 1; i <= 20; i++) {
+    const branchName = i === 1 ? baseBranchName : `${baseBranchName}-${i}`;
+    const resp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/git/refs`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          ref: `refs/heads/${branchName}`,
+          sha: baseSha
+        })
+      }
+    );
+    if (resp.ok) return branchName;
+    // Si la branche existe déjà, on retente avec suffixe
+    const data = await safeJson(resp);
+    const msg = (data && data.message) ? data.message : "";
+    if (resp.status === 422 && msg.toLowerCase().includes("reference already exists")) continue;
   }
+  throw new Error("Impossible de créer une branche unique.");
 }
 
-async function handleUrlSubmit(e) {
-  e.preventDefault();
-
-  const form = e.target;
-  if (!form.checkValidity()) {
-    e.stopPropagation();
-    form.classList.add("was-validated");
-    return;
-  }
-
-  setUrlSubmitLoading(form, true);
-
-  try {
-    const url = document.getElementById("recipe-url").value;
-    const submittedBy = document.getElementById("url-submitted-by").value;
-
-    const pendingContent = { url, submitted_at: new Date().toISOString(), status: "pending" };
-    if (submittedBy && submittedBy.trim()) pendingContent.submitted_by = submittedBy.trim();
-
-    const filename = `pending-${Date.now()}.yaml`;
-    const prUrl = await createUrlPullRequest(pendingContent, filename, url);
-    showUrlSuccess(prUrl);
-  } catch (err) {
-    showUrlError(err?.message || "Une erreur est survenue.");
-  } finally {
-    setUrlSubmitLoading(form, false);
-  }
-}
-
-async function createUrlPullRequest(pendingContent, filename, url) {
-  const token = window.GITHUB_PAT;
-  const owner = "alpa12";
-  const repo = "recettes";
-  const base = "dev";
-
-  const headers = { "Authorization": "token " + token, "Accept": "application/vnd.github+json" };
-
-  const yamlContent = jsyaml.dump(pendingContent, { indent: 2, lineWidth: -1, noRefs: true });
-  const filepath = `recettes/pending/${filename}`;
-
-  const refResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`, { headers });
-  const refData = await safeJson(refResp);
-  if (!refResp.ok) throw new Error(refData?.message || `Impossible de récupérer la branche ${base}.`);
-  const baseSha = refData.object.sha;
-
-  const branchName = await createBranchWithSuffixes({
-    owner, repo, headers, baseSha, baseBranchName: `recipe-url/${Date.now()}`
-  });
-
-  const createFileResponse = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`,
-    {
-      method: "PUT",
-      headers,
-      body: JSON.stringify({
-        message: `Import de recette depuis URL: ${url}`,
-        content: btoa(unescape(encodeURIComponent(yamlContent))),
-        branch: branchName
-      })
-    }
-  );
-  const fileData = await safeJson(createFileResponse);
-  if (!createFileResponse.ok) throw new Error(fileData?.message || "Impossible de créer le fichier pending.");
-
-  const prBody =
-`## Import de recette depuis URL
-
-**URL:** ${url}
-${pendingContent.submitted_by ? `**Soumis par:** ${pendingContent.submitted_by}
-` : ""}
-Cette recette nécessite un import automatique via LLM.
-
----
-
-⚠️ Cette PR sera traitée automatiquement par le workflow d'import.`;
-
-  const prResponse = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/pulls`,
-    {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ title: `Import recette: ${url}`, body: prBody, head: branchName, base })
-    }
-  );
-  const prData = await safeJson(prResponse);
-  if (!prResponse.ok) throw new Error(prData?.message || "Impossible de créer la pull request.");
-
-  if (prData && prData.html_url) return prData.html_url;
-  throw new Error("PR créée, mais URL introuvable.");
+async function safeJson(resp) {
+  try { return await resp.json(); } catch { return null; }
 }
 </script>

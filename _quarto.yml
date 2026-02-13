@@ -34,3 +34,5 @@ format:
 resources:
   - config.js
   - recettes/template.yaml
+  - recettes/**/*.yaml
+

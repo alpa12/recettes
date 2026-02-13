@@ -13,6 +13,10 @@ categories:
 
 # Tofu caramélisé à l’érable
 
+::: {.text-end}
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Ftofu-caramelise-erable.yaml){.btn .btn-outline-primary .btn-sm}
+:::
+
 ## Ingrédients
 
 ### Tofu
