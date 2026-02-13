@@ -11,14 +11,15 @@ categories:
   - Petits prix
 ---
 
-[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Ftofu-caramelise-erable.yaml){.btn .btn-outline-primary .btn-sm}
-
 ```{=html}
 <div class="recipe-toolbar">
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Ftofu-caramelise-erable.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
+<div class="recipe-toolbar-actions">
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/10686-tofu-caramelise-a-l-erable</strong></div><div class="recipe-fact"><span>Portions</span><strong id="recipe-portions-current">4</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>2 min · 12 min</strong></div></div>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact recipe-fact-source"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/10686-tofu-caramelise-a-l-erable</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>Préparation: 20 min · Cuisson: 12 min · Réfrigération: -</strong></div></div>
 ```
 
 ```{=html}
@@ -31,7 +32,7 @@ categories:
 
 ```{=html}
 <ul class="recipe-ingredients">
-<li class="recipe-ingredient"><span class="ingredient-qte" data-base="450">45</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">tofu ferme</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="450">450</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">tofu ferme</span></li>
 <li class="recipe-ingredient"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">fécule de maïs</span></li>
 <li class="recipe-ingredient"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">huile végétale</span></li>
 </ul>
@@ -42,10 +43,10 @@ categories:
 ```{=html}
 <ul class="recipe-ingredients">
 <li class="recipe-ingredient"><span class="ingredient-qte" data-base="125">125</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sirop d’érable</span></li>
-<li class="recipe-ingredient"><span class="ingredient-qte" data-base="60">6</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sauce hoisin</span></li>
-<li class="recipe-ingredient"><span class="ingredient-qte" data-base="30">3</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sauce soya réduite en sodium</span></li>
-<li class="recipe-ingredient"><span class="ingredient-qte" data-base="10">1</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">vinaigre de riz</span></li>
-<li class="recipe-ingredient"><span class="ingredient-qte" data-base="10">1</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">condiment épicé au chili ou sauce sriracha</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="60">60</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sauce hoisin</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="30">30</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sauce soya réduite en sodium</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="10">10</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">vinaigre de riz</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="10">10</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">condiment épicé au chili ou sauce sriracha</span></li>
 <li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">gousses</span> <span class="ingredient-nom">ail</span></li>
 <li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">oignon</span> <span class="ingredient-nom">oignon vert</span></li>
 </ul>
@@ -78,7 +79,7 @@ categories:
 3. Garnir de l’oignon vert. Accompagner d’un riz blanc et d’un légume vert, si désiré.
 
 ```{=html}
-<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=4;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=4;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
 ```
 
 ## Notes

@@ -63,8 +63,17 @@ main.content {
 .recipe-toolbar {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
   gap: 0.55rem;
   margin-bottom: 0.9rem;
+}
+
+.recipe-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-left: auto;
 }
 
 .recipe-facts-grid {
@@ -93,6 +102,8 @@ main.content {
   display: block;
   margin-top: 0.1rem;
   font-size: 1.03rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .recipe-servings-control {
