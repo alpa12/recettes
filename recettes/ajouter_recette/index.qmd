@@ -908,7 +908,7 @@ function renderPrimitive(schema, value, path, dense=false) {
 
     const help = document.createElement("div");
     help.className = "form-text";
-    help.textContent = "Formats acceptés : JPG seulement. L'image sera enregistrée dans /images/ avec un GUID.";
+    help.textContent = "Formats acceptés : JPG seulement.";
     left.appendChild(help);
 
     const right = document.createElement("div");
