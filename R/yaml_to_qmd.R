@@ -4,29 +4,25 @@
 # Adds an "Edit" button on every recipe page that links to an edit form page
 # with the YAML path as a query parameter (static-site friendly).
 #
-# Assumptions:
-# - YAML files live under ./recettes/*.yaml
-# - Generated QMD files live next to the YAML (same name, .qmd extension)
-# - Your edit form page (Quarto or HTML) is published at:
-#     /ajouter-recette.html
-#   and it can read the query parameter `path=recettes/<file>.yaml`
-#   to prefill the form.
+# Comments upgrade:
+# - recipe$commentaires can be:
+#   (A) old format: character vector
+#   (B) new format: list of dict with optional fields:
+#       commentaire (string), evaluation (int 1..5), nom (string), date (YYYY-MM-DD)
 #
-# If your edit page has a different URL, change EDIT_PAGE_HREF below.
+# In the generated recipe page, we display:
+# - Average stars (from available evaluations)
+# - Total comment count
+# - Count of comments written by "Alexandre Parent" and "Élodie Bourgeois"
+#   (case-insensitive, accents-insensitive best-effort)
 # ------------------------------------------------------------------------------
 
-EDIT_PAGE_HREF <- "ajouter_recette/"   # <- change if needed
-EDIT_PARAM_NAME <- "yaml"                  # query parameter name
+EDIT_PAGE_HREF <- "ajouter_recette/"
+EDIT_PARAM_NAME <- "yaml"
 
-#' Convert a recipe YAML file to a Quarto (.qmd) recipe
-#'
-#' @param yaml_path Path to the input YAML file
-#' @param qmd_path Path to the output .qmd file.
-#'   If NULL, same name as yaml with .qmd extension.
-#'
 #' @importFrom yaml read_yaml
-#' @importFrom fs path_ext_set path_file path_rel path_dir
-#' @importFrom stringr str_trim
+#' @importFrom fs path_ext_set path_file path_rel
+#' @importFrom stringr str_trim str_to_lower
 #' @export
 yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   stopifnot(file.exists(yaml_path))
@@ -56,17 +52,12 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   # ---- Title ----
   lines <- c(lines, paste0("# ", recipe$nom), "")
 
-  # ---- Edit button (static site) ----
-  # We link to ../<edit-page>?path=recettes/<file>.yaml because recipe pages are
-  # rendered under /recettes/*.html (one folder deeper than site root).
-  yaml_rel_to_root <- fs::path_rel(yaml_path, start = ".")  # e.g., recettes/salade-de-legumineuses.yaml
-  yaml_rel_to_root <- gsub("\\\\", "/", yaml_rel_to_root)   
+  # ---- Edit button ----
+  yaml_rel_to_root <- fs::path_rel(yaml_path, start = ".")
+  yaml_rel_to_root <- gsub("\\\\", "/", yaml_rel_to_root)
   if (!startsWith(yaml_rel_to_root, "/")) yaml_rel_to_root <- paste0("/", yaml_rel_to_root)
-# Windows safety
 
-  # Basic URL encoding for spaces (file names should already be safe, but just in case)
   yaml_qp <- utils::URLencode(yaml_rel_to_root, reserved = TRUE)
-
   edit_href <- paste0("../", EDIT_PAGE_HREF, "?", EDIT_PARAM_NAME, "=", yaml_qp)
 
   lines <- c(
@@ -83,7 +74,6 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   for (section in recipe$preparation) {
     lines <- c(lines, paste0("### ", section$section), "")
 
-    # Collect ingredients for this section
     ing_list <- list()
     for (step in section$etapes) {
       if (!is.null(step$ingredients)) {
@@ -95,7 +85,6 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         }
       }
     }
-    # Write ingredients in order
     for (item in ing_list) {
       lines <- c(lines, paste0("- ", stringr::str_trim(item)))
     }
@@ -114,7 +103,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         equip_list <- c(equip_list, step$equipements)
       }
     }
-    equip_list <- unique(equip_list)  # remove duplicates
+    equip_list <- unique(equip_list)
 
     for (eq in equip_list) {
       lines <- c(lines, paste0("- ", stringr::str_trim(eq)))
@@ -135,22 +124,121 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
 
   # ---- Comments / Notes ----
-  if (!is.null(recipe$commentaires) && length(recipe$commentaires) > 0) {
+  comments_norm <- normalize_comments(recipe$commentaires)
+
+  if (length(comments_norm) > 0) {
     lines <- c(lines, "## Notes", "")
-    for (comment in recipe$commentaires) {
-      lines <- c(lines, paste0("- ", comment))
+
+    # Summary: stars + counts
+    avg <- mean(vapply(comments_norm, function(x) if (!is.null(x$evaluation)) x$evaluation else NA_real_, numeric(1)), na.rm = TRUE)
+    if (is.nan(avg)) avg <- NA_real_
+    stars <- if (is.na(avg)) "" else stars_string(avg)
+
+    n_total <- length(comments_norm)
+    n_alex <- count_by_author(comments_norm, "Alexandre Parent")
+    n_elodie <- count_by_author(comments_norm, "Élodie Bourgeois")
+
+    summary_parts <- c()
+    if (stars != "") summary_parts <- c(summary_parts, paste0(stars, " (moyenne ", format(avg, digits = 2), "/5)"))
+    summary_parts <- c(summary_parts, paste0(n_total, " commentaire(s)"))
+    summary_parts <- c(summary_parts, paste0("Alexandre Parent: ", n_alex))
+    summary_parts <- c(summary_parts, paste0("Élodie Bourgeois: ", n_elodie))
+
+    lines <- c(lines, paste0("_", paste(summary_parts, collapse = " · "), "_"), "")
+
+    # Each comment
+    for (cmt in comments_norm) {
+      lines <- c(lines, paste0("- ", format_comment_line(cmt)))
     }
   }
 
-  # ---- Write to file ----
   writeLines(enc2utf8(lines), qmd_path)
   invisible(qmd_path)
 }
 
+# --- Comment helpers ----------------------------------------------------------
+
+normalize_comments <- function(commentaires) {
+  if (is.null(commentaires) || length(commentaires) == 0) return(list())
+
+  # Old format: vector of strings
+  if (is.character(commentaires)) {
+    return(lapply(commentaires, function(s) list(commentaire = s, evaluation = NULL, nom = NULL, date = NULL)))
+  }
+
+  # Some YAML parsers may give a list with unnamed entries
+  if (is.list(commentaires)) {
+    out <- list()
+    for (i in seq_along(commentaires)) {
+      x <- commentaires[[i]]
+      if (is.character(x)) {
+        out[[length(out) + 1]] <- list(commentaire = x, evaluation = NULL, nom = NULL, date = NULL)
+      } else if (is.list(x)) {
+        out[[length(out) + 1]] <- list(
+          commentaire = if (!is.null(x$commentaire)) x$commentaire else NULL,
+          evaluation = if (!is.null(x$evaluation)) as.numeric(x$evaluation) else NULL,
+          nom = if (!is.null(x$nom)) x$nom else NULL,
+          date = if (!is.null(x$date)) x$date else NULL
+        )
+      }
+    }
+    return(out)
+  }
+
+  list()
+}
+
+stars_string <- function(avg) {
+  # round to nearest integer for display
+  n <- round(avg)
+  n <- max(0, min(5, n))
+  paste0(strrep("★", n), strrep("☆", 5 - n))
+}
+
+strip_accents <- function(x) {
+  # best effort: convert to ASCII
+  iconv(x, from = "", to = "ASCII//TRANSLIT")
+}
+
+norm_name <- function(x) {
+  if (is.null(x) || is.na(x) || x == "") return("")
+  x <- strip_accents(x)
+  x <- stringr::str_to_lower(x)
+  x <- gsub("\\s+", " ", x)
+  trimws(x)
+}
+
+count_by_author <- function(comments, author) {
+  a <- norm_name(author)
+  sum(vapply(comments, function(cmt) norm_name(cmt$nom) == a, logical(1)))
+}
+
+
+format_date_slash <- function(x) {
+  if (is.null(x) || is.na(x) || x == "") return("")
+  # Expect YYYY-MM-DD; if already different, just replace '-' with '/'
+  gsub("-", "/", as.character(x))
+}
+
+format_comment_line <- function(cmt) {
+  parts <- c()
+
+  if (!is.null(cmt$evaluation) && !is.na(cmt$evaluation)) {
+    ev <- as.integer(cmt$evaluation)
+    if (!is.na(ev) && ev >= 1 && ev <= 5) {
+      parts <- c(parts, paste0(strrep("★", ev), strrep("☆", 5 - ev)))
+    }
+  }
+
+  if (!is.null(cmt$nom) && cmt$nom != "") parts <- c(parts, cmt$nom)
+  if (!is.null(cmt$date) && cmt$date != "") parts <- c(parts, format_date_slash(cmt$date))
+
+  prefix <- if (length(parts) > 0) paste0("[", paste(parts, collapse = " · "), "] ") else ""
+  txt <- if (!is.null(cmt$commentaire) && cmt$commentaire != "") cmt$commentaire else "(sans texte)"
+  paste0(prefix, txt)
+}
+
 #' Regenerate all recipe QMDs from YAMLs
-#'
-#' @param recipes_dir Directory that contains recipe YAML files (default: "recettes")
-#' @param pattern File pattern for YAMLs
 #' @export
 regenerate_recipe_qmds <- function(recipes_dir = "recettes", pattern = "\\.ya?ml$") {
   yaml_files <- list.files(recipes_dir, pattern = pattern, full.names = TRUE)

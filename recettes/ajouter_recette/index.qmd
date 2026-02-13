@@ -28,6 +28,8 @@ cat(
 
 ## Formulaire manuel
 
+<div id="edit-banner" class="alert alert-info d-none" role="alert"></div>
+
 <div id="recipe-form-container"></div>
 
 <div id="success-message" class="alert alert-success d-none"></div>
@@ -70,21 +72,94 @@ cat(
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 
 <style>
-.required-field::after {
-  content: " *";
-  color: var(--bs-danger);
-}
+.required-field::after { content: " *"; color: var(--bs-danger); }
+
+/* Inline warning under inputs (e.g., non-numeric YAML values) */
+.qrf-inline-warning { margin-top: .25rem; font-size: .875rem; color: var(--bs-danger); }
+
+/* Array items */
+.qrf-array-item { border: 1px solid rgba(0,0,0,.10); border-radius: .5rem; padding: .75rem; margin-top: .5rem; background: rgba(0,0,0,.01); }
+.qrf-array-item-header { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom: .5rem; }
+.qrf-array-item-title { font-weight: 600; }
+
+/* Compact row for primitive array items: input + remove on one line */
+.qrf-inline-row { display:flex; align-items:flex-start; gap:.5rem; }
+.qrf-inline-row .form-control,
+.qrf-inline-row .form-select,
+.qrf-inline-row textarea { flex: 1 1 auto; min-width: 0; }
+.qrf-inline-row .btn { flex: 0 0 auto; white-space: nowrap; }
+
+/* Three-up rows (temps, ingredients) */
+.qrf-row-3 { display:flex; flex-wrap: wrap; gap: .75rem; }
+.qrf-row-3 .qrf-col { flex: 1 1 200px; min-width: 200px; }
+
+/* Comment row: meta (stars/name/date) on one line */
+.qrf-row-comment-meta { display:flex; flex-wrap: wrap; gap: .75rem; align-items:flex-end; }
+.qrf-row-comment-meta .qrf-col { flex: 1 1 200px; min-width: 200px; }
+.qrf-row-comment-meta .qrf-col.small { flex: 0 0 220px; }
+.qrf-row-comment-meta .qrf-col.tiny { flex: 0 0 180px; }
+
+/* Slightly smaller labels inside dense rows */
+.qrf-dense .form-label { margin-bottom: .25rem; font-size: .9rem; }
+
+/* Star rating widget */
+.qrf-stars { display:inline-flex; gap:.25rem; line-height:1; user-select:none; }
+.qrf-star-btn { border:none; background:transparent; padding:0; font-size:1.25rem; cursor:pointer; }
+.qrf-star-btn:focus { outline: 2px solid rgba(13,110,253,.35); outline-offset: 2px; border-radius: .25rem; }
+.qrf-stars-muted { color: rgba(0,0,0,.25); }
+.qrf-stars-active { color: #f0ad4e; } /* bootstrap-ish amber */
+.qrf-stars-clear { font-size:.85rem; margin-left:.5rem; }
+
 </style>
 
 <script>
+/**
+ * Add support for commentaires as array of objects:
+ * - commentaire (string)   [textarea]
+ * - evaluation (int 1-5)  [select]
+ * - nom (string)
+ * - date (date)
+ *
+ * Existing behavior preserved:
+ * - Edit banner
+ * - No "Item 0/1"
+ * - Inline remove for primitive arrays
+ * - Special layouts: temps + ingredients
+ *
+ * Numeric strictness for qte remains: must be a number (blocks submit if YAML had non-numeric).
+ */
+
 document.addEventListener("DOMContentLoaded", async () => {
-  // Render form first (so inputs exist), then optionally load YAML (edit mode)
-  renderForm(window.RECIPE_SCHEMA, "recipe-form-container", []);
-  await maybeLoadYamlForEdit();
+  try {
+    const schema = window.RECIPE_SCHEMA;
+    if (!schema) throw new Error("RECIPE_SCHEMA manquant.");
+
+    const yamlPath = getQueryParam("yaml");
+    let data = {};
+
+    if (yamlPath) {
+      const resp = await fetch(yamlPath, { cache: "no-store" });
+      if (!resp.ok) throw new Error("Impossible de charger le YAML.");
+      const text = await resp.text();
+      data = jsyaml.load(text) || {};
+      window.__EDIT_MODE__ = { yamlPath, original: data };
+
+      const banner = document.getElementById("edit-banner");
+      if (banner) {
+        const name = data?.nom || "cette recette";
+        banner.classList.remove("d-none");
+        banner.innerHTML = `✏️ <strong>Modification en cours</strong> : <span class="ms-1">${escapeHtml(name)}</span>`;
+      }
+    }
+
+    renderFromData(schema, data, document.getElementById("recipe-form-container"));
+  } catch (e) {
+    showError(e?.message || "Erreur au chargement du formulaire.");
+  }
 });
 
 // ---------------------------
-//  Small helpers
+//  Helpers
 // ---------------------------
 function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
@@ -104,6 +179,15 @@ function slugify(str) {
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 // ---------------------------
@@ -146,8 +230,6 @@ function clearMessages() {
 function resetForm(form) {
   form.reset();
   form.classList.remove("was-validated");
-
-  // Clear dynamically added array items
   form.querySelectorAll("[data-array-list]").forEach((list) => (list.innerHTML = ""));
 }
 
@@ -170,11 +252,20 @@ function setSubmitLoading(form, isLoading, label="Soumettre la recette") {
   }
 }
 
+
+function isQtePath(path) {
+  return String(path[path.length - 1] || "") === "qte";
+}
+
+function normalizeNumericString(s) {
+  // Accept both "0.5" and "0,5"
+  return String(s ?? "").trim().replace(",", ".");
+}
+
 // ---------------------------
-//  Form rendering
+//  Renderer (schema -> DOM) : renderFromData
 // ---------------------------
-function renderForm(schema, containerId, path) {
-  const container = document.getElementById(containerId);
+function renderFromData(schema, data, container) {
   container.innerHTML = "";
 
   const form = document.createElement("form");
@@ -182,7 +273,7 @@ function renderForm(schema, containerId, path) {
   form.classList.add("needs-validation");
   form.noValidate = true;
 
-  form.appendChild(renderObject(schema, path));
+  form.appendChild(renderNode(schema, data, [], form));
 
   const btn = document.createElement("button");
   btn.type = "submit";
@@ -194,25 +285,131 @@ function renderForm(schema, containerId, path) {
   container.appendChild(form);
 }
 
-function renderObject(schema, path) {
+function renderNode(schema, value, path, formRoot) {
+  if (!schema) return document.createElement("div");
+  if (schema.type === "object") return renderObject(schema, value, path, formRoot);
+  if (schema.type === "array") return renderArray(schema, value, path, formRoot);
+  return renderPrimitive(schema, value, path);
+}
+
+function isIngredientObjectSchema(schema) {
+  if (!schema || schema.type !== "object") return false;
+  const props = schema.properties || {};
+  return Object.prototype.hasOwnProperty.call(props, "nom")
+    && Object.prototype.hasOwnProperty.call(props, "qte")
+    && Object.prototype.hasOwnProperty.call(props, "uni");
+}
+
+function isCommentObjectSchema(schema) {
+  if (!schema || schema.type !== "object") return false;
+  const props = schema.properties || {};
+  return Object.prototype.hasOwnProperty.call(props, "commentaire")
+    && Object.prototype.hasOwnProperty.call(props, "evaluation")
+    && Object.prototype.hasOwnProperty.call(props, "nom")
+    && Object.prototype.hasOwnProperty.call(props, "date");
+}
+
+function isTempsObjectPath(path, schema) {
+  const last = path[path.length - 1];
+  return last === "temps" || schema?.title === "Temps";
+}
+
+function renderObject(schema, value, path, formRoot) {
+  if (isIngredientObjectSchema(schema)) {
+    return renderIngredientRow(schema, value, path);
+  }
+  if (isCommentObjectSchema(schema)) {
+    return renderCommentRow(schema, value, path);
+  }
+  if (isTempsObjectPath(path, schema)) {
+    return renderTempsRow(schema, value, path);
+  }
+
   const wrapper = document.createElement("div");
+  const props = schema.properties || {};
+  const obj = (value && typeof value === "object" && !Array.isArray(value)) ? value : {};
 
-  Object.entries(schema.properties).forEach(([key, prop]) => {
+  Object.entries(props).forEach(([key, prop]) => {
     const fieldPath = [...path, key];
-
     if (prop.type === "object") {
-      wrapper.appendChild(renderSection(prop, key, fieldPath));
-    } else if (prop.type === "array") {
-      wrapper.appendChild(renderArray(prop, key, fieldPath));
+      wrapper.appendChild(renderSection(prop, key, obj[key], fieldPath, formRoot));
     } else {
-      wrapper.appendChild(renderPrimitive(prop, key, fieldPath, schema.required?.includes(key)));
+      wrapper.appendChild(renderNode(prop, obj[key], fieldPath, formRoot));
     }
   });
 
   return wrapper;
 }
 
-function renderSection(schema, title, path) {
+function renderTempsRow(schema, value, path) {
+  const obj = (value && typeof value === "object" && !Array.isArray(value)) ? value : {};
+  const props = schema.properties || {};
+
+  const wrap = document.createElement("div");
+  wrap.className = "qrf-row-3 qrf-dense";
+
+  ["preparation","cuisson","refrigeration"].forEach((k) => {
+    if (!props[k]) return;
+    const col = document.createElement("div");
+    col.className = "qrf-col";
+    col.appendChild(renderPrimitive(props[k], obj[k], [...path, k], true));
+    wrap.appendChild(col);
+  });
+
+  return wrap;
+}
+
+function renderIngredientRow(schema, value, path) {
+  const obj = (value && typeof value === "object" && !Array.isArray(value)) ? value : {};
+  const props = schema.properties || {};
+
+  const wrap = document.createElement("div");
+  wrap.className = "qrf-row-3 qrf-dense";
+
+  ["nom","qte","uni"].forEach((k) => {
+    const col = document.createElement("div");
+    col.className = "qrf-col";
+    col.appendChild(renderPrimitive(props[k], obj[k], [...path, k], true));
+    wrap.appendChild(col);
+  });
+
+  return wrap;
+}
+
+function renderCommentRow(schema, value, path) {
+  const obj = (value && typeof value === "object" && !Array.isArray(value)) ? value : {};
+  const props = schema.properties || {};
+
+  const wrapper = document.createElement("div");
+
+  // Meta row: evaluation / nom / date
+  const meta = document.createElement("div");
+  meta.className = "qrf-row-comment-meta qrf-dense";
+
+  const colEval = document.createElement("div");
+  colEval.className = "qrf-col tiny";
+  colEval.appendChild(renderPrimitive(props["evaluation"], obj["evaluation"], [...path, "evaluation"], true));
+  meta.appendChild(colEval);
+
+  const colNom = document.createElement("div");
+  colNom.className = "qrf-col small";
+  colNom.appendChild(renderPrimitive(props["nom"], obj["nom"], [...path, "nom"], true));
+  meta.appendChild(colNom);
+
+  const colDate = document.createElement("div");
+  colDate.className = "qrf-col tiny";
+  colDate.appendChild(renderPrimitive(props["date"], obj["date"], [...path, "date"], true));
+  meta.appendChild(colDate);
+
+  wrapper.appendChild(meta);
+
+  // Comment text (full width)
+  wrapper.appendChild(renderPrimitive(props["commentaire"], obj["commentaire"], [...path, "commentaire"], false));
+
+  return wrapper;
+}
+
+function renderSection(schema, title, value, path, formRoot) {
   const div = document.createElement("div");
   div.className = "card mb-3";
 
@@ -224,175 +421,411 @@ function renderSection(schema, title, path) {
   h.textContent = schema.title || title;
   body.appendChild(h);
 
-  body.appendChild(renderObject(schema, path));
+  body.appendChild(renderObject(schema, value, path, formRoot));
   div.appendChild(body);
   return div;
 }
 
-function renderArray(schema, key, path) {
+function labelForArrayItems(arrayPath, itemSchema) {
+  const lastKey = arrayPath[arrayPath.length - 1];
+  const map = {
+    categories: "Catégorie",
+    commentaires: "Commentaire",
+    equipements: "Équipement",
+    preparation: "Section",
+    etapes: "Étape",
+    ingredients: "Ingrédient"
+  };
+  if (map[lastKey]) return map[lastKey];
+  if (itemSchema?.title) return itemSchema.title;
+  return "Élément";
+}
+
+function renderArray(schema, value, path, formRoot) {
   const div = document.createElement("div");
   div.className = "mb-3";
+  div.dataset.arrayPath = path.join(".");
 
   const label = document.createElement("label");
   label.className = "form-label fw-bold";
-  label.textContent = schema.title || key;
+  label.textContent = schema.title || path[path.length - 1] || "Liste";
   div.appendChild(label);
+
+  if (schema.description) {
+    const help = document.createElement("div");
+    help.className = "form-text";
+    help.textContent = schema.description;
+    div.appendChild(help);
+  }
 
   const list = document.createElement("div");
   list.dataset.arrayList = "1";
-  list.dataset.arrayPath = path.join(".");
   div.appendChild(list);
+
+  const arr = Array.isArray(value) ? value : [];
+  for (let i = 0; i < arr.length; i++) {
+    addArrayItem(list, schema.items, path, arr[i], formRoot);
+  }
+
+  if (arr.length === 0 && schema.items?.type !== "object") {
+    addArrayItem(list, schema.items, path, null, formRoot);
+  }
 
   const addBtn = document.createElement("button");
   addBtn.type = "button";
   addBtn.className = "btn btn-outline-primary btn-sm mt-2";
   addBtn.textContent = "+ Ajouter";
-  addBtn.onclick = () => addArrayItem(list, schema.items, path, null);
-
+  addBtn.onclick = () => addArrayItem(list, schema.items, path, null, formRoot);
   div.appendChild(addBtn);
-
-  // UX: start with 1 item for simple arrays (categories/commentaires) to avoid empty UI
-  // but keep complex arrays empty by default (preparation has nested objects)
-  if (schema.items?.type !== "object") {
-    addArrayItem(list, schema.items, path, null);
-  }
 
   return div;
 }
 
-function addArrayItem(list, itemSchema, path, initialData) {
+function addArrayItem(list, itemSchema, path, initialData, formRoot) {
   const idx = list.children.length;
   const itemPath = [...path, String(idx)];
-  const itemDiv = renderArrayItem(itemSchema, itemPath);
+  const itemDiv = renderArrayItem(itemSchema, itemPath, initialData, formRoot);
   list.appendChild(itemDiv);
-
-  if (initialData !== null && initialData !== undefined) {
-    fillRecursive(itemSchema, initialData, itemPath, itemDiv);
-  }
 }
 
-function renderArrayItem(itemSchema, path) {
+function renderArrayItem(itemSchema, path, initialData, formRoot) {
   const itemDiv = document.createElement("div");
-  itemDiv.className = "border rounded p-3 mt-2";
+  itemDiv.className = "qrf-array-item";
 
-  if (itemSchema.type === "object") {
-    itemDiv.appendChild(renderObject(itemSchema, path));
-  } else {
-    itemDiv.appendChild(renderPrimitive(itemSchema, "", path));
+  const idx = Number(path[path.length - 1] || 0) + 1;
+  const friendly = labelForArrayItems(path.slice(0, -1), itemSchema);
+
+  // Primitive arrays => inline input + remove
+  if (itemSchema.type !== "object") {
+    const row = document.createElement("div");
+    row.className = "qrf-inline-row";
+
+    const field = renderPrimitive(itemSchema, initialData, path, true);
+    const input = field.querySelector("input, select, textarea");
+    const label = field.querySelector("label");
+    const warn = field.querySelector(".qrf-inline-warning");
+    if (label) label.remove();
+
+    const inputWrap = document.createElement("div");
+    inputWrap.className = "flex-grow-1";
+    if (input) inputWrap.appendChild(input);
+    if (warn) inputWrap.appendChild(warn);
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "btn btn-sm btn-outline-danger";
+    removeBtn.textContent = "Retirer";
+    removeBtn.onclick = () => {
+      itemDiv.remove();
+      renumberArray(listFromItem(itemDiv), path.slice(0, -1).join("."));
+    };
+
+    row.appendChild(inputWrap);
+    row.appendChild(removeBtn);
+    itemDiv.appendChild(row);
+    return itemDiv;
   }
+
+  // Object array items => header + body
+  const header = document.createElement("div");
+  header.className = "qrf-array-item-header";
+
+  const title = document.createElement("div");
+  title.className = "qrf-array-item-title";
+  title.textContent = `${friendly} ${idx}`;
+  header.appendChild(title);
 
   const removeBtn = document.createElement("button");
   removeBtn.type = "button";
-  removeBtn.className = "btn btn-sm btn-outline-danger mt-2";
+  removeBtn.className = "btn btn-sm btn-outline-danger";
   removeBtn.textContent = "Retirer";
-  removeBtn.onclick = () => itemDiv.remove();
+  removeBtn.onclick = () => {
+    itemDiv.remove();
+    renumberArray(listFromItem(itemDiv), path.slice(0, -1).join("."));
+  };
+  header.appendChild(removeBtn);
 
-  itemDiv.appendChild(removeBtn);
+  itemDiv.appendChild(header);
+  itemDiv.appendChild(renderObject(itemSchema, initialData, path, formRoot));
   return itemDiv;
 }
 
-function renderPrimitive(schema, key, path, required=false) {
+function listFromItem(itemDiv) { return itemDiv.parentElement; }
+
+function renumberArray(listEl, arrayPath) {
+  if (!listEl) return;
+  const items = Array.from(listEl.children);
+  items.forEach((itemDiv, i) => {
+    const any = itemDiv.querySelector("[data-path], [data-array-path]");
+    if (!any) return;
+
+    const oldPrefixMatch = (any.getAttribute("data-path") || any.getAttribute("data-array-path") || "")
+      .match(new RegExp("^" + escapeRegExp(arrayPath) + "\\.(\\d+)(\\.|$)"));
+    if (!oldPrefixMatch) return;
+
+    const oldIndex = oldPrefixMatch[1];
+    const from = arrayPath + "." + oldIndex;
+    const to = arrayPath + "." + String(i);
+
+    itemDiv.querySelectorAll("[data-path]").forEach((n) => {
+      const p = n.getAttribute("data-path");
+      if (p && p.startsWith(from)) n.setAttribute("data-path", to + p.slice(from.length));
+    });
+
+    itemDiv.querySelectorAll("[data-array-path]").forEach((n) => {
+      const p = n.getAttribute("data-array-path");
+      if (p && p.startsWith(from)) n.setAttribute("data-array-path", to + p.slice(from.length));
+    });
+
+    const title = itemDiv.querySelector(".qrf-array-item-title");
+    if (title) title.textContent = title.textContent.replace(/\d+$/, String(i + 1));
+  });
+}
+
+function escapeRegExp(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+// ui helpers
+function getUiWidget(schema) {
+  const ui = schema && schema.ui;
+  return ui && ui.widget ? String(ui.widget) : null;
+}
+
+
+function renderPrimitive(schema, value, path, dense=false) {
+  const key = path[path.length - 1] || "";
   const div = document.createElement("div");
-  div.className = "mb-3";
+  div.className = dense ? "mb-0 qrf-dense" : "mb-3";
 
   const label = document.createElement("label");
   label.className = "form-label";
   label.textContent = schema.title || key;
   div.appendChild(label);
 
-  let input;
+  // Enum => widget (stars) for evaluation 1..5, otherwise select
+  if (Array.isArray(schema.enum) && schema.enum.length > 0) {
+    const isStars =
+      schema.enum.length === 5 &&
+      schema.enum.every((v, i) => Number(v) === i + 1) &&
+      String(path[path.length - 1] || "") === "evaluation";
 
-  if (schema.type === "boolean") {
-    input = document.createElement("input");
-    input.type = "checkbox";
-    input.className = "form-check-input ms-2";
-  } else {
-    input = document.createElement("input");
-    input.type = (schema.type === "integer" || schema.type === "number") ? "number" : "text";
-    input.className = "form-control";
+    if (isStars) {
+      const hidden = document.createElement("input");
+      hidden.type = "number";
+      hidden.className = "form-control d-none";
+      hidden.dataset.path = path.join(".");
+      hidden.min = "1";
+      hidden.max = "5";
+      hidden.step = "1";
+      hidden.value = (value ?? "") === "" ? "" : String(value);
+
+      const wrap = document.createElement("div");
+      wrap.className = "d-flex align-items-center gap-2";
+
+      const stars = document.createElement("div");
+      stars.className = "qrf-stars";
+      stars.setAttribute("role", "radiogroup");
+
+      function currentVal() {
+        if (hidden.value === "") return null;
+        const n = parseInt(hidden.value, 10);
+        return Number.isFinite(n) ? n : null;
+      }
+
+      function renderStars() {
+        const v = currentVal();
+        stars.querySelectorAll("button").forEach((btn, i) => {
+          const n = i + 1;
+          btn.textContent = v !== null && n <= v ? "★" : "☆";
+        });
+      }
+
+      for (let i = 1; i <= 5; i++) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "qrf-star-btn";
+        b.textContent = "☆";
+        b.onclick = () => {
+          hidden.value = (currentVal() === i) ? "" : String(i);
+          renderStars();
+        };
+        stars.appendChild(b);
+      }
+
+      const clear = document.createElement("button");
+      clear.type = "button";
+      clear.className = "btn btn-link p-0 qrf-stars-clear";
+      clear.textContent = "Effacer";
+      clear.onclick = () => { hidden.value = ""; renderStars(); };
+
+      wrap.appendChild(stars);
+      wrap.appendChild(clear);
+
+      div.appendChild(wrap);
+      div.appendChild(hidden);
+      renderStars();
+      return div;
+    }
+
+    const select = document.createElement("select");
+    select.className = "form-select";
+    select.dataset.path = path.join(".");
+
+    const opt0 = document.createElement("option");
+    opt0.value = "";
+    opt0.textContent = "—";
+    select.appendChild(opt0);
+
+    for (const v of schema.enum) {
+      const opt = document.createElement("option");
+      opt.value = String(v);
+      opt.textContent = String(v);
+      select.appendChild(opt);
+    }
+
+    if (value !== null && value !== undefined && value !== "") {
+      select.value = String(value);
+    }
+
+    div.appendChild(select);
+    return div;
   }
 
+  let input = document.createElement("input");
+  input.className = "form-control";
   input.dataset.path = path.join(".");
-  if (required) input.required = true;
 
-  if (schema.description)
-    input.placeholder = schema.description;
+  // Boolean
+  if (schema.type === "boolean") {
+    input.type = "checkbox";
+    input.className = "form-check-input ms-2";
+    input.checked = !!value;
+    div.appendChild(input);
+    return div;
+  }
+
+  // Numeric
+  if (schema.type === "integer" || schema.type === "number") {
+    const isQte = String(path[path.length - 1] || "") === "qte";
+
+    if (schema.type === "number" && isQte) {
+      input.type = "text";
+      input.inputMode = "decimal";
+      input.placeholder = "Ex: 0.5 ou 0,5";
+      input.pattern = "^\\s*\\d+(?:[\\.,]\\d+)?\\s*$";
+      input.addEventListener("input", () => {
+        if (input.value.includes(",")) input.value = input.value.replace(",", ".");
+      });
+    } else {
+      input.type = "number";
+      input.step = schema.type === "integer" ? "1" : "any";
+    }
+
+    if (typeof value === "number" && !Number.isNaN(value)) {
+      input.value = String(value);
+    } else if (value === null || value === undefined) {
+      input.value = "";
+    } else {
+      input.value = "";
+      input.dataset.nonNumericLoaded = "true";
+      const warn = document.createElement("div");
+      warn.className = "qrf-inline-warning";
+      warn.textContent = "Valeur non numérique dans le YAML (corriger: ex. 0.5 au lieu de 1/2).";
+      div.appendChild(warn);
+    }
+
+    div.appendChild(input);
+    return div;
+  }
+
+  // Text / date
+  if (schema.format === "date") {
+    input.type = "date";
+    input.value = value ?? "";
+  } else {
+    input.type = "text";
+    input.value = value ?? "";
+  }
 
   div.appendChild(input);
   return div;
 }
 
+
 // ---------------------------
-//  Edit mode: load YAML and prefill
+//  Serialize (DOM -> data)
 // ---------------------------
-async function maybeLoadYamlForEdit() {
-  const yamlPath = getQueryParam("yaml");
-  if (!yamlPath) return;
-
-  // yamlPath is relative to site root (e.g. recettes/repas/xxx.yaml)
-  const resp = await fetch(yamlPath);
-  if (!resp.ok) throw new Error("Impossible de charger le YAML.");
-  const text = await resp.text();
-  const data = jsyaml.load(text);
-
-  window.__EDIT_MODE__ = { yamlPath, original: data };
-
-  const form = document.getElementById("recipe-form");
-  fillRecursive(window.RECIPE_SCHEMA, data, [], form);
-}
-
-function fillRecursive(schema, value, path, container) {
-  if (!schema) return;
-
+function serializeToData(schema, container, path=[]) {
   if (schema.type === "object") {
-    if (!value || typeof value !== "object") return;
-    for (const [key, prop] of Object.entries(schema.properties || {})) {
-      fillRecursive(prop, value[key], [...path, key], container);
-    }
-    return;
+    const obj = {};
+    Object.entries(schema.properties || {}).forEach(([key, prop]) => {
+      obj[key] = serializeToData(prop, container, [...path, key]);
+    });
+    return obj;
   }
 
   if (schema.type === "array") {
-    const list = container.querySelector(`[data-array-path="${path.join(".")}"]`);
-    if (!list) return;
+    const arrWrap = container.querySelector(`[data-array-path="${path.join(".")}"]`);
+    if (!arrWrap) return [];
+    const list = arrWrap.querySelector(`[data-array-list]`);
+    if (!list) return [];
 
-    // Clear existing items (including the default empty one)
-    list.innerHTML = "";
+    const out = [];
+    Array.from(list.children).forEach((itemDiv, i) => {
+      const itemPath = [...path, String(i)];
+      const v = serializeToData(schema.items, itemDiv, itemPath);
 
-    if (Array.isArray(value)) {
-      value.forEach((itemVal) => addArrayItem(list, schema.items, path, itemVal));
-    } else {
-      // keep one empty input for simple arrays
-      if (schema.items?.type !== "object") addArrayItem(list, schema.items, path, null);
-    }
-    return;
+      if (schema.items.type === "object") {
+        // Drop empty objects (all fields null/empty)
+        if (!isEmptyObject(v)) out.push(v);
+      } else {
+        if (v !== null && v !== "") out.push(v);
+      }
+    });
+    return out;
   }
 
-  // primitive
   const input = container.querySelector(`[data-path="${path.join(".")}"]`);
-  if (!input) return;
+  if (!input) return null;
 
-  if (input.type === "checkbox") {
-    input.checked = !!value;
-  } else if (value !== null && value !== undefined) {
-    input.value = value;
+  if (schema.type === "boolean") return input.checked;
+
+  // select
+  if (input.tagName === "SELECT") {
+    const v = input.value;
+    if (v === "") return null;
+    return schema.type === "integer" ? parseInt(normalizeNumericString(v), 10) : v;
   }
+
+  if (schema.type === "integer") return input.value === "" ? null : parseInt(normalizeNumericString(input.value), 10);
+  if (schema.type === "number")  return input.value === "" ? null : parseFloat(normalizeNumericString(input.value));
+  return input.value === "" ? null : input.value;
+}
+
+function isEmptyObject(obj) {
+  if (!obj || typeof obj !== "object") return true;
+  return Object.values(obj).every(v => v === null || v === "" || v === undefined);
 }
 
 // ---------------------------
-//  GitHub helpers
+//  Numeric strictness guard (blocks submit)
+// ---------------------------
+function findNonNumericLoadedInputs(form) {
+  return Array.from(form.querySelectorAll('input[type="number"]'))
+    .filter(inp => inp.dataset && inp.dataset.nonNumericLoaded === "true");
+}
+
+// ---------------------------
+//  GitHub helpers (unchanged)
 // ---------------------------
 async function safeJson(resp) {
   try { return await resp.json(); } catch { return null; }
 }
 
-
-// Return the current file SHA on a given branch (needed to update an existing file via the Contents API)
 async function getFileSha({ owner, repo, headers, filePath, branch }) {
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${encodeURIComponent(branch)}`;
   const resp = await fetch(url, { headers });
   const data = await safeJson(resp);
-  if (resp.status === 404) return null; // file doesn't exist (create mode)
+  if (resp.status === 404) return null;
   if (!resp.ok) throw new Error(data?.message || "Impossible de lire le fichier existant (SHA).");
   return data?.sha || null;
 }
@@ -417,63 +850,20 @@ async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBra
 }
 
 // ---------------------------
-//  Collect form data (schema-driven, supports nested arrays/objects)
-// ---------------------------
-function collectData(schema, container, path=[]) {
-  if (schema.type === "object") {
-    const obj = {};
-    Object.entries(schema.properties || {}).forEach(([key, prop]) => {
-      obj[key] = collectData(prop, container, [...path, key]);
-    });
-    return obj;
-  }
-
-  if (schema.type === "array") {
-    const list = container.querySelector(`[data-array-path="${path.join(".")}"]`);
-    if (!list) return [];
-
-    const items = [];
-    const itemSchema = schema.items;
-
-    // Each direct child in list corresponds to one array item
-    Array.from(list.children).forEach((itemDiv) => {
-      // Ignore the remove button etc? itemDiv is wrapper; collect within it
-      // We store index inside data-path, so just recurse with index based on DOM order
-      const idx = items.length;
-      const itemPath = [...path, String(idx)];
-      const val = collectData(itemSchema, itemDiv, itemPath);
-      // Keep empty strings out for primitive arrays
-      if (itemSchema.type === "object") {
-        items.push(val);
-      } else {
-        if (val !== null && val !== "") items.push(val);
-      }
-    });
-
-    return items;
-  }
-
-  // primitive
-  const selector = `[data-path="${path.join(".")}"]`;
-  const input = container.querySelector(selector);
-
-  if (!input) return null;
-
-  if (schema.type === "boolean") return input.checked;
-  if (schema.type === "integer") return input.value === "" ? null : parseInt(input.value, 10);
-  if (schema.type === "number") return input.value === "" ? null : parseFloat(input.value);
-
-  return input.value === "" ? null : input.value;
-}
-
-// ---------------------------
-//  Submit handler (create or edit)
+//  Submit handler (create or edit) — behavior preserved
 // ---------------------------
 async function handleSubmit(e) {
   e.preventDefault();
   clearMessages();
 
   const form = e.target;
+
+  const bad = findNonNumericLoadedInputs(form);
+  if (bad.length > 0) {
+    form.classList.add("was-validated");
+    showError("Cette recette contient au moins une quantité non numérique (ex: 1/2). Corrige le YAML en nombres (ex: 0.5), puis réessaie.");
+    return;
+  }
 
   if (!form.checkValidity()) {
     form.classList.add("was-validated");
@@ -483,7 +873,7 @@ async function handleSubmit(e) {
   setSubmitLoading(form, true);
 
   try {
-    const data = collectData(window.RECIPE_SCHEMA, form);
+    const data = serializeToData(window.RECIPE_SCHEMA, form, []);
     const yamlContent = jsyaml.dump(data, { indent: 2, lineWidth: -1 });
 
     const token = window.GITHUB_PAT;
@@ -513,7 +903,6 @@ async function handleSubmit(e) {
 
     const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
-    // If the file already exists on this branch, GitHub requires its SHA to update it
     const existingSha = await getFileSha({ owner, repo, headers, filePath, branch: branchName });
 
     const putBody = {
@@ -525,11 +914,7 @@ async function handleSubmit(e) {
 
     const fileResp = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
-      {
-        method: "PUT",
-        headers,
-        body: JSON.stringify(putBody)
-      }
+      { method: "PUT", headers, body: JSON.stringify(putBody) }
     );
     const fileData = await safeJson(fileResp);
     if (!fileResp.ok) throw new Error(fileData?.message || "Impossible d'écrire le fichier.");
@@ -562,4 +947,3 @@ async function handleSubmit(e) {
   }
 }
 </script>
-

@@ -41,13 +41,13 @@ preparation:
   - etape: Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
     ingredients:
     - nom: Sucre
-      qte: 1/2
+      qte: 0.5
       uni: tasse
     - nom: Huile d'olive
-      qte: 1/4
+      qte: 0.25
       uni: tasse
     - nom: Vinaigre de vin rouge
-      qte: 1/3
+      qte: 0.33
       uni: tasse
     - nom: Persil
       qte: 1

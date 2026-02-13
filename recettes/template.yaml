@@ -31,8 +31,13 @@ exemple:
             - Bol
 
   commentaires:
-    - Excellent
-    - À refaire
+    - commentaire: Excellent!
+      evaluation: 5
+      nom: Élodie Bourgeois
+      date: 2026-02-13
+    - commentaire: Bon, mais j'ajouterais plus d'ail.
+      evaluation: 4
+      nom: Alexandre Parent
 
 # ============================================================
 # Schéma dynamique du formulaire
@@ -77,55 +82,102 @@ _schema:
     categories:
       type: array
       title: Catégories
+      description: Liste de catégories (ex. Salade, Rapide)
       items:
         type: string
+        title: Catégorie
 
     temps:
       type: object
       title: Temps
+      description: Durées (en minutes)
       properties:
         preparation:
           type: integer
+          title: Préparation
           nullable: true
         cuisson:
           type: integer
+          title: Cuisson
           nullable: true
         refrigeration:
           type: integer
+          title: Réfrigération
           nullable: true
 
     preparation:
       type: array
       title: Préparation
+      description: Sections de préparation (ex. Salade, Vinaigrette)
       items:
         type: object
+        title: Section
         properties:
           section:
             type: string
+            title: Nom de la section
+            description: Ex. Salade, Vinaigrette
           etapes:
             type: array
+            title: Étapes
             items:
               type: object
+              title: Étape
               properties:
                 etape:
                   type: string
+                  title: Instruction
+                  description: Décris l'action à faire
                 ingredients:
                   type: array
+                  title: Ingrédients
                   items:
                     type: object
+                    title: Ingrédient
                     properties:
                       nom:
                         type: string
+                        title: Ingrédient
                       qte:
                         type: number
+                        title: Quantité
+                        description: Nombre (ex. 0.5 au lieu de 1/2)
                       uni:
                         type: string
+                        title: Unité
+                        description: Ex. g, ml, tasse, c. à thé
                 equipements:
                   type: array
+                  title: Équipements
                   items:
                     type: string
+                    title: Équipement
 
     commentaires:
       type: array
+      title: Commentaires
+      description: Notes et évaluations (optionnel)
       items:
-        type: string
+        type: object
+        title: Commentaire
+        properties:
+          commentaire:
+            type: string
+            title: Commentaire
+            ui:
+              widget: textarea
+            description: Texte du commentaire
+          evaluation:
+            type: integer
+            title: Évaluation
+            description: Note de 1 à 5 étoiles (optionnel)
+            enum: [1,2,3,4,5]
+          nom:
+            type: string
+            title: Nom
+            description: Nom de la personne (optionnel)
+          date:
+            type: string
+            title: Date
+            description: Date du commentaire (optionnel)
+            format: date
