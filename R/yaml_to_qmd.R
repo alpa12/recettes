@@ -120,8 +120,12 @@ lines <- c(
   for (section in recipe$preparation) {
     lines <- c(lines, paste0("### ", section$section), "")
     for (i in seq_along(section$etapes)) {
-      step_text <- section$etapes[[i]]$etape
+      step <- section$etapes[[i]]
+      step_text <- if (!is.null(step$etape)) step$etape else ""
       lines <- c(lines, paste0(i, ". ", step_text))
+      if (!is.null(step$image_guid) && nzchar(as.character(step$image_guid))) {
+        lines <- c(lines, paste0("   ![](/images/", step$image_guid, ".jpg)"))
+      }
     }
     lines <- c(lines, "")
   }

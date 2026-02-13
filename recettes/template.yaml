@@ -23,6 +23,7 @@ exemple:
     - section: Sauce
       etapes:
         - etape: Mélanger les ingrédients.
+          image_guid: null
           ingredients:
             - nom: Crème
               qte: 1
@@ -115,6 +116,11 @@ _schema:
               properties:
                 etape:
                   type: string
+                image_guid:
+                  type: string
+                  title: Image de l'étape
+                  description: Téléverse une image JPG (elle sera renommée automatiquement).
+                  nullable: true
                 ingredients:
                   type: array
                   items:
