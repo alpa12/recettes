@@ -1,16 +1,12 @@
 ---
-title: Biscuit chocolat chaud
+title: Biscuits au chocolat chaud
 
 categories:
   - Biscuit
   - Chocolat
 ---
 
-# Biscuits au chocolat chaud
-
-::: {.text-end}
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fbiscuit-au-chocolat-chaud.yaml){.btn .btn-outline-primary .btn-sm}
-:::
 
 ## Ingrédients
 

@@ -1,16 +1,12 @@
 ---
-title: Brioche à la cannelle
+title: Brioche à la cannelle et à la pomme de terre
 
 categories:
   - Brioche
   - Dessert
 ---
 
-# Brioche à la cannelle et à la pomme de terre
-
-::: {.text-end}
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fbrioche-a-la-cannelle-et-pomme-de-terre.yaml){.btn .btn-outline-primary .btn-sm}
-:::
 
 ## Ingrédients
 

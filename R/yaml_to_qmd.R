@@ -45,7 +45,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 lines <- c(
     lines,
     "---",
-    paste0("title: ", recipe$nom_court),
+    paste0("title: ", recipe$nom),
     image_line
   )
 
@@ -54,9 +54,6 @@ lines <- c(
     lines <- c(lines, "categories:", paste0("  - ", cats))
   }
   lines <- c(lines, "---", "")
-
-  # ---- Title ----
-  lines <- c(lines, paste0("# ", recipe$nom), "")
 
   # ---- Edit button ----
   yaml_rel_to_root <- fs::path_rel(yaml_path, start = ".")
@@ -68,9 +65,7 @@ lines <- c(
 
   lines <- c(
     lines,
-    "::: {.text-end}",
     paste0("[✏️ Modifier cette recette](", edit_href, "){.btn .btn-outline-primary .btn-sm}"),
-    ":::",
     ""
   )
 

@@ -1,16 +1,12 @@
 ---
-title: Tarte à la crème
+title: Tarte à la crème de Monique
 
 categories:
   - Tarte
   - Dessert
 ---
 
-# Tarte à la crème de Monique
-
-::: {.text-end}
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Ftarte-a-la-creme.yaml){.btn .btn-outline-primary .btn-sm}
-:::
 
 ## Ingrédients
 

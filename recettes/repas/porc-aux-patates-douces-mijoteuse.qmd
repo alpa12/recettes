@@ -1,16 +1,12 @@
 ---
-title: Mijoté porc patates douces
+title: Mijoté de porc aux patates douces
 
 categories:
   - Porc
   - Mijoteuse
 ---
 
-# Mijoté de porc aux patates douces
-
-::: {.text-end}
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fporc-aux-patates-douces-mijoteuse.yaml){.btn .btn-outline-primary .btn-sm}
-:::
 
 ## Ingrédients
 
