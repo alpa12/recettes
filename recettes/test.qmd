@@ -1,0 +1,15 @@
+---
+title: Test
+image: /images/056b2e8a-0767-4fd6-84de-217977d3323e.jpg
+categories:
+  - 
+---
+
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Ftest.yaml){.btn .btn-outline-primary .btn-sm}
+
+## Ingrédients
+
+## Équipements
+
+## Préparation
+
