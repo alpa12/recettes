@@ -86,19 +86,44 @@ categories:
 ### Pâte
 
 1. Mélanger la farine, le cacao, le bicarbonate et le sel dans un bol.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="225">225</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Farine tout usage non blanchie</span>
+   - <span class="ingredient-qte" data-base="50">50</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Cacao</span>
+   - <span class="ingredient-qte" data-base="2.5">2.5</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Bicarbonate de soude</span>
+   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Sel</span>
 2. Mélanger le beurre fondu, la cassonade, le sucre et le beurre d’amandes au batteur électrique.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="170">170</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Beurre non salé, fondu et tempéré</span>
+   - <span class="ingredient-qte" data-base="160">160</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Cassonade</span>
+   - <span class="ingredient-qte" data-base="105">105</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Sucre</span>
+   - <span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Beurre d’amandes</span>
 3. Ajouter les œufs, un à la fois, puis incorporer les ingrédients secs, 170 g de chocolat et 85 g d'amandes à basse vitesse.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Œufs</span>
+   - <span class="ingredient-qte" data-base="170">170</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Chocolat au lait, en pastilles ou haché grossièrement</span>
+   - <span class="ingredient-qte" data-base="85">85</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Amandes, grillées et hachées</span>
 
 ### Formation
 
 1. Former des boules de pâte à l’aide d’une cuillère à crème glacée de 45 ml et réfrigérer 5 à 10 minutes.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">lot</span> <span class="ingredient-nom">Pâte à biscuits</span>
 2. Insérer un caramel au centre de chaque boule et refermer la pâte.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="20">20</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Caramels mous du commerce</span>
 3. Ajouter le reste du chocolat et des amandes sur les boules de pâte. Réfrigérer 2 heures ou congeler.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="80">80</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Chocolat restant</span>
+   - <span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Amandes restantes</span>
 
 ### Cuisson
 
 1. Préchauffer le four à 190 °C et tapisser deux plaques de cuisson de papier parchemin. Répartir 6 à 8 biscuits par plaque.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">lot</span> <span class="ingredient-nom">Biscuits formés</span>
 2. Cuire au four 8 à 10 minutes jusqu’à ce que les biscuits soient cuits à l’extérieur mais encore mous au centre. Parsemer de fleur de sel.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">au goût</span> <span class="ingredient-nom">Fleur de sel</span>
 
 ```{=html}
 <script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=20;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>

@@ -151,6 +151,17 @@ ol li img {
   box-shadow: var(--site-shadow);
 }
 
+ol li > ul {
+  margin-top: 0.35rem;
+}
+
+ol li > ul li {
+  list-style: disc;
+  margin: 0.2rem 0;
+  padding: 0.2rem 0.35rem;
+  border-left: 2px solid var(--site-border-soft);
+}
+
 #recipe-form-container .card,
 #url-form,
 #site-password-manual {

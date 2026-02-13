@@ -247,6 +247,12 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
       step <- section$etapes[[i]]
       step_text <- if (!is.null(step$etape)) step$etape else ""
       lines <- c(lines, paste0(i, ". ", step_text))
+      if (is.list(step$ingredients) && length(step$ingredients) > 0) {
+        lines <- c(lines, "   _Ingrédients de cette étape:_")
+        for (ing in step$ingredients) {
+          lines <- c(lines, paste0("   - ", render_ingredient_inline(ing)))
+        }
+      }
       if (!is.null(step$image_guid) && nzchar(as.character(step$image_guid))) {
         lines <- c(lines, paste0("   ![](/images/", step$image_guid, ".jpg)"))
       }

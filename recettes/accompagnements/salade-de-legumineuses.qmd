@@ -66,10 +66,24 @@ categories:
 ### Salade
 
 1. Mélanger tous les ingrédients de la salade.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Pois chiches</span>
+   - <span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Fèves rouges</span>
+   - <span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Fèves mélangées</span>
+   - <span class="ingredient-qte" data-base="5">5</span> <span class="ingredient-uni">gousses</span> <span class="ingredient-nom">Ail</span>
+   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Échalottes</span>
+   - <span class="ingredient-qte" data-base="3">3</span> <span class="ingredient-uni">unités</span> <span class="ingredient-nom">Poivron</span>
 
 ### Vinaigrette
 
 1. Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
+   _Ingrédients de cette étape:_
+   - <span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Sucre</span>
+   - <span class="ingredient-qte" data-base="0.25">0.25</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Huile d'olive</span>
+   - <span class="ingredient-qte" data-base="0.33">0.33</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Vinaigre de vin rouge</span>
+   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Persil</span>
+   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Basilic</span>
+   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Origan</span>
 
 ```{=html}
 <script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=8;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
