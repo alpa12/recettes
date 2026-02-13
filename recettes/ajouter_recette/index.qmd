@@ -17,14 +17,14 @@ schema <- template$`_schema`
 token <- Sys.getenv("GITHUB_PAT")
 mot_de_passe <- Sys.getenv("MOT_DE_PASSE")
 
-cat(
-  "<script>",
-  "window.RECIPE_SCHEMA = ", jsonlite::toJSON(schema, auto_unbox = TRUE), ";",
-  "window.GITHUB_PAT = ",  jsonlite::toJSON(token, auto_unbox = TRUE), ";
-",
-  "window.RECIPE_PASSWORD = ", jsonlite::toJSON(mot_de_passe, auto_unbox = TRUE), ";",
-  "</script>"
-)
+# Inject variables for the client-side app
+cat(paste0(
+"<script>\n",
+"window.RECIPE_SCHEMA = ", jsonlite::toJSON(schema, auto_unbox = TRUE), ";\n",
+"window.GITHUB_PAT = ",  jsonlite::toJSON(token, auto_unbox = TRUE), ";\n",
+"window.RECIPE_PASSWORD = ", jsonlite::toJSON(mot_de_passe, auto_unbox = TRUE), ";\n",
+"</script>\n"
+))
 ```
 
 ::: {.panel-tabset}
@@ -93,7 +93,11 @@ cat(
 
 :::
 
+
+```{=html}
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+```
+
 
 <style>
 .required-field::after { content: " *"; color: var(--bs-danger); }
@@ -136,6 +140,8 @@ cat(
 
 </style>
 
+
+```{=html}
 <script>
 /**
  * Add support for commentaires as array of objects:
@@ -244,6 +250,97 @@ function fileToBase64(file) {
       resolve(parts.length > 1 ? parts[1] : "");
     };
     reader.readAsDataURL(file);
+  });
+}
+
+// --- Cover image compression (client-side, static-friendly) ---
+window.compressJpegFile = async function compressJpegFile(file, {
+  maxWidth = 1600,
+  maxHeight = 1600,
+  quality = 0.82,      // 0..1
+  minQuality = 0.55,   // lower bound when shrinking to meet maxBytes
+  maxBytes = 900_000,  // aim < 1MB
+} = {}) {
+  if (!file) throw new Error("Aucun fichier fourni.");
+  if (!/^image\/jpe?g$/i.test(file.type)) {
+    throw new Error("Format non supporté. Utilise un JPG/JPEG.");
+  }
+
+  // Decode image
+  const bitmap = await createImageBitmap(file);
+
+  // Compute resize ratio
+  const ratio = Math.min(1, maxWidth / bitmap.width, maxHeight / bitmap.height);
+  const outW = Math.max(1, Math.round(bitmap.width * ratio));
+  const outH = Math.max(1, Math.round(bitmap.height * ratio));
+
+  // Draw to canvas
+  const canvas = document.createElement("canvas");
+  canvas.width = outW;
+  canvas.height = outH;
+  const ctx = canvas.getContext("2d", { alpha: false });
+
+  // Improve downscaling quality
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+  ctx.drawImage(bitmap, 0, 0, outW, outH);
+
+  // Helper: canvas -> blob
+  const canvasToBlob = (q) => new Promise((resolve, reject) => {
+    canvas.toBlob((b) => {
+      if (!b) return reject(new Error("Échec de conversion de l'image (toBlob)."));
+      resolve(b);
+    }, "image/jpeg", q);
+  });
+
+  // Iteratively reduce quality if needed
+  let q = quality;
+  let blob = await canvasToBlob(q);
+
+  // If still too big, reduce quality gradually
+  while (blob.size > maxBytes && q > minQuality) {
+    q = Math.max(minQuality, q - 0.07);
+    blob = await canvasToBlob(q);
+  }
+
+  // As a last resort: if still too big, reduce dimensions (progressively)
+  let shrinkPasses = 0;
+  while (blob.size > maxBytes && shrinkPasses < 4) {
+    shrinkPasses += 1;
+    canvas.width = Math.round(canvas.width * 0.85);
+    canvas.height = Math.round(canvas.height * 0.85);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    q = Math.max(minQuality, q);
+    blob = await canvasToBlob(q);
+  }
+
+  const base64 = await blobToBase64Raw(blob);
+
+  return {
+    blob,
+    base64,                 // raw base64 (no data:image/... prefix)
+    width: canvas.width,
+    height: canvas.height,
+    sizeBytes: blob.size,
+    qualityUsed: q,
+  };
+}
+
+
+// Blob -> raw base64 (no prefix)
+function blobToBase64Raw(blob) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onerror = () => reject(new Error("Impossible de lire le blob."));
+    r.onload = () => {
+      const s = r.result; // data:...;base64,xxx
+      const idx = s.indexOf("base64,");
+      if (idx === -1) return reject(new Error("Conversion base64 invalide."));
+      resolve(s.slice(idx + "base64,".length));
+    };
+    r.readAsDataURL(blob);
   });
 }
 
@@ -419,6 +516,11 @@ async function handleUrlSubmit(e) {
 
     const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
+    // 1) Upload cover image to the SAME branch before writing YAML/creating PR.
+    // If upload fails, we stop here and DO NOT create the PR.
+    await uploadPendingCoverImage({ owner, repo, headers, branchName });
+
+
     const payload = {
       url: url,
       submitted_by: submittedBy,
@@ -513,6 +615,13 @@ function resetForm(form) {
   form.reset();
   form.classList.remove("was-validated");
   form.querySelectorAll("[data-array-list]").forEach((list) => (list.innerHTML = ""));
+
+  // Clear pending cover image state + previews
+  window.__PENDING_IMAGE__ = null;
+  form.querySelectorAll("img.qrf-cover-preview").forEach((img) => {
+    img.style.display = "none";
+    img.removeAttribute("src");
+  });
 }
 
 function setSubmitLoading(form, isLoading, label="Soumettre la recette") {
@@ -948,14 +1057,54 @@ function renderPrimitive(schema, value, path, dense=false) {
     file.addEventListener("change", async () => {
       const f = file.files && file.files[0] ? file.files[0] : null;
       if (!f) return;
-      const guid = newGuid();
-      const b64 = await fileToBase64(f);
-      window.__PENDING_IMAGE__ = { guid, base64: b64 };
-      hidden.value = guid;
 
-      // preview
-      preview.src = URL.createObjectURL(f);
-      preview.style.display = "block";
+      // Validate type + size early (GitHub Contents API is not meant for large binaries)
+      const isJpeg = (f.type === "image/jpeg" || f.name.toLowerCase().endsWith(".jpg") || f.name.toLowerCase().endsWith(".jpeg"));
+      if (!isJpeg) {
+        file.value = "";
+        window.__PENDING_IMAGE__ = null;
+        hidden.value = "";
+        preview.style.display = "none";
+        preview.removeAttribute("src");
+        alert("Merci de choisir un fichier JPG/JPEG.");
+        return;
+      }
+
+      const MAX_BYTES = 900000; // target size after compression (~0.9MB)
+
+      try {
+        // Always compress/resize client-side to keep PRs light and to avoid Contents API issues.
+        if (typeof window.compressJpegFile !== 'function') {
+        throw new Error("compressJpegFile n'est pas chargé (script non exécuté ou scope). Vérifie l'ordre des <script>.");
+      }
+      const result = await window.compressJpegFile(f, {
+          maxWidth: 1600,
+          maxHeight: 1600,
+          quality: 0.82,
+          maxBytes: MAX_BYTES
+        });
+
+        const guid = newGuid();
+        window.__PENDING_IMAGE__ = { guid, base64: result.base64 };
+        hidden.value = guid;
+
+        // preview compressed blob
+        if (preview.dataset && preview.dataset.blobUrl) {
+          try { URL.revokeObjectURL(preview.dataset.blobUrl); } catch (e) {}
+        }
+        const url = URL.createObjectURL(result.blob);
+        if (preview.dataset) preview.dataset.blobUrl = url;
+        preview.src = url;
+        preview.style.display = "block";
+      } catch (err) {
+        file.value = "";
+        window.__PENDING_IMAGE__ = null;
+        hidden.value = "";
+        preview.style.display = "none";
+        preview.removeAttribute("src");
+        alert(err && err.message ? err.message : "Échec de compression de l'image.");
+        return;
+      }
     });
 
     div.appendChild(row);
@@ -1212,6 +1361,53 @@ async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBra
   throw new Error("Impossible de créer une branche unique après plusieurs tentatives.");
 }
 
+
+// ---------------------------
+//  GitHub: upload cover image (binary) to /images/<guid>.jpg
+//  IMPORTANT: GitHub Contents API expects "content" = base64 of raw bytes.
+//  Our fileToBase64() already returns that base64 (no data: prefix).
+// ---------------------------
+async function uploadPendingCoverImage({ owner, repo, headers, branchName }) {
+  const pending = window.__PENDING_IMAGE__;
+  if (!pending) return null;
+
+  const guid = pending.guid;
+  const base64Raw = pending.base64;
+
+  if (!guid) throw new Error("Image: GUID manquant.");
+  if (!base64Raw || typeof base64Raw !== "string") {
+    throw new Error("Image: encodage base64 impossible (contenu vide).");
+  }
+  // sanity: reject accidental data URL prefix
+  if (base64Raw.startsWith("data:")) {
+    throw new Error("Image: encodage invalide (préfixe data: détecté).");
+  }
+
+  const filePath = `images/${guid}.jpg`;
+
+  // If file already exists in this branch, GitHub requires sha to update
+  const existingSha = await getFileSha({ owner, repo, headers, filePath, branch: branchName });
+
+  const putBody = {
+    message: `Ajout image couverture ${guid}`,
+    content: base64Raw,
+    branch: branchName
+  };
+  if (existingSha) putBody.sha = existingSha;
+
+  const resp = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+    { method: "PUT", headers, body: JSON.stringify(putBody) }
+  );
+  const data = await safeJson(resp);
+  if (!resp.ok) {
+    const msg = data?.message || `Impossible d'uploader l'image (status ${resp.status}).`;
+    throw new Error(msg);
+  }
+
+  // success: image is now committed in the branch
+  return { guid, path: `/${filePath}` };
+}
 // ---------------------------
 //  Submit handler (create or edit) — behavior preserved
 // ---------------------------
@@ -1266,6 +1462,9 @@ async function handleSubmit(e) {
 
     const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
+    // Upload cover image (if selected) to the same branch before creating the PR.
+    await uploadPendingCoverImage({ owner, repo, headers, branchName });
+
     const existingSha = await getFileSha({ owner, repo, headers, filePath, branch: branchName });
 
     const putBody = {
@@ -1310,3 +1509,4 @@ async function handleSubmit(e) {
   }
 }
 </script>
+```
