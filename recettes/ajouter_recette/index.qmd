@@ -14,7 +14,6 @@ library(jsonlite)
 
 template <- yaml::read_yaml("../template.yaml")
 schema <- template$`_schema`
-
 token <- Sys.getenv("GITHUB_PAT")
 if (identical(token, "")) stop("GITHUB_PAT est vide/non défini sur Connect.")
 
@@ -37,17 +36,12 @@ cat(
 
 ## Importer depuis une URL
 
-<div class="alert alert-warning" role="alert">
-  <h5>⚠️ Import automatique avec IA</h5>
-  <p class="mb-0">Cette fonctionnalité utilise un LLM pour extraire automatiquement les informations de la recette depuis une URL. L'import sera validé manuellement avant publication.</p>
-</div>
-
+```{=html}
 <form id="url-form" class="mb-4 needs-validation" novalidate>
   <div class="mb-3">
     <label for="recipe-url" class="form-label required-field">URL de la recette</label>
     <input type="url" class="form-control" id="recipe-url" placeholder="https://exemple.com/ma-recette" required>
     <div class="invalid-feedback">Veuillez entrer une URL valide.</div>
-    <div class="form-text">Entrez l'URL complète d'une recette sur un site web externe.</div>
   </div>
 
   <div class="mb-3">
@@ -61,8 +55,8 @@ cat(
 </form>
 
 <div id="url-success-message" class="alert alert-success d-none" role="alert">
-  <h4 class="alert-heading">✅ URL soumise avec succès!</h4>
-  <p>Une Pull Request a été créée avec votre URL. L'import automatique sera effectué après validation manuelle.</p>
+  <h4 class="alert-heading">✅ Recette soumise avec succès!</h4>
+  <p>Une demande d'ajout de recette a été créée avec votre URL.</p>
   <p class="mb-0">Vous pouvez la voir ici: <a id="url-pr-link" href="#" target="_blank" class="alert-link" rel="noopener noreferrer"></a></p>
 </div>
 
@@ -70,6 +64,7 @@ cat(
   <h4 class="alert-heading">❌ Erreur</h4>
   <p id="url-error-text"></p>
 </div>
+```
 
 :::
 
@@ -113,9 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderForm(window.RECIPE_SCHEMA, "recipe-form-container", []);
 
   const urlForm = document.getElementById("url-form");
-  if (urlForm) {
-    urlForm.addEventListener("submit", handleUrlSubmit);
-  }
+  if (urlForm) urlForm.addEventListener("submit", handleUrlSubmit);
 });
 
 // ---------------------------
@@ -159,7 +152,6 @@ function resetForm(form) {
   form.reset();
   form.classList.remove("was-validated");
 
-  // For safety with dynamic inputs
   form.querySelectorAll("input").forEach((inp) => {
     if (inp.type === "checkbox") inp.checked = false;
     else inp.value = "";
@@ -326,35 +318,21 @@ async function safeJson(resp) {
 }
 
 async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName, maxAttempts=20 }) {
-  // Try base branchName first, then add -2, -3, ...
   for (let i = 1; i <= maxAttempts; i++) {
     const branchName = (i === 1) ? baseBranchName : `${baseBranchName}-${i}`;
     const resp = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/git/refs`,
-      {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          ref: `refs/heads/${branchName}`,
-          sha: baseSha
-        })
-      }
+      { method: "POST", headers, body: JSON.stringify({ ref: `refs/heads/${branchName}`, sha: baseSha }) }
     );
-
     const data = await safeJson(resp);
+    if (resp.ok) return branchName;
 
-    if (resp.ok) {
-      return branchName;
-    }
-
-    // 422 typically means ref exists already (or validation error)
     const msg = (data && data.message) ? data.message : "";
     const isAlreadyExists = resp.status === 422 && msg.toLowerCase().includes("reference already exists");
     if (isAlreadyExists) continue;
 
     throw new Error(msg || `Impossible de créer la branche (status ${resp.status}).`);
   }
-
   throw new Error("Impossible de créer une branche unique après plusieurs tentatives.");
 }
 
@@ -388,7 +366,6 @@ async function handleSubmit(e) {
       "Accept": "application/vnd.github+json"
     };
 
-    // 1️⃣ Get dev branch SHA
     const refResp = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`,
       { headers }
@@ -400,12 +377,8 @@ async function handleSubmit(e) {
     const baseBranchName = `recette/${data.nom_court}`;
     const filePath = `recettes/${data.nom_court}.yaml`;
 
-    // 2️⃣ Create branch (with auto-suffix if it already exists)
-    const branchName = await createBranchWithSuffixes({
-      owner, repo, headers, baseSha, baseBranchName, maxAttempts: 20
-    });
+    const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
-    // 3️⃣ Create file
     const fileResp = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
       {
@@ -421,7 +394,6 @@ async function handleSubmit(e) {
     const fileData = await safeJson(fileResp);
     if (!fileResp.ok) throw new Error(fileData?.message || "Impossible de créer le fichier.");
 
-    // 4️⃣ Create PR
     const prResp = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/pulls`,
       {
@@ -481,7 +453,7 @@ function collectData(schema, container, path=[]) {
 }
 
 // ---------------------------
-//  URL import tab (repro)
+//  URL import tab
 // ---------------------------
 function showUrlSuccess(prUrl) {
   const form = document.getElementById("url-form");
@@ -489,8 +461,7 @@ function showUrlSuccess(prUrl) {
   const error = document.getElementById("url-error-message");
   const link = document.getElementById("url-pr-link");
 
-  if (form) form.style.display = "none";
-
+  form.style.display = "none";
   error.classList.add("d-none");
   document.getElementById("url-error-text").textContent = "";
 
@@ -506,15 +477,11 @@ function showUrlError(message) {
   const error = document.getElementById("url-error-message");
 
   success.classList.add("d-none");
-
   error.classList.remove("d-none");
   document.getElementById("url-error-text").textContent = message;
 
   window.scrollTo(0, 0);
-
-  setTimeout(() => {
-    error.classList.add("d-none");
-  }, 10000);
+  setTimeout(() => error.classList.add("d-none"), 10000);
 }
 
 function setUrlSubmitLoading(form, isLoading) {
@@ -552,18 +519,10 @@ async function handleUrlSubmit(e) {
     const url = document.getElementById("recipe-url").value;
     const submittedBy = document.getElementById("url-submitted-by").value;
 
-    const pendingContent = {
-      url: url,
-      submitted_at: new Date().toISOString(),
-      status: "pending"
-    };
-
-    if (submittedBy && submittedBy.trim()) {
-      pendingContent.submitted_by = submittedBy.trim();
-    }
+    const pendingContent = { url, submitted_at: new Date().toISOString(), status: "pending" };
+    if (submittedBy && submittedBy.trim()) pendingContent.submitted_by = submittedBy.trim();
 
     const filename = `pending-${Date.now()}.yaml`;
-
     const prUrl = await createUrlPullRequest(pendingContent, filename, url);
     showUrlSuccess(prUrl);
   } catch (err) {
@@ -579,39 +538,20 @@ async function createUrlPullRequest(pendingContent, filename, url) {
   const repo = "recettes";
   const base = "dev";
 
-  if (!token || !owner || !repo) {
-    throw new Error("Configuration GitHub manquante.");
-  }
+  const headers = { "Authorization": "token " + token, "Accept": "application/vnd.github+json" };
 
-  const headers = {
-    "Authorization": "token " + token,
-    "Accept": "application/vnd.github+json"
-  };
-
-  const yamlContent = jsyaml.dump(pendingContent, {
-    indent: 2,
-    lineWidth: -1,
-    noRefs: true
-  });
-
+  const yamlContent = jsyaml.dump(pendingContent, { indent: 2, lineWidth: -1, noRefs: true });
   const filepath = `recettes/pending/${filename}`;
 
-  // 1️⃣ Get dev branch SHA
-  const refResp = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`,
-    { headers }
-  );
+  const refResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${base}`, { headers });
   const refData = await safeJson(refResp);
   if (!refResp.ok) throw new Error(refData?.message || `Impossible de récupérer la branche ${base}.`);
   const baseSha = refData.object.sha;
 
-  // 2️⃣ Create branch (suffix if exists)
-  const baseBranchName = `recipe-url/${Date.now()}`;
   const branchName = await createBranchWithSuffixes({
-    owner, repo, headers, baseSha, baseBranchName, maxAttempts: 20
+    owner, repo, headers, baseSha, baseBranchName: `recipe-url/${Date.now()}`
   });
 
-  // 3️⃣ Create the pending file
   const createFileResponse = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`,
     {
@@ -624,13 +564,9 @@ async function createUrlPullRequest(pendingContent, filename, url) {
       })
     }
   );
-
   const fileData = await safeJson(createFileResponse);
-  if (!createFileResponse.ok) {
-    throw new Error(fileData?.message || "Impossible de créer le fichier pending.");
-  }
+  if (!createFileResponse.ok) throw new Error(fileData?.message || "Impossible de créer le fichier pending.");
 
-  // 4️⃣ Create PR (body identical to old version)
   const prBody =
 `## Import de recette depuis URL
 
@@ -648,19 +584,11 @@ Cette recette nécessite un import automatique via LLM.
     {
       method: "POST",
       headers,
-      body: JSON.stringify({
-        title: `Import recette: ${url}`,
-        body: prBody,
-        head: branchName,
-        base: base
-      })
+      body: JSON.stringify({ title: `Import recette: ${url}`, body: prBody, head: branchName, base })
     }
   );
-
   const prData = await safeJson(prResponse);
-  if (!prResponse.ok) {
-    throw new Error(prData?.message || "Impossible de créer la pull request.");
-  }
+  if (!prResponse.ok) throw new Error(prData?.message || "Impossible de créer la pull request.");
 
   if (prData && prData.html_url) return prData.html_url;
   throw new Error("PR créée, mais URL introuvable.");
