@@ -138,7 +138,7 @@ cat("📦 Chargement de la fonction yaml_to_qmd...\n")
 source("R/yaml_to_qmd.R")
 
 # Générer le fichier QMD avec la fonction existante
-cat("💾 Génération de", qmd_file, "avec yaml_to_qmd()...\n")
+cat("💾 Génération du qmd avec yaml_to_qmd()...\n")
 yaml_recipe_to_qmd(yaml_path = yaml_file)
 
 cat("✅ Import terminé avec succès!\n")
