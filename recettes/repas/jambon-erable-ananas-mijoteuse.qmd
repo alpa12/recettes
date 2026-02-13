@@ -1,6 +1,6 @@
 ---
 title: Jambon érable ananas
-image: jambon-erable-ananas-mijoteuse.jpg
+
 categories:
   - Porc
   - Mijoteuse

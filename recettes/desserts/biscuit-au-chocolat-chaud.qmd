@@ -1,6 +1,6 @@
 ---
 title: Biscuit chocolat chaud
-image: biscuit-au-chocolat-chaud.jpg
+
 categories:
   - Biscuit
   - Chocolat

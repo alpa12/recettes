@@ -1,6 +1,6 @@
 ---
 title: Médaillons porc sauce champignons
-image: porc-aux-champignons.jpg
+
 categories:
   - Porc
   - Sauce

@@ -1,6 +1,6 @@
 ---
 title: Tofu caramelise erable
-image: tofu-caramelise-erable.jpg
+
 categories:
   - Plats principaux
   - Tofu

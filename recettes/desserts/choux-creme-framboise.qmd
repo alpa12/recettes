@@ -1,6 +1,6 @@
 ---
 title: Choux
-image: choux-creme-framboise.jpg
+
 categories:
   - Pâtisserie
   - Dessert

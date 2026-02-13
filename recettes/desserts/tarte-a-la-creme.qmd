@@ -1,6 +1,6 @@
 ---
 title: Tarte à la crème
-image: tarte-a-la-creme.jpg
+
 categories:
   - Tarte
   - Dessert

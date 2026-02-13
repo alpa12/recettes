@@ -1,6 +1,6 @@
 ---
 title: Biscuits chocolat amandes caramel
-image: biscuit-au-caramel-chocolat-amande.jpg
+
 categories:
   - Biscuit
   - Chocolat

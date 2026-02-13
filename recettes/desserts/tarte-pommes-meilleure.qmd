@@ -1,6 +1,6 @@
 ---
 title: Tarte pommes meilleure
-image: tarte-pommes-meilleure.jpg
+
 categories:
   - Desserts
   - Tartes

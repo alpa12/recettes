@@ -36,11 +36,17 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   # ---- Quarto front-matter ----
   image_name <- fs::path_ext_set(fs::path_file(yaml_path), "jpg")
-  lines <- c(
+  
+  image_line <- if (!is.null(recipe$image_guid) && nzchar(as.character(recipe$image_guid))) {
+    paste0("image: /images/", recipe$image_guid, ".jpg")
+  } else {
+    ""
+  }
+lines <- c(
     lines,
     "---",
     paste0("title: ", recipe$nom_court),
-    paste0("image: ", image_name)
+    image_line
   )
 
   if (!is.null(recipe$categories)) {
@@ -213,13 +219,6 @@ count_by_author <- function(comments, author) {
   sum(vapply(comments, function(cmt) norm_name(cmt$nom) == a, logical(1)))
 }
 
-
-format_date_slash <- function(x) {
-  if (is.null(x) || is.na(x) || x == "") return("")
-  # Expect YYYY-MM-DD; if already different, just replace '-' with '/'
-  gsub("-", "/", as.character(x))
-}
-
 format_comment_line <- function(cmt) {
   parts <- c()
 
@@ -231,7 +230,7 @@ format_comment_line <- function(cmt) {
   }
 
   if (!is.null(cmt$nom) && cmt$nom != "") parts <- c(parts, cmt$nom)
-  if (!is.null(cmt$date) && cmt$date != "") parts <- c(parts, format_date_slash(cmt$date))
+  if (!is.null(cmt$date) && cmt$date != "") parts <- c(parts, cmt$date)
 
   prefix <- if (length(parts) > 0) paste0("[", paste(parts, collapse = " · "), "] ") else ""
   txt <- if (!is.null(cmt$commentaire) && cmt$commentaire != "") cmt$commentaire else "(sans texte)"

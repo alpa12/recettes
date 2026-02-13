@@ -1,6 +1,6 @@
 ---
 title: Mijoté porc patates douces
-image: porc-aux-patates-douces-mijoteuse.jpg
+
 categories:
   - Porc
   - Mijoteuse

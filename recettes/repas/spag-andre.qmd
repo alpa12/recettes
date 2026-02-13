@@ -1,6 +1,6 @@
 ---
 title: Spaghetti
-image: spag-andre.jpg
+
 categories:
   - Sauce
   - Spaghetti
