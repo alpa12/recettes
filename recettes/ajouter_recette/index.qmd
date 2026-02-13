@@ -9,6 +9,8 @@ order: 4
 #| results: asis
 #| message: false
 #| warning: false
+library(rmarkdown)
+library(knitr)
 library(yaml)
 library(jsonlite)
 
