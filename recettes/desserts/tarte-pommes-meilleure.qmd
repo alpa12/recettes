@@ -13,6 +13,10 @@ categories:
 
 # Tarte aux pommes (la meilleure)
 
+::: {.text-end}
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Ftarte-pommes-meilleure.yaml){.btn .btn-outline-primary .btn-sm}
+:::
+
 ## Ingrédients
 
 ### Garniture aux pommes

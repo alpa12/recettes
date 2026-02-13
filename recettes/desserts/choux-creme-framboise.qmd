@@ -8,6 +8,10 @@ categories:
 
 # Choux à la crème framboise
 
+::: {.text-end}
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fchoux-creme-framboise.yaml){.btn .btn-outline-primary .btn-sm}
+:::
+
 ## Ingrédients
 
 ### Pâte à choux
