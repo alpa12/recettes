@@ -1,14 +1,27 @@
+# ============================================================
+# yaml_to_qmds.R
+# - Convertit toutes les recettes YAML -> QMD
+# - Ajoute un bouton "Modifier cette recette" sur chaque page
+# ============================================================
+
 #' Convert a recipe YAML file to a Quarto (.qmd) recipe
 #'
 #' @param yaml_path Path to the input YAML file
 #' @param qmd_path Path to the output .qmd file.
 #'   If NULL, same name as yaml with .qmd extension.
+#' @param edit_page_href Relative href (from the recipe HTML page) to the edit form page.
+#' @param edit_yaml_param Relative path (from the edit form page) to the YAML file to edit.
 #'
 #' @importFrom yaml read_yaml
 #' @importFrom fs path_ext_set path_file
 #' @importFrom stringr str_trim
 #' @export
-yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
+yaml_recipe_to_qmd <- function(
+  yaml_path,
+  qmd_path = NULL,
+  edit_page_href = "ajouter_recette/index.html",
+  edit_yaml_param = NULL
+) {
   stopifnot(file.exists(yaml_path))
 
   if (is.null(qmd_path)) {
@@ -32,6 +45,31 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   # ---- Title ----
   lines <- c(lines, paste0("# ", recipe$nom), "")
+
+  # ---- Edit button ----
+  # The edit form page is at: recettes/ajouter_recette/index.qmd (=> index.html).
+  # Recipe pages are at: recettes/<slug>.html
+  #
+  # From recettes/<slug>.html to the edit form page:
+  #   "ajouter_recette/index.html"
+  #
+  # From recettes/ajouter_recette/index.html to the YAML file in recettes/:
+  #   "../<slug>.yaml"
+  if (is.null(edit_yaml_param)) {
+    edit_yaml_param <- paste0("../", fs::path_file(yaml_path))
+  }
+
+  # URL-encode the param safely (keeps "/" but encodes spaces, accents, etc.)
+  encoded_param <- utils::URLencode(edit_yaml_param, reserved = TRUE)
+  edit_href <- paste0(edit_page_href, "?yaml=", encoded_param)
+
+  lines <- c(
+    lines,
+    '<div class="text-end mb-3">',
+    paste0('  <a class="btn btn-outline-secondary btn-sm" href="', edit_href, '">✏️ Modifier cette recette</a>'),
+    "</div>",
+    ""
+  )
 
   # ---- Ingredients (grouped by section) ----
   lines <- c(lines, "## Ingrédients", "")
@@ -101,4 +139,38 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   # ---- Write to file ----
   writeLines(enc2utf8(lines), qmd_path)
   invisible(qmd_path)
+}
+
+# ============================================================
+# Convert all YAML recipes to QMD
+# - Assumes:
+#   - YAML recipes live under: recettes/*.yaml
+#   - QMD recipes live under:  recettes/*.qmd
+#   - The form page is:         recettes/ajouter_recette/index.qmd
+# ============================================================
+
+yaml_to_qmds <- function(recipes_dir = "recettes") {
+  yaml_files <- list.files(
+    recipes_dir,
+    pattern = "\\.ya?ml$",
+    full.names = TRUE
+  )
+
+  # Exclude template.yaml (and any other non-recipe yaml you might have)
+  yaml_files <- yaml_files[!grepl("template\\.ya?ml$", basename(yaml_files), ignore.case = TRUE)]
+
+  for (yaml_path in yaml_files) {
+    # Only convert top-level recipe yamls (skip subfolders like recettes/ajouter_recette/**)
+    # If you DO store recipe yamls in nested folders later, remove this filter.
+    if (dirname(yaml_path) != recipes_dir) next
+
+    yaml_recipe_to_qmd(
+      yaml_path = yaml_path,
+      qmd_path = fs::path_ext_set(yaml_path, "qmd"),
+      edit_page_href = "ajouter_recette/index.html",
+      edit_yaml_param = paste0("../", fs::path_file(yaml_path))
+    )
+  }
+
+  invisible(yaml_files)
 }
