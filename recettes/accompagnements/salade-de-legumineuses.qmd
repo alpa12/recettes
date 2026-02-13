@@ -8,25 +8,45 @@ categories:
 
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Faccompagnements%2Fsalade-de-legumineuses.yaml){.btn .btn-outline-primary .btn-sm}
 
+```{=html}
+<div class="recipe-toolbar">
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>André Parent</strong></div><div class="recipe-fact"><span>Portions</span><strong id="recipe-portions-current">8</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>2 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="8" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 8</span></div></div>
+```
+
 ## Ingrédients
 
 ### Salade
 
-- 19 onces Pois chiches
-- 19 onces Fèves rouges
-- 19 onces Fèves mélangées
-- 5 gousses Ail
-- 1 unité Échalottes
-- 3 unités Poivron
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Pois chiches</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Fèves rouges</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Fèves mélangées</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="5">5</span> <span class="ingredient-uni">gousses</span> <span class="ingredient-nom">Ail</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Échalottes</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="3">3</span> <span class="ingredient-uni">unités</span> <span class="ingredient-nom">Poivron</span></li>
+</ul>
+```
 
 ### Vinaigrette
 
-- 0.5 tasse Sucre
-- 0.25 tasse Huile d'olive
-- 0.33 tasse Vinaigre de vin rouge
-- 1 c. à thé Persil
-- 1 c. à thé Basilic
-- 1 c. à thé Origan
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Sucre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.25">0.25</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Huile d'olive</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.33">0.33</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Vinaigre de vin rouge</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Persil</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Basilic</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Origan</span></li>
+</ul>
+```
 
 ## Équipements
 
@@ -49,6 +69,10 @@ categories:
 ### Vinaigrette
 
 1. Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=8;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
 
 ## Notes
 

@@ -8,22 +8,38 @@ categories:
 
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fbiscuit-au-chocolat-chaud.yaml){.btn .btn-outline-primary .btn-sm}
 
+```{=html}
+<div class="recipe-toolbar">
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Nathalie R</strong></div><div class="recipe-fact"><span>Portions</span><strong id="recipe-portions-current">12</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>14 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="12" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 12</span></div></div>
+```
+
 ## Ingrédients
 
 ### Préparation des biscuits
 
-- 2 tasse Farine
-- 0.5 tasse Chocolat chaud en poudre
-- 1 c. à soupe Cacao
-- 1 c. à thé Bicarbonate
-- 0.5 c. à thé Poudre à pâte
-- 0.33 tasse Beurre
-- 0.5 tasse Sucre
-- 0.5 tasse Cassonade
-- 2 unité Œufs
-- 0.5 tasse Pépites de chocolat mi-sucré
-- 1 lot Pâte à biscuits
-- 0.75 tasse Miniguimauves
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Farine</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Chocolat chaud en poudre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Cacao</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Bicarbonate</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Poudre à pâte</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.33">0.33</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Beurre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Sucre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Cassonade</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Œufs</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Pépites de chocolat mi-sucré</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">lot</span> <span class="ingredient-nom">Pâte à biscuits</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.75">0.75</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Miniguimauves</span></li>
+</ul>
+```
 
 ## Équipements
 
@@ -44,6 +60,10 @@ categories:
 3. Mélanger tout ensemble puis ajouter les pépites de chocolat.
 4. Cuire au four 6 minutes à 375°F.
 5. Ajouter les miniguimauves et reprendre la cuisson 6 à 8 minutes.
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=12;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
 
 ## Notes
 

@@ -8,31 +8,55 @@ categories:
 
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fbrioche-a-la-cannelle-et-pomme-de-terre.yaml){.btn .btn-outline-primary .btn-sm}
 
+```{=html}
+<div class="recipe-toolbar">
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/5038-brioches-a-la-cannelle-et-a-la-pomme-de-terre-</strong></div><div class="recipe-fact"><span>Portions</span><strong id="recipe-portions-current">12</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>3 min · 3 min · 11 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="12" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 12</span></div></div>
+```
+
 ## Ingrédients
 
 ### Brioches
 
-- 1 unité Pomme de terre
-- 250 ml Lait
-- 105 g Sucre
-- 715 g Farine tout usage non blanchie
-- 12.5 ml Levure instantanée
-- 5 ml Sel
-- 2 unité Œufs
-- 55 g Beurre non salé
-- 45 ml Huile de canola
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Pomme de terre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="250">25</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Lait</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="105">105</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Sucre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="715">715</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Farine tout usage non blanchie</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="12.5">12.5</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Levure instantanée</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="5">5</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Sel</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Œufs</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="55">55</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Beurre non salé</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Huile de canola</span></li>
+</ul>
+```
 
 ### Garniture
 
-- 315 g Cassonade
-- 15 ml Cannelle moulue
-- 30 ml Beurre non salé
-- 30 ml Lait
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="315">315</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Cassonade</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="15">15</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Cannelle moulue</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="30">3</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Beurre non salé</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="30">3</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Lait</span></li>
+</ul>
+```
 
 ### Glaçage
 
-- 135 g Sucre à glacer
-- 15 ml Lait
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="135">135</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Sucre à glacer</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="15">15</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Lait</span></li>
+</ul>
+```
 
 ## Équipements
 
@@ -74,6 +98,10 @@ categories:
 ### Glaçage
 
 1. Mélanger le sucre à glacer et le lait, glacer les brioches au moment de servir.
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=12;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
 
 ## Notes
 

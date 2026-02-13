@@ -22,6 +22,52 @@
 EDIT_PAGE_HREF <- "ajouter_recette/"
 EDIT_PARAM_NAME <- "yaml"
 
+escape_html <- function(x) {
+  x <- as.character(x %||% "")
+  x <- gsub("&", "&amp;", x, fixed = TRUE)
+  x <- gsub("<", "&lt;", x, fixed = TRUE)
+  x <- gsub(">", "&gt;", x, fixed = TRUE)
+  x <- gsub("\"", "&quot;", x, fixed = TRUE)
+  x
+}
+
+`%||%` <- function(a, b) if (is.null(a)) b else a
+
+fmt_number <- function(x) {
+  if (is.null(x) || length(x) == 0) return("")
+  n <- suppressWarnings(as.numeric(x))
+  if (is.na(n)) return(as.character(x))
+  s <- format(round(n, 2), nsmall = 0, trim = TRUE, scientific = FALSE)
+  sub("\\.?0+$", "", s)
+}
+
+render_ingredient_li <- function(ing) {
+  q_raw <- ing$qte %||% ""
+  q_num <- suppressWarnings(as.numeric(q_raw))
+  q_is_num <- !is.na(q_num)
+  q_label <- escape_html(fmt_number(q_raw))
+  uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
+  nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
+
+  if (q_is_num) {
+    paste0(
+      "<li class=\"recipe-ingredient\">",
+      "<span class=\"ingredient-qte\" data-base=\"", q_num, "\">", q_label, "</span>",
+      if (nzchar(uni)) paste0(" <span class=\"ingredient-uni\">", uni, "</span>") else "",
+      if (nzchar(nom)) paste0(" <span class=\"ingredient-nom\">", nom, "</span>") else "",
+      "</li>"
+    )
+  } else {
+    paste0(
+      "<li class=\"recipe-ingredient\">",
+      if (nzchar(q_label)) q_label else "",
+      if (nzchar(uni)) paste0(" ", uni) else "",
+      if (nzchar(nom)) paste0(" ", nom) else "",
+      "</li>"
+    )
+  }
+}
+
 #' @importFrom yaml read_yaml
 #' @importFrom fs path_ext_set path_file path_rel
 #' @importFrom stringr str_trim str_to_lower
@@ -37,14 +83,12 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   lines <- character()
 
   # ---- Quarto front-matter ----
-  image_name <- fs::path_ext_set(fs::path_file(yaml_path), "jpg")
-  
   image_line <- if (!is.null(recipe$image_guid) && nzchar(as.character(recipe$image_guid))) {
     paste0("image: /images/", recipe$image_guid, ".jpg")
   } else {
     ""
   }
-lines <- c(
+  lines <- c(
     lines,
     "---",
     paste0("title: ", recipe$nom),
@@ -71,6 +115,63 @@ lines <- c(
     ""
   )
 
+  # ---- Quick facts and tools ----
+  facts <- character()
+  if (!is.null(recipe$source) && nzchar(as.character(recipe$source))) {
+    facts <- c(facts, paste0("<div class=\"recipe-fact\"><span>Source</span><strong>", escape_html(recipe$source), "</strong></div>"))
+  }
+  if (!is.null(recipe$portions) && nzchar(as.character(recipe$portions))) {
+    facts <- c(facts, paste0("<div class=\"recipe-fact\"><span>Portions</span><strong id=\"recipe-portions-current\">", escape_html(recipe$portions), "</strong></div>"))
+  }
+  if (!is.null(recipe$se_congele)) {
+    txt <- if (isTRUE(recipe$se_congele)) "Oui" else "Non"
+    facts <- c(facts, paste0("<div class=\"recipe-fact\"><span>Se congèle</span><strong>", txt, "</strong></div>"))
+  }
+  if (is.list(recipe$temps) && length(recipe$temps) > 0) {
+    t <- recipe$temps
+    prep <- if (!is.null(t$preparation)) paste0(fmt_number(t$preparation), " min") else NULL
+    cook <- if (!is.null(t$cuisson)) paste0(fmt_number(t$cuisson), " min") else NULL
+    cool <- if (!is.null(t$refrigeration)) paste0(fmt_number(t$refrigeration), " min") else NULL
+    times <- Filter(function(x) !is.null(x) && nzchar(x), c(prep, cook, cool))
+    if (length(times) > 0) {
+      facts <- c(facts, paste0("<div class=\"recipe-fact\"><span>Temps</span><strong>", paste(times, collapse = " · "), "</strong></div>"))
+    }
+  }
+
+  lines <- c(
+    lines,
+    "```{=html}",
+    "<div class=\"recipe-toolbar\">",
+    "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">🖨️ Imprimer</button>",
+    "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">🔗 Copier le lien</button>",
+    "</div>",
+    if (length(facts) > 0) paste0("<div class=\"recipe-facts-grid\">", paste(facts, collapse = ""), "</div>") else "",
+    "```",
+    ""
+  )
+
+  base_portions <- suppressWarnings(as.numeric(recipe$portions))
+  has_scaler <- !is.null(base_portions) && !is.na(base_portions) && base_portions > 0
+
+  if (has_scaler) {
+    lines <- c(
+      lines,
+      "```{=html}",
+      paste0(
+        "<div class=\"recipe-servings-control\">",
+        "<label for=\"servings-input\" class=\"form-label mb-1\">Ajuster les portions</label>",
+        "<div class=\"d-flex gap-2 align-items-center\">",
+        "<input id=\"servings-input\" class=\"form-control form-control-sm\" type=\"number\" min=\"1\" step=\"1\" value=\"", base_portions, "\" style=\"max-width: 110px;\">",
+        "<button id=\"servings-reset\" class=\"btn btn-outline-secondary btn-sm\" type=\"button\">Réinitialiser</button>",
+        "<span class=\"text-muted small\">Base: ", base_portions, "</span>",
+        "</div>",
+        "</div>"
+      ),
+      "```",
+      ""
+    )
+  }
+
   # ---- Ingredients (grouped by section) ----
   lines <- c(lines, "## Ingrédients", "")
 
@@ -83,14 +184,14 @@ lines <- c(
         for (ing in step$ingredients) {
           key <- paste(ing$nom, ing$uni)
           if (!key %in% names(ing_list)) {
-            ing_list[[key]] <- paste(ing$qte, ing$uni, ing$nom)
+            ing_list[[key]] <- ing
           }
         }
       }
     }
-    for (item in ing_list) {
-      lines <- c(lines, paste0("- ", stringr::str_trim(item)))
-    }
+    lines <- c(lines, "```{=html}", "<ul class=\"recipe-ingredients\">")
+    for (item in ing_list) lines <- c(lines, render_ingredient_li(item))
+    lines <- c(lines, "</ul>", "```")
     lines <- c(lines, "")
   }
 
@@ -128,6 +229,38 @@ lines <- c(
       }
     }
     lines <- c(lines, "")
+  }
+
+  if (has_scaler) {
+    lines <- c(
+      lines,
+      "```{=html}",
+      paste0(
+        "<script>",
+        "(function(){",
+        "const input=document.getElementById('servings-input');",
+        "const reset=document.getElementById('servings-reset');",
+        "if(!input) return;",
+        "const base=", base_portions, ";",
+        "const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};",
+        "const update=()=>{",
+        "const current=parseFloat(input.value);",
+        "if(!Number.isFinite(current)||current<=0) return;",
+        "const ratio=current/base;",
+        "document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{",
+        "const b=parseFloat(el.getAttribute('data-base'));",
+        "if(Number.isFinite(b)){el.textContent=format(b*ratio);} });",
+        "const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);",
+        "};",
+        "input.addEventListener('input', update);",
+        "if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}",
+        "update();",
+        "})();",
+        "</script>"
+      ),
+      "```",
+      ""
+    )
   }
 
   # ---- Comments / Notes ----

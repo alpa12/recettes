@@ -8,30 +8,58 @@ categories:
 
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Ftarte-a-la-creme.yaml){.btn .btn-outline-primary .btn-sm}
 
+```{=html}
+<div class="recipe-toolbar">
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Nathalie Rivard</strong></div><div class="recipe-fact"><span>Portions</span><strong id="recipe-portions-current">8</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>3 min · 3 min · 12 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="8" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 8</span></div></div>
+```
+
 ## Ingrédients
 
 ### Croûte
 
-- 1.25 t Miettes de biscuit Graham
-- 0.25 t Beurre fondu
-- 0.25 t Sucre
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1.25">1.25</span> <span class="ingredient-uni">t</span> <span class="ingredient-nom">Miettes de biscuit Graham</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.25">0.25</span> <span class="ingredient-uni">t</span> <span class="ingredient-nom">Beurre fondu</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="0.25">0.25</span> <span class="ingredient-uni">t</span> <span class="ingredient-nom">Sucre</span></li>
+</ul>
+```
 
 ### Crème patissière
 
-- 2 t Lait
-- 3 unité Jaune d'œuf
-- 5 c à table Sucre
-- 1 pincée Sel
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">t</span> <span class="ingredient-nom">Lait</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="3">3</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Jaune d'œuf</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="5">5</span> <span class="ingredient-uni">c à table</span> <span class="ingredient-nom">Sucre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">pincée</span> <span class="ingredient-nom">Sel</span></li>
+</ul>
+```
 
 ### Meringue
 
-- 3 unité Blancs d'œufs
-- 3 c à table Sucre
-- 1 lot Meringue
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="3">3</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Blancs d'œufs</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="3">3</span> <span class="ingredient-uni">c à table</span> <span class="ingredient-nom">Sucre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">lot</span> <span class="ingredient-nom">Meringue</span></li>
+</ul>
+```
 
 ### Finale
 
-- 1 lot Tarte montée
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">lot</span> <span class="ingredient-nom">Tarte montée</span></li>
+</ul>
+```
 
 ## Équipements
 
@@ -75,6 +103,10 @@ categories:
 ### Finale
 
 1. Cuire au four 350°F environ 5 minutes jusqu’à ce que la meringue brunisse, puis réfrigérer au moins 2 heures.
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=8;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
 
 ## Notes
 

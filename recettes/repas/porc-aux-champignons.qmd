@@ -8,21 +8,37 @@ categories:
 
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fporc-aux-champignons.yaml){.btn .btn-outline-primary .btn-sm}
 
+```{=html}
+<div class="recipe-toolbar">
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Trois Fois par Jour</strong></div><div class="recipe-fact"><span>Portions</span><strong id="recipe-portions-current">3</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps</span><strong>1 min · 15 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="3" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 3</span></div></div>
+```
+
 ## Ingrédients
 
 ### Préparation
 
-- 2 c. à thé Fécule de maïs
-- 60 ml Eau
-- 1 unité Filet de porc
-- 1 au goût Sel et poivre
-- 1 c. à soupe Beurre
-- 227 g Champignons blancs (ou autres)
-- 1 c. à soupe Huile végétale
-- 60 ml Sirop d’érable
-- 2 c. à soupe Vinaigre balsamique
-- 60 ml Crème champêtre 15 %
-- 2 c. à soupe Ciboulette émincée
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Fécule de maïs</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="60">6</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Eau</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Filet de porc</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">au goût</span> <span class="ingredient-nom">Sel et poivre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Beurre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="227">227</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Champignons blancs (ou autres)</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Huile végétale</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="60">6</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Sirop d’érable</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Vinaigre balsamique</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="60">6</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Crème champêtre 15 %</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Ciboulette émincée</span></li>
+</ul>
+```
 
 ## Équipements
 
@@ -44,6 +60,10 @@ categories:
 3. Faire chauffer beurre dans poêle, saisir les champignons et réserver.
 4. Ajouter huile et saisir les médaillons 2 min de chaque côté.
 5. Ajouter champignons, mélange de fécule et le reste des ingrédients, porter à ébullition et laisser mijoter 5 minutes.
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=3;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
 
 ## Notes
 

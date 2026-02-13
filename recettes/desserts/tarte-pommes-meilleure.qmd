@@ -13,13 +13,33 @@ categories:
 
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Ftarte-pommes-meilleure.yaml){.btn .btn-outline-primary .btn-sm}
 
+```{=html}
+<div class="recipe-toolbar">
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/6435-tarte-aux-pommes-la-meilleure</strong></div><div class="recipe-fact"><span>Portions</span><strong id="recipe-portions-current">8</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps</span><strong>45 min · 45 min · 3 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="8" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 8</span></div></div>
+```
+
 ## Ingrédients
 
 ### Garniture aux pommes
 
+```{=html}
+<ul class="recipe-ingredients">
+</ul>
+```
 
 ### Croûte
 
+```{=html}
+<ul class="recipe-ingredients">
+</ul>
+```
 
 ## Équipements
 
@@ -41,6 +61,10 @@ categories:
 2. Placer la grille dans le bas du four. Préchauffer le four à 220°C (425°F).
 3. Sur un plan de travail fariné, abaisser les deux disques de pâte. Foncer un moule à tarte de 23cm (9po) de diamètre sur 2,5cm (1po) de hauteur avec une abaisse. Y répartir la garniture aux pommes en formant un amoncellement au centre de la tarte. À l’aide d’un petit emporte-pièce rond ou d’une douille unie de 1 à 2 cm (1/2 à 3/4 po) de diamètre, faire 5trous dans la deuxième abaisse. Recouvrir la tarte de la deuxième abaisse. Bien sceller en écrasant le rebord avec les doigts ou à l’aide d’une fourchette. À l’aide d’un pinceau, badigeonner de lait.
 4. Cuire au four environ 35 minutes ou jusqu’à ce que la croûte soit bien dorée. Laisser tiédir. La tarte se conserve 3 jours à la température ambiante.
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=8;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
 
 ## Notes
 

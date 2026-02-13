@@ -8,33 +8,57 @@ categories:
 
 [✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fbiscuit-au-caramel-chocolat-amande.yaml){.btn .btn-outline-primary .btn-sm}
 
+```{=html}
+<div class="recipe-toolbar">
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>La cuisine d’Isabelle et Ricardo – Radio-Canada</strong></div><div class="recipe-fact"><span>Portions</span><strong id="recipe-portions-current">20</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps</span><strong>4 min · 8 min · 125 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="20" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 20</span></div></div>
+```
+
 ## Ingrédients
 
 ### Pâte
 
-- 225 g Farine tout usage non blanchie
-- 50 g Cacao
-- 2.5 ml Bicarbonate de soude
-- 1 ml Sel
-- 170 g Beurre non salé, fondu et tempéré
-- 160 g Cassonade
-- 105 g Sucre
-- 45 ml Beurre d’amandes
-- 2 unité Œufs
-- 170 g Chocolat au lait, en pastilles ou haché grossièrement
-- 85 g Amandes, grillées et hachées
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="225">225</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Farine tout usage non blanchie</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="50">5</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Cacao</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2.5">2.5</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Bicarbonate de soude</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Sel</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="170">17</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Beurre non salé, fondu et tempéré</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="160">16</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Cassonade</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="105">105</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Sucre</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Beurre d’amandes</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Œufs</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="170">17</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Chocolat au lait, en pastilles ou haché grossièrement</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="85">85</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Amandes, grillées et hachées</span></li>
+</ul>
+```
 
 ### Formation
 
-- 1 lot Pâte à biscuits
-- 20 unité Caramels mous du commerce
-- 80 g Chocolat restant
-- 45 g Amandes restantes
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">lot</span> <span class="ingredient-nom">Pâte à biscuits</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="20">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Caramels mous du commerce</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="80">8</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Chocolat restant</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Amandes restantes</span></li>
+</ul>
+```
 
 ### Cuisson
 
-- 1 lot Biscuits formés
-- 1 au goût Fleur de sel
+```{=html}
+<ul class="recipe-ingredients">
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">lot</span> <span class="ingredient-nom">Biscuits formés</span></li>
+<li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">au goût</span> <span class="ingredient-nom">Fleur de sel</span></li>
+</ul>
+```
 
 ## Équipements
 
@@ -74,6 +98,10 @@ categories:
 
 1. Préchauffer le four à 190 °C et tapisser deux plaques de cuisson de papier parchemin. Répartir 6 à 8 biscuits par plaque.
 2. Cuire au four 8 à 10 minutes jusqu’à ce que les biscuits soient cuits à l’extérieur mais encore mous au centre. Parsemer de fleur de sel.
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=20;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });const p=document.getElementById('recipe-portions-current'); if(p) p.textContent=format(current);};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
 
 ## Notes
 
