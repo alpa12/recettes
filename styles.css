@@ -132,6 +132,23 @@ main.content {
   background: var(--site-surface-soft);
 }
 
+.recipe-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.9rem;
+}
+
+.recipe-meta-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--site-border-soft);
+  background: color-mix(in srgb, var(--bs-body-bg) 92%, var(--site-accent) 8%);
+  font-size: 0.85rem;
+}
+
 .recipe-ingredients {
   list-style: none;
   margin: 0;

@@ -9,6 +9,11 @@ exemple:
   source: Ricardo
   portions: 4
   se_congele: true
+  difficulte: Facile
+  cout: $
+  allergenes:
+    - Lait
+    - Gluten
 
   categories:
     - Poulet
@@ -84,6 +89,24 @@ _schema:
       type: boolean
       title: Se congèle
       description: Est-ce que la recette peut être congelée ?
+
+    difficulte:
+      type: string
+      title: Difficulté
+      enum: [Facile, Intermédiaire, Avancé]
+      nullable: true
+
+    cout:
+      type: string
+      title: Coût
+      enum: ["$", "$$", "$$$"]
+      nullable: true
+
+    allergenes:
+      type: array
+      title: Allergènes
+      items:
+        type: string
 
     categories:
       type: array

@@ -155,7 +155,10 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
   keywords <- unique(c(
     unlist(recipe$categories %||% list(), use.names = FALSE),
-    unlist(recipe$mots_cles %||% list(), use.names = FALSE)
+    unlist(recipe$mots_cles %||% list(), use.names = FALSE),
+    recipe$difficulte %||% NULL,
+    recipe$cout %||% NULL,
+    unlist(recipe$allergenes %||% list(), use.names = FALSE)
   ))
   keywords <- as.character(keywords)
   keywords <- keywords[nzchar(trimws(keywords))]
@@ -206,6 +209,27 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "```",
     ""
   )
+
+  meta_badges <- character()
+  if (!is.null(recipe$difficulte) && nzchar(as.character(recipe$difficulte))) {
+    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Difficulté: ", escape_html(recipe$difficulte), "</span>"))
+  }
+  if (!is.null(recipe$cout) && nzchar(as.character(recipe$cout))) {
+    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Coût: ", escape_html(recipe$cout), "</span>"))
+  }
+  if (is.list(recipe$allergenes) && length(recipe$allergenes) > 0) {
+    allg <- paste(escape_html(unlist(recipe$allergenes, use.names = FALSE)), collapse = ", ")
+    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Allergènes: ", allg, "</span>"))
+  }
+  if (length(meta_badges) > 0) {
+    lines <- c(
+      lines,
+      "```{=html}",
+      paste0("<div class=\"recipe-meta-badges\">", paste(meta_badges, collapse = ""), "</div>"),
+      "```",
+      ""
+    )
+  }
 
   base_portions <- suppressWarnings(as.numeric(recipe$portions))
   has_scaler <- !is.null(base_portions) && !is.na(base_portions) && base_portions > 0
