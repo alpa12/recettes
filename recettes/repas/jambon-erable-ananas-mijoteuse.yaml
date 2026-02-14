@@ -55,10 +55,7 @@ preparation:
     equipements:
     - Mijoteuse
   - etape: Couvrir et cuire 4 heures à faible intensité (Low).
-    ingredients:
-    - nom: Jambon préparé
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Mijoteuse
   - etape: 30 minutes avant la fin, délayer fécule de maïs dans l’eau et ajouter pour épaissir la sauce.

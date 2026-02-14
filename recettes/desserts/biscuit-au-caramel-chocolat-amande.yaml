@@ -64,10 +64,7 @@ preparation:
 - section: Formation
   etapes:
   - etape: Former des boules de pâte à l’aide d’une cuillère à crème glacée de 45 ml et réfrigérer 5 à 10 minutes.
-    ingredients:
-    - nom: Pâte à biscuits
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Cuillère à crème glacée
     - Plaque de cuisson
@@ -91,10 +88,7 @@ preparation:
 - section: Cuisson
   etapes:
   - etape: Préchauffer le four à 190 °C et tapisser deux plaques de cuisson de papier parchemin. Répartir 6 à 8 biscuits par plaque.
-    ingredients:
-    - nom: Biscuits formés
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Four
     - Papier parchemin

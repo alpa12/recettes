@@ -57,10 +57,7 @@ preparation:
     equipements:
     - Spatule
   - etape: Cuire au four 6 minutes à 375°F.
-    ingredients:
-    - nom: Pâte à biscuits
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Four
   - etape: Ajouter les miniguimauves et reprendre la cuisson 6 à 8 minutes.

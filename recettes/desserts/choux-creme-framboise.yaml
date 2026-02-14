@@ -39,19 +39,13 @@ preparation:
     - Cuillère en bois
     - Bol
   - etape: Former des éclairs ou petits choux sur plaque tapissée de papier parchemin à l’aide d’une poche à pâtisserie.
-    ingredients:
-    - nom: Pâte à choux
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Poche à pâtisserie
     - Plaque de cuisson
     - Papier parchemin
   - etape: Cuire 30 minutes à 190 °C jusqu’à doré. Fendre pour laisser échapper la vapeur, remettre 10-15 minutes dans four éteint.
-    ingredients:
-    - nom: Pâte à choux formée
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Four
 - section: Confiture de framboises
