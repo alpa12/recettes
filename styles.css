@@ -284,6 +284,44 @@ ol li img {
   margin: 0.45rem 0 0.55rem;
 }
 
+.recipe-nutrition-block {
+  margin: 0.3rem 0 1.15rem;
+}
+
+.recipe-nutrition-table {
+  border: 1px solid var(--site-border-soft);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--site-surface-soft);
+}
+
+.recipe-nutrition-table th,
+.recipe-nutrition-table td {
+  vertical-align: middle;
+}
+
+.recipe-nutrition-table thead th {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.recipe-nutrition-meta {
+  margin: 0.45rem 0 0;
+  color: var(--bs-secondary-color);
+  font-size: 0.9rem;
+}
+
+.recipe-nutrition-missing {
+  margin-top: 0.45rem;
+}
+
+.recipe-nutrition-missing summary {
+  cursor: pointer;
+  color: var(--bs-secondary-color);
+  font-size: 0.9rem;
+}
+
 .recipe-timer-dock {
   position: fixed;
   right: 1rem;

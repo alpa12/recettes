@@ -7,6 +7,9 @@ on:
       - 'recettes/**/*.yaml'
       - 'recettes/**/*.yml'
       - 'R/generate_qmds.R'
+      - 'R/build_cnf_foods.R'
+      - 'R/nutrition.R'
+      - 'data/nutrition/cnf_food_map.csv'
       - '!recettes/url_imports/**'
 
 permissions:
@@ -48,7 +51,7 @@ jobs:
           echo "$CHANGED_FILES"
 
           # Exclure les fichiers dans recettes/pending/ (URLs en attente d'import LLM)
-          RELEVANT_FILES=$(echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|R/generate_qmds\.R)$' | grep -v '^recettes/pending/' || true)
+          RELEVANT_FILES=$(echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|R/generate_qmds\.R|R/build_cnf_foods\.R|R/nutrition\.R|data/nutrition/cnf_food_map\.csv)$' | grep -v '^recettes/pending/' || true)
 
           if [ -n "$RELEVANT_FILES" ]; then
             echo "Relevant changes found:"
@@ -84,9 +87,19 @@ jobs:
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2
 
+      - name: Download CNF dataset (Health Canada)
+        run: |
+          mkdir -p data/nutrition/cnf
+          curl -fL "https://www.canada.ca/content/dam/hc-sc/migration/hc-sc/fn-an/alt_formats/zip/nutrition/fiche-nutri-data/cnf-fcen-csv.zip" -o /tmp/cnf-fcen-csv.zip
+          unzip -o /tmp/cnf-fcen-csv.zip -d data/nutrition/cnf
+
+      - name: Build CNF foods mapping file
+        run: |
+          Rscript --vanilla R/build_cnf_foods.R
+
       - name: Run QMD generation script
         run: |
-          Rscript R/generate_qmds.R
+          Rscript --vanilla R/generate_qmds.R
 
       - name: Commit generated QMD files
         if: github.event.pull_request.head.repo.full_name == github.repository
@@ -94,7 +107,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add .
+          git add recettes/**/*.qmd
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
