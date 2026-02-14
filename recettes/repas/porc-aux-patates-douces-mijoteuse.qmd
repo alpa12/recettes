@@ -53,26 +53,14 @@ categories:
 
 ### Préparation
 
-1. Déposer patates douces dans la mijoteuse.
-   _Ingrédients de cette étape:_
-   - <span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Patates douces pelées et coupées en cubes</span>
-2. Faire dorer les cubes de porc à la poêle et transférer dans la mijoteuse.
-   _Ingrédients de cette étape:_
-   - <span class="ingredient-qte" data-base="795">795</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Cubes de porc à ragoût</span>
-   - <span class="ingredient-qte" data-base="30">30</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Huile de canola</span>
-3. Cuire oignons, ail et céleri dans la poêle, saupoudrer de farine, transférer dans la mijoteuse.
-   _Ingrédients de cette étape:_
-   - <span class="ingredient-qte" data-base="12">12</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Oignons perlés pelés</span>
-   - <span class="ingredient-qte" data-base="10">10</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Ail haché</span>
-   - <span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Branches de céleri émincées</span>
-   - <span class="ingredient-qte" data-base="60">60</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Farine</span>
-4. Ajouter bouillon, sirop d’érable, feuille de laurier, romarin, sel et poivre, puis cuire 8 à 10 heures à faible intensité.
-   _Ingrédients de cette étape:_
-   - <span class="ingredient-qte" data-base="1000">1000</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Bouillon de poulet</span>
-   - <span class="ingredient-qte" data-base="80">80</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Sirop d’érable</span>
-   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Feuille de laurier</span>
-   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Tige de romarin</span>
-   - <span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">au goût</span> <span class="ingredient-nom">Sel et poivre</span>
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients"><li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Patates douces pelées et coupées en cubes</span></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 1</div><p>Déposer patates douces dans la mijoteuse.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients"><li class="recipe-ingredient"><span class="ingredient-qte" data-base="795">795</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Cubes de porc à ragoût</span></li><li class="recipe-ingredient"><span class="ingredient-qte" data-base="30">30</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Huile de canola</span></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 2</div><p>Faire dorer les cubes de porc à la poêle et transférer dans la mijoteuse.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients"><li class="recipe-ingredient"><span class="ingredient-qte" data-base="12">12</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Oignons perlés pelés</span></li><li class="recipe-ingredient"><span class="ingredient-qte" data-base="10">10</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Ail haché</span></li><li class="recipe-ingredient"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Branches de céleri émincées</span></li><li class="recipe-ingredient"><span class="ingredient-qte" data-base="60">60</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Farine</span></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 3</div><p>Cuire oignons, ail et céleri dans la poêle, saupoudrer de farine, transférer dans la mijoteuse.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients"><li class="recipe-ingredient"><span class="ingredient-qte" data-base="1000">1000</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Bouillon de poulet</span></li><li class="recipe-ingredient"><span class="ingredient-qte" data-base="80">80</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Sirop d’érable</span></li><li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Feuille de laurier</span></li><li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Tige de romarin</span></li><li class="recipe-ingredient"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">au goût</span> <span class="ingredient-nom">Sel et poivre</span></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 4</div><p>Ajouter bouillon, sirop d’érable, feuille de laurier, romarin, sel et poivre, puis cuire 8 à 10 heures à faible intensité.</p></div></article>
+</div>
+```
 
 ```{=html}
 <script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=4;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>

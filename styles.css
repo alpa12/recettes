@@ -156,6 +156,53 @@ ol li img {
   box-shadow: var(--site-shadow);
 }
 
+.recipe-prep-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.recipe-prep-step {
+  display: grid;
+  grid-template-columns: minmax(220px, 34%) 1fr;
+  gap: 0.8rem;
+  border: 1px solid var(--site-border-soft);
+  border-radius: 14px;
+  padding: 0.75rem;
+  background: color-mix(in srgb, var(--bs-body-bg) 92%, var(--site-accent) 8%);
+}
+
+.recipe-prep-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+  margin-bottom: 0.35rem;
+}
+
+.recipe-prep-instruction p {
+  margin-bottom: 0.55rem;
+}
+
+.recipe-prep-stepno {
+  font-weight: 700;
+  color: var(--site-accent);
+  margin-bottom: 0.2rem;
+}
+
+.recipe-step-thumb {
+  display: block;
+  max-width: min(420px, 100%);
+  border-radius: 12px;
+  border: 1px solid var(--site-border-soft);
+  box-shadow: var(--site-shadow);
+}
+
+@media (max-width: 820px) {
+  .recipe-prep-step {
+    grid-template-columns: 1fr;
+  }
+}
+
 #recipe-form-container .card,
 #url-form,
 #site-password-manual {

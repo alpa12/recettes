@@ -175,6 +175,11 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   base_portions <- suppressWarnings(as.numeric(recipe$portions))
   has_scaler <- !is.null(base_portions) && !is.na(base_portions) && base_portions > 0
+  has_step_images <- any(vapply(recipe$preparation %||% list(), function(section) {
+    any(vapply(section$etapes %||% list(), function(step) {
+      !is.null(step$image_guid) && nzchar(as.character(step$image_guid))
+    }, logical(1)))
+  }, logical(1)))
 
   if (has_scaler) {
     lines <- c(
@@ -195,6 +200,16 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     )
   }
 
+  if (has_step_images) {
+    lines <- c(
+      lines,
+      "```{=html}",
+      "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css\">",
+      "<script src=\"https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js\"></script>",
+      "```",
+      ""
+    )
+  }
 
   # ---- Ingredients (grouped by section) ----
   lines <- c(lines, "## Ingrédients", "")
@@ -239,26 +254,57 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     lines <- c(lines, "")
   }
 
-  # ---- Preparation steps ----
+  # ---- Preparation steps (2-column cooking layout) ----
   lines <- c(lines, "## Préparation", "")
 
   for (section in recipe$preparation) {
-    lines <- c(lines, paste0("### ", section$section), "")
+    lines <- c(lines, paste0("### ", section$section), "", "```{=html}", "<div class=\"recipe-prep-grid\">")
+
     for (i in seq_along(section$etapes)) {
       step <- section$etapes[[i]]
-      step_text <- if (!is.null(step$etape)) step$etape else ""
-      lines <- c(lines, paste0(i, ". ", step_text))
+      step_text <- escape_html(step$etape %||% "")
+
+      ing_html <- ""
       if (is.list(step$ingredients) && length(step$ingredients) > 0) {
-        lines <- c(lines, "   _Ingrédients de cette étape:_")
-        for (ing in step$ingredients) {
-          lines <- c(lines, paste0("   - ", render_ingredient_inline(ing)))
-        }
+        ing_lines <- vapply(step$ingredients, render_ingredient_li, character(1))
+        ing_html <- paste0(
+          "<div class=\"recipe-prep-ingredients\">",
+          "<div class=\"recipe-prep-label\">Ingrédients</div>",
+          "<ul class=\"recipe-ingredients\">",
+          paste(ing_lines, collapse = ""),
+          "</ul>",
+          "</div>"
+        )
+      } else {
+        ing_html <- "<div class=\"recipe-prep-ingredients\"><div class=\"recipe-prep-label\">Ingrédients</div><div class=\"text-muted small\">Aucun ingrédient spécifique.</div></div>"
       }
+
+      img_html <- ""
       if (!is.null(step$image_guid) && nzchar(as.character(step$image_guid))) {
-        lines <- c(lines, paste0("   ![](/images/", step$image_guid, ".jpg)"))
+        src <- paste0("/images/", step$image_guid, ".jpg")
+        img_html <- paste0(
+          "<a href=\"", src, "\" class=\"glightbox recipe-step-image-link\" data-gallery=\"recipe-steps\">",
+          "<img src=\"", src, "\" alt=\"Image étape ", i, "\" class=\"recipe-step-thumb\">",
+          "</a>"
+        )
       }
+
+      lines <- c(
+        lines,
+        paste0(
+          "<article class=\"recipe-prep-step\">",
+          ing_html,
+          "<div class=\"recipe-prep-instruction\">",
+          "<div class=\"recipe-prep-stepno\">Étape ", i, "</div>",
+          "<p>", step_text, "</p>",
+          img_html,
+          "</div>",
+          "</article>"
+        )
+      )
     }
-    lines <- c(lines, "")
+
+    lines <- c(lines, "</div>", "```", "")
   }
 
   if (has_scaler) {
@@ -287,6 +333,16 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "})();",
         "</script>"
       ),
+      "```",
+      ""
+    )
+  }
+
+  if (has_step_images) {
+    lines <- c(
+      lines,
+      "```{=html}",
+      "<script>document.addEventListener('DOMContentLoaded', function(){ if (window.GLightbox) { window.GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true }); } });</script>",
       "```",
       ""
     )

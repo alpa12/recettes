@@ -54,14 +54,22 @@ categories:
 
 ### Garniture aux pommes
 
-1. Dans une grande poêle antiadhésive, fondre le beurre. Ajouter le sucre, bien mélanger et laisser cuire 1minute. Ajouter les pommes et la cannelle. Cuire à feu élevé en remuant régulièrement environ 10 minutes ou jusqu’à ce que les pommes McIntosh soient compotées, les Cortland fondantes et le sirop presque à sec. Verser dans un bol et laisser refroidir complètement.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 1</div><p>Dans une grande poêle antiadhésive, fondre le beurre. Ajouter le sucre, bien mélanger et laisser cuire 1minute. Ajouter les pommes et la cannelle. Cuire à feu élevé en remuant régulièrement environ 10 minutes ou jusqu’à ce que les pommes McIntosh soient compotées, les Cortland fondantes et le sirop presque à sec. Verser dans un bol et laisser refroidir complètement.</p></div></article>
+</div>
+```
 
 ### Croûte
 
-1. Au robot culinaire, mélanger la farine, le sel et le beurre jusqu’à ce que le beurre ait la grosseur de petits pois. Ajouter l’eau et le vinaigre. Mélanger de nouveau jusqu’à ce qu’une boule commence à se former. Retirer la pâte du robot. Former deux disques avec les mains. Envelopper de pellicule plastique et réfrigérer 30 minutes.
-2. Placer la grille dans le bas du four. Préchauffer le four à 220°C (425°F).
-3. Sur un plan de travail fariné, abaisser les deux disques de pâte. Foncer un moule à tarte de 23cm (9po) de diamètre sur 2,5cm (1po) de hauteur avec une abaisse. Y répartir la garniture aux pommes en formant un amoncellement au centre de la tarte. À l’aide d’un petit emporte-pièce rond ou d’une douille unie de 1 à 2 cm (1/2 à 3/4 po) de diamètre, faire 5trous dans la deuxième abaisse. Recouvrir la tarte de la deuxième abaisse. Bien sceller en écrasant le rebord avec les doigts ou à l’aide d’une fourchette. À l’aide d’un pinceau, badigeonner de lait.
-4. Cuire au four environ 35 minutes ou jusqu’à ce que la croûte soit bien dorée. Laisser tiédir. La tarte se conserve 3 jours à la température ambiante.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 1</div><p>Au robot culinaire, mélanger la farine, le sel et le beurre jusqu’à ce que le beurre ait la grosseur de petits pois. Ajouter l’eau et le vinaigre. Mélanger de nouveau jusqu’à ce qu’une boule commence à se former. Retirer la pâte du robot. Former deux disques avec les mains. Envelopper de pellicule plastique et réfrigérer 30 minutes.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 2</div><p>Placer la grille dans le bas du four. Préchauffer le four à 220°C (425°F).</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 3</div><p>Sur un plan de travail fariné, abaisser les deux disques de pâte. Foncer un moule à tarte de 23cm (9po) de diamètre sur 2,5cm (1po) de hauteur avec une abaisse. Y répartir la garniture aux pommes en formant un amoncellement au centre de la tarte. À l’aide d’un petit emporte-pièce rond ou d’une douille unie de 1 à 2 cm (1/2 à 3/4 po) de diamètre, faire 5trous dans la deuxième abaisse. Recouvrir la tarte de la deuxième abaisse. Bien sceller en écrasant le rebord avec les doigts ou à l’aide d’une fourchette. À l’aide d’un pinceau, badigeonner de lait.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 4</div><p>Cuire au four environ 35 minutes ou jusqu’à ce que la croûte soit bien dorée. Laisser tiédir. La tarte se conserve 3 jours à la température ambiante.</p></div></article>
+</div>
+```
 
 ```{=html}
 <script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=8;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
