@@ -226,6 +226,13 @@ function stripLeadingSlash(p) {
   return p.startsWith("/") ? p.slice(1) : p;
 }
 
+const MANUAL_RECIPE_SECTIONS = ["accompagnements", "repas", "desserts"];
+
+function normalizeRecipeSection(v) {
+  const s = String(v || "").trim().toLowerCase();
+  return MANUAL_RECIPE_SECTIONS.includes(s) ? s : "";
+}
+
 function slugify(str) {
   return str
     .toString()
@@ -758,6 +765,10 @@ function renderFromData(schema, data, container) {
   form.classList.add("needs-validation");
   form.noValidate = true;
 
+  if (!window.__EDIT_MODE__) {
+    form.appendChild(renderRecipeSectionField());
+  }
+
   form.appendChild(renderNode(schema, data, [], form));
 
   const btn = document.createElement("button");
@@ -769,6 +780,52 @@ function renderFromData(schema, data, container) {
   form.addEventListener("submit", handleSubmit);
   container.appendChild(form);
   return form;
+}
+
+function renderRecipeSectionField() {
+  const card = document.createElement("div");
+  card.className = "card mb-3";
+
+  const body = document.createElement("div");
+  body.className = "card-body";
+
+  const label = document.createElement("label");
+  label.className = "form-label required-field";
+  label.setAttribute("for", "recipe-section-manual");
+  label.textContent = "Section";
+  body.appendChild(label);
+
+  const select = document.createElement("select");
+  select.id = "recipe-section-manual";
+  select.className = "form-select";
+  select.required = true;
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Choisir une section";
+  select.appendChild(placeholder);
+
+  const labels = {
+    accompagnements: "Accompagnements",
+    repas: "Repas",
+    desserts: "Desserts"
+  };
+  MANUAL_RECIPE_SECTIONS.forEach((key) => {
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = labels[key] || key;
+    select.appendChild(opt);
+  });
+
+  body.appendChild(select);
+
+  const feedback = document.createElement("div");
+  feedback.className = "invalid-feedback";
+  feedback.textContent = "Veuillez choisir une section.";
+  body.appendChild(feedback);
+
+  card.appendChild(body);
+  return card;
 }
 
 function renderNode(schema, value, path, formRoot) {
@@ -1662,6 +1719,11 @@ async function handleSubmit(e) {
 
   try {
     const data = serializeToData(window.RECIPE_SCHEMA, form, []);
+    const manualSection = normalizeRecipeSection(form.querySelector("#recipe-section-manual")?.value);
+    if (!window.__EDIT_MODE__ && !manualSection) {
+      form.classList.add("was-validated");
+      throw new Error("Veuillez choisir une section (Accompagnements, Repas ou Desserts).");
+    }
     autofillCommentDates(data);
     const qualityIssues = validateRecipeData(data);
     if (qualityIssues.length > 0) {
@@ -1689,11 +1751,11 @@ async function handleSubmit(e) {
 
     const filePath = window.__EDIT_MODE__
       ? stripLeadingSlash(window.__EDIT_MODE__.yamlPath)
-      : `recettes/${slug}.yaml`;
+      : `recettes/${manualSection}/${slug}.yaml`;
 
     const baseBranchName = window.__EDIT_MODE__
       ? `recette-modif/${slug}`
-      : `recette/${slug}`;
+      : `recette/${manualSection}-${slug}`;
 
     const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
