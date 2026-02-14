@@ -226,3 +226,24 @@ ol li img {
 #url-form .btn-primary {
   box-shadow: 0 8px 22px color-mix(in srgb, var(--site-accent) 32%, transparent);
 }
+
+/* Cooking reading mode */
+body.reading-mode main.content {
+  max-width: 1180px;
+}
+
+body.reading-mode p,
+body.reading-mode li {
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+body.reading-mode .recipe-prep-step {
+  background: color-mix(in srgb, var(--bs-body-bg) 96%, var(--site-accent) 4%);
+  border-width: 2px;
+}
+
+body.reading-mode .toc,
+body.reading-mode nav[role="doc-toc"] {
+  display: none !important;
+}

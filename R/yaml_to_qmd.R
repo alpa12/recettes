@@ -177,6 +177,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "<div class=\"recipe-toolbar\">",
     paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">✏️ Modifier cette recette</a>"),
     "<div class=\"recipe-toolbar-actions\">",
+    "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">🍳 Mode cuisson</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">🖨️ Imprimer</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">🔗 Copier le lien</button>",
     "</div>",
@@ -223,6 +224,27 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
       ""
     )
   }
+
+  lines <- c(
+    lines,
+    "```{=html}",
+    "<script>(function(){",
+    "const key='recipe_reading_mode';",
+    "let wakeLock=null;",
+    "const apply=(on)=>{document.body.classList.toggle('reading-mode', on);};",
+    "const requestWake=async()=>{try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');}}catch(e){}};",
+    "const releaseWake=async()=>{try{if(wakeLock){await wakeLock.release(); wakeLock=null;}}catch(e){}};",
+    "document.addEventListener('DOMContentLoaded', ()=>{",
+    "const btn=document.getElementById('recipe-reading-mode');",
+    "const saved=localStorage.getItem(key)==='1'; apply(saved); if(saved) requestWake();",
+    "if(!btn) return;",
+    "const refresh=()=>{btn.classList.toggle('active', document.body.classList.contains('reading-mode'));}; refresh();",
+    "btn.addEventListener('click', async()=>{const next=!document.body.classList.contains('reading-mode'); apply(next); localStorage.setItem(key, next?'1':'0'); refresh(); if(next){await requestWake();} else {await releaseWake();}});",
+    "});",
+    "})();</script>",
+    "```",
+    ""
+  )
 
   # ---- Ingredients (grouped by section) ----
   lines <- c(lines, "## Ingrédients", "")
