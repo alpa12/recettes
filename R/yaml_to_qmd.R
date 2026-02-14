@@ -133,6 +133,15 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     cats <- unlist(recipe$categories, use.names = FALSE)
     lines <- c(lines, "categories:", paste0("  - ", cats))
   }
+  keywords <- unique(c(
+    unlist(recipe$categories %||% list(), use.names = FALSE),
+    unlist(recipe$mots_cles %||% list(), use.names = FALSE)
+  ))
+  keywords <- as.character(keywords)
+  keywords <- keywords[nzchar(trimws(keywords))]
+  if (length(keywords) > 0) {
+    lines <- c(lines, "keywords:", paste0("  - ", keywords))
+  }
   lines <- c(lines, "---", "")
 
   # ---- Edit button ----

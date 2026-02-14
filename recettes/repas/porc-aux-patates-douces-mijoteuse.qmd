@@ -4,6 +4,9 @@ title: Mijoté de porc aux patates douces
 categories:
   - Porc
   - Mijoteuse
+keywords:
+  - Porc
+  - Mijoteuse
 ---
 
 ```{=html}

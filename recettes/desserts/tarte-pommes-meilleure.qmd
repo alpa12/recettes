@@ -9,6 +9,14 @@ categories:
   - Saveurs d'automne
   - Fruits
   - Pommes
+keywords:
+  - Desserts
+  - Tartes
+  - Nos meilleures recettes
+  - Recettes en couverture
+  - Saveurs d'automne
+  - Fruits
+  - Pommes
 ---
 
 ```{=html}

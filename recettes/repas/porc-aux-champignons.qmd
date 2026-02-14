@@ -4,6 +4,9 @@ title: Médaillons de porc, sauce crémeuse aux champignons et à l’érable
 categories:
   - Porc
   - Sauce
+keywords:
+  - Porc
+  - Sauce
 ---
 
 ```{=html}

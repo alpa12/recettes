@@ -9,6 +9,14 @@ categories:
   - Rapide
   - Recettes de semaine
   - Petits prix
+keywords:
+  - Plats principaux
+  - Tofu
+  - Végétarien
+  - Végétalien
+  - Rapide
+  - Recettes de semaine
+  - Petits prix
 ---
 
 ```{=html}

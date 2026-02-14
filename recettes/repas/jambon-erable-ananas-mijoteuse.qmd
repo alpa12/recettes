@@ -4,6 +4,9 @@ title: Jambon à l’érable et à l’ananas à la mijoteuse
 categories:
   - Porc
   - Mijoteuse
+keywords:
+  - Porc
+  - Mijoteuse
 ---
 
 ```{=html}

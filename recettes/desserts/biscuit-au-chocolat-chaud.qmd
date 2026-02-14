@@ -4,6 +4,9 @@ title: Biscuits au chocolat chaud
 categories:
   - Biscuit
   - Chocolat
+keywords:
+  - Biscuit
+  - Chocolat
 ---
 
 ```{=html}

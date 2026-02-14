@@ -4,6 +4,9 @@ image: /images/index.jpg
 categories:
   - Salade
   - Légumineuses
+keywords:
+  - Salade
+  - Légumineuses
 ---
 
 ```{=html}

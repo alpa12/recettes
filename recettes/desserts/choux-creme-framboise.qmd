@@ -4,6 +4,9 @@ title: Choux à la crème framboise
 categories:
   - Pâtisserie
   - Dessert
+keywords:
+  - Pâtisserie
+  - Dessert
 ---
 
 ```{=html}

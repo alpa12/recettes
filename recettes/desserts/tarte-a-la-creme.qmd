@@ -4,6 +4,9 @@ title: Tarte à la crème de Monique
 categories:
   - Tarte
   - Dessert
+keywords:
+  - Tarte
+  - Dessert
 ---
 
 ```{=html}

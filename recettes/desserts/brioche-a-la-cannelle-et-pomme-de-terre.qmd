@@ -4,6 +4,9 @@ title: Brioche à la cannelle et à la pomme de terre
 categories:
   - Brioche
   - Dessert
+keywords:
+  - Brioche
+  - Dessert
 ---
 
 ```{=html}

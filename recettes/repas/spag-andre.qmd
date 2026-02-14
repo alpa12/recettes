@@ -4,6 +4,9 @@ title: Sauce à spaghetti de Nathalie Davignon
 categories:
   - Sauce
   - Spaghetti
+keywords:
+  - Sauce
+  - Spaghetti
 ---
 
 ```{=html}
