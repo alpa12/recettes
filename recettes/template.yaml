@@ -1,28 +1,158 @@
-nom: Nom complet de la recette
-nom_court: Nom court, pour table des matières
-source: D'où vient la recette
-portions: Nombre de portions (chiffres uniquement)
-temps:
-  preparation: Temps de preparation à deux personnes (chiffre en minute, null si aucun)
-  cuisson: Temps de cuisson (chiffre en minute, null si aucun)
-  refrigeration: Temps de réfrigération (chiffre en minute, null si aucun)
-se_congele: Est-ce que ça se congèle? (inscrire true ou false)
-ingredients:
-  section1:
-    - nom: Nom de l'ingrédient
-      qte: Quantité (chiffres uniquement)
-      uni: Unité (unité, ml, t, g, ...)
-    - nom: Ingrédient
-      qte: 1
-      uni: unité
-  section2:
-    - nom: Ingrédient
-      qte: 1
-      uni: unité
-preparation:
-  section1:
-    - 'Texte qui explique la première étape. TODO PRO-36 comprendre comment gérer les multilines'
-    - 'Deuxième étape'
-commentaires:
-  - 'Commentaire 1'
-  - 'Commentaire 2'
+# ============================================================
+# Exemple complet de recette (sert uniquement de référence)
+# ============================================================
+
+exemple:
+
+  nom: Poulet Alfredo
+  nom_court: poulet-alfredo
+  source: Ricardo
+  portions: 4
+  se_congele: true
+
+  categories:
+    - Poulet
+    - Rapide
+
+  temps:
+    preparation: 20
+    cuisson: 30
+    refrigeration: null
+
+  preparation:
+    - section: Sauce
+      etapes:
+        - etape: Mélanger les ingrédients.
+          ingredients:
+            - nom: Crème
+              qte: 1
+              uni: t
+          equipements:
+            - Bol
+
+  commentaires:
+    - commentaire: Excellent
+      date: 2026-02-13
+      auteur: Alex
+      evaluation: 5
+    - commentaire: À refaire
+      date: 2026-02-13
+      auteur: Alex
+      evaluation: 4
+
+# ============================================================
+# Schéma dynamique du formulaire
+# ============================================================
+
+_schema:
+
+  type: object
+  required:
+    - nom
+    - nom_court
+    - source
+    - portions
+
+  properties:
+
+    nom:
+      type: string
+      title: Nom
+      description: Nom complet de la recette
+
+    nom_court:
+      type: string
+      title: Nom court
+      description: Nom court pour la table des matières
+
+    source:
+      type: string
+      title: Source
+      description: D'où vient la recette
+
+    portions:
+      type: integer
+      title: Portions
+      description: Nombre de portions
+
+    se_congele:
+      type: boolean
+      title: Se congèle
+      description: Est-ce que la recette peut être congelée ?
+
+    categories:
+      type: array
+      title: Catégories
+      items:
+        type: string
+
+    temps:
+      type: object
+      title: Temps
+      properties:
+        preparation:
+          type: integer
+          nullable: true
+        cuisson:
+          type: integer
+          nullable: true
+        refrigeration:
+          type: integer
+          nullable: true
+
+    preparation:
+      type: array
+      title: Préparation
+      items:
+        type: object
+        properties:
+          section:
+            type: string
+          etapes:
+            type: array
+            items:
+              type: object
+              properties:
+                etape:
+                  type: string
+                ingredients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      nom:
+                        type: string
+                      qte:
+                        type: number
+                      uni:
+                        type: string
+                equipements:
+                  type: array
+                  items:
+                    type: string
+
+    commentaires:
+      type: array
+      items:
+        type: object
+        properties:
+          commentaire:
+            type: string
+            nullable: true
+          date:
+            type: string
+            format: date
+            nullable: true
+          auteur:
+            type: string
+            nullable: true
+          evaluation:
+            type: integer
+            enum: [1, 2, 3, 4, 5]
+            nullable: true
+
+    image_guid:
+      type: string
+      title: Image de couverture
+      description: Téléverse une image JPG (elle sera renommée automatiquement).
+      nullable: true

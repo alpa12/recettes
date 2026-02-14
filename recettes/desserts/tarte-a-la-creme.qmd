@@ -1,0 +1,83 @@
+---
+title: Tarte à la crème de Monique
+
+categories:
+  - Tarte
+  - Dessert
+---
+
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Ftarte-a-la-creme.yaml){.btn .btn-outline-primary .btn-sm}
+
+## Ingrédients
+
+### Croûte
+
+- 1.25 t Miettes de biscuit Graham
+- 0.25 t Beurre fondu
+- 0.25 t Sucre
+
+### Crème patissière
+
+- 2 t Lait
+- 3 unité Jaune d'œuf
+- 5 c à table Sucre
+- 1 pincée Sel
+
+### Meringue
+
+- 3 unité Blancs d'œufs
+- 3 c à table Sucre
+- 1 lot Meringue
+
+### Finale
+
+- 1 lot Tarte montée
+
+## Équipements
+
+### Croûte
+
+- Assiette à tarte
+- Bol
+- Cuillère
+
+### Crème patissière
+
+- Bol
+- Bain-marie
+- Fouet
+
+### Meringue
+
+- Batteur électrique
+- Bol
+- Spatule
+
+### Finale
+
+- Four
+
+## Préparation
+
+### Croûte
+
+1. Beurrer une assiette à tarte de 9 po minimum, mélanger les ingrédients et taper au fond.
+
+### Crème patissière
+
+1. Mélanger les ingrédients dans un bol à bain-marie, cuire en remuant jusqu’à épaississement, verser sur la croûte.
+
+### Meringue
+
+1. Monter les blancs d’œufs au batteur électrique, ajouter le sucre progressivement jusqu’à pics fermes.
+2. Étendre la meringue sur la crème pâtissière.
+
+### Finale
+
+1. Cuire au four 350°F environ 5 minutes jusqu’à ce que la meringue brunisse, puis réfrigérer au moins 2 heures.
+
+## Notes
+
+_1 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
+
+- Étapes à clarifier la prochaine fois!

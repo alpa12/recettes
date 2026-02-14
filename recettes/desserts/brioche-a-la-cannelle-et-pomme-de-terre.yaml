@@ -1,0 +1,102 @@
+nom: Brioche à la cannelle et à la pomme de terre
+nom_court: Brioche à la cannelle
+source: https://www.ricardocuisine.com/recettes/5038-brioches-a-la-cannelle-et-a-la-pomme-de-terre-
+portions: 12
+se_congele: false
+categories:
+- Brioche
+- Dessert
+temps:
+  preparation: 30
+  cuisson: 30
+  refrigeration: 110
+preparation:
+- section: Brioches
+  etapes:
+  - etape: Cuire la pomme de terre dans l’eau bouillante, peler et réduire en purée. Mesurer 250 ml de purée.
+    ingredients:
+    - nom: Pomme de terre
+      qte: 1
+      uni: unité
+    equipements:
+    - Casserole
+    - Épluche-légumes
+    - Fourchette
+  - etape: Mélanger le lait et le sucre.
+    ingredients:
+    - nom: Lait
+      qte: 250
+      uni: ml
+    - nom: Sucre
+      qte: 105
+      uni: g
+    equipements:
+    - Bol
+    - Cuillère
+  - etape: Mélanger la farine, la levure et le sel. Ajouter lait-sucre, œufs et purée. Pétrir jusqu’à formation de la pâte.
+    ingredients:
+    - nom: Farine tout usage non blanchie
+      qte: 715
+      uni: g
+    - nom: Levure instantanée
+      qte: 12.5
+      uni: ml
+    - nom: Sel
+      qte: 5
+      uni: ml
+    - nom: Œufs
+      qte: 2
+      uni: unité
+    equipements:
+    - Bol
+    - Spatule
+  - etape: Incorporer beurre et huile, pétrir 5 minutes. Déposer dans bol huilé, couvrir et laisser reposer 20 minutes.
+    ingredients:
+    - nom: Beurre non salé
+      qte: 55
+      uni: g
+    - nom: Huile de canola
+      qte: 45
+      uni: ml
+    equipements:
+    - Bol
+    - Plan de travail
+- section: Garniture
+  etapes:
+  - etape: Mélanger la cassonade et la cannelle. Abaisser la pâte, badigeonner de beurre fondu et répartir la garniture.
+    ingredients:
+    - nom: Cassonade
+      qte: 315
+      uni: g
+    - nom: Cannelle moulue
+      qte: 15
+      uni: ml
+    - nom: Beurre non salé
+      qte: 30
+      uni: ml
+    equipements:
+    - Rouleau à pâtisserie
+    - Pinceau
+  - etape: Rouler la pâte, couper en 12 tranches et disposer dans un moule beurré. Laisser lever 1h30 et badigeonner de lait avant cuisson.
+    ingredients:
+    - nom: Lait
+      qte: 30
+      uni: ml
+    equipements:
+    - Moule
+    - Pinceau
+- section: Glaçage
+  etapes:
+  - etape: Mélanger le sucre à glacer et le lait, glacer les brioches au moment de servir.
+    ingredients:
+    - nom: Sucre à glacer
+      qte: 135
+      uni: g
+    - nom: Lait
+      qte: 15
+      uni: ml
+    equipements:
+    - Bol
+    - Fouet
+commentaires:
+  - "Pour préparer la veille, couvrir le plat en pyrex avec pellicule plastique et réfrigérer jusqu'au lendemain. Faire lever ensuite dans endroit tiède ou bain d'eau chaude."

@@ -1,0 +1,82 @@
+---
+title: Brioche à la cannelle et à la pomme de terre
+
+categories:
+  - Brioche
+  - Dessert
+---
+
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fbrioche-a-la-cannelle-et-pomme-de-terre.yaml){.btn .btn-outline-primary .btn-sm}
+
+## Ingrédients
+
+### Brioches
+
+- 1 unité Pomme de terre
+- 250 ml Lait
+- 105 g Sucre
+- 715 g Farine tout usage non blanchie
+- 12.5 ml Levure instantanée
+- 5 ml Sel
+- 2 unité Œufs
+- 55 g Beurre non salé
+- 45 ml Huile de canola
+
+### Garniture
+
+- 315 g Cassonade
+- 15 ml Cannelle moulue
+- 30 ml Beurre non salé
+- 30 ml Lait
+
+### Glaçage
+
+- 135 g Sucre à glacer
+- 15 ml Lait
+
+## Équipements
+
+### Brioches
+
+- Casserole
+- Épluche-légumes
+- Fourchette
+- Bol
+- Cuillère
+- Spatule
+- Plan de travail
+
+### Garniture
+
+- Rouleau à pâtisserie
+- Pinceau
+- Moule
+
+### Glaçage
+
+- Bol
+- Fouet
+
+## Préparation
+
+### Brioches
+
+1. Cuire la pomme de terre dans l’eau bouillante, peler et réduire en purée. Mesurer 250 ml de purée.
+2. Mélanger le lait et le sucre.
+3. Mélanger la farine, la levure et le sel. Ajouter lait-sucre, œufs et purée. Pétrir jusqu’à formation de la pâte.
+4. Incorporer beurre et huile, pétrir 5 minutes. Déposer dans bol huilé, couvrir et laisser reposer 20 minutes.
+
+### Garniture
+
+1. Mélanger la cassonade et la cannelle. Abaisser la pâte, badigeonner de beurre fondu et répartir la garniture.
+2. Rouler la pâte, couper en 12 tranches et disposer dans un moule beurré. Laisser lever 1h30 et badigeonner de lait avant cuisson.
+
+### Glaçage
+
+1. Mélanger le sucre à glacer et le lait, glacer les brioches au moment de servir.
+
+## Notes
+
+_1 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
+
+- Pour préparer la veille, couvrir le plat en pyrex avec pellicule plastique et réfrigérer jusqu'au lendemain. Faire lever ensuite dans endroit tiède ou bain d'eau chaude.

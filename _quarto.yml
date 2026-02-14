@@ -1,20 +1,38 @@
 project:
   type: website
 
+lang: fr
+
 website:
-  title: "Livre de recettes"
+  back-to-top-navigation: true
+  title: "Nos Recettes"
+  page-footer: "Livre de recettes de Mme et M."
+
   navbar:
+    background: primary
     left:
-      - href: index.qmd
-        text: Accueil
-  sidebar:
+      - href: recettes/accompagnements/index.qmd
+        text: Accompagnements
+      - href: recettes/repas/index.qmd
+        text: Repas
+      - href: recettes/desserts/index.qmd
+        text: Desserts
+      - href: recettes/ajouter_recette/index.qmd
+        text: Ajouter une recette
     style: docked
     search: true
-    contents: recettes
+
 format:
   html:
     theme:
-      - flatly
-      - brand
+      light: litera
+      dark: superhero
     css: styles.css
     toc: true
+    respect-user-color-scheme: true
+
+resources:
+  - config.js
+  - recettes/template.yaml
+  - recettes/**/*.yaml
+

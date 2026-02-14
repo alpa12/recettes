@@ -1,0 +1,57 @@
+---
+title: Salade de légumineuses André
+image: /images/index.jpg
+categories:
+  - Salade
+  - Légumineuses
+---
+
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Faccompagnements%2Fsalade-de-legumineuses.yaml){.btn .btn-outline-primary .btn-sm}
+
+## Ingrédients
+
+### Salade
+
+- 19 onces Pois chiches
+- 19 onces Fèves rouges
+- 19 onces Fèves mélangées
+- 5 gousses Ail
+- 1 unité Échalottes
+- 3 unités Poivron
+
+### Vinaigrette
+
+- 0.5 tasse Sucre
+- 0.25 tasse Huile d'olive
+- 0.33 tasse Vinaigre de vin rouge
+- 1 c. à thé Persil
+- 1 c. à thé Basilic
+- 1 c. à thé Origan
+
+## Équipements
+
+### Salade
+
+- Bol
+- Cuillère
+
+### Vinaigrette
+
+- Bol
+- Fouet
+
+## Préparation
+
+### Salade
+
+1. Mélanger tous les ingrédients de la salade.
+
+### Vinaigrette
+
+1. Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
+
+## Notes
+
+_1 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
+
+- On peut préparer cette salade à l’avance, elle se conserve bien quelques heures au réfrigérateur.

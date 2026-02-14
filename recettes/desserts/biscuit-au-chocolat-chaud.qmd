@@ -1,0 +1,52 @@
+---
+title: Biscuits au chocolat chaud
+
+categories:
+  - Biscuit
+  - Chocolat
+---
+
+[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fbiscuit-au-chocolat-chaud.yaml){.btn .btn-outline-primary .btn-sm}
+
+## Ingrédients
+
+### Préparation des biscuits
+
+- 2 tasse Farine
+- 0.5 tasse Chocolat chaud en poudre
+- 1 c. à soupe Cacao
+- 1 c. à thé Bicarbonate
+- 0.5 c. à thé Poudre à pâte
+- 0.33 tasse Beurre
+- 0.5 tasse Sucre
+- 0.5 tasse Cassonade
+- 2 unité Œufs
+- 0.5 tasse Pépites de chocolat mi-sucré
+- 1 lot Pâte à biscuits
+- 0.75 tasse Miniguimauves
+
+## Équipements
+
+### Préparation des biscuits
+
+- Bol
+- Cuillère
+- Batteur électrique
+- Spatule
+- Four
+
+## Préparation
+
+### Préparation des biscuits
+
+1. Mélanger les ingrédients secs.
+2. Mélanger les ingrédients mouillés au batteur électrique.
+3. Mélanger tout ensemble puis ajouter les pépites de chocolat.
+4. Cuire au four 6 minutes à 375°F.
+5. Ajouter les miniguimauves et reprendre la cuisson 6 à 8 minutes.
+
+## Notes
+
+_1 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
+
+- Les miniguimauves sont facultatives.
