@@ -175,6 +175,14 @@ main.content {
   font-size: 0.85rem;
 }
 
+.recipe-grocery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 0.75rem;
+}
+
 .recipe-ingredients {
   list-style: none;
   margin: 0;
@@ -188,6 +196,22 @@ main.content {
   border-radius: 10px;
   border: 1px solid var(--site-border-soft);
   background: color-mix(in srgb, var(--bs-body-bg) 92%, var(--site-accent) 8%);
+}
+
+.recipe-check-row {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.recipe-check-row input[type="checkbox"] {
+  margin-top: 0.2rem;
+  transform: scale(1.08);
+}
+
+.recipe-step-check {
+  margin-top: 0.1rem !important;
 }
 
 .ingredient-qte {

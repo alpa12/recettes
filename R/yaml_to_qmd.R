@@ -43,7 +43,7 @@ fmt_number <- function(x) {
   sub("\\.$", "", s)
 }
 
-render_ingredient_li <- function(ing) {
+render_ingredient_li <- function(ing, list_kind = "generic") {
   q_raw <- ing$qte %||% ""
   q_num <- suppressWarnings(as.numeric(q_raw))
   q_is_num <- !is.na(q_num)
@@ -51,34 +51,7 @@ render_ingredient_li <- function(ing) {
   uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
   nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
 
-  if (q_is_num) {
-    paste0(
-      "<li class=\"recipe-ingredient\">",
-      "<span class=\"ingredient-qte\" data-base=\"", q_num, "\">", q_label, "</span>",
-      if (nzchar(uni)) paste0(" <span class=\"ingredient-uni\">", uni, "</span>") else "",
-      if (nzchar(nom)) paste0(" <span class=\"ingredient-nom\">", nom, "</span>") else "",
-      "</li>"
-    )
-  } else {
-    paste0(
-      "<li class=\"recipe-ingredient\">",
-      if (nzchar(q_label)) q_label else "",
-      if (nzchar(uni)) paste0(" ", uni) else "",
-      if (nzchar(nom)) paste0(" ", nom) else "",
-      "</li>"
-    )
-  }
-}
-
-render_ingredient_inline <- function(ing) {
-  q_raw <- ing$qte %||% ""
-  q_num <- suppressWarnings(as.numeric(q_raw))
-  q_is_num <- !is.na(q_num)
-  q_label <- escape_html(fmt_number(q_raw))
-  uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
-  nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
-
-  if (q_is_num) {
+  content <- if (q_is_num) {
     paste0(
       "<span class=\"ingredient-qte\" data-base=\"", q_num, "\">", q_label, "</span>",
       if (nzchar(uni)) paste0(" <span class=\"ingredient-uni\">", uni, "</span>") else "",
@@ -91,6 +64,43 @@ render_ingredient_inline <- function(ing) {
       if (nzchar(nom)) paste0(" ", nom) else ""
     )
   }
+  paste0(
+    "<li class=\"recipe-ingredient\" data-list-kind=\"", list_kind, "\">",
+    "<label class=\"recipe-check-row\">",
+    "<input type=\"checkbox\" class=\"recipe-check recipe-ingredient-check\">",
+    "<span class=\"ingredient-label\">", content, "</span>",
+    "</label>",
+    "</li>"
+  )
+}
+
+render_ingredient_inline <- function(ing) {
+  q_raw <- ing$qte %||% ""
+  q_num <- suppressWarnings(as.numeric(q_raw))
+  q_is_num <- !is.na(q_num)
+  q_label <- escape_html(fmt_number(q_raw))
+  uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
+  nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
+
+  content <- if (q_is_num) {
+    paste0(
+      "<span class=\"ingredient-qte\" data-base=\"", q_num, "\">", q_label, "</span>",
+      if (nzchar(uni)) paste0(" <span class=\"ingredient-uni\">", uni, "</span>") else "",
+      if (nzchar(nom)) paste0(" <span class=\"ingredient-nom\">", nom, "</span>") else ""
+    )
+  } else {
+    paste0(
+      if (nzchar(q_label)) q_label else "",
+      if (nzchar(uni)) paste0(" ", uni) else "",
+      if (nzchar(nom)) paste0(" ", nom) else ""
+    )
+  }
+  paste0(
+    "<label class=\"recipe-check-row\">",
+    "<input type=\"checkbox\" class=\"recipe-check recipe-ingredient-check\">",
+    "<span class=\"ingredient-label\">", content, "</span>",
+    "</label>"
+  )
 }
 
 build_fact_box <- function(label, value) {
@@ -159,18 +169,6 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   if (!is.null(recipe$categories)) {
     cats <- unlist(recipe$categories, use.names = FALSE)
     lines <- c(lines, "categories:", paste0("  - ", cats))
-  }
-  keywords <- unique(c(
-    unlist(recipe$categories %||% list(), use.names = FALSE),
-    unlist(recipe$mots_cles %||% list(), use.names = FALSE),
-    recipe$difficulte %||% NULL,
-    recipe$cout %||% NULL,
-    unlist(recipe$allergenes %||% list(), use.names = FALSE)
-  ))
-  keywords <- as.character(keywords)
-  keywords <- keywords[nzchar(trimws(keywords))]
-  if (length(keywords) > 0) {
-    lines <- c(lines, "keywords:", paste0("  - ", keywords))
   }
   lines <- c(lines, "---", "")
 
@@ -299,6 +297,17 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   # ---- Ingredients (grouped by section) ----
   lines <- c(lines, "## Ingrédients", "")
+  lines <- c(
+    lines,
+    "```{=html}",
+    "<div class=\"recipe-grocery-actions\">",
+    "<button id=\"copy-grocery-list\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">📋 Générer la liste d'épicerie</button>",
+    "<button id=\"reset-recipe-checks\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">↺ Réinitialiser les cases</button>",
+    "<span id=\"grocery-copy-feedback\" class=\"text-muted small\"></span>",
+    "</div>",
+    "```",
+    ""
+  )
 
   for (section in recipe$preparation) {
     lines <- c(lines, paste0("### ", section$section), "")
@@ -314,8 +323,8 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         }
       }
     }
-    lines <- c(lines, "```{=html}", "<ul class=\"recipe-ingredients\">")
-    for (item in ing_list) lines <- c(lines, render_ingredient_li(item))
+    lines <- c(lines, "```{=html}", "<ul class=\"recipe-ingredients recipe-grocery-list\">")
+    for (item in ing_list) lines <- c(lines, render_ingredient_li(item, list_kind = "grocery"))
     lines <- c(lines, "</ul>", "```")
     lines <- c(lines, "")
   }
@@ -352,11 +361,11 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
       ing_html <- ""
       if (is.list(step$ingredients) && length(step$ingredients) > 0) {
-        ing_lines <- vapply(step$ingredients, render_ingredient_li, character(1))
+        ing_lines <- vapply(step$ingredients, function(x) render_ingredient_li(x, list_kind = "step"), character(1))
         ing_html <- paste0(
           "<div class=\"recipe-prep-ingredients\">",
           "<div class=\"recipe-prep-label\">Ingrédients</div>",
-          "<ul class=\"recipe-ingredients\">",
+          "<ul class=\"recipe-ingredients recipe-step-ingredients\">",
           paste(ing_lines, collapse = ""),
           "</ul>",
           "</div>"
@@ -389,7 +398,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
           "<article class=\"recipe-prep-step\">",
           ing_html,
           "<div class=\"recipe-prep-instruction\">",
-          "<div class=\"recipe-prep-stepno\">Étape ", i, "</div>",
+          "<div class=\"recipe-prep-stepno\"><label class=\"recipe-check-row\"><input type=\"checkbox\" class=\"recipe-check recipe-step-check\"><span>Étape ", i, "</span></label></div>",
           "<p>", step_text, "</p>",
           timer_html,
           img_html,
@@ -455,6 +464,22 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "const hide=()=>{if(timer){clearInterval(timer); timer=null;} if(dock) dock.classList.add('d-none');};",
     "document.addEventListener('click',(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){hide(); if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none');}},250);});",
     "if(stop) stop.addEventListener('click', hide);",
+    "})();</script>",
+    "```",
+    ""
+  )
+
+  lines <- c(
+    lines,
+    "```{=html}",
+    "<script>(function(){",
+    "const pageKey='recipe_check_state:'+window.location.pathname;",
+    "const save=()=>{const state={}; document.querySelectorAll('.recipe-check').forEach((cb,i)=>{state[i]=cb.checked?1:0;}); localStorage.setItem(pageKey, JSON.stringify(state));};",
+    "const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};",
+    "const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};",
+    "const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\\s+/g,' ').trim():li.innerText.replace(/\\s+/g,' ').trim();};",
+    "const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};",
+    "document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});",
     "})();</script>",
     "```",
     ""

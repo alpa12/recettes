@@ -18,10 +18,6 @@ exemple:
   categories:
     - Poulet
     - Rapide
-  mots_cles:
-    - facile
-    - semaine
-    - pasta
 
   temps:
     preparation: 20
@@ -111,13 +107,6 @@ _schema:
     categories:
       type: array
       title: Catégories
-      items:
-        type: string
-
-    mots_cles:
-      type: array
-      title: Mots-clés
-      description: Mots utiles pour la recherche (ex. rapide, végétarien, lunch).
       items:
         type: string
 

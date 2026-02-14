@@ -9,14 +9,6 @@ categories:
   - Saveurs d'automne
   - Fruits
   - Pommes
-keywords:
-  - Desserts
-  - Tartes
-  - Nos meilleures recettes
-  - Recettes en couverture
-  - Saveurs d'automne
-  - Fruits
-  - Pommes
 ---
 
 ```{=html}
@@ -54,17 +46,25 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 
 ## Ingrédients
 
+```{=html}
+<div class="recipe-grocery-actions">
+<button id="copy-grocery-list" type="button" class="btn btn-outline-secondary btn-sm">📋 Générer la liste d'épicerie</button>
+<button id="reset-recipe-checks" type="button" class="btn btn-outline-secondary btn-sm">↺ Réinitialiser les cases</button>
+<span id="grocery-copy-feedback" class="text-muted small"></span>
+</div>
+```
+
 ### Garniture aux pommes
 
 ```{=html}
-<ul class="recipe-ingredients">
+<ul class="recipe-ingredients recipe-grocery-list">
 </ul>
 ```
 
 ### Croûte
 
 ```{=html}
-<ul class="recipe-ingredients">
+<ul class="recipe-ingredients recipe-grocery-list">
 </ul>
 ```
 
@@ -82,7 +82,7 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 
 ```{=html}
 <div class="recipe-prep-grid">
-<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 1</div><p>Dans une grande poêle antiadhésive, fondre le beurre. Ajouter le sucre, bien mélanger et laisser cuire 1minute. Ajouter les pommes et la cannelle. Cuire à feu élevé en remuant régulièrement environ 10 minutes ou jusqu’à ce que les pommes McIntosh soient compotées, les Cortland fondantes et le sirop presque à sec. Verser dans un bol et laisser refroidir complètement.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="60">⏱️ 1min</button><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="600">⏱️ 10 min</button></div></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Dans une grande poêle antiadhésive, fondre le beurre. Ajouter le sucre, bien mélanger et laisser cuire 1minute. Ajouter les pommes et la cannelle. Cuire à feu élevé en remuant régulièrement environ 10 minutes ou jusqu’à ce que les pommes McIntosh soient compotées, les Cortland fondantes et le sirop presque à sec. Verser dans un bol et laisser refroidir complètement.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="60">⏱️ 1min</button><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="600">⏱️ 10 min</button></div></div></article>
 </div>
 ```
 
@@ -90,10 +90,10 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 
 ```{=html}
 <div class="recipe-prep-grid">
-<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 1</div><p>Au robot culinaire, mélanger la farine, le sel et le beurre jusqu’à ce que le beurre ait la grosseur de petits pois. Ajouter l’eau et le vinaigre. Mélanger de nouveau jusqu’à ce qu’une boule commence à se former. Retirer la pâte du robot. Former deux disques avec les mains. Envelopper de pellicule plastique et réfrigérer 30 minutes.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="1800">⏱️ 30 min</button></div></div></article>
-<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 2</div><p>Placer la grille dans le bas du four. Préchauffer le four à 220°C (425°F).</p></div></article>
-<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 3</div><p>Sur un plan de travail fariné, abaisser les deux disques de pâte. Foncer un moule à tarte de 23cm (9po) de diamètre sur 2,5cm (1po) de hauteur avec une abaisse. Y répartir la garniture aux pommes en formant un amoncellement au centre de la tarte. À l’aide d’un petit emporte-pièce rond ou d’une douille unie de 1 à 2 cm (1/2 à 3/4 po) de diamètre, faire 5trous dans la deuxième abaisse. Recouvrir la tarte de la deuxième abaisse. Bien sceller en écrasant le rebord avec les doigts ou à l’aide d’une fourchette. À l’aide d’un pinceau, badigeonner de lait.</p></div></article>
-<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno">Étape 4</div><p>Cuire au four environ 35 minutes ou jusqu’à ce que la croûte soit bien dorée. Laisser tiédir. La tarte se conserve 3 jours à la température ambiante.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="2100">⏱️ 35 min</button></div></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Au robot culinaire, mélanger la farine, le sel et le beurre jusqu’à ce que le beurre ait la grosseur de petits pois. Ajouter l’eau et le vinaigre. Mélanger de nouveau jusqu’à ce qu’une boule commence à se former. Retirer la pâte du robot. Former deux disques avec les mains. Envelopper de pellicule plastique et réfrigérer 30 minutes.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="1800">⏱️ 30 min</button></div></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 2</span></label></div><p>Placer la grille dans le bas du four. Préchauffer le four à 220°C (425°F).</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 3</span></label></div><p>Sur un plan de travail fariné, abaisser les deux disques de pâte. Foncer un moule à tarte de 23cm (9po) de diamètre sur 2,5cm (1po) de hauteur avec une abaisse. Y répartir la garniture aux pommes en formant un amoncellement au centre de la tarte. À l’aide d’un petit emporte-pièce rond ou d’une douille unie de 1 à 2 cm (1/2 à 3/4 po) de diamètre, faire 5trous dans la deuxième abaisse. Recouvrir la tarte de la deuxième abaisse. Bien sceller en écrasant le rebord avec les doigts ou à l’aide d’une fourchette. À l’aide d’un pinceau, badigeonner de lait.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 4</span></label></div><p>Cuire au four environ 35 minutes ou jusqu’à ce que la croûte soit bien dorée. Laisser tiédir. La tarte se conserve 3 jours à la température ambiante.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="2100">⏱️ 35 min</button></div></div></article>
 </div>
 ```
 
@@ -111,6 +111,18 @@ const dock=document.getElementById('recipe-timer-dock'); const rem=document.getE
 const hide=()=>{if(timer){clearInterval(timer); timer=null;} if(dock) dock.classList.add('d-none');};
 document.addEventListener('click',(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){hide(); if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none');}},250);});
 if(stop) stop.addEventListener('click', hide);
+})();</script>
+```
+
+```{=html}
+<script>(function(){
+const pageKey='recipe_check_state:'+window.location.pathname;
+const save=()=>{const state={}; document.querySelectorAll('.recipe-check').forEach((cb,i)=>{state[i]=cb.checked?1:0;}); localStorage.setItem(pageKey, JSON.stringify(state));};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};
+const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};
+const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\s+/g,' ').trim():li.innerText.replace(/\s+/g,' ').trim();};
+const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};
+document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});
 })();</script>
 ```
 
