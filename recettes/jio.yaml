@@ -1,0 +1,16 @@
+nom: jhio
+nom_court: jio
+source: jio
+portions: 432
+se_congele: false
+difficulte: null
+cout: null
+allergenes: []
+categories: []
+temps:
+  preparation: null
+  cuisson: null
+  refrigeration: null
+preparation: []
+commentaires: []
+image_guid: null
