@@ -22,7 +22,6 @@ h1, h2, h3, h4, h5 {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 }
 
-.quarto-listing-container-grid .g-col-1,
 .quarto-listing-container-grid .quarto-grid-item {
   border: 1px solid var(--site-border-soft);
   border-radius: 16px;
@@ -32,10 +31,16 @@ h1, h2, h3, h4, h5 {
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
-.quarto-listing-container-grid .g-col-1:hover,
 .quarto-listing-container-grid .quarto-grid-item:hover {
   transform: translateY(-4px);
   box-shadow: 0 18px 36px rgba(0, 0, 0, 0.14);
+}
+
+/* Keep outer grid wrappers neutral to avoid visual double borders in dark mode */
+.quarto-listing-container-grid .g-col-1 {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 .quarto-listing-container-grid .listing-title a {
