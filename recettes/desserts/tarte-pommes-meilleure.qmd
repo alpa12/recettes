@@ -19,7 +19,7 @@ categories:
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact recipe-fact-source"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/6435-tarte-aux-pommes-la-meilleure</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps</span><strong>Préparation: 45 min · Cuisson: 45 min · Réfrigération: 30 min</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact recipe-fact-source"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/6435-tarte-aux-pommes-la-meilleure</strong></div><div class="recipe-fact recipe-fact-compact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps</span><strong>Préparation: 45 min<br>Cuisson: 45 min<br>Réfrigération: 30 min</strong></div></div>
 ```
 
 ```{=html}

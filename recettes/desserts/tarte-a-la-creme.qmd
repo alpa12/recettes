@@ -14,7 +14,7 @@ categories:
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact recipe-fact-source"><span>Source</span><strong>Nathalie Rivard</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>Préparation: 30 min · Cuisson: 30 min · Réfrigération: 120 min</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact recipe-fact-source"><span>Source</span><strong>Nathalie Rivard</strong></div><div class="recipe-fact recipe-fact-compact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>Préparation: 30 min<br>Cuisson: 30 min<br>Réfrigération: 120 min</strong></div></div>
 ```
 
 ```{=html}

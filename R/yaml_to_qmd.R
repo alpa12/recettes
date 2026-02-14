@@ -141,7 +141,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
   if (!is.null(recipe$se_congele)) {
     txt <- if (isTRUE(recipe$se_congele)) "Oui" else "Non"
-    facts <- c(facts, paste0("<div class=\"recipe-fact\"><span>Se congèle</span><strong>", txt, "</strong></div>"))
+    facts <- c(facts, paste0("<div class=\"recipe-fact recipe-fact-compact\"><span>Se congèle</span><strong>", txt, "</strong></div>"))
   }
   t <- if (is.list(recipe$temps)) recipe$temps else list()
   prep <- if (!is.null(t$preparation) && nzchar(fmt_number(t$preparation))) paste0(fmt_number(t$preparation), " min") else "-"
@@ -151,9 +151,9 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     facts,
     paste0(
       "<div class=\"recipe-fact\"><span>Temps</span><strong>",
-      "Préparation: ", prep,
-      " · Cuisson: ", cook,
-      " · Réfrigération: ", cool,
+      "Préparation: ", prep, "<br>",
+      "Cuisson: ", cook, "<br>",
+      "Réfrigération: ", cool,
       "</strong></div>"
     )
   )
@@ -194,6 +194,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
       ""
     )
   }
+
 
   # ---- Ingredients (grouped by section) ----
   lines <- c(lines, "## Ingrédients", "")
