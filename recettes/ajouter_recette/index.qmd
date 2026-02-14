@@ -1505,6 +1505,51 @@ function autofillCommentDates(data) {
   });
 }
 
+function validateRecipeData(data) {
+  const issues = [];
+  const sections = Array.isArray(data?.preparation) ? data.preparation : [];
+
+  sections.forEach((section, si) => {
+    const sectionName = String(section?.section || "").trim();
+    if (!sectionName) {
+      issues.push(`Section ${si + 1}: nom de section manquant.`);
+    }
+
+    const steps = Array.isArray(section?.etapes) ? section.etapes : [];
+    if (steps.length === 0) {
+      issues.push(`${sectionName || `Section ${si + 1}`}: aucune étape.`);
+      return;
+    }
+
+    const seenIngredients = new Set();
+    steps.forEach((step, ti) => {
+      const stepText = String(step?.etape || "").trim();
+      if (!stepText) {
+        issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}: description vide.`);
+      }
+
+      const ingredients = Array.isArray(step?.ingredients) ? step.ingredients : [];
+      ingredients.forEach((ing, ii) => {
+        const name = String(ing?.nom || "").trim();
+        if (name) {
+          const key = name.toLowerCase();
+          if (seenIngredients.has(key)) {
+            issues.push(`${sectionName || `Section ${si + 1}`}: ingrédient dupliqué (« ${name} »).`);
+          } else {
+            seenIngredients.add(key);
+          }
+        }
+        const q = ing?.qte;
+        if (typeof q === "number" && Number.isFinite(q) && q < 0) {
+          issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: quantité négative.`);
+        }
+      });
+    });
+  });
+
+  return issues;
+}
+
 // ---------------------------
 //  Numeric strictness guard (blocks submit)
 // ---------------------------
@@ -1618,6 +1663,11 @@ async function handleSubmit(e) {
   try {
     const data = serializeToData(window.RECIPE_SCHEMA, form, []);
     autofillCommentDates(data);
+    const qualityIssues = validateRecipeData(data);
+    if (qualityIssues.length > 0) {
+      showError("Corrige les points suivants avant soumission :<br>- " + qualityIssues.join("<br>- "));
+      return;
+    }
     const yamlContent = jsyaml.dump(data, { indent: 2, lineWidth: -1 });
 
     const token = window.GITHUB_PAT;
