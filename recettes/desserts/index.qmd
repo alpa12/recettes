@@ -7,5 +7,3 @@ listing:
   fields: [title, image]
   categories: true
 ---
-
-Des douceurs maison: biscuits, tartes, brioches et autres classiques à partager.

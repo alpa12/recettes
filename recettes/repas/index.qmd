@@ -7,5 +7,3 @@ listing:
   fields: [title, image]
   categories: true
 ---
-
-Des repas complets pour la semaine, les soupers rapides et les occasions spéciales.

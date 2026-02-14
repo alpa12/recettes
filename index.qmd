@@ -7,14 +7,4 @@ listing:
   fields: [title, image]
 ---
 
-```{=html}
-<section class="hero-home">
-  <h1>Bienvenue dans notre livre de recettes</h1>
-  <p>Des repas pratiques, des desserts qui font plaisir, et des recettes testées à la maison.</p>
-  <p class="text-muted">Utilise la recherche dans la barre du haut pour trouver un ingrédient, une technique ou un plat.</p>
-</section>
-```
-
 ## Explorer par section
-
-Commence par la catégorie qui correspond à ton envie du moment.
