@@ -102,6 +102,26 @@ build_fact_box <- function(label, value) {
   )
 }
 
+extract_step_timers <- function(step_text) {
+  txt <- as.character(step_text %||% "")
+  if (!nzchar(txt)) return(list())
+  m <- gregexpr("(\\d+)\\s*(h|heure|heures|hr|hrs|min|minute|minutes)", txt, perl = TRUE, ignore.case = TRUE)
+  vals <- regmatches(txt, m)[[1]]
+  if (length(vals) == 1 && vals[1] == "-1") return(list())
+  out <- list()
+  for (v in vals) {
+    mm <- regexec("(\\d+)\\s*(h|heure|heures|hr|hrs|min|minute|minutes)", v, perl = TRUE, ignore.case = TRUE)
+    parts <- regmatches(v, mm)[[1]]
+    if (length(parts) < 3) next
+    n <- suppressWarnings(as.numeric(parts[2]))
+    u <- tolower(parts[3])
+    if (!is.finite(n)) next
+    sec <- if (u %in% c("h", "heure", "heures", "hr", "hrs")) n * 3600 else n * 60
+    if (sec > 0) out[[length(out) + 1]] <- list(label = trimws(v), seconds = as.integer(sec))
+  }
+  out
+}
+
 #' @importFrom yaml read_yaml
 #' @importFrom fs path_ext_set path_file path_rel
 #' @importFrom stringr str_trim str_to_lower
@@ -323,6 +343,14 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
           "</a>"
         )
       }
+      timers <- extract_step_timers(step$etape)
+      timer_html <- ""
+      if (length(timers) > 0) {
+        timer_buttons <- vapply(timers, function(t) {
+          paste0("<button type=\"button\" class=\"btn btn-outline-secondary btn-sm recipe-timer-btn\" data-seconds=\"", t$seconds, "\">⏱️ ", escape_html(t$label), "</button>")
+        }, character(1))
+        timer_html <- paste0("<div class=\"recipe-step-timers\">", paste(timer_buttons, collapse = ""), "</div>")
+      }
 
       lines <- c(
         lines,
@@ -332,6 +360,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
           "<div class=\"recipe-prep-instruction\">",
           "<div class=\"recipe-prep-stepno\">Étape ", i, "</div>",
           "<p>", step_text, "</p>",
+          timer_html,
           img_html,
           "</div>",
           "</article>"
@@ -382,6 +411,23 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
       ""
     )
   }
+
+  lines <- c(
+    lines,
+    "```{=html}",
+    "<div id=\"recipe-timer-dock\" class=\"recipe-timer-dock d-none\"><strong>Minuteur</strong> <span id=\"recipe-timer-label\"></span> <span id=\"recipe-timer-remaining\"></span> <button id=\"recipe-timer-stop\" class=\"btn btn-sm btn-outline-light\" type=\"button\">Arrêter</button></div>",
+    "<script>(function(){",
+    "let timer=null, target=0;",
+    "const pad=(n)=>String(n).padStart(2,'0');",
+    "const fmt=(s)=>{const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60; return h>0?`${h}:${pad(m)}:${pad(sec)}`:`${m}:${pad(sec)}`;};",
+    "const dock=document.getElementById('recipe-timer-dock'); const rem=document.getElementById('recipe-timer-remaining'); const lab=document.getElementById('recipe-timer-label'); const stop=document.getElementById('recipe-timer-stop');",
+    "const hide=()=>{if(timer){clearInterval(timer); timer=null;} if(dock) dock.classList.add('d-none');};",
+    "document.addEventListener('click',(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){hide(); if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none');}},250);});",
+    "if(stop) stop.addEventListener('click', hide);",
+    "})();</script>",
+    "```",
+    ""
+  )
 
   # ---- Comments / Notes ----
   comments_norm <- normalize_comments(recipe$commentaires)
