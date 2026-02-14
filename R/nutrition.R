@@ -306,8 +306,11 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
       paste0(
         "<tr>",
         "<th scope=\"row\">", escape_html_local(label), "</th>",
-        "<td>", nutrition_value_with_unit(total_val, unit, dec), "</td>",
-        "<td class=\"recipe-nutrition-per-portion\" data-total=\"", format(total_val, scientific = FALSE),
+        "<td class=\"recipe-nutrition-total\" data-base-total=\"", format(total_val, scientific = FALSE),
+        "\" data-decimals=\"", dec, "\" data-unit=\"", escape_html_local(unit), "\">",
+        nutrition_value_with_unit(total_val, unit, dec),
+        "</td>",
+        "<td class=\"recipe-nutrition-per-portion\" data-base-total=\"", format(total_val, scientific = FALSE),
         "\" data-decimals=\"", dec, "\" data-unit=\"", escape_html_local(unit), "\">",
         nutrition_value_with_unit(per_val, unit, dec),
         "</td>",
