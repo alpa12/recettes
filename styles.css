@@ -77,13 +77,26 @@ main.content {
 }
 
 .recipe-facts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.7rem;
   margin-bottom: 1.15rem;
+  overflow: visible;
+  padding-bottom: 0;
+}
+
+.recipe-facts-grid > .recipe-fact {
+  flex: 1 1 120px;
+  min-width: 120px;
 }
 
 .recipe-fact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 96px;
   border: 1px solid var(--site-border-soft);
   border-radius: 14px;
   padding: 0.65rem 0.8rem;
@@ -104,11 +117,6 @@ main.content {
   font-size: 1.03rem;
   overflow-wrap: anywhere;
   word-break: break-word;
-}
-
-.recipe-fact-compact {
-  width: fit-content;
-  min-width: 140px;
 }
 
 .recipe-servings-control {

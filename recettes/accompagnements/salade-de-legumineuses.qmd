@@ -14,7 +14,7 @@ categories:
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact recipe-fact-source"><span>Source</span><strong>André Parent</strong></div><div class="recipe-fact recipe-fact-compact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>Préparation: 20 min<br>Cuisson: -<br>Réfrigération: -</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>André Parent</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>-</strong></div></div>
 ```
 
 ```{=html}

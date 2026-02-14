@@ -19,7 +19,7 @@ categories:
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact recipe-fact-source"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/10686-tofu-caramelise-a-l-erable</strong></div><div class="recipe-fact recipe-fact-compact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>Préparation: 20 min<br>Cuisson: 12 min<br>Réfrigération: -</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>12 min</strong></div></div>
 ```
 
 ```{=html}

@@ -14,7 +14,7 @@ categories:
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact recipe-fact-source"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/5038-brioches-a-la-cannelle-et-a-la-pomme-de-terre-</strong></div><div class="recipe-fact recipe-fact-compact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps</span><strong>Préparation: 30 min<br>Cuisson: 30 min<br>Réfrigération: 110 min</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>30 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>30 min</strong></div><div class="recipe-fact"><span>Temps réfrigération</span><strong>110 min</strong></div></div>
 ```
 
 ```{=html}

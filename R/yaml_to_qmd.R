@@ -93,6 +93,15 @@ render_ingredient_inline <- function(ing) {
   }
 }
 
+build_fact_box <- function(label, value) {
+  paste0(
+    "<div class=\"recipe-fact\">",
+    "<span>", escape_html(label), "</span>",
+    "<strong>", escape_html(value), "</strong>",
+    "</div>"
+  )
+}
+
 #' @importFrom yaml read_yaml
 #' @importFrom fs path_ext_set path_file path_rel
 #' @importFrom stringr str_trim str_to_lower
@@ -137,26 +146,21 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   # ---- Quick facts and tools ----
   facts <- character()
   if (!is.null(recipe$source) && nzchar(as.character(recipe$source))) {
-    facts <- c(facts, paste0("<div class=\"recipe-fact recipe-fact-source\"><span>Source</span><strong>", escape_html(recipe$source), "</strong></div>"))
+    facts <- c(facts, build_fact_box("Source", recipe$source))
   }
   if (!is.null(recipe$se_congele)) {
     txt <- if (isTRUE(recipe$se_congele)) "Oui" else "Non"
-    facts <- c(facts, paste0("<div class=\"recipe-fact recipe-fact-compact\"><span>Se congèle</span><strong>", txt, "</strong></div>"))
+    facts <- c(facts, build_fact_box("Se congèle", txt))
   }
   t <- if (is.list(recipe$temps)) recipe$temps else list()
   prep <- if (!is.null(t$preparation) && nzchar(fmt_number(t$preparation))) paste0(fmt_number(t$preparation), " min") else "-"
   cook <- if (!is.null(t$cuisson) && nzchar(fmt_number(t$cuisson))) paste0(fmt_number(t$cuisson), " min") else "-"
-  cool <- if (!is.null(t$refrigeration) && nzchar(fmt_number(t$refrigeration))) paste0(fmt_number(t$refrigeration), " min") else "-"
-  facts <- c(
-    facts,
-    paste0(
-      "<div class=\"recipe-fact\"><span>Temps</span><strong>",
-      "Préparation: ", prep, "<br>",
-      "Cuisson: ", cook, "<br>",
-      "Réfrigération: ", cool,
-      "</strong></div>"
-    )
-  )
+  facts <- c(facts, build_fact_box("Temps préparation", prep))
+  facts <- c(facts, build_fact_box("Temps cuisson", cook))
+  if (!is.null(t$refrigeration) && nzchar(fmt_number(t$refrigeration))) {
+    cool <- paste0(fmt_number(t$refrigeration), " min")
+    facts <- c(facts, build_fact_box("Temps réfrigération", cool))
+  }
 
   lines <- c(
     lines,
