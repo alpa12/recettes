@@ -9,6 +9,11 @@ exemple:
   source: Ricardo
   portions: 4
   se_congele: true
+  difficulte: Facile
+  cout: $
+  allergenes:
+    - Lait
+    - Gluten
 
   categories:
     - Poulet
@@ -23,6 +28,7 @@ exemple:
     - section: Sauce
       etapes:
         - etape: Mélanger les ingrédients.
+          image_guid: null
           ingredients:
             - nom: Crème
               qte: 1
@@ -80,6 +86,24 @@ _schema:
       title: Se congèle
       description: Est-ce que la recette peut être congelée ?
 
+    difficulte:
+      type: string
+      title: Difficulté
+      enum: [Facile, Intermédiaire, Avancé]
+      nullable: true
+
+    cout:
+      type: string
+      title: Coût
+      enum: ["$", "$$", "$$$"]
+      nullable: true
+
+    allergenes:
+      type: array
+      title: Allergènes
+      items:
+        type: string
+
     categories:
       type: array
       title: Catégories
@@ -115,6 +139,11 @@ _schema:
               properties:
                 etape:
                   type: string
+                image_guid:
+                  type: string
+                  title: Image de l'étape
+                  description: Téléverse une image JPG (elle sera renommée automatiquement).
+                  nullable: true
                 ingredients:
                   type: array
                   items:

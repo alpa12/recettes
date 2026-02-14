@@ -6,27 +6,74 @@ categories:
   - Légumineuses
 ---
 
-[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Faccompagnements%2Fsalade-de-legumineuses.yaml){.btn .btn-outline-primary .btn-sm}
+```{=html}
+<div class="recipe-toolbar">
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Faccompagnements%2Fsalade-de-legumineuses.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
+<div class="recipe-toolbar-actions">
+<button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisson</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>André Parent</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>-</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="8" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 8</span></div></div>
+```
+
+```{=html}
+<script>(function(){
+const key='recipe_reading_mode';
+let wakeLock=null;
+const apply=(on)=>{document.body.classList.toggle('reading-mode', on);};
+const requestWake=async()=>{try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');}}catch(e){}};
+const releaseWake=async()=>{try{if(wakeLock){await wakeLock.release(); wakeLock=null;}}catch(e){}};
+document.addEventListener('DOMContentLoaded', ()=>{
+const btn=document.getElementById('recipe-reading-mode');
+const saved=localStorage.getItem(key)==='1'; apply(saved); if(saved) requestWake();
+if(!btn) return;
+const refresh=()=>{btn.classList.toggle('active', document.body.classList.contains('reading-mode'));}; refresh();
+btn.addEventListener('click', async()=>{const next=!document.body.classList.contains('reading-mode'); apply(next); localStorage.setItem(key, next?'1':'0'); refresh(); if(next){await requestWake();} else {await releaseWake();}});
+});
+})();</script>
+```
 
 ## Ingrédients
 
+```{=html}
+<div class="recipe-grocery-actions">
+<button id="copy-grocery-list" type="button" class="btn btn-outline-secondary btn-sm">📋 Générer la liste d'épicerie</button>
+<button id="reset-recipe-checks" type="button" class="btn btn-outline-secondary btn-sm">↺ Réinitialiser les cases</button>
+<span id="grocery-copy-feedback" class="text-muted small"></span>
+</div>
+```
+
 ### Salade
 
-- 19 onces Pois chiches
-- 19 onces Fèves rouges
-- 19 onces Fèves mélangées
-- 5 gousses Ail
-- 1 unité Échalottes
-- 3 unités Poivron
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Pois chiches</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Fèves rouges</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Fèves mélangées</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="5">5</span> <span class="ingredient-uni">gousses</span> <span class="ingredient-nom">Ail</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Échalottes</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="3">3</span> <span class="ingredient-uni">unités</span> <span class="ingredient-nom">Poivron</span></span></label></li>
+</ul>
+```
 
 ### Vinaigrette
 
-- 0.5 tasse Sucre
-- 0.25 tasse Huile d'olive
-- 0.33 tasse Vinaigre de vin rouge
-- 1 c. à thé Persil
-- 1 c. à thé Basilic
-- 1 c. à thé Origan
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Sucre</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="0.25">0.25</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Huile d'olive</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="0.33">0.33</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Vinaigre de vin rouge</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Persil</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Basilic</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Origan</span></span></label></li>
+</ul>
+```
 
 ## Équipements
 
@@ -44,11 +91,48 @@ categories:
 
 ### Salade
 
-1. Mélanger tous les ingrédients de la salade.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Pois chiches</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Fèves rouges</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="19">19</span> <span class="ingredient-uni">onces</span> <span class="ingredient-nom">Fèves mélangées</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="5">5</span> <span class="ingredient-uni">gousses</span> <span class="ingredient-nom">Ail</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Échalottes</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="3">3</span> <span class="ingredient-uni">unités</span> <span class="ingredient-nom">Poivron</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Mélanger tous les ingrédients de la salade.</p></div></article>
+</div>
+```
 
 ### Vinaigrette
 
-1. Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Sucre</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="0.25">0.25</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Huile d'olive</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="0.33">0.33</span> <span class="ingredient-uni">tasse</span> <span class="ingredient-nom">Vinaigre de vin rouge</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Persil</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Basilic</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à thé</span> <span class="ingredient-nom">Origan</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.</p></div></article>
+</div>
+```
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=8;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
+
+```{=html}
+<div id="recipe-timer-dock" class="recipe-timer-dock d-none"><strong>Minuteur</strong> <span id="recipe-timer-label"></span> <span id="recipe-timer-remaining"></span> <button id="recipe-timer-stop" class="btn btn-sm btn-outline-light" type="button">Arrêter</button></div>
+<script>(function(){
+let timer=null, target=0;
+const pad=(n)=>String(n).padStart(2,'0');
+const fmt=(s)=>{const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60; return h>0?`${h}:${pad(m)}:${pad(sec)}`:`${m}:${pad(sec)}`;};
+const dock=document.getElementById('recipe-timer-dock'); const rem=document.getElementById('recipe-timer-remaining'); const lab=document.getElementById('recipe-timer-label'); const stop=document.getElementById('recipe-timer-stop');
+const hide=()=>{if(timer){clearInterval(timer); timer=null;} if(dock) dock.classList.add('d-none');};
+document.addEventListener('click',(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){hide(); if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none');}},250);});
+if(stop) stop.addEventListener('click', hide);
+})();</script>
+```
+
+```{=html}
+<script>(function(){
+const pageKey='recipe_check_state:'+window.location.pathname;
+const save=()=>{const state={}; document.querySelectorAll('.recipe-check').forEach((cb,i)=>{state[i]=cb.checked?1:0;}); localStorage.setItem(pageKey, JSON.stringify(state));};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};
+const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};
+const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\s+/g,' ').trim():li.innerText.replace(/\s+/g,' ').trim();};
+const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};
+document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});
+})();</script>
+```
 
 ## Notes
 

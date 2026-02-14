@@ -1,6 +1,6 @@
 nom: Biscuits au chocolat chaud
 nom_court: Biscuit chocolat chaud
-source: Nathalie R
+source: Nathalie
 portions: 12
 se_congele: false
 categories:
@@ -57,10 +57,7 @@ preparation:
     equipements:
     - Spatule
   - etape: Cuire au four 6 minutes à 375°F.
-    ingredients:
-    - nom: Pâte à biscuits
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Four
   - etape: Ajouter les miniguimauves et reprendre la cuisson 6 à 8 minutes.

@@ -3,7 +3,8 @@ title: "Nos Recettes"
 listing:
   contents:
     - "recettes/*/index.qmd"
-    - "autres_pages/ajouter_recette.qmd"
   type: grid
   fields: [title, image]
 ---
+
+## Explorer par section

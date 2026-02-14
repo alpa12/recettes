@@ -45,6 +45,20 @@ cat(paste0(
 </div>
 ```
 
+```{=html}
+<div class="card mb-3" id="draft-tools-card">
+  <div class="card-body py-2">
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+      <div id="draft-status" class="small text-muted">Brouillon: non enregistré</div>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="save-draft-btn">Enregistrer le brouillon</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" id="clear-draft-btn">Effacer le brouillon</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
 
 <div id="recipe-form-container"></div>
 
@@ -182,10 +196,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
+    if (!yamlPath) {
+      const draft = loadDraftData();
+      if (draft && typeof draft === "object") {
+        data = draft;
+        setDraftStatus("Brouillon chargé automatiquement.");
+      }
+    }
+
     const form = renderFromData(schema, data, document.getElementById("recipe-form-container"));
     setupPasswordGateForManualForm(form);
     setupPasswordGateForUrlForm();
     setupUrlImportForm();
+    setupDraftAutosave(form, schema, { isEditMode: !!yamlPath });
   } catch (e) {
     showError(e?.message || "Erreur au chargement du formulaire.");
   }
@@ -223,12 +246,14 @@ function escapeHtml(s) {
     .replace(/'/g, "&#039;");
 }
 
+const DRAFT_KEY = "recipe_form_draft_v2";
+
 // ---------------------------
-//  Image upload (cover)
+//  Image upload (cover + steps)
 //  - We store images in /images/<guid>.jpg in the repo
 //  - YAML stores only image_guid
 // ---------------------------
-window.__PENDING_IMAGE__ = null; // { guid, base64 } or null
+window.__PENDING_IMAGES__ = {}; // { [guid]: { base64 } }
 
 function newGuid() {
   if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
@@ -516,11 +541,6 @@ async function handleUrlSubmit(e) {
 
     const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
-    // 1) Upload cover image to the SAME branch before writing YAML/creating PR.
-    // If upload fails, we stop here and DO NOT create the PR.
-    await uploadPendingCoverImage({ owner, repo, headers, branchName });
-
-
     const payload = {
       url: url,
       submitted_by: submittedBy,
@@ -611,14 +631,75 @@ function clearMessages() {
   error.innerHTML = "";
 }
 
+function setDraftStatus(text) {
+  const el = document.getElementById("draft-status");
+  if (el) el.textContent = text;
+}
+
+function loadDraftData() {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && parsed.data ? parsed.data : null;
+  } catch {
+    return null;
+  }
+}
+
+function setupDraftAutosave(form, schema, { isEditMode = false } = {}) {
+  const saveBtn = document.getElementById("save-draft-btn");
+  const clearBtn = document.getElementById("clear-draft-btn");
+  const card = document.getElementById("draft-tools-card");
+
+  if (isEditMode) {
+    if (card) card.classList.add("d-none");
+    return;
+  }
+
+  const saveNow = () => {
+    try {
+      const payload = {
+        updated_at: new Date().toISOString(),
+        data: serializeToData(schema, form, [])
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(payload));
+      const stamp = new Date(payload.updated_at).toLocaleTimeString();
+      setDraftStatus(`Brouillon enregistré à ${stamp}`);
+    } catch {
+      setDraftStatus("Erreur lors de l'enregistrement du brouillon.");
+    }
+  };
+
+  let timer = null;
+  const queueSave = () => {
+    if (timer) window.clearTimeout(timer);
+    timer = window.setTimeout(saveNow, 700);
+  };
+
+  form.addEventListener("input", queueSave);
+  form.addEventListener("change", queueSave);
+  saveBtn?.addEventListener("click", saveNow);
+  clearBtn?.addEventListener("click", () => {
+    localStorage.removeItem(DRAFT_KEY);
+    setDraftStatus("Brouillon effacé.");
+  });
+}
+
 function resetForm(form) {
   form.reset();
   form.classList.remove("was-validated");
   form.querySelectorAll("[data-array-list]").forEach((list) => (list.innerHTML = ""));
+  localStorage.removeItem(DRAFT_KEY);
+  setDraftStatus("Brouillon effacé.");
 
-  // Clear pending cover image state + previews
-  window.__PENDING_IMAGE__ = null;
-  form.querySelectorAll("img.qrf-cover-preview").forEach((img) => {
+  // Clear pending image state + previews
+  window.__PENDING_IMAGES__ = {};
+  form.querySelectorAll("img.qrf-image-preview").forEach((img) => {
+    if (img.dataset && img.dataset.blobUrl) {
+      try { URL.revokeObjectURL(img.dataset.blobUrl); } catch (e) {}
+      delete img.dataset.blobUrl;
+    }
     img.style.display = "none";
     img.removeAttribute("src");
   });
@@ -1007,7 +1088,7 @@ function renderPrimitive(schema, value, path, dense=false) {
   label.textContent = schema.title || key;
   div.appendChild(label);
 
-  // Special: image cover upload (image_guid)
+  // Special: image upload (image_guid) for cover + preparation steps
   if (String(path[path.length - 1] || "") === "image_guid") {
     // Hidden input stores the guid in the YAML
     const hidden = document.createElement("input");
@@ -1026,7 +1107,6 @@ function renderPrimitive(schema, value, path, dense=false) {
     file.type = "file";
     file.accept = "image/jpeg";
     file.className = "form-control";
-    file.id = "cover-image-file";
     left.appendChild(file);
 
     const help = document.createElement("div");
@@ -1038,7 +1118,7 @@ function renderPrimitive(schema, value, path, dense=false) {
     right.className = "d-flex gap-2";
 
     const preview = document.createElement("img");
-    preview.id = "cover-image-preview";
+    preview.className = "qrf-image-preview";
     preview.style.maxHeight = "80px";
     preview.style.borderRadius = ".5rem";
     preview.style.display = "none";
@@ -1051,11 +1131,16 @@ function renderPrimitive(schema, value, path, dense=false) {
     clearBtn.textContent = "Retirer l'image";
     clearBtn.onclick = () => {
       file.value = "";
+      if (hidden.value && window.__PENDING_IMAGES__[hidden.value]) {
+        delete window.__PENDING_IMAGES__[hidden.value];
+      }
+      if (preview.dataset && preview.dataset.blobUrl) {
+        try { URL.revokeObjectURL(preview.dataset.blobUrl); } catch (e) {}
+        delete preview.dataset.blobUrl;
+      }
       preview.style.display = "none";
       preview.removeAttribute("src");
-      // If we are editing, keep existing guid unless user explicitly clears
       hidden.value = "";
-      window.__PENDING_IMAGE__ = null;
     };
     right.appendChild(clearBtn);
 
@@ -1072,12 +1157,17 @@ function renderPrimitive(schema, value, path, dense=false) {
       const f = file.files && file.files[0] ? file.files[0] : null;
       if (!f) return;
 
-      // Validate type + size early (GitHub Contents API is not meant for large binaries)
       const isJpeg = (f.type === "image/jpeg" || f.name.toLowerCase().endsWith(".jpg") || f.name.toLowerCase().endsWith(".jpeg"));
       if (!isJpeg) {
         file.value = "";
-        window.__PENDING_IMAGE__ = null;
+        if (hidden.value && window.__PENDING_IMAGES__[hidden.value]) {
+          delete window.__PENDING_IMAGES__[hidden.value];
+        }
         hidden.value = "";
+        if (preview.dataset && preview.dataset.blobUrl) {
+          try { URL.revokeObjectURL(preview.dataset.blobUrl); } catch (e) {}
+          delete preview.dataset.blobUrl;
+        }
         preview.style.display = "none";
         preview.removeAttribute("src");
         alert("Merci de choisir un fichier JPG/JPEG.");
@@ -1087,24 +1177,26 @@ function renderPrimitive(schema, value, path, dense=false) {
       const MAX_BYTES = 900000; // target size after compression (~0.9MB)
 
       try {
-        // Always compress/resize client-side to keep PRs light and to avoid Contents API issues.
-        if (typeof window.compressJpegFile !== 'function') {
-        throw new Error("compressJpegFile n'est pas chargé (script non exécuté ou scope). Vérifie l'ordre des <script>.");
-      }
-      const result = await window.compressJpegFile(f, {
+        if (typeof window.compressJpegFile !== "function") {
+          throw new Error("compressJpegFile n'est pas chargé (script non exécuté ou scope). Vérifie l'ordre des <script>.");
+        }
+        const result = await window.compressJpegFile(f, {
           maxWidth: 1600,
           maxHeight: 1600,
           quality: 0.82,
           maxBytes: MAX_BYTES
         });
 
+        if (hidden.value && window.__PENDING_IMAGES__[hidden.value]) {
+          delete window.__PENDING_IMAGES__[hidden.value];
+        }
         const guid = newGuid();
-        window.__PENDING_IMAGE__ = { guid, base64: result.base64 };
+        window.__PENDING_IMAGES__[guid] = { base64: result.base64 };
         hidden.value = guid;
 
-        // preview compressed blob
         if (preview.dataset && preview.dataset.blobUrl) {
           try { URL.revokeObjectURL(preview.dataset.blobUrl); } catch (e) {}
+          delete preview.dataset.blobUrl;
         }
         const url = URL.createObjectURL(result.blob);
         if (preview.dataset) preview.dataset.blobUrl = url;
@@ -1112,8 +1204,14 @@ function renderPrimitive(schema, value, path, dense=false) {
         preview.style.display = "block";
       } catch (err) {
         file.value = "";
-        window.__PENDING_IMAGE__ = null;
+        if (hidden.value && window.__PENDING_IMAGES__[hidden.value]) {
+          delete window.__PENDING_IMAGES__[hidden.value];
+        }
         hidden.value = "";
+        if (preview.dataset && preview.dataset.blobUrl) {
+          try { URL.revokeObjectURL(preview.dataset.blobUrl); } catch (e) {}
+          delete preview.dataset.blobUrl;
+        }
         preview.style.display = "none";
         preview.removeAttribute("src");
         alert(err && err.message ? err.message : "Échec de compression de l'image.");
@@ -1407,6 +1505,51 @@ function autofillCommentDates(data) {
   });
 }
 
+function validateRecipeData(data) {
+  const issues = [];
+  const sections = Array.isArray(data?.preparation) ? data.preparation : [];
+
+  sections.forEach((section, si) => {
+    const sectionName = String(section?.section || "").trim();
+    if (!sectionName) {
+      issues.push(`Section ${si + 1}: nom de section manquant.`);
+    }
+
+    const steps = Array.isArray(section?.etapes) ? section.etapes : [];
+    if (steps.length === 0) {
+      issues.push(`${sectionName || `Section ${si + 1}`}: aucune étape.`);
+      return;
+    }
+
+    const seenIngredients = new Set();
+    steps.forEach((step, ti) => {
+      const stepText = String(step?.etape || "").trim();
+      if (!stepText) {
+        issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}: description vide.`);
+      }
+
+      const ingredients = Array.isArray(step?.ingredients) ? step.ingredients : [];
+      ingredients.forEach((ing, ii) => {
+        const name = String(ing?.nom || "").trim();
+        if (name) {
+          const key = name.toLowerCase();
+          if (seenIngredients.has(key)) {
+            issues.push(`${sectionName || `Section ${si + 1}`}: ingrédient dupliqué (« ${name} »).`);
+          } else {
+            seenIngredients.add(key);
+          }
+        }
+        const q = ing?.qte;
+        if (typeof q === "number" && Number.isFinite(q) && q < 0) {
+          issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: quantité négative.`);
+        }
+      });
+    });
+  });
+
+  return issues;
+}
+
 // ---------------------------
 //  Numeric strictness guard (blocks submit)
 // ---------------------------
@@ -1452,50 +1595,47 @@ async function createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBra
 
 
 // ---------------------------
-//  GitHub: upload cover image (binary) to /images/<guid>.jpg
+//  GitHub: upload pending images (binary) to /images/<guid>.jpg
 //  IMPORTANT: GitHub Contents API expects "content" = base64 of raw bytes.
-//  Our fileToBase64() already returns that base64 (no data: prefix).
 // ---------------------------
-async function uploadPendingCoverImage({ owner, repo, headers, branchName }) {
-  const pending = window.__PENDING_IMAGE__;
-  if (!pending) return null;
+async function uploadPendingImages({ owner, repo, headers, branchName }) {
+  const entries = Object.entries(window.__PENDING_IMAGES__ || {});
+  if (entries.length === 0) return [];
 
-  const guid = pending.guid;
-  const base64Raw = pending.base64;
+  const uploaded = [];
+  for (const [guid, pending] of entries) {
+    const base64Raw = pending && pending.base64 ? pending.base64 : null;
 
-  if (!guid) throw new Error("Image: GUID manquant.");
-  if (!base64Raw || typeof base64Raw !== "string") {
-    throw new Error("Image: encodage base64 impossible (contenu vide).");
+    if (!guid) throw new Error("Image: GUID manquant.");
+    if (!base64Raw || typeof base64Raw !== "string") {
+      throw new Error("Image: encodage base64 impossible (contenu vide).");
+    }
+    if (base64Raw.startsWith("data:")) {
+      throw new Error("Image: encodage invalide (préfixe data: détecté).");
+    }
+
+    const filePath = `images/${guid}.jpg`;
+    const existingSha = await getFileSha({ owner, repo, headers, filePath, branch: branchName });
+
+    const putBody = {
+      message: `Ajout image recette ${guid}`,
+      content: base64Raw,
+      branch: branchName
+    };
+    if (existingSha) putBody.sha = existingSha;
+
+    const resp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+      { method: "PUT", headers, body: JSON.stringify(putBody) }
+    );
+    const data = await safeJson(resp);
+    if (!resp.ok) {
+      const msg = data?.message || `Impossible d'uploader l'image (status ${resp.status}).`;
+      throw new Error(msg);
+    }
+    uploaded.push({ guid, path: `/${filePath}` });
   }
-  // sanity: reject accidental data URL prefix
-  if (base64Raw.startsWith("data:")) {
-    throw new Error("Image: encodage invalide (préfixe data: détecté).");
-  }
-
-  const filePath = `images/${guid}.jpg`;
-
-  // If file already exists in this branch, GitHub requires sha to update
-  const existingSha = await getFileSha({ owner, repo, headers, filePath, branch: branchName });
-
-  const putBody = {
-    message: `Ajout image couverture ${guid}`,
-    content: base64Raw,
-    branch: branchName
-  };
-  if (existingSha) putBody.sha = existingSha;
-
-  const resp = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
-    { method: "PUT", headers, body: JSON.stringify(putBody) }
-  );
-  const data = await safeJson(resp);
-  if (!resp.ok) {
-    const msg = data?.message || `Impossible d'uploader l'image (status ${resp.status}).`;
-    throw new Error(msg);
-  }
-
-  // success: image is now committed in the branch
-  return { guid, path: `/${filePath}` };
+  return uploaded;
 }
 // ---------------------------
 //  Submit handler (create or edit) — behavior preserved
@@ -1523,6 +1663,11 @@ async function handleSubmit(e) {
   try {
     const data = serializeToData(window.RECIPE_SCHEMA, form, []);
     autofillCommentDates(data);
+    const qualityIssues = validateRecipeData(data);
+    if (qualityIssues.length > 0) {
+      showError("Corrige les points suivants avant soumission :<br>- " + qualityIssues.join("<br>- "));
+      return;
+    }
     const yamlContent = jsyaml.dump(data, { indent: 2, lineWidth: -1 });
 
     const token = window.GITHUB_PAT;
@@ -1552,8 +1697,8 @@ async function handleSubmit(e) {
 
     const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
-    // Upload cover image (if selected) to the same branch before creating the PR.
-    await uploadPendingCoverImage({ owner, repo, headers, branchName });
+    // Upload all selected images (cover + steps) to the same branch before creating the PR.
+    await uploadPendingImages({ owner, repo, headers, branchName });
 
     const existingSha = await getFileSha({ owner, repo, headers, filePath, branch: branchName });
 

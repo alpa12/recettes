@@ -62,19 +62,13 @@ preparation:
     - Batteur électrique
     - Bol
   - etape: Étendre la meringue sur la crème pâtissière.
-    ingredients:
-    - nom: Meringue
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Spatule
 - section: Finale
   etapes:
   - etape: Cuire au four 350°F environ 5 minutes jusqu’à ce que la meringue brunisse, puis réfrigérer au moins 2 heures.
-    ingredients:
-    - nom: Tarte montée
-      qte: 1
-      uni: lot
+    ingredients: []
     equipements:
     - Four
 commentaires:

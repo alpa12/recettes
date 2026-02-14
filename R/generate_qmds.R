@@ -1,6 +1,59 @@
 source("R/yaml_to_qmd.R")
 
 recettes_dir <- here::here("recettes")
+images_dir <- here::here("images")
+thumbs_dir <- fs::path(images_dir, "thumbs")
+
+extract_image_guids <- function(recipe) {
+  out <- character()
+  if (!is.null(recipe$image_guid) && nzchar(as.character(recipe$image_guid))) {
+    out <- c(out, as.character(recipe$image_guid))
+  }
+  prep <- recipe$preparation
+  if (is.list(prep)) {
+    for (section in prep) {
+      steps <- section$etapes
+      if (!is.list(steps)) next
+      for (step in steps) {
+        if (!is.null(step$image_guid) && nzchar(as.character(step$image_guid))) {
+          out <- c(out, as.character(step$image_guid))
+        }
+      }
+    }
+  }
+  unique(out)
+}
+
+generate_thumbnails <- function(yaml_files) {
+  if (!requireNamespace("magick", quietly = TRUE)) {
+    cli::cli_alert_info("Package {.code magick} non installé: miniatures non générées.")
+    return(invisible(0))
+  }
+  fs::dir_create(thumbs_dir, recurse = TRUE)
+  made <- 0L
+  seen <- character()
+
+  for (yaml in yaml_files) {
+    recipe <- yaml::read_yaml(yaml)
+    guids <- extract_image_guids(recipe)
+    for (g in guids) {
+      if (g %in% seen) next
+      seen <- c(seen, g)
+      src <- fs::path(images_dir, paste0(g, ".jpg"))
+      dst <- fs::path(thumbs_dir, paste0(g, ".jpg"))
+      if (!file.exists(src)) next
+      if (file.exists(dst) && file.info(dst)$mtime >= file.info(src)$mtime) next
+      img <- magick::image_read(src)
+      img <- magick::image_resize(img, "1200x1200>")
+      img <- magick::image_strip(img)
+      magick::image_write(img, path = dst, format = "jpeg", quality = 72)
+      made <- made + 1L
+    }
+  }
+
+  cli::cli_alert_info(glue::glue("Miniatures générées/mises à jour : {made}"))
+  invisible(made)
+}
 
 cli::cli_h1("Génération des fichiers QMD")
 
@@ -16,6 +69,8 @@ yaml_files <- yaml_files[
 ]
 
 cli::cli_alert_info(glue::glue("Recettes YAML détectées : {length(yaml_files)}"))
+
+generate_thumbnails(yaml_files)
 
 created <- 0
 modified <- 0

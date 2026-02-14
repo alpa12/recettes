@@ -28,6 +28,7 @@ format:
       light: litera
       dark: superhero
     css: styles.css
+    include-before-body: includes/skip-link.html
     toc: true
     respect-user-color-scheme: true
 
@@ -35,4 +36,3 @@ resources:
   - config.js
   - recettes/template.yaml
   - recettes/**/*.yaml
-

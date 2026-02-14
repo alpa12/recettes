@@ -11,25 +11,72 @@ categories:
   - Petits prix
 ---
 
-[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Ftofu-caramelise-erable.yaml){.btn .btn-outline-primary .btn-sm}
+```{=html}
+<div class="recipe-toolbar">
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Ftofu-caramelise-erable.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
+<div class="recipe-toolbar-actions">
+<button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisson</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>12 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="4" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 4</span></div></div>
+```
+
+```{=html}
+<script>(function(){
+const key='recipe_reading_mode';
+let wakeLock=null;
+const apply=(on)=>{document.body.classList.toggle('reading-mode', on);};
+const requestWake=async()=>{try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');}}catch(e){}};
+const releaseWake=async()=>{try{if(wakeLock){await wakeLock.release(); wakeLock=null;}}catch(e){}};
+document.addEventListener('DOMContentLoaded', ()=>{
+const btn=document.getElementById('recipe-reading-mode');
+const saved=localStorage.getItem(key)==='1'; apply(saved); if(saved) requestWake();
+if(!btn) return;
+const refresh=()=>{btn.classList.toggle('active', document.body.classList.contains('reading-mode'));}; refresh();
+btn.addEventListener('click', async()=>{const next=!document.body.classList.contains('reading-mode'); apply(next); localStorage.setItem(key, next?'1':'0'); refresh(); if(next){await requestWake();} else {await releaseWake();}});
+});
+})();</script>
+```
 
 ## Ingrédients
 
+```{=html}
+<div class="recipe-grocery-actions">
+<button id="copy-grocery-list" type="button" class="btn btn-outline-secondary btn-sm">📋 Générer la liste d'épicerie</button>
+<button id="reset-recipe-checks" type="button" class="btn btn-outline-secondary btn-sm">↺ Réinitialiser les cases</button>
+<span id="grocery-copy-feedback" class="text-muted small"></span>
+</div>
+```
+
 ### Tofu
 
-- 450 g tofu ferme
-- 45 g fécule de maïs
-- 45 ml huile végétale
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="450">450</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">tofu ferme</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">fécule de maïs</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">huile végétale</span></span></label></li>
+</ul>
+```
 
 ### Sauce à l'érable
 
-- 125 ml sirop d’érable
-- 60 ml sauce hoisin
-- 30 ml sauce soya réduite en sodium
-- 10 ml vinaigre de riz
-- 10 ml condiment épicé au chili ou sauce sriracha
-- 2 gousses ail
-- 1 oignon oignon vert
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="125">125</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sirop d’érable</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="60">60</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sauce hoisin</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="30">30</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sauce soya réduite en sodium</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="10">10</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">vinaigre de riz</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="10">10</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">condiment épicé au chili ou sauce sriracha</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">gousses</span> <span class="ingredient-nom">ail</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">oignon</span> <span class="ingredient-nom">oignon vert</span></span></label></li>
+</ul>
+```
 
 ## Équipements
 
@@ -48,14 +95,51 @@ categories:
 
 ### Tofu
 
-1. Dans un bol, déposer le tofu. Saupoudrer de la fécule et bien mélanger pour enrober le tofu.
-2. Dans une grande poêle antiadhésive à feu moyen-élevé, cuire le tofu dans l’huile 10 minutes ou jusqu’à ce qu’il soit bien doré de tous les côtés et très croustillant.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="450">450</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">tofu ferme</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">fécule de maïs</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Dans un bol, déposer le tofu. Saupoudrer de la fécule et bien mélanger pour enrober le tofu.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="45">45</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">huile végétale</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 2</span></label></div><p>Dans une grande poêle antiadhésive à feu moyen-élevé, cuire le tofu dans l’huile 10 minutes ou jusqu’à ce qu’il soit bien doré de tous les côtés et très croustillant.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="600">⏱️ 10 min</button></div></div></article>
+</div>
+```
 
 ### Sauce à l'érable
 
-1. Entre-temps, dans un autre bol, mélanger au fouet tous les ingrédients, sauf l’oignon vert.
-2. Dans la poêle, verser le mélange de sirop d’érable. Poursuivre la cuisson de 3 à 4 minutes ou jusqu’à ce que la sauce soit sirupeuse, en remuant pour bien en enrober le tofu.
-3. Garnir de l’oignon vert. Accompagner d’un riz blanc et d’un légume vert, si désiré.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="125">125</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sirop d’érable</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="60">60</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sauce hoisin</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="30">30</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">sauce soya réduite en sodium</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="10">10</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">vinaigre de riz</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="10">10</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">condiment épicé au chili ou sauce sriracha</span></span></label></li><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">gousses</span> <span class="ingredient-nom">ail</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Entre-temps, dans un autre bol, mélanger au fouet tous les ingrédients, sauf l’oignon vert.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 2</span></label></div><p>Dans la poêle, verser le mélange de sirop d’érable. Poursuivre la cuisson de 3 à 4 minutes ou jusqu’à ce que la sauce soit sirupeuse, en remuant pour bien en enrober le tofu.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="240">⏱️ 4 min</button></div></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">oignon</span> <span class="ingredient-nom">oignon vert</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 3</span></label></div><p>Garnir de l’oignon vert. Accompagner d’un riz blanc et d’un légume vert, si désiré.</p></div></article>
+</div>
+```
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=4;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
+
+```{=html}
+<div id="recipe-timer-dock" class="recipe-timer-dock d-none"><strong>Minuteur</strong> <span id="recipe-timer-label"></span> <span id="recipe-timer-remaining"></span> <button id="recipe-timer-stop" class="btn btn-sm btn-outline-light" type="button">Arrêter</button></div>
+<script>(function(){
+let timer=null, target=0;
+const pad=(n)=>String(n).padStart(2,'0');
+const fmt=(s)=>{const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60; return h>0?`${h}:${pad(m)}:${pad(sec)}`:`${m}:${pad(sec)}`;};
+const dock=document.getElementById('recipe-timer-dock'); const rem=document.getElementById('recipe-timer-remaining'); const lab=document.getElementById('recipe-timer-label'); const stop=document.getElementById('recipe-timer-stop');
+const hide=()=>{if(timer){clearInterval(timer); timer=null;} if(dock) dock.classList.add('d-none');};
+document.addEventListener('click',(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){hide(); if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none');}},250);});
+if(stop) stop.addEventListener('click', hide);
+})();</script>
+```
+
+```{=html}
+<script>(function(){
+const pageKey='recipe_check_state:'+window.location.pathname;
+const save=()=>{const state={}; document.querySelectorAll('.recipe-check').forEach((cb,i)=>{state[i]=cb.checked?1:0;}); localStorage.setItem(pageKey, JSON.stringify(state));};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};
+const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};
+const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\s+/g,' ').trim():li.innerText.replace(/\s+/g,' ').trim();};
+const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};
+document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});
+})();</script>
+```
 
 ## Notes
 
