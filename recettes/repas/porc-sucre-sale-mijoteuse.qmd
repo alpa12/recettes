@@ -1,0 +1,122 @@
+---
+title: Porc sucré-salé à la mijoteuse
+
+categories:
+  - Plats principaux
+  - Porc
+  - Comfort food
+  - Cuisines du monde
+  - Mijoteuse
+---
+
+```{=html}
+<div class="recipe-toolbar">
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fporc-sucre-sale-mijoteuse.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
+<div class="recipe-toolbar-actions">
+<button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisson</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>https://www.ricardocuisine.com/recettes/8014-porc-sucre-sale-a-la-mijoteuse</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>15 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>480 min</strong></div></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="6" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 6</span></div></div>
+```
+
+```{=html}
+<script>(function(){
+const key='recipe_reading_mode';
+let wakeLock=null;
+const apply=(on)=>{document.body.classList.toggle('reading-mode', on);};
+const requestWake=async()=>{try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');}}catch(e){}};
+const releaseWake=async()=>{try{if(wakeLock){await wakeLock.release(); wakeLock=null;}}catch(e){}};
+document.addEventListener('DOMContentLoaded', ()=>{
+const btn=document.getElementById('recipe-reading-mode');
+const saved=localStorage.getItem(key)==='1'; apply(saved); if(saved) requestWake();
+if(!btn) return;
+const refresh=()=>{btn.classList.toggle('active', document.body.classList.contains('reading-mode'));}; refresh();
+btn.addEventListener('click', async()=>{const next=!document.body.classList.contains('reading-mode'); apply(next); localStorage.setItem(key, next?'1':'0'); refresh(); if(next){await requestWake();} else {await releaseWake();}});
+});
+})();</script>
+```
+
+## Ingrédients
+
+```{=html}
+<div class="recipe-grocery-actions">
+<button id="copy-grocery-list" type="button" class="btn btn-outline-secondary btn-sm">📋 Générer la liste d'épicerie</button>
+<button id="reset-recipe-checks" type="button" class="btn btn-outline-secondary btn-sm">↺ Réinitialiser les cases</button>
+<span id="grocery-copy-feedback" class="text-muted small"></span>
+</div>
+```
+
+### Porc sucré-salé à la mijoteuse
+
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+</ul>
+```
+
+## Équipements
+
+### Porc sucré-salé à la mijoteuse
+
+
+## Préparation
+
+### Porc sucré-salé à la mijoteuse
+
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Dans une grande poêle à feu moyen-élevé, dorer le porc dans l’huile. Placer la viande dans la mijoteuse.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 2</span></label></div><p>Dans la même poêle, porter à ébullition la cassonade, la sauce soya, l’eau, la pâte de cari et les oignons verts. Verser sur la viande dans la mijoteuse. Couvrir et cuire à basse température (&lt;i&gt;Low&lt;/i&gt;) 8 heures. On peut maintenir à réchaud (&lt;i&gt;Warm&lt;/i&gt;) jusqu’à 8 heures.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="28800">⏱️ 8 h</button><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="28800">⏱️ 8 h</button></div></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 3</span></label></div><p>Retirer la viande de la mijoteuse et la déposer dans un grand bol. À l’aide de deux fourchettes, défaire la viande en prenant soin de retirer le gras. Jeter le gras. Dégraisser la sauce et l’ajouter à la viande. Rectifier l’assaisonnement.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 4</span></label></div><p>Parsemer des noix grillées. Servir avec du riz et des légumes.</p></div></article>
+</div>
+```
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=6;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
+
+```{=html}
+<div id="recipe-timer-dock" class="recipe-timer-dock d-none"><strong>Minuteur</strong> <span id="recipe-timer-label"></span> <span id="recipe-timer-remaining"></span> <button id="recipe-timer-stop" class="btn btn-sm btn-outline-light" type="button">Arrêter</button></div>
+<script>(function(){
+let timer=null, target=0;
+const pad=(n)=>String(n).padStart(2,'0');
+const fmt=(s)=>{const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60; return h>0?`${h}:${pad(m)}:${pad(sec)}`:`${m}:${pad(sec)}`;};
+const dock=document.getElementById('recipe-timer-dock'); const rem=document.getElementById('recipe-timer-remaining'); const lab=document.getElementById('recipe-timer-label'); const stop=document.getElementById('recipe-timer-stop');
+const hide=()=>{if(timer){clearInterval(timer); timer=null;} if(dock) dock.classList.add('d-none');};
+document.addEventListener('click',(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){hide(); if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none');}},250);});
+if(stop) stop.addEventListener('click', hide);
+})();</script>
+```
+
+```{=html}
+<script>(function(){
+const pageKey='recipe_check_state:'+window.location.pathname;
+const save=()=>{const state={}; document.querySelectorAll('.recipe-check').forEach((cb,i)=>{state[i]=cb.checked?1:0;}); localStorage.setItem(pageKey, JSON.stringify(state));};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};
+const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};
+const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\s+/g,' ').trim():li.innerText.replace(/\s+/g,' ').trim();};
+const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};
+document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});
+})();</script>
+```
+
+## Notes
+
+_10 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
+
+- [Anonymous · 2025-04-26] Sublime!
+- [Anonymous · 2024-02-01] Toute la famille adore ce porc. C’est un franc succès à la maison. Je l’ai fait avec deux marques de cari vert. A notre avis celui de Thaï Kitchen était beaucoup plus goûteux. On a adopté!
+- [Anonymous · 2024-01-12] Bonjour,Je n'ai pas de mijoteuse puis je cuire au four? Merci beaucoup
+- [Anonymous · 2023-01-25] Super amalgame de saveurs, ça fait changement du pulled pork à la sauce BBQ.
+- [Anonymous · 2022-12-14] Délicieux! J’ai adorer cette recette. Laisse une odeur agréable dans la maison.
+- [Anonymous · 2022-02-24] peut on prendre un roti de lounge de porc avec cette recette..
+- [Anonymous · 2021-08-18] Très bon mais un peu fort le cari. Un peu moins sera mieux pour nous
+- [Anonymous · 2021-03-02] Première tentative; j'ai trouvé la viande un peu sec avec peu de goût, le liquide donnait le caractère mais... pour ma part, demeure à travailler. Toutefois, le porc fut facile à défaire. Pour la prochaine fois, moins de cassonade, plus de liquide et un peu plus d'épices piquantes... Ce ne fut pas un Oumf de notre côté mais bonne base à travailler... Servi avec vermicelles de riz et légumes verts
+- [Anonymous · 2021-01-27] ohhh MIAMM!! j'ai adorée!! j'ai mis un peu moins de pate de cari ! j'ai prévu d'avance car j'aime moins quand c'est trop épicé, mais la prochaine fois j'en mettrais un peu plus. c'était trop délicieux! c'est une recette à refaire !! j'ai séparer le bouillon de la viandes pour conserver les restants ! et j'ai fait de la pizza et des oeufs bénédictine avec quelques restes!!
+- [Anonymous · 2021-01-20] Délicieux. Saveur asiatique originale. Un peu piquant pour des enfants non habitués. J’ai utilisé une fesse de porc. J’ai servie avec riz au jasmin et légumes sautés miel et soya (oignon, zucchini, poivron, pois sucrés) pour équilibrer le côté piquant. J’ai effiloché grossièrement comme la photo mais je n’ai pas mélangé la sauce à la viande. J’ai passé la sauce au tamis et l’ai servie a côté. Ça va me permettre d’utiliser plus facilement les restants de viandes pour d’autres plats.
