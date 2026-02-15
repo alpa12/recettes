@@ -1,6 +1,6 @@
 ---
 title: Porc sucré-salé à la mijoteuse
-
+image: /images/b356c6b8-c180-483f-91fe-b2499aa4a130.jpg
 categories:
   - Plats principaux
   - Porc
@@ -125,15 +125,6 @@ document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelector
 
 ## Notes
 
-_10 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
+_1 commentaire(s) · Alexandre Parent: 1 · Élodie Bourgeois: 0_
 
-- [Anonymous · 2025-04-26] Sublime!
-- [Anonymous · 2024-02-01] Toute la famille adore ce porc. C’est un franc succès à la maison. Je l’ai fait avec deux marques de cari vert. A notre avis celui de Thaï Kitchen était beaucoup plus goûteux. On a adopté!
-- [Anonymous · 2024-01-12] Bonjour,Je n'ai pas de mijoteuse puis je cuire au four? Merci beaucoup
-- [Anonymous · 2023-01-25] Super amalgame de saveurs, ça fait changement du pulled pork à la sauce BBQ.
-- [Anonymous · 2022-12-14] Délicieux! J’ai adorer cette recette. Laisse une odeur agréable dans la maison.
-- [Anonymous · 2022-02-24] peut on prendre un roti de lounge de porc avec cette recette..
-- [Anonymous · 2021-08-18] Très bon mais un peu fort le cari. Un peu moins sera mieux pour nous
-- [Anonymous · 2021-03-02] Première tentative; j'ai trouvé la viande un peu sec avec peu de goût, le liquide donnait le caractère mais... pour ma part, demeure à travailler. Toutefois, le porc fut facile à défaire. Pour la prochaine fois, moins de cassonade, plus de liquide et un peu plus d'épices piquantes... Ce ne fut pas un Oumf de notre côté mais bonne base à travailler... Servi avec vermicelles de riz et légumes verts
-- [Anonymous · 2021-01-27] ohhh MIAMM!! j'ai adorée!! j'ai mis un peu moins de pate de cari ! j'ai prévu d'avance car j'aime moins quand c'est trop épicé, mais la prochaine fois j'en mettrais un peu plus. c'était trop délicieux! c'est une recette à refaire !! j'ai séparer le bouillon de la viandes pour conserver les restants ! et j'ai fait de la pizza et des oeufs bénédictine avec quelques restes!!
-- [Anonymous · 2021-01-20] Délicieux. Saveur asiatique originale. Un peu piquant pour des enfants non habitués. J’ai utilisé une fesse de porc. J’ai servie avec riz au jasmin et légumes sautés miel et soya (oignon, zucchini, poivron, pois sucrés) pour équilibrer le côté piquant. J’ai effiloché grossièrement comme la photo mais je n’ai pas mélangé la sauce à la viande. J’ai passé la sauce au tamis et l’ai servie a côté. Ça va me permettre d’utiliser plus facilement les restants de viandes pour d’autres plats.
+- [Alexandre Parent · 2026/02/15] A faire
