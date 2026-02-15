@@ -20,7 +20,7 @@ categories:
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>12 min</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>12 min</strong></div></div>
 ```
 
 ```{=html}
@@ -82,14 +82,11 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 
 ### Tofu
 
-- bol
-- grande poêle antiadhésive
 
 ### Sauce à l'érable
 
 - bol
 - fouet
-- poêle
 
 ## Préparation
 
@@ -141,17 +138,3 @@ document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelector
 })();</script>
 ```
 
-## Notes
-
-_10 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
-
-- Excellente recette! C'est la préférée de mon ado!
-- What a banger!
-- Cette recette déloge le tofu Général Tao du somment de ma liste! Délicieux et hyper facile.
-- Délicieux! Facile à faire. C’est la meilleure recette de tofu!
-- Un vrai délice. Merci !
-- Meilleur sauce pour tofu que j'ai cuisiné de ma vie. Vraiment extraordinaire et facile à faire!
-- Un gros coup de cœur pour cette recette! J’ai déjà hâte de la refaire :)
-- Un vrai délice ! Tout le monde a adoré. Mais il est vrai que c'est sucré et j'essayerai de réduire le sirop la prochaine fois.
-- Wow! Super même réchauffé au micro-ondes. À refaire!!!
-- C’est délicieux mais on l’a trouvé un peu trop sucré à notre goût. La prochaine fois je réduirai le sirop d’érable.
