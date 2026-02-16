@@ -1,7 +1,7 @@
 nom: Porc sucré-salé à la mijoteuse
 nom_court: porc-sucre-sale-mijoteuse
-source: https://www.ricardocuisine.com/recettes/8014-porc-sucre-sale-a-la-mijoteuse
-portions: 6
+source: Ricardo
+portions: 7
 se_congele: true
 difficulte: null
 cout: $
@@ -15,7 +15,7 @@ categories:
   - Mijoteuse
   - Cuisine thaïe
 temps:
-  preparation: 15
+  preparation: 30
   cuisson: 480
   refrigeration: null
 preparation:
@@ -69,8 +69,8 @@ preparation:
             uni: g
         equipements: []
 commentaires:
-  - commentaire: A faire
+  - commentaire: Fait avec des longes de porc, sans échalotes ni noix. Ça semble bien de retourner dans la viande dans la mijoteuse quelques fois pendant la cuisson. J'aurais préféré avec du riz, comme un repas asiatique.
     date: 2026/02/15
     auteur: Alexandre Parent
-    evaluation: null
+    evaluation: 4
 image_guid: b356c6b8-c180-483f-91fe-b2499aa4a130
