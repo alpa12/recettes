@@ -140,6 +140,6 @@ document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelector
 
 ## Notes
 
-_1 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
+_★★★★☆ (moyenne 4/5) · 1 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 1_
 
-- [2026/02/19] Essayer de mettre le tofu au four, au lieu d’à la poêle. Essayer 2 fois le tofu pour 1.5 fois la sauce.
+- [★★★★☆ · Élodie Bourgeois · 2026/02/19] Essayer de mettre le tofu au four, au lieu d’à la poêle. Essayer 2 fois le tofu pour 1.5 fois la sauce.
