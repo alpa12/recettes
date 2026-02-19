@@ -21,7 +21,7 @@ temps:
 preparation:
   - section: Tofu
     etapes:
-      - etape: Dans un bol, déposer le tofu. Saupoudrer de la fécule et bien mélanger pour enrober le tofu.
+      - etape: Déchirer le tofu en morceaux et le déposer dans un bol. Saupoudrer de la fécule et bien mélanger pour enrober le tofu.
         image_guid: null
         ingredients:
           - nom: tofu ferme
@@ -44,20 +44,20 @@ preparation:
         image_guid: null
         ingredients:
           - nom: sirop d’érable
-            qte: 125
-            uni: ml
+            qte: 163
+            uni: g
           - nom: sauce hoisin
-            qte: 60
-            uni: ml
+            qte: 93
+            uni: g
           - nom: sauce soya réduite en sodium
-            qte: 30
-            uni: ml
+            qte: 34
+            uni: g
           - nom: vinaigre de riz
             qte: 10
-            uni: ml
+            uni: g
           - nom: condiment épicé au chili ou sauce sriracha
             qte: 10
-            uni: ml
+            uni: g
           - nom: ail
             qte: 2
             uni: gousses
