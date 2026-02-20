@@ -56,3 +56,6 @@ rsconnect/
 /.quarto/
 **/*.quarto_ipynb
 
+# CNF nutrition data (downloaded/generated)
+data/nutrition/cnf/
+data/nutrition/foods_cnf.csv

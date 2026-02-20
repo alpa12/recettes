@@ -284,6 +284,92 @@ ol li img {
   margin: 0.45rem 0 0.55rem;
 }
 
+.recipe-nutrition-block {
+  margin: 0.3rem 0 1.15rem;
+}
+
+.recipe-nutrition-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 0.55rem;
+}
+
+.recipe-nutrition-card {
+  border: 1px solid var(--site-border-soft);
+  border-radius: 12px;
+  padding: 0.55rem 0.65rem;
+  background: color-mix(in srgb, var(--bs-body-bg) 92%, var(--site-accent) 8%);
+}
+
+.recipe-nutrition-card span {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bs-secondary-color);
+}
+
+.recipe-nutrition-card strong {
+  display: block;
+  margin-top: 0.08rem;
+  font-size: 1rem;
+}
+
+.recipe-nutrition-table {
+  border: 1px solid var(--site-border-soft);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--site-surface-soft);
+}
+
+.recipe-nutrition-details {
+  margin-top: 0.55rem;
+}
+
+.recipe-nutrition-toggle {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--site-border-soft);
+  border-radius: 10px;
+  padding: 0.38rem 0.6rem;
+  background: color-mix(in srgb, var(--bs-body-bg) 92%, var(--site-accent) 8%);
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.recipe-nutrition-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.recipe-nutrition-table th,
+.recipe-nutrition-table td {
+  vertical-align: middle;
+}
+
+.recipe-nutrition-table thead th {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.recipe-nutrition-meta {
+  margin: 0.45rem 0 0;
+  color: var(--bs-secondary-color);
+  font-size: 0.9rem;
+}
+
+.recipe-nutrition-missing {
+  margin-top: 0.45rem;
+}
+
+.recipe-nutrition-missing summary {
+  cursor: pointer;
+  color: var(--bs-secondary-color);
+  font-size: 0.9rem;
+}
+
 .recipe-timer-dock {
   position: fixed;
   right: 1rem;
