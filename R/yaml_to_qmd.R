@@ -54,6 +54,7 @@ render_ingredient_li <- function(ing, list_kind = "generic") {
   q_label <- escape_html(fmt_number(q_raw))
   uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
   nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
+  rangee <- escape_html(stringr::str_trim(as.character(ing$rangee %||% ing$rayon %||% "")))
 
   content <- if (q_is_num) {
     paste0(
@@ -69,7 +70,10 @@ render_ingredient_li <- function(ing, list_kind = "generic") {
     )
   }
   paste0(
-    "<li class=\"recipe-ingredient\" data-list-kind=\"", list_kind, "\">",
+    "<li class=\"recipe-ingredient\" data-list-kind=\"", list_kind,
+    "\" data-rangee=\"", rangee,
+    "\" data-ingredient-name=\"", nom,
+    "\" data-ingredient-unit=\"", uni, "\">",
     "<label class=\"recipe-check-row\">",
     "<input type=\"checkbox\" class=\"recipe-check recipe-ingredient-check\">",
     "<span class=\"ingredient-label\">", content, "</span>",
@@ -85,6 +89,7 @@ render_ingredient_inline <- function(ing) {
   q_label <- escape_html(fmt_number(q_raw))
   uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
   nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
+  rangee <- escape_html(stringr::str_trim(as.character(ing$rangee %||% ing$rayon %||% "")))
 
   content <- if (q_is_num) {
     paste0(
@@ -100,7 +105,7 @@ render_ingredient_inline <- function(ing) {
     )
   }
   paste0(
-    "<label class=\"recipe-check-row\">",
+    "<label class=\"recipe-check-row\" data-rangee=\"", rangee, "\">",
     "<input type=\"checkbox\" class=\"recipe-check recipe-ingredient-check\">",
     "<span class=\"ingredient-label\">", content, "</span>",
     "</label>"
@@ -180,9 +185,38 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   yaml_rel_to_root <- fs::path_rel(yaml_path, start = ".")
   yaml_rel_to_root <- gsub("\\\\", "/", yaml_rel_to_root)
   if (!startsWith(yaml_rel_to_root, "/")) yaml_rel_to_root <- paste0("/", yaml_rel_to_root)
+  recipe_url <- sub("\\.ya?ml$", ".qmd", yaml_rel_to_root, ignore.case = TRUE)
 
   yaml_qp <- utils::URLencode(yaml_rel_to_root, reserved = TRUE)
   edit_href <- paste0("../", EDIT_PAGE_HREF, "?", EDIT_PARAM_NAME, "=", yaml_qp)
+  base_portions <- suppressWarnings(as.numeric(recipe$portions))
+  base_portions <- if (!is.na(base_portions) && base_portions > 0) base_portions else NULL
+
+  cart_ingredients <- list()
+  for (section in recipe$preparation %||% list()) {
+    for (step in section$etapes %||% list()) {
+      for (ing in step$ingredients %||% list()) {
+        nom <- as.character(ing$nom %||% "")
+        if (!nzchar(stringr::str_trim(nom))) next
+        cart_ingredients[[length(cart_ingredients) + 1]] <- list(
+          nom = nom,
+          uni = as.character(ing$uni %||% ""),
+          qte = ing$qte %||% NULL,
+          rangee = as.character(ing$rangee %||% ing$rayon %||% "")
+        )
+      }
+    }
+  }
+  cart_payload <- list(
+    id = recipe_url,
+    title = as.character(recipe$nom %||% ""),
+    url = recipe_url,
+    portions_base = base_portions,
+    portions_target = base_portions,
+    ingredients = cart_ingredients
+  )
+  cart_json <- jsonlite::toJSON(cart_payload, auto_unbox = TRUE, null = "null")
+  cart_json <- gsub("</", "<\\\\/", cart_json, fixed = TRUE)
 
   # ---- Quick facts and tools ----
   facts <- character()
@@ -209,12 +243,22 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "<div class=\"recipe-toolbar\">",
     paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">✏️ Modifier cette recette</a>"),
     "<div class=\"recipe-toolbar-actions\">",
+    "<button id=\"recipe-cart-toggle\" type=\"button\" class=\"btn btn-outline-success btn-sm\">Ajouter au panier</button>",
     "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">🍳 Mode cuisson</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">🖨️ Imprimer</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">🔗 Copier le lien</button>",
     "</div>",
     "</div>",
     if (length(facts) > 0) paste0("<div class=\"recipe-facts-grid\">", paste(facts, collapse = ""), "</div>") else "",
+    "```",
+    ""
+  )
+
+  lines <- c(
+    lines,
+    "```{=html}",
+    paste0("<script id=\"recipe-cart-data\" type=\"application/json\">", cart_json, "</script>"),
+    "<script src=\"/includes/recipe-cart.js\"></script>",
     "```",
     ""
   )
@@ -240,7 +284,6 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     )
   }
 
-  base_portions <- suppressWarnings(as.numeric(recipe$portions))
   has_scaler <- !is.null(base_portions) && !is.na(base_portions) && base_portions > 0
   has_step_images <- any(vapply(recipe$preparation %||% list(), function(section) {
     any(vapply(section$etapes %||% list(), function(step) {

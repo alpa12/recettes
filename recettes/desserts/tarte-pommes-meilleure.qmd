@@ -15,12 +15,18 @@ categories:
 <div class="recipe-toolbar">
 <a href="../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Ftarte-pommes-meilleure.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
 <div class="recipe-toolbar-actions">
+<button id="recipe-cart-toggle" type="button" class="btn btn-outline-success btn-sm">Ajouter au panier</button>
 <button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisson</button>
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
 <div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>45 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>45 min</strong></div><div class="recipe-fact"><span>Temps réfrigération</span><strong>30 min</strong></div></div>
+```
+
+```{=html}
+<script id="recipe-cart-data" type="application/json">{"id":"/recettes/desserts/tarte-pommes-meilleure.qmd","title":"Tarte aux pommes (la meilleure)","url":"/recettes/desserts/tarte-pommes-meilleure.qmd","portions_base":8,"portions_target":8,"ingredients":[]}</script>
+<script src="/includes/recipe-cart.js"></script>
 ```
 
 ```{=html}

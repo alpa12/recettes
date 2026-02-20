@@ -1,0 +1,28 @@
+---
+title: Panier d'épicerie
+---
+
+<div data-page="recipe-cart">
+
+```{=html}
+<div class="recipe-cart-shell">
+  <section class="recipe-cart-block">
+    <h2>Recettes sélectionnées (<span id="cart-recipes-count">0</span>)</h2>
+    <div id="cart-recipes" class="cart-recipes"></div>
+  </section>
+
+  <section class="recipe-cart-block">
+    <div class="recipe-grocery-actions">
+      <button id="cart-copy-remaining" type="button" class="btn btn-outline-secondary btn-sm">Copier la liste restante</button>
+      <button id="cart-reset-checks" type="button" class="btn btn-outline-secondary btn-sm">Réinitialiser les cases</button>
+      <span id="cart-copy-feedback" class="text-muted small"></span>
+    </div>
+
+    <h2>Ingrédients agrégés</h2>
+    <div id="cart-ingredients"></div>
+  </section>
+</div>
+<script src="/includes/recipe-cart.js"></script>
+```
+
+</div>
