@@ -11,7 +11,6 @@ categories:
 <a href="../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fbiscuit-au-chocolat-chaud.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
 <div class="recipe-toolbar-actions">
 <button id="recipe-cart-toggle" type="button" class="btn btn-outline-success btn-sm">Ajouter au panier</button>
-<a href="/recettes/panier/" class="btn btn-outline-success btn-sm">Voir le panier</a>
 <button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisson</button>
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>

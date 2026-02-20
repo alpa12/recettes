@@ -133,6 +133,34 @@
     saveCart(next);
   }
 
+  function isPanierHref(href) {
+    try {
+      const url = new URL(String(href || ""), window.location.href);
+      const normalized = url.pathname
+        .replace(/index\.html$/, "")
+        .replace(/\/+$/, "");
+      return normalized === "/recettes/panier";
+    } catch (_e) {
+      return false;
+    }
+  }
+
+  function updateNavbarBadge() {
+    const count = loadCart().length;
+    const links = Array.from(document.querySelectorAll("a[href]")).filter((a) => isPanierHref(a.getAttribute("href")));
+    links.forEach((link) => {
+      let badge = link.querySelector(".cart-nav-badge");
+      if (!badge) {
+        badge = document.createElement("span");
+        badge.className = "cart-nav-badge";
+        badge.setAttribute("aria-live", "polite");
+        link.appendChild(badge);
+      }
+      badge.textContent = String(count);
+      badge.classList.toggle("d-none", count < 1);
+    });
+  }
+
   function resolveAisle(ingredient) {
     const explicit = String(ingredient.rangee || ingredient.rayon || "").trim();
     if (explicit) return explicit;
@@ -230,6 +258,7 @@
       btn.classList.toggle("btn-success", inCart);
       btn.classList.toggle("btn-outline-success", !inCart);
       btn.setAttribute("aria-pressed", inCart ? "true" : "false");
+      updateNavbarBadge();
     };
 
     btn.addEventListener("click", () => {
@@ -271,6 +300,7 @@
       const merged = mergeIngredientsFromCart(cart);
 
       countWrap.textContent = String(cart.length);
+      updateNavbarBadge();
 
       if (cart.length === 0) {
         recipesWrap.innerHTML = "<p class='text-muted mb-0'>Aucune recette dans le panier.</p>";
@@ -364,6 +394,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    updateNavbarBadge();
     renderRecipeButton();
     renderCartPage();
   });

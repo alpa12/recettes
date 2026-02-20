@@ -376,3 +376,20 @@ body.reading-mode nav[role="doc-toc"] {
   font-size: 1.05rem;
   border-bottom: 1px solid var(--site-border-soft);
 }
+
+.cart-nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  margin-left: 0.35rem;
+  padding: 0 0.28rem;
+  border-radius: 999px;
+  background: #d7263d;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: middle;
+}
