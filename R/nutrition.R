@@ -322,7 +322,7 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
   status <- paste0(
     "<p class=\"recipe-nutrition-meta\">Estimations basées sur les ingrédients saisis. ",
     if (is.finite(portions) && portions > 0) {
-      paste0("Portions de base: <strong>", format_number_fr(portions, 0), "</strong>.")
+      paste0("Portions de base: ", format_number_fr(portions, 0), ".")
     } else {
       "Portions non définies."
     },
@@ -356,15 +356,39 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
     )
   }
 
+  main_cards <- list(
+    list(label = "Calories", key = "energy_kcal", unit = "kcal", dec = 0),
+    list(label = "Protéines", key = "protein_g", unit = "g", dec = 1),
+    list(label = "Glucides", key = "carbs_g", unit = "g", dec = 1),
+    list(label = "Lipides", key = "fat_g", unit = "g", dec = 1)
+  )
+
+  cards_html <- paste(
+    vapply(main_cards, function(card) {
+      val <- as.numeric(per_portion[[card$key]])
+      paste0(
+        "<div class=\"recipe-nutrition-card\">",
+        "<span>", escape_html_local(card$label), "</span>",
+        "<strong>", nutrition_value_with_unit(val, card$unit, card$dec), "</strong>",
+        "</div>"
+      )
+    }, character(1)),
+    collapse = ""
+  )
+
   paste0(
     "<div class=\"recipe-nutrition-block\">",
+    "<div class=\"recipe-nutrition-cards\">", cards_html, "</div>",
+    "<details class=\"recipe-nutrition-details\">",
+    "<summary class=\"recipe-nutrition-toggle\">Afficher le détail complet</summary>",
+    status,
+    src_html,
     "<table class=\"recipe-nutrition-table table table-sm\">",
     "<thead><tr><th>Nutriment</th><th>Par recette</th><th>Par portion</th></tr></thead>",
     "<tbody>", paste(rows, collapse = ""), "</tbody>",
     "</table>",
-    status,
-    src_html,
     unresolved_html,
+    "</details>",
     "</div>"
   )
 }
