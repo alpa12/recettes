@@ -50,6 +50,7 @@ render_ingredient_li <- function(ing, list_kind = "generic") {
   q_label <- escape_html(fmt_number(q_raw))
   uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
   nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
+  rangee <- escape_html(stringr::str_trim(as.character(ing$rangee %||% ing$rayon %||% "")))
 
   content <- if (q_is_num) {
     paste0(
@@ -65,7 +66,10 @@ render_ingredient_li <- function(ing, list_kind = "generic") {
     )
   }
   paste0(
-    "<li class=\"recipe-ingredient\" data-list-kind=\"", list_kind, "\">",
+    "<li class=\"recipe-ingredient\" data-list-kind=\"", list_kind,
+    "\" data-rangee=\"", rangee,
+    "\" data-ingredient-name=\"", nom,
+    "\" data-ingredient-unit=\"", uni, "\">",
     "<label class=\"recipe-check-row\">",
     "<input type=\"checkbox\" class=\"recipe-check recipe-ingredient-check\">",
     "<span class=\"ingredient-label\">", content, "</span>",
@@ -81,6 +85,7 @@ render_ingredient_inline <- function(ing) {
   q_label <- escape_html(fmt_number(q_raw))
   uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
   nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
+  rangee <- escape_html(stringr::str_trim(as.character(ing$rangee %||% ing$rayon %||% "")))
 
   content <- if (q_is_num) {
     paste0(
@@ -96,7 +101,7 @@ render_ingredient_inline <- function(ing) {
     )
   }
   paste0(
-    "<label class=\"recipe-check-row\">",
+    "<label class=\"recipe-check-row\" data-rangee=\"", rangee, "\">",
     "<input type=\"checkbox\" class=\"recipe-check recipe-ingredient-check\">",
     "<span class=\"ingredient-label\">", content, "</span>",
     "</label>"

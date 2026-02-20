@@ -33,6 +33,7 @@ exemple:
             - nom: Crème
               qte: 1
               uni: t
+              rangee: Produits laitiers et oeufs
           equipements:
             - Bol
 
@@ -155,6 +156,9 @@ _schema:
                         type: number
                       uni:
                         type: string
+                      rangee:
+                        type: string
+                        nullable: true
                 equipements:
                   type: array
                   items:
