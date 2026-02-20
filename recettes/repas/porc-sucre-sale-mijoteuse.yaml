@@ -1,0 +1,76 @@
+nom: Porc sucré-salé à la mijoteuse
+nom_court: porc-sucre-sale-mijoteuse
+source: Ricardo
+portions: 7
+se_congele: true
+difficulte: null
+cout: $
+allergenes:
+  - Gluten
+  - Noix
+categories:
+  - Plats principaux
+  - Porc
+  - Comfort food
+  - Mijoteuse
+  - Cuisine thaïe
+temps:
+  preparation: 30
+  cuisson: 480
+  refrigeration: null
+preparation:
+  - section: Porc sucré-salé à la mijoteuse
+    etapes:
+      - etape: Dans une grande poêle à feu moyen-élevé, dorer le porc dans l’huile. Placer la viande dans la mijoteuse.
+        image_guid: null
+        ingredients:
+          - nom: rôti d’épaule de porc de 1,8 kg (4 lb) désossé et sans la couenne
+            qte: 1
+            uni: null
+          - nom: huile végétale
+            qte: 15
+            uni: ml
+        equipements:
+          - grande poêle
+          - mijoteuse
+      - etape: Dans la même poêle, porter à ébullition la cassonade, la sauce soya, l’eau, la pâte de cari et les oignons verts. Verser sur la viande dans la mijoteuse. Couvrir et cuire à basse température (Low) 8 heures. On peut maintenir à réchaud (Warm) jusqu’à 8 heures.
+        image_guid: null
+        ingredients:
+          - nom: cassonade légèrement tassée
+            qte: 210
+            uni: g
+          - nom: sauce soya
+            qte: 75
+            uni: ml
+          - nom: eau
+            qte: 60
+            uni: ml
+          - nom: pâte de cari thaï vert doux
+            qte: 60
+            uni: ml
+          - nom: oignons verts hachés finement
+            qte: 6
+            uni: null
+        equipements:
+          - poêle
+          - mijoteuse
+      - etape: Retirer la viande de la mijoteuse et la déposer dans un grand bol. À l’aide de deux fourchettes, défaire la viande en prenant soin de retirer le gras. Jeter le gras. Dégraisser la sauce et l’ajouter à la viande. Rectifier l’assaisonnement.
+        image_guid: null
+        ingredients: []
+        equipements:
+          - mijoteuse
+          - grand bol
+          - fourchettes
+      - etape: Parsemer des noix grillées. Servir avec du riz et des légumes.
+        image_guid: null
+        ingredients:
+          - nom: noix de cajou ou d’arachides grillées, hachées
+            qte: 65
+            uni: g
+        equipements: []
+commentaires:
+  - commentaire: Fait avec des longes de porc, sans échalotes ni noix. Ça semble bien de retourner dans la viande dans la mijoteuse quelques fois pendant la cuisson. J'aurais préféré avec du riz, comme un repas asiatique.
+    date: 2026/02/15
+    auteur: Alexandre Parent
+    evaluation: 4
+image_guid: b356c6b8-c180-483f-91fe-b2499aa4a130

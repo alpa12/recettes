@@ -2,90 +2,82 @@ nom: Tofu caramélisé à l’érable
 nom_court: Tofu caramelise erable
 source: Ricardo
 portions: 4
-se_congele: no
+se_congele: true
+difficulte: null
+cout: null
+allergenes: []
 categories:
-- Plats principaux
-- Tofu
-- Végétarien
-- Végétalien
-- Rapide
-- Recettes de semaine
-- Petits prix
+  - Plats principaux
+  - Tofu
+  - Végétarien
+  - Végétalien
+  - Rapide
+  - Recettes de semaine
+  - Petits prix
 temps:
   preparation: 20
   cuisson: 12
-  refrigeration: ~
+  refrigeration: null
 preparation:
-- section: Tofu
-  etapes:
-  - etape: Dans un bol, déposer le tofu. Saupoudrer de la fécule et bien mélanger
-      pour enrober le tofu.
-    ingredients:
-    - nom: tofu ferme
-      qte: 450
-      uni: g
-    - nom: fécule de maïs
-      qte: 45
-      uni: g
-    equipements: bol
-  - etape: Dans une grande poêle antiadhésive à feu moyen-élevé, cuire le tofu dans
-      l’huile 10 minutes ou jusqu’à ce qu’il soit bien doré de tous les côtés et très
-      croustillant.
-    ingredients:
-    - nom: huile végétale
-      qte: 45
-      uni: ml
-    equipements: grande poêle antiadhésive
-- section: Sauce à l'érable
-  etapes:
-  - etape: Entre-temps, dans un autre bol, mélanger au fouet tous les ingrédients,
-      sauf l’oignon vert.
-    ingredients:
-    - nom: sirop d’érable
-      qte: 125
-      uni: ml
-    - nom: sauce hoisin
-      qte: 60
-      uni: ml
-    - nom: sauce soya réduite en sodium
-      qte: 30
-      uni: ml
-    - nom: vinaigre de riz
-      qte: 10
-      uni: ml
-    - nom: condiment épicé au chili ou sauce sriracha
-      qte: 10
-      uni: ml
-    - nom: ail
-      qte: 2
-      uni: gousses
-    equipements:
-    - bol
-    - fouet
-  - etape: Dans la poêle, verser le mélange de sirop d’érable. Poursuivre la cuisson
-      de 3 à 4 minutes ou jusqu’à ce que la sauce soit sirupeuse, en remuant pour
-      bien en enrober le tofu.
-    equipements: poêle
-  - etape: Garnir de l’oignon vert. Accompagner d’un riz blanc et d’un légume vert,
-      si désiré.
-    ingredients:
-    - nom: oignon vert
-      qte: 1
-      uni: oignon
-    equipements: []
+  - section: Tofu
+    etapes:
+      - etape: Déchirer le tofu en morceaux et le déposer dans un bol. Saupoudrer de la fécule et bien mélanger pour enrober le tofu.
+        image_guid: null
+        ingredients:
+          - nom: tofu ferme
+            qte: 450
+            uni: g
+          - nom: fécule de maïs
+            qte: 45
+            uni: g
+        equipements: []
+      - etape: Dans une grande poêle antiadhésive à feu moyen-élevé, cuire le tofu dans l’huile 10 minutes ou jusqu’à ce qu’il soit bien doré de tous les côtés et très croustillant.
+        image_guid: null
+        ingredients:
+          - nom: huile végétale
+            qte: 45
+            uni: ml
+        equipements: []
+  - section: Sauce à l'érable
+    etapes:
+      - etape: Entre-temps, dans un autre bol, mélanger au fouet tous les ingrédients, sauf l’oignon vert.
+        image_guid: null
+        ingredients:
+          - nom: sirop d’érable
+            qte: 163
+            uni: g
+          - nom: sauce hoisin
+            qte: 93
+            uni: g
+          - nom: sauce soya réduite en sodium
+            qte: 34
+            uni: g
+          - nom: vinaigre de riz
+            qte: 10
+            uni: g
+          - nom: condiment épicé au chili ou sauce sriracha
+            qte: 10
+            uni: g
+          - nom: ail
+            qte: 2
+            uni: gousses
+        equipements:
+          - bol
+          - fouet
+      - etape: Dans la poêle, verser le mélange de sirop d’érable. Poursuivre la cuisson de 3 à 4 minutes ou jusqu’à ce que la sauce soit sirupeuse, en remuant pour bien en enrober le tofu.
+        image_guid: null
+        ingredients: []
+        equipements: []
+      - etape: Garnir de l’oignon vert. Accompagner d’un riz blanc et d’un légume vert, si désiré.
+        image_guid: null
+        ingredients:
+          - nom: oignon vert
+            qte: 1
+            uni: oignon
+        equipements: []
 commentaires:
-- Excellente recette! C'est la préférée de mon ado!
-- What a banger!
-- Cette recette déloge le tofu Général Tao du somment de ma liste! Délicieux et hyper
-  facile.
-- Délicieux! Facile à faire. C’est la meilleure recette de tofu!
-- Un vrai délice. Merci !
-- Meilleur sauce pour tofu que j'ai cuisiné de ma vie. Vraiment extraordinaire et
-  facile à faire!
-- Un gros coup de cœur pour cette recette! J’ai déjà hâte de la refaire :)
-- Un vrai délice ! Tout le monde a adoré. Mais il est vrai que c'est sucré et j'essayerai
-  de réduire le sirop la prochaine fois.
-- Wow! Super même réchauffé au micro-ondes. À refaire!!!
-- C’est délicieux mais on l’a trouvé un peu trop sucré à notre goût. La prochaine
-  fois je réduirai le sirop d’érable.
-soumis_par: Élodie Bourgeois
+  - commentaire: Essayer de mettre le tofu au four, au lieu d’à la poêle. Essayer 2 fois le tofu pour 1.5 fois la sauce.
+    date: 2026/02/19
+    auteur: Élodie Bourgeois
+    evaluation: 4
+image_guid: 35a1a2db-8161-46f3-a731-3cccaa0b9d96
