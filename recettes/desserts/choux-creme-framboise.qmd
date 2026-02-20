@@ -20,7 +20,7 @@ categories:
 ```
 
 ```{=html}
-<script id="recipe-cart-data" type="application/json">{"id":"/recettes/desserts/choux-creme-framboise.qmd","title":"Choux à la crème framboise","url":"/recettes/desserts/choux-creme-framboise.qmd","ingredients":[{"nom":"Eau","uni":"ml","qte":125,"rangee":""},{"nom":"Beurre non salé, coupé en cubes","uni":"ml","qte":60,"rangee":""},{"nom":"Sel","uni":"pincée","qte":1,"rangee":""},{"nom":"Farine tout usage non blanchie","uni":"ml","qte":125,"rangee":""},{"nom":"Œufs","uni":"unité","qte":2,"rangee":""},{"nom":"Framboises fraîches","uni":"g","qte":900,"rangee":""},{"nom":"Sucre granulé","uni":"g","qte":900,"rangee":""},{"nom":"Jus de citron","uni":"ml","qte":15,"rangee":""}]}</script>
+<script id="recipe-cart-data" type="application/json">{"id":"/recettes/desserts/choux-creme-framboise.qmd","title":"Choux à la crème framboise","url":"/recettes/desserts/choux-creme-framboise.qmd","portions_base":33,"portions_target":33,"ingredients":[{"nom":"Eau","uni":"ml","qte":125,"rangee":""},{"nom":"Beurre non salé, coupé en cubes","uni":"ml","qte":60,"rangee":""},{"nom":"Sel","uni":"pincée","qte":1,"rangee":""},{"nom":"Farine tout usage non blanchie","uni":"ml","qte":125,"rangee":""},{"nom":"Œufs","uni":"unité","qte":2,"rangee":""},{"nom":"Framboises fraîches","uni":"g","qte":900,"rangee":""},{"nom":"Sucre granulé","uni":"g","qte":900,"rangee":""},{"nom":"Jus de citron","uni":"ml","qte":15,"rangee":""}]}</script>
 <script src="/includes/recipe-cart.js"></script>
 ```
 

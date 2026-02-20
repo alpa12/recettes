@@ -370,6 +370,23 @@ body.reading-mode nav[role="doc-toc"] {
   text-decoration: none;
 }
 
+.cart-portions-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.3rem;
+}
+
+.cart-portions-label {
+  font-size: 0.85rem;
+  color: var(--bs-secondary-color);
+}
+
+.cart-portions-input {
+  width: 92px;
+}
+
 .cart-aisle-title {
   margin-top: 1rem;
   margin-bottom: 0.45rem;

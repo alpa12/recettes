@@ -185,6 +185,8 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   yaml_qp <- utils::URLencode(yaml_rel_to_root, reserved = TRUE)
   edit_href <- paste0("../", EDIT_PAGE_HREF, "?", EDIT_PARAM_NAME, "=", yaml_qp)
+  base_portions <- suppressWarnings(as.numeric(recipe$portions))
+  base_portions <- if (!is.na(base_portions) && base_portions > 0) base_portions else NULL
 
   cart_ingredients <- list()
   for (section in recipe$preparation %||% list()) {
@@ -205,6 +207,8 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     id = recipe_url,
     title = as.character(recipe$nom %||% ""),
     url = recipe_url,
+    portions_base = base_portions,
+    portions_target = base_portions,
     ingredients = cart_ingredients
   )
   cart_json <- jsonlite::toJSON(cart_payload, auto_unbox = TRUE, null = "null")
@@ -276,7 +280,6 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     )
   }
 
-  base_portions <- suppressWarnings(as.numeric(recipe$portions))
   has_scaler <- !is.null(base_portions) && !is.na(base_portions) && base_portions > 0
   has_step_images <- any(vapply(recipe$preparation %||% list(), function(section) {
     any(vapply(section$etapes %||% list(), function(step) {

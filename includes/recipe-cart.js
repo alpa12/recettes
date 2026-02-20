@@ -102,11 +102,18 @@
     const ingredients = Array.isArray(fromScript.ingredients) && fromScript.ingredients.length > 0
       ? fromScript.ingredients
       : extractIngredientsFromDom();
+    const basePortions = Number(fromScript.portions_base);
+    const portionsBase = Number.isFinite(basePortions) && basePortions > 0 ? basePortions : null;
+    const portionsTarget = Number(fromScript.portions_target);
 
     return {
       id: fromScript.id || defaultRecipeId(),
       title: String(title).trim(),
       url: fromScript.url || defaultRecipeUrl(),
+      portions_base: portionsBase,
+      portions_target: Number.isFinite(portionsTarget) && portionsTarget > 0
+        ? portionsTarget
+        : portionsBase,
       ingredients: ingredients.map((ing) => ({
         nom: String(ing.nom || "").trim(),
         uni: String(ing.uni || "").trim(),
@@ -187,14 +194,25 @@
     };
   }
 
+  function recipeScaleRatio(recipe) {
+    const base = Number(recipe?.portions_base);
+    const target = Number(recipe?.portions_target);
+    if (!Number.isFinite(base) || base <= 0) return 1;
+    if (!Number.isFinite(target) || target <= 0) return 1;
+    return target / base;
+  }
+
   function mergeIngredientsFromCart(cart) {
     const map = new Map();
 
     cart.forEach((recipe) => {
+      const ratio = recipeScaleRatio(recipe);
       const list = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
       list.forEach((rawIng) => {
         const ing = normalizeIngredient(rawIng, recipe.title);
         if (!ing.nom) return;
+        const rawQty = Number(ing.qte);
+        const scaledQty = Number.isFinite(rawQty) ? rawQty * ratio : ing.qte;
 
         const key = [normText(ing.rangee), normText(ing.nom), normText(ing.uni)].join("||");
         const existing = map.get(key);
@@ -205,7 +223,7 @@
             rangee: ing.rangee,
             nom: ing.nom,
             uni: ing.uni,
-            qte: ing.qte,
+            qte: scaledQty,
             recipeTitles: [recipe.title]
           });
           return;
@@ -217,10 +235,11 @@
 
         const a = Number(existing.qte);
         const b = Number(ing.qte);
+        const scaled = Number.isFinite(b) ? b * ratio : ing.qte;
         if (Number.isFinite(a) && Number.isFinite(b)) {
-          existing.qte = a + b;
-        } else if (!existing.qte && ing.qte) {
-          existing.qte = ing.qte;
+          existing.qte = a + scaled;
+        } else if (!existing.qte && scaled) {
+          existing.qte = scaled;
         }
       });
     });
@@ -315,9 +334,20 @@
         const title = recipe.title || recipe.id;
         const href = recipe.url || "#";
         const count = Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0;
+        const basePortions = Number(recipe.portions_base);
+        const hasBasePortions = Number.isFinite(basePortions) && basePortions > 0;
+        const targetPortions = Number(recipe.portions_target);
+        const wanted = Number.isFinite(targetPortions) && targetPortions > 0 ? targetPortions : basePortions;
+        const portionsHtml = hasBasePortions ? [
+          "<div class='cart-portions-controls'>",
+          `<span class='text-muted small'>Base: ${formatQty(basePortions)} portion(s)</span>`,
+          "<label class='cart-portions-label'>Voulu</label>",
+          `<input class='form-control form-control-sm cart-portions-input' type='number' min='1' step='1' value='${wanted}' data-recipe-id='${recipe.id}'>`,
+          "</div>"
+        ].join("") : "<div class='text-muted small'>Portions non definies</div>";
         return [
           "<article class='cart-recipe-card'>",
-          `<div><a class='cart-recipe-link' href='${href}'>${title}</a><div class='text-muted small'>${count} ingredient(s)</div></div>`,
+          `<div><a class='cart-recipe-link' href='${href}'>${title}</a><div class='text-muted small'>${count} ingredient(s)</div>${portionsHtml}</div>`,
           `<button class='btn btn-sm btn-outline-danger cart-remove-recipe' type='button' data-recipe-id='${recipe.id}'>Retirer</button>`,
           "</article>"
         ].join("");
@@ -366,6 +396,20 @@
       recipesWrap.querySelectorAll(".cart-remove-recipe").forEach((btn) => {
         btn.addEventListener("click", () => {
           removeRecipeFromCart(btn.getAttribute("data-recipe-id"));
+          render();
+        });
+      });
+
+      recipesWrap.querySelectorAll(".cart-portions-input").forEach((input) => {
+        input.addEventListener("change", () => {
+          const recipeId = input.getAttribute("data-recipe-id");
+          const wanted = Number(input.value);
+          if (!Number.isFinite(wanted) || wanted <= 0) return;
+          const nextCart = loadCart().map((recipe) => {
+            if (recipe.id !== recipeId) return recipe;
+            return { ...recipe, portions_target: wanted };
+          });
+          saveCart(nextCart);
           render();
         });
       });
