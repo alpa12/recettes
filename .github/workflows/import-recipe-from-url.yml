@@ -37,6 +37,16 @@ jobs:
           Rscript -e 'install.packages(c("yaml", "httr", "rvest", "jsonlite", "glue", "fs", "stringr", "here"), repos="https://cloud.r-project.org")'
           Rscript -e 'install.packages(c("ellmer", "gitcreds", "gargle"), repos="https://cloud.r-project.org")'
 
+      - name: Download CNF dataset (Health Canada)
+        run: |
+          mkdir -p data/nutrition/cnf
+          curl -fL "https://www.canada.ca/content/dam/hc-sc/migration/hc-sc/fn-an/alt_formats/zip/nutrition/fiche-nutri-data/cnf-fcen-csv.zip" -o /tmp/cnf-fcen-csv.zip
+          unzip -o /tmp/cnf-fcen-csv.zip -d data/nutrition/cnf
+
+      - name: Build CNF foods mapping file
+        run: |
+          Rscript --vanilla R/build_cnf_foods.R
+
       - name: Find pending recipe URL file
         id: find-url
         run: |
@@ -56,7 +66,7 @@ jobs:
           RECIPE_URL_FILE: ${{ steps.find-url.outputs.url_file }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          Rscript .github/scripts/import-recipe-from-url.R
+          Rscript --vanilla .github/scripts/import-recipe-from-url.R
 
       - name: Commit generated recipe files
         run: |

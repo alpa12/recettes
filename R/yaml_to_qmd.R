@@ -33,6 +33,10 @@ escape_html <- function(x) {
 
 `%||%` <- function(a, b) if (is.null(a)) b else a
 
+if (file.exists("R/nutrition.R")) {
+  source("R/nutrition.R")
+}
+
 fmt_number <- function(x) {
   if (is.null(x) || length(x) == 0) return("")
   n <- suppressWarnings(as.numeric(x))
@@ -263,6 +267,34 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     )
   }
 
+  # ---- Nutrition ----
+  nutrition_html <- NULL
+  if (exists("calc_recipe_nutrition", mode = "function") &&
+      exists("build_nutrition_table_html", mode = "function")) {
+    nutrition_res <- tryCatch(
+      calc_recipe_nutrition(recipe),
+      error = function(e) NULL
+    )
+    if (!is.null(nutrition_res)) {
+      nutrition_html <- tryCatch(
+        build_nutrition_table_html(nutrition_res, portions = base_portions),
+        error = function(e) NULL
+      )
+    }
+  }
+
+  if (!is.null(nutrition_html) && nzchar(nutrition_html)) {
+    lines <- c(
+      lines,
+      "## Valeurs nutritives",
+      "",
+      "```{=html}",
+      nutrition_html,
+      "```",
+      ""
+    )
+  }
+
   if (has_step_images) {
     lines <- c(
       lines,
@@ -430,6 +462,30 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{",
         "const b=parseFloat(el.getAttribute('data-base'));",
         "if(Number.isFinite(b)){el.textContent=format(b*ratio);} });",
+        "document.querySelectorAll('.recipe-nutrition-total[data-base-total]').forEach((el)=>{",
+        "const baseTotal=parseFloat(el.getAttribute('data-base-total'));",
+        "const unit=el.getAttribute('data-unit')||'';",
+        "const dec=parseInt(el.getAttribute('data-decimals')||'1',10);",
+        "if(Number.isFinite(baseTotal)){",
+        "const v=baseTotal*ratio;",
+        "let t=(Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toFixed(Math.max(0,dec));",
+        "if(dec>0){t=t.replace(/\\.0+$/,'').replace(/(\\.[0-9]*?)0+$/,'$1');}",
+        "t=t.replace('.',',');",
+        "el.textContent=t+' '+unit;",
+        "}",
+        "});",
+        "document.querySelectorAll('.recipe-nutrition-per-portion[data-base-total]').forEach((el)=>{",
+        "const baseTotal=parseFloat(el.getAttribute('data-base-total'));",
+        "const unit=el.getAttribute('data-unit')||'';",
+        "const dec=parseInt(el.getAttribute('data-decimals')||'1',10);",
+        "if(Number.isFinite(baseTotal)){",
+        "const v=baseTotal/base;",
+        "let t=(Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toFixed(Math.max(0,dec));",
+        "if(dec>0){t=t.replace(/\\.0+$/,'').replace(/(\\.[0-9]*?)0+$/,'$1');}",
+        "t=t.replace('.',',');",
+        "el.textContent=t+' '+unit;",
+        "}",
+        "});",
         "};",
         "input.addEventListener('input', update);",
         "if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}",
