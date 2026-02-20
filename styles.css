@@ -336,3 +336,43 @@ body.reading-mode .toc,
 body.reading-mode nav[role="doc-toc"] {
   display: none !important;
 }
+
+.recipe-cart-shell {
+  display: grid;
+  gap: 1rem;
+}
+
+.recipe-cart-block {
+  border: 1px solid var(--site-border-soft);
+  border-radius: 14px;
+  padding: 0.85rem;
+  background: color-mix(in srgb, var(--bs-body-bg) 94%, var(--site-accent) 6%);
+}
+
+.cart-recipes {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.cart-recipe-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  border: 1px solid var(--site-border-soft);
+  border-radius: 10px;
+  padding: 0.55rem 0.65rem;
+  background: var(--bs-body-bg);
+}
+
+.cart-recipe-link {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cart-aisle-title {
+  margin-top: 1rem;
+  margin-bottom: 0.45rem;
+  font-size: 1.05rem;
+  border-bottom: 1px solid var(--site-border-soft);
+}

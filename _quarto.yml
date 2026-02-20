@@ -17,6 +17,8 @@ website:
         text: Repas
       - href: recettes/desserts/index.qmd
         text: Desserts
+      - href: recettes/panier/index.qmd
+        text: Panier
       - href: recettes/ajouter_recette/index.qmd
         text: Ajouter une recette
     style: docked
@@ -34,5 +36,6 @@ format:
 
 resources:
   - config.js
+  - includes/recipe-cart.js
   - recettes/template.yaml
   - recettes/**/*.yaml
