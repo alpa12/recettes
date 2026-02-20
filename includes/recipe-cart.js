@@ -1,4 +1,7 @@
 (function () {
+  if (window.__RECIPE_CART_BOOTSTRAPPED__) return;
+  window.__RECIPE_CART_BOOTSTRAPPED__ = true;
+
   const CART_KEY = "recipe_cart_v1";
   const CART_CHECKS_KEY = "recipe_cart_checks_v1";
 

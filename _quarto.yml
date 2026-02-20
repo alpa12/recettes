@@ -31,11 +31,13 @@ format:
       dark: superhero
     css: styles.css
     include-before-body: includes/skip-link.html
+    include-after-body: includes/recipe-cart-loader.html
     toc: true
     respect-user-color-scheme: true
 
 resources:
   - config.js
   - includes/recipe-cart.js
+  - includes/recipe-cart-loader.html
   - recettes/template.yaml
   - recettes/**/*.yaml
