@@ -6,14 +6,14 @@
   const CART_CHECKS_KEY = "recipe_cart_checks_v1";
 
   const AILLES = [
-    "Fruits et legumes",
+    "Fruits et légumes",
     "Viandes et substituts",
-    "Produits laitiers et oeufs",
+    "Produits laitiers et œufs",
     "Boulangerie",
-    "Epicerie seche",
+    "Épicerie sèche",
     "Conserves et bocaux",
-    "Surgeles",
-    "Epices et condiments",
+    "Surgelés",
+    "Épices et condiments",
     "Boissons",
     "Autres"
   ];
@@ -339,7 +339,7 @@
 
       if (cart.length === 0) {
         recipesWrap.innerHTML = "<p class='text-muted mb-0'>Aucune recette dans le panier.</p>";
-        ingredientsWrap.innerHTML = "<p class='text-muted mb-0'>Ajoute des recettes pour generer la liste d'epicerie.</p>";
+        ingredientsWrap.innerHTML = "<p class='text-muted mb-0'>Ajoute des recettes pour générer la liste d'épicerie.</p>";
         return;
       }
 
@@ -354,10 +354,10 @@
         const portionsHtml = hasBasePortions ? [
           "<div class='cart-portions-controls'>",
           `<span class='text-muted small'>Base: ${formatQty(basePortions)} portion(s)</span>`,
-          "<label class='cart-portions-label'>Voulu</label>",
+          "<label class='cart-portions-label'>Portions voulues</label>",
           `<input class='form-control form-control-sm cart-portions-input' type='number' min='1' step='1' value='${wanted}' data-recipe-id='${recipe.id}'>`,
           "</div>"
-        ].join("") : "<div class='text-muted small'>Portions non definies</div>";
+        ].join("") : "<div class='text-muted small'>Portions non définies</div>";
         return [
           "<article class='cart-recipe-card'>",
           `<div><a class='cart-recipe-link' href='${href}'>${title}</a><div class='text-muted small'>${count} ingredient(s)</div>${portionsHtml}</div>`,
@@ -430,7 +430,7 @@
 
     copyBtn?.addEventListener("click", async () => {
       const lines = getUncheckedLines();
-      const txt = lines.length ? lines.map((x) => "- " + x).join("\n") : "(Aucun ingredient restant)";
+      const txt = lines.length ? lines.map((x) => "- " + x).join("\n") : "(Aucun ingrédient restant)";
 
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -438,10 +438,10 @@
         } else {
           window.prompt("Copie la liste:", txt);
         }
-        if (feedback) feedback.textContent = "Liste copié.";
+        if (feedback) feedback.textContent = "Liste copiée.";
       } catch (_e) {
         window.prompt("Copie la liste:", txt);
-        if (feedback) feedback.textContent = "Liste prête a copier.";
+        if (feedback) feedback.textContent = "Liste prête à copier.";
       }
     });
 
