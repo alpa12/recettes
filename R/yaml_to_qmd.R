@@ -176,9 +176,34 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   yaml_rel_to_root <- fs::path_rel(yaml_path, start = ".")
   yaml_rel_to_root <- gsub("\\\\", "/", yaml_rel_to_root)
   if (!startsWith(yaml_rel_to_root, "/")) yaml_rel_to_root <- paste0("/", yaml_rel_to_root)
+  recipe_url <- sub("\\.ya?ml$", ".qmd", yaml_rel_to_root, ignore.case = TRUE)
 
   yaml_qp <- utils::URLencode(yaml_rel_to_root, reserved = TRUE)
   edit_href <- paste0("../", EDIT_PAGE_HREF, "?", EDIT_PARAM_NAME, "=", yaml_qp)
+
+  cart_ingredients <- list()
+  for (section in recipe$preparation %||% list()) {
+    for (step in section$etapes %||% list()) {
+      for (ing in step$ingredients %||% list()) {
+        nom <- as.character(ing$nom %||% "")
+        if (!nzchar(stringr::str_trim(nom))) next
+        cart_ingredients[[length(cart_ingredients) + 1]] <- list(
+          nom = nom,
+          uni = as.character(ing$uni %||% ""),
+          qte = ing$qte %||% NULL,
+          rangee = as.character(ing$rangee %||% ing$rayon %||% "")
+        )
+      }
+    }
+  }
+  cart_payload <- list(
+    id = recipe_url,
+    title = as.character(recipe$nom %||% ""),
+    url = recipe_url,
+    ingredients = cart_ingredients
+  )
+  cart_json <- jsonlite::toJSON(cart_payload, auto_unbox = TRUE, null = "null")
+  cart_json <- gsub("</", "<\\\\/", cart_json, fixed = TRUE)
 
   # ---- Quick facts and tools ----
   facts <- character()
@@ -205,12 +230,23 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "<div class=\"recipe-toolbar\">",
     paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">✏️ Modifier cette recette</a>"),
     "<div class=\"recipe-toolbar-actions\">",
+    "<button id=\"recipe-cart-toggle\" type=\"button\" class=\"btn btn-outline-success btn-sm\">Ajouter au panier</button>",
+    "<a href=\"/recettes/panier/\" class=\"btn btn-outline-success btn-sm\">Voir le panier</a>",
     "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">🍳 Mode cuisson</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">🖨️ Imprimer</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">🔗 Copier le lien</button>",
     "</div>",
     "</div>",
     if (length(facts) > 0) paste0("<div class=\"recipe-facts-grid\">", paste(facts, collapse = ""), "</div>") else "",
+    "```",
+    ""
+  )
+
+  lines <- c(
+    lines,
+    "```{=html}",
+    paste0("<script id=\"recipe-cart-data\" type=\"application/json\">", cart_json, "</script>"),
+    "<script src=\"/includes/recipe-cart.js\"></script>",
     "```",
     ""
   )
