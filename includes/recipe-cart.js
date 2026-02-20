@@ -157,7 +157,11 @@
 
   function updateNavbarBadge() {
     const count = loadCart().length;
-    const links = Array.from(document.querySelectorAll("a[href]")).filter((a) => isPanierHref(a.getAttribute("href")));
+    const links = Array.from(document.querySelectorAll("#quarto-header .navbar .navbar-nav .nav-link")).filter((a) => {
+      const label = (a.querySelector(".menu-text") || {}).textContent || a.textContent || "";
+      if (normText(label) === "panier") return true;
+      return isPanierHref(a.getAttribute("href"));
+    });
     links.forEach((link) => {
       let badge = link.querySelector(".cart-nav-badge");
       if (!badge) {
@@ -169,6 +173,15 @@
       badge.textContent = String(count);
       badge.classList.toggle("d-none", count < 1);
     });
+  }
+
+  function recipeHref(rawUrl) {
+    const v = String(rawUrl || "").trim();
+    if (!v) return "#";
+    if (/^https?:\/\//i.test(v)) {
+      return v.replace(/\.qmd($|[?#])/, ".html$1");
+    }
+    return v.replace(/\.qmd($|[?#])/, ".html$1");
   }
 
   function resolveAisle(ingredient) {
@@ -332,7 +345,7 @@
 
       recipesWrap.innerHTML = cart.map((recipe) => {
         const title = recipe.title || recipe.id;
-        const href = recipe.url || "#";
+        const href = recipeHref(recipe.url || recipe.id);
         const count = Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0;
         const basePortions = Number(recipe.portions_base);
         const hasBasePortions = Number.isFinite(basePortions) && basePortions > 0;
