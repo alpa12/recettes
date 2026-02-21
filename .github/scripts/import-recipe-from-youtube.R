@@ -99,6 +99,12 @@ fetch_youtube_transcript_python <- function(video_id) {
   )
   status <- attr(out, "status")
   if (!is.null(status) && status != 0) {
+    if (any(grepl("No module named 'youtube_transcript_api'", out, fixed = TRUE))) {
+      stop(
+        "python transcript API indisponible: module 'youtube_transcript_api' manquant. ",
+        "Installe-le avec: python3 -m pip install youtube-transcript-api"
+      )
+    }
     stop("python transcript API a échoué: ", paste(out, collapse = "\n"))
   }
   if (!file.exists(out_file)) {
@@ -124,8 +130,15 @@ fetch_youtube_transcript_ytdlp <- function(video_url, video_id) {
     stop("yt-dlp introuvable dans PATH.")
   }
 
+  timeout_bin <- Sys.which("timeout")
+  if (!nzchar(timeout_bin)) timeout_bin <- Sys.which("gtimeout")
+  timeout_prefix <- if (nzchar(timeout_bin)) paste(shQuote(timeout_bin), "180") else ""
+  if (!nzchar(timeout_prefix)) {
+    cat("⚠️ Aucun binaire timeout détecté (timeout/gtimeout). Exécution yt-dlp sans timeout.\n")
+  }
+
   cmd <- paste(
-    "timeout 180",
+    timeout_prefix,
     "yt-dlp",
     "--skip-download",
     "--write-auto-subs",
