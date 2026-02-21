@@ -33,20 +33,8 @@ jobs:
           sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
 
       - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: |
-            any::yaml
-            any::httr
-            any::rvest
-            any::jsonlite
-            any::glue
-            any::fs
-            any::stringr
-            any::here
-            any::ellmer
-            any::gitcreds
-            any::gargle
+        run: |
+          Rscript -e 'install.packages(c("yaml","httr","rvest","jsonlite","glue","fs","stringr","here","ellmer","gitcreds","gargle"), repos="https://cloud.r-project.org", Ncpus=2)'
 
       - name: Download CNF dataset (Health Canada)
         run: |

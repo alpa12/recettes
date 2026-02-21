@@ -29,13 +29,8 @@ jobs:
           r-version: '4.5.2'
 
       - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: |
-            any::yaml
-            any::glue
-            any::cli
-            any::here
+        run: |
+          Rscript -e 'install.packages(c("yaml","glue","cli","here"), repos="https://cloud.r-project.org", Ncpus=2)'
 
       - name: Validate recipe YAML files
         run: |
