@@ -13,6 +13,8 @@ recipes_dir <- here("recettes")
 yaml_files <- list.files(recipes_dir, pattern = "\\.ya?ml$", recursive = TRUE, full.names = TRUE)
 yaml_files <- yaml_files[!grepl("template\\.ya?ml$", yaml_files, ignore.case = TRUE)]
 yaml_files <- yaml_files[!grepl("url_imports/", yaml_files, fixed = TRUE)]
+yaml_files <- yaml_files[!grepl("url_imports_web/", yaml_files, fixed = TRUE)]
+yaml_files <- yaml_files[!grepl("url_imports_youtube/", yaml_files, fixed = TRUE)]
 
 required_root <- c("nom", "nom_court", "source", "portions", "preparation")
 issues <- character()

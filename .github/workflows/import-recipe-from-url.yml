@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'recettes/url_imports/**/*.yaml'
+      - 'recettes/url_imports_web/**/*.yaml'
 
 jobs:
   import-recipe:
@@ -52,14 +52,7 @@ jobs:
       - name: Find pending recipe URL file
         id: find-url
         run: |
-          URL_FILE=""
-          for f in $(find recettes/url_imports -name "*.yaml" -type f | sort); do
-            if grep -Eiq '(^import_type:[[:space:]]*youtube[[:space:]]*$|^url:[[:space:]]*https?://(www\.)?(youtube\.com|youtu\.be)/)' "$f"; then
-              continue
-            fi
-            URL_FILE="$f"
-            break
-          done
+          URL_FILE=$(find recettes/url_imports_web -name "*.yaml" -type f 2>/dev/null | sort | head -n 1)
 
           if [ -z "$URL_FILE" ]; then
             echo "Aucune demande URL web à traiter."

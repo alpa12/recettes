@@ -11,6 +11,8 @@ on:
       - 'R/nutrition.R'
       - 'data/nutrition/cnf_food_map.csv'
       - '!recettes/url_imports/**'
+      - '!recettes/url_imports_web/**'
+      - '!recettes/url_imports_youtube/**'
 
 permissions:
   contents: write

@@ -553,8 +553,9 @@ async function handleUrlSubmit(e) {
     const slug = urlSafeSlug(url);
     const guid = newGuid();
 
-    // Store requests in a dedicated folder to avoid clashing with real recipes
-    const filePath = `recettes/url_imports/${slug}-${guid}.yaml`;
+    // Store requests in dedicated folders to route to the right workflow
+    const requestFolder = youtube ? "recettes/url_imports_youtube" : "recettes/url_imports_web";
+    const filePath = `${requestFolder}/${slug}-${guid}.yaml`;
     const baseBranchName = `recette-url/${slug}`;
 
     const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
