@@ -62,16 +62,18 @@ fetch_youtube_transcript <- function(video_url, video_id) {
   fs::dir_create(tmp, recurse = TRUE)
   outtmpl <- fs::path(tmp, paste0(video_id, ".%(ext)s"))
 
-  args <- c(
+  cmd <- paste(
+    "yt-dlp",
     "--skip-download",
     "--write-auto-subs",
     "--write-subs",
     "--sub-format", "vtt",
-    "--sub-langs", "fr.*,en.*",
-    "-o", outtmpl,
-    video_url
+    "--sub-langs", shQuote("fr.*,en.*"),
+    "-o", shQuote(outtmpl),
+    shQuote(video_url),
+    "2>&1"
   )
-  out <- system2("yt-dlp", args = args, stdout = TRUE, stderr = TRUE)
+  out <- system(cmd, intern = TRUE, ignore.stderr = FALSE)
   status <- attr(out, "status")
   if (!is.null(status) && status != 0) {
     stop("yt-dlp a échoué: ", paste(out, collapse = "\n"))
