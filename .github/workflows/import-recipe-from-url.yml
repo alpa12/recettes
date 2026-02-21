@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - 'recettes/url_imports_web/**/*.yaml'
+      - 'livrec/**'
 
 jobs:
   import-recipe:
