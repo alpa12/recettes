@@ -70,7 +70,9 @@ jobs:
           echo "Fichier YouTube trouvé: $URL_FILE"
 
       - name: Import recipe from YouTube
+        id: import-youtube
         if: steps.find-youtube.outputs.run == 'true'
+        continue-on-error: true
         env:
           RECIPE_URL_FILE: ${{ steps.find-youtube.outputs.url_file }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -78,7 +80,7 @@ jobs:
           Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-youtube.R")'
 
       - name: Commit generated recipe files
-        if: steps.find-youtube.outputs.run == 'true'
+        if: steps.find-youtube.outputs.run == 'true' && steps.import-youtube.outcome == 'success'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -94,7 +96,7 @@ jobs:
           fi
 
       - name: Comment on PR
-        if: steps.find-youtube.outputs.run == 'true'
+        if: steps.find-youtube.outputs.run == 'true' && steps.import-youtube.outcome == 'success'
         uses: actions/github-script@v7
         with:
           script: |
@@ -103,4 +105,16 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: '✅ **Import YouTube terminé!**\n\nLa transcription a été analysée et la recette a été générée.'
+            })
+
+      - name: Comment on PR (manual handling required)
+        if: steps.find-youtube.outputs.run == 'true' && steps.import-youtube.outcome != 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Import YouTube automatique échoué**\n\nLa vidéo semble bloquer l\'accès automatisé à la transcription. La demande URL est conservée dans `recettes/url_imports_youtube/` pour traitement manuel par le mainteneur.'
             })
