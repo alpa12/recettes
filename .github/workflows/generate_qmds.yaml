@@ -95,11 +95,11 @@ jobs:
 
       - name: Build CNF foods mapping file
         run: |
-          Rscript --vanilla R/build_cnf_foods.R
+          Rscript -e 'source("renv/activate.R"); source("R/build_cnf_foods.R")'
 
       - name: Run QMD generation script
         run: |
-          Rscript --vanilla R/generate_qmds.R
+          Rscript -e 'source("renv/activate.R"); source("R/generate_qmds.R")'
 
       - name: Commit generated QMD files
         if: github.event.pull_request.head.repo.full_name == github.repository

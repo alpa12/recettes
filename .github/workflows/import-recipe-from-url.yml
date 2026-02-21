@@ -47,7 +47,7 @@ jobs:
 
       - name: Build CNF foods mapping file
         run: |
-          Rscript --vanilla R/build_cnf_foods.R
+          Rscript -e 'source("renv/activate.R"); source("R/build_cnf_foods.R")'
 
       - name: Find pending recipe URL file
         id: find-url
@@ -68,7 +68,7 @@ jobs:
           RECIPE_URL_FILE: ${{ steps.find-url.outputs.url_file }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          Rscript --vanilla .github/scripts/import-recipe-from-url.R
+          Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-url.R")'
 
       - name: Commit generated recipe files
         run: |
