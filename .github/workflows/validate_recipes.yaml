@@ -28,8 +28,14 @@ jobs:
         with:
           r-version: '4.5.2'
 
-      - name: Restore R packages with renv
-        uses: r-lib/actions/setup-renv@v2
+      - name: Install R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::yaml
+            any::glue
+            any::cli
+            any::here
 
       - name: Validate recipe YAML files
         run: |

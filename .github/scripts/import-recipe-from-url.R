@@ -361,11 +361,21 @@ recipe_category <- chat$chat("Dans quelle catégorie classerais-tu cette recette
   trimws() |> 
   tolower()
 
+category_map <- c(
+  "accompagnement" = "accompagnements",
+  "accompagnements" = "accompagnements",
+  "repas" = "repas",
+  "dessert" = "desserts",
+  "desserts" = "desserts"
+)
+recipe_category <- category_map[[recipe_category]] %||% "repas"
+
 # Générer le nom de fichier
 filename_base <- gsub("[^a-z0-9]+", "-", tolower(recipe_data$nom_court))
 filename_base <- gsub("^-|-$", "", filename_base)
 
 yaml_file <- glue("recettes/{recipe_category}/{filename_base}.yaml")
+fs::dir_create(dirname(yaml_file), recurse = TRUE)
 
 # Sauvegarder le fichier YAML
 cat("💾 Sauvegarde de", yaml_file, "\n")
