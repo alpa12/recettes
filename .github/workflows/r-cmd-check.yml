@@ -16,14 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: '4.5.2'
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
-      - uses: r-lib/actions/setup-renv@v2
+      - name: Setup R environment
+        uses: ./.github/actions/setup-r-livrec
+        with:
+          r-version: '4.5.2'
       - name: Install build dependencies
         run: |
           Rscript -e 'source("renv/activate.R"); renv::install(c("rcmdcheck", "roxygen2", "testthat"), prompt = FALSE, repos = "https://cloud.r-project.org")'

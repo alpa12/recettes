@@ -16,13 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
+      - name: Setup R environment
+        uses: ./.github/actions/setup-r-livrec
         with:
           r-version: '4.5.2'
-      - uses: r-lib/actions/setup-renv@v2
-      - name: Install livrec and dependencies
+      - name: Install test dependency
         run: |
-          Rscript -e 'source("renv/activate.R"); deps <- unique(na.omit(renv::dependencies("livrec")$Package)); deps <- setdiff(deps, "livrec"); if (length(deps) > 0) renv::install(deps, prompt = FALSE, repos = "https://cloud.r-project.org"); renv::install("./livrec", prompt = FALSE); renv::install("testthat", prompt = FALSE, repos = "https://cloud.r-project.org")'
+          Rscript -e 'source("renv/activate.R"); renv::install("testthat", prompt = FALSE, repos = "https://cloud.r-project.org")'
       - name: Run tests
         run: |
           Rscript -e 'source("renv/activate.R"); testthat::test_local("livrec")'

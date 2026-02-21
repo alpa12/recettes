@@ -23,22 +23,15 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: '4.5.2'
-
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
 
-      - name: Restore R packages with renv
-        uses: r-lib/actions/setup-renv@v2
-
-      - name: Install livrec package and dependencies
-        run: |
-          Rscript -e 'source("renv/activate.R"); deps <- unique(na.omit(renv::dependencies("livrec")$Package)); deps <- setdiff(deps, "livrec"); if (length(deps) > 0) renv::install(deps, prompt = FALSE, repos = "https://cloud.r-project.org"); renv::install("./livrec", prompt = FALSE)'
+      - name: Setup R environment
+        uses: ./.github/actions/setup-r-livrec
+        with:
+          r-version: '4.5.2'
 
       - name: Download CNF dataset (Health Canada)
         run: |
