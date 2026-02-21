@@ -37,7 +37,7 @@ jobs:
 
       - name: Install missing import dependencies in renv library
         run: |
-          Rscript --vanilla -e 'renv::install(c("rvest", "ellmer", "gitcreds"), prompt = FALSE, repos = "https://cloud.r-project.org")'
+          Rscript -e 'source("renv/activate.R"); renv::install(c("rvest", "ellmer", "gitcreds"), prompt = FALSE, repos = "https://cloud.r-project.org")'
 
       - name: Download CNF dataset (Health Canada)
         run: |
