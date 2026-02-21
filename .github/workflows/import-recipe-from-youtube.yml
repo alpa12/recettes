@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'recettes/url_imports/**/*.yaml'
+      - 'recettes/url_imports_youtube/**/*.yaml'
 
 jobs:
   import-recipe-youtube:
@@ -52,13 +52,7 @@ jobs:
       - name: Find pending YouTube URL file
         id: find-youtube
         run: |
-          URL_FILE=""
-          for f in $(find recettes/url_imports -name "*.yaml" -type f | sort); do
-            if grep -Eiq '(^import_type:[[:space:]]*youtube[[:space:]]*$|^url:[[:space:]]*https?://(www\.)?(youtube\.com|youtu\.be)/)' "$f"; then
-              URL_FILE="$f"
-              break
-            fi
-          done
+          URL_FILE=$(find recettes/url_imports_youtube -name "*.yaml" -type f 2>/dev/null | sort | head -n 1)
 
           if [ -z "$URL_FILE" ]; then
             echo "Aucune demande YouTube à traiter."

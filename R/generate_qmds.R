@@ -67,6 +67,9 @@ yaml_files <- list.files(
 yaml_files <- yaml_files[
   basename(yaml_files) != "template.yaml"
 ]
+yaml_files <- yaml_files[!grepl("url_imports/", yaml_files, fixed = TRUE)]
+yaml_files <- yaml_files[!grepl("url_imports_web/", yaml_files, fixed = TRUE)]
+yaml_files <- yaml_files[!grepl("url_imports_youtube/", yaml_files, fixed = TRUE)]
 
 cli::cli_alert_info(glue::glue("Recettes YAML détectées : {length(yaml_files)}"))
 
