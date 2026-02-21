@@ -123,7 +123,7 @@ jobs:
 
 La vidéo semble bloquer l'accès automatisé à la transcription. La demande URL est conservée pour traitement manuel.
 
-Commande à copier-coller dans ton terminal:
+Commande à copier-coller dans ton terminal (en fournissant ta clé API manuellement):
 
 \`\`\`bash
 cd /Users/alexandreparent/Documents/r-projects/recettes
@@ -132,7 +132,7 @@ git checkout ${branch}
 git pull --ff-only origin ${branch}
 
 export RECIPE_URL_FILE="${urlFile}"
-export GEMINI_API_KEY="$(grep '^GEMINI_API_KEY=' .Renviron | sed 's/^GEMINI_API_KEY=//')"
+export GEMINI_API_KEY="<COLLE_TA_CLE_API_ICI>"
 
 Rscript -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE); livrec::gha_import_recipe_from_youtube()'
 
