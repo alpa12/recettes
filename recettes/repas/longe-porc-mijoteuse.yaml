@@ -2,7 +2,7 @@ nom: Recette facile de longe de porc à la mijoteuse
 nom_court: longe porc mijoteuse
 source: https://bonpourtoi.ca/recettes/recette-facile-de-longe-de-porc-a-la-mijoteuse/?cookmode
 portions: 6
-se_congele: yes
+se_congele: ~
 difficulte: Facile
 cout: ~
 allergenes: []
@@ -14,17 +14,17 @@ temps:
   cuisson: 320
   refrigeration: ~
 preparation:
-- section: Préparation
+- section: Préparation de la longe de porc et de la sauce
   etapes:
   - etape: Éponger soigneusement la longe de porc avec du papier absorbant pour retirer
       l’excédent d’humidité.
     image_guid: ~
     ingredients:
     - nom: Longe de porc
-      qte: 1.8
-      uni: kg
+      qte: 1
+      uni: longe
       rangee: ~
-    equipements: Papier absorbant
+    equipements: []
   - etape: Dans un petit bol, mélanger le paprika, le thym, le sel, la poudre d’oignon,
       la poudre d’ail, le piment de Cayenne et le poivre. Frotter ce mélange d’épices
       sur toute la surface de la longe pour bien l’enrober.
@@ -58,11 +58,7 @@ preparation:
       qte: 0.25
       uni: c. à thé
       rangee: ~
-    - nom: Longe de porc
-      qte: 1.8
-      uni: kg
-      rangee: ~
-    equipements: Petit bol
+    equipements: Bol
   - etape: Chauffer l’huile végétale dans une grande poêle à feu moyen. Déposer la
       longe et la faire dorer sur toutes ses faces, environ 2 minutes par côté, jusqu’à
       l’obtention d’une belle croûte dorée. Transférer la viande dans la mijoteuse.
@@ -72,12 +68,8 @@ preparation:
       qte: 2
       uni: c. à soupe
       rangee: ~
-    - nom: Longe de porc
-      qte: 1.8
-      uni: kg
-      rangee: ~
     equipements:
-    - Grande poêle
+    - Poêle
     - Mijoteuse
   - etape: Dans la même poêle, faire fondre le beurre à feu moyen, puis ajouter l’ail
       haché. Cuire 1 minute, jusqu’à ce qu’il soit légèrement doré. Incorporer le
@@ -86,7 +78,7 @@ preparation:
     image_guid: ~
     ingredients:
     - nom: Beurre non salé
-      qte: 0.67
+      qte: 0.66
       uni: tasse
       rangee: ~
     - nom: Ail frais haché
@@ -109,23 +101,15 @@ preparation:
   - etape: Verser la sauce chaude sur la longe de porc. Couvrir et cuire à basse température
       pendant 5 heures, jusqu’à ce que la viande soit tendre.
     image_guid: ~
-    ingredients:
-    - nom: Longe de porc
-      qte: 1.8
-      uni: kg
-      rangee: ~
+    ingredients: []
     equipements: Mijoteuse
   - etape: Retirer la longe de la mijoteuse et la déposer sur une planche ou une assiette
       de service. Couvrir légèrement d’un papier d’aluminium et laisser reposer 15
       minutes.
     image_guid: ~
-    ingredients:
-    - nom: Longe de porc
-      qte: 1.8
-      uni: kg
-      rangee: ~
+    ingredients: []
     equipements:
-    - Planche à découper
+    - Planche
     - Assiette de service
     - Papier d'aluminium
   - etape: Verser le jus de cuisson dans une petite casserole. Délayer la fécule de
@@ -143,16 +127,12 @@ preparation:
       uni: c. à soupe
       rangee: ~
     equipements:
-    - Petite casserole
+    - Casserole
     - Fouet
   - etape: Trancher la viande et servir avec une généreuse quantité de sauce.
     image_guid: ~
-    ingredients:
-    - nom: Longe de porc
-      qte: 1.8
-      uni: kg
-      rangee: ~
-    equipements: Couteau
+    ingredients: []
+    equipements: []
 commentaires: []
 image_guid: ~
 soumis_par: Alexandre Parent
