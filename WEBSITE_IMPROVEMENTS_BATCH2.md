@@ -110,8 +110,8 @@ Each area was implemented in a dedicated commit for easier review and rollback.
 - Reduces page weight and improves listing performance.
 
 ### Files
-- `R/generate_qmds.R`
-- `R/yaml_to_qmd.R`
+- `livrec/R/generate_qmds.R`
+- `livrec/R/yaml_to_qmd.R`
 
 ### Commit
 - `83940ca` - Generate lightweight thumbnails for recipe listing images
@@ -126,7 +126,7 @@ Each area was implemented in a dedicated commit for easier review and rollback.
 - Catches schema/data issues before merge.
 
 ### Files
-- `R/validate_recipes.R`
+- `livrec/R/validate.R`
 - `.github/workflows/validate_recipes.yaml`
 
 ### Commit
