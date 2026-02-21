@@ -63,6 +63,7 @@ fetch_youtube_transcript_python <- function(video_id) {
   }
 
   out_file <- tempfile(pattern = paste0("yt-transcript-", video_id, "-"), fileext = ".txt")
+  py_file <- tempfile(pattern = "yt-transcript-", fileext = ".py")
   py_code <- paste(
     "import sys",
     "from youtube_transcript_api import YouTubeTranscriptApi",
@@ -88,10 +89,11 @@ fetch_youtube_transcript_python <- function(video_id) {
     "    f.write('\\n'.join(lines))",
     sep = "\n"
   )
+  writeLines(py_code, py_file, useBytes = TRUE)
 
   out <- system2(
     "python3",
-    args = c("-c", py_code, video_id, out_file),
+    args = c(py_file, video_id, out_file),
     stdout = TRUE,
     stderr = TRUE
   )
