@@ -31,9 +31,9 @@ jobs:
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2
 
-      - name: Install local livrec package
+      - name: Install livrec package and dependencies
         run: |
-          Rscript -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE)'
+          Rscript -e 'source("renv/activate.R"); deps <- unique(na.omit(renv::dependencies("livrec")$Package)); deps <- setdiff(deps, "livrec"); if (length(deps) > 0) renv::install(deps, prompt = FALSE, repos = "https://cloud.r-project.org"); renv::install("./livrec", prompt = FALSE)'
 
       - name: Validate recipe YAML files
         run: |
