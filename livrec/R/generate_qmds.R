@@ -25,6 +25,11 @@ generate_thumbnails <- function(yaml_files, images_dir = "images", thumbs_dir = 
   }
 
   fs::dir_create(thumbs_dir, recurse = TRUE)
+  magick_ns <- asNamespace("magick")
+  image_read <- get("image_read", envir = magick_ns)
+  image_resize <- get("image_resize", envir = magick_ns)
+  image_strip <- get("image_strip", envir = magick_ns)
+  image_write <- get("image_write", envir = magick_ns)
   made <- 0L
   seen <- character()
 
@@ -40,10 +45,10 @@ generate_thumbnails <- function(yaml_files, images_dir = "images", thumbs_dir = 
       if (!file.exists(src)) next
       if (file.exists(dst) && file.info(dst)$mtime >= file.info(src)$mtime) next
 
-      img <- magick::image_read(src)
-      img <- magick::image_resize(img, "1200x1200>")
-      img <- magick::image_strip(img)
-      magick::image_write(img, path = dst, format = "jpeg", quality = 72)
+      img <- image_read(src)
+      img <- image_resize(img, "1200x1200>")
+      img <- image_strip(img)
+      image_write(img, path = dst, format = "jpeg", quality = 72)
       made <- made + 1L
     }
   }

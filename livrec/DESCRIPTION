@@ -18,5 +18,3 @@ Imports:
     rvest,
     stringr,
     yaml
-Suggests:
-    magick
