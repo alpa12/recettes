@@ -119,7 +119,7 @@ extract_recipe_page_context <- function(page) {
       !grepl("ingredient|preparation|instruction|etape", tolower(iconv(ingredient_scope, from = "", to = "ASCII//TRANSLIT"))) &
       nchar(ingredient_scope) <= 140 &
       (
-        grepl("^[\\-\\*\\u2022]\\s*", ingredient_scope, perl = TRUE) |
+        grepl("^(?:-|\\*|•)\\s*", ingredient_scope, perl = TRUE) |
         grepl("^\\d", ingredient_scope) |
         grepl("\\b(c\\.|tasse|ml|g|kg|lb|oz|pincee|gousse|boite|cuill)", tolower(iconv(ingredient_scope, from = "", to = "ASCII//TRANSLIT")))
       )
