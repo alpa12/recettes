@@ -4,8 +4,8 @@
 
 clean_line <- function(x) {
   x <- as.character(x %||% "")
-  x <- gsub("[\\r\\t]", " ", x)
-  x <- gsub("\\s+", " ", x)
+  x <- gsub("[\\r\\t]", " ", x, perl = TRUE)
+  x <- gsub("\\s+", " ", x, perl = TRUE)
   trimws(x)
 }
 
@@ -117,7 +117,13 @@ has_any_step_ingredients <- function(recipe_data) {
 }
 
 slugify <- function(x) {
-  base <- tolower(iconv(clean_line(x), from = "", to = "ASCII//TRANSLIT"))
+  base <- clean_line(x)
+  base <- if (requireNamespace("stringi", quietly = TRUE)) {
+    stringi::stri_trans_general(base, "Latin-ASCII")
+  } else {
+    iconv(base, from = "", to = "ASCII//TRANSLIT", sub = "")
+  }
+  base <- tolower(base)
   base <- gsub("[^a-z0-9]+", "-", base)
   base <- gsub("^-|-$", "", base)
   base

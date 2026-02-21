@@ -72,17 +72,34 @@ normalize_unit <- function(unit) {
 
 load_nutrition_db <- local({
   cache <- NULL
+  resolve_data_file <- function(path) {
+    candidates <- c(path, file.path("..", path))
+    hit <- candidates[file.exists(candidates)]
+    if (length(hit) == 0) return(NA_character_)
+    hit[[1]]
+  }
 
   function() {
     if (!is.null(cache)) return(cache)
 
+    foods_path <- resolve_data_file("data/nutrition/foods.csv")
+    aliases_path <- resolve_data_file("data/nutrition/aliases.csv")
+    cnf_path <- resolve_data_file("data/nutrition/foods_cnf.csv")
+
+    if (is.na(foods_path) || is.na(aliases_path)) {
+      cache <<- list(
+        foods = data.frame(food_id = character(), stringsAsFactors = FALSE),
+        aliases = data.frame(alias = character(), food_id = character(), alias_norm = character(), stringsAsFactors = FALSE)
+      )
+      return(cache)
+    }
+
     foods <- read.csv(
-      "data/nutrition/foods.csv",
+      foods_path,
       stringsAsFactors = FALSE,
       check.names = FALSE
     )
-    cnf_path <- "data/nutrition/foods_cnf.csv"
-    if (file.exists(cnf_path)) {
+    if (!is.na(cnf_path) && file.exists(cnf_path)) {
       foods_cnf <- read.csv(
         cnf_path,
         stringsAsFactors = FALSE,
@@ -96,7 +113,7 @@ load_nutrition_db <- local({
     if (!("source" %in% names(foods))) foods$source <- "unknown"
     if (!("source_ref" %in% names(foods))) foods$source_ref <- ""
     aliases <- read.csv(
-      "data/nutrition/aliases.csv",
+      aliases_path,
       stringsAsFactors = FALSE,
       check.names = FALSE
     )
@@ -281,6 +298,11 @@ escape_html_local <- function(x) {
   gsub("\"", "&quot;", x, fixed = TRUE)
 }
 
+#' Build HTML nutrition table for a recipe.
+#' @param nutrition_result Output of [calc_recipe_nutrition()].
+#' @param portions Numeric portion count.
+#' @return A single HTML string.
+#' @export
 build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
   totals <- nutrition_result$total
   per_portion <- nutrition_result$per_portion
@@ -393,6 +415,10 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
   )
 }
 
+#' Compute nutrition totals and per-portion values for a recipe.
+#' @param recipe Parsed recipe list from YAML.
+#' @return A list with totals, per-portion values and unresolved ingredients.
+#' @export
 calc_recipe_nutrition <- function(recipe) {
   db <- load_nutrition_db()
   foods <- db$foods
