@@ -488,6 +488,16 @@ function urlSafeSlug(u) {
   }
 }
 
+function isYouTubeUrl(u) {
+  try {
+    const parsed = new URL(String(u || "").trim());
+    const h = parsed.hostname.toLowerCase().replace(/^www\./, "");
+    return h === "youtube.com" || h === "m.youtube.com" || h === "youtu.be";
+  } catch {
+    return false;
+  }
+}
+
 function setupUrlImportForm() {
   const form = document.getElementById("url-form");
   if (!form) return;
@@ -520,6 +530,7 @@ async function handleUrlSubmit(e) {
 
   const url = document.getElementById("recipe-url")?.value?.trim() || "";
   const submittedBy = document.getElementById("url-submitted-by")?.value?.trim() || null;
+  const youtube = isYouTubeUrl(url);
 
   setUrlSubmitLoading(true);
 
@@ -550,6 +561,7 @@ async function handleUrlSubmit(e) {
 
     const payload = {
       url: url,
+      import_type: youtube ? "youtube" : "web",
       submitted_by: submittedBy,
       submitted_at: new Date().toISOString().slice(0, 10)
     };
@@ -575,10 +587,13 @@ async function handleUrlSubmit(e) {
         method: "POST",
         headers,
         body: JSON.stringify({
-          title: `Ajout recette via URL: ${slug}`,
+          title: youtube ? `Ajout recette via vidéo YouTube: ${slug}` : `Ajout recette via URL: ${slug}`,
           head: branchName,
           base: base,
-          body: `URL soumise: ${url}` + (submittedBy ? `\nSoumis par: ${submittedBy}` : "")
+          body:
+            (youtube ? "Type: YouTube\n" : "Type: URL web\n") +
+            `URL soumise: ${url}` +
+            (submittedBy ? `\nSoumis par: ${submittedBy}` : "")
         })
       }
     );

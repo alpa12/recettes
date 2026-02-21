@@ -1,4 +1,4 @@
-name: Import Recipe from URL
+name: Import Recipe from YouTube
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - 'recettes/url_imports/**/*.yaml'
 
 jobs:
-  import-recipe:
+  import-recipe-youtube:
     runs-on: ubuntu-latest
 
     permissions:
@@ -30,7 +30,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev yt-dlp
 
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2
@@ -49,58 +49,53 @@ jobs:
         run: |
           Rscript -e 'source("renv/activate.R"); source("R/build_cnf_foods.R")'
 
-      - name: Find pending recipe URL file
-        id: find-url
+      - name: Find pending YouTube URL file
+        id: find-youtube
         run: |
           URL_FILE=""
           for f in $(find recettes/url_imports -name "*.yaml" -type f | sort); do
             if grep -Eiq '(^import_type:[[:space:]]*youtube[[:space:]]*$|^url:[[:space:]]*https?://(www\.)?(youtube\.com|youtu\.be)/)' "$f"; then
-              continue
+              URL_FILE="$f"
+              break
             fi
-            URL_FILE="$f"
-            break
           done
 
           if [ -z "$URL_FILE" ]; then
-            echo "Aucune demande URL web à traiter."
+            echo "Aucune demande YouTube à traiter."
             echo "run=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           echo "run=true" >> "$GITHUB_OUTPUT"
           echo "url_file=$URL_FILE" >> "$GITHUB_OUTPUT"
-          echo "Fichier URL web trouvé: $URL_FILE"
+          echo "Fichier YouTube trouvé: $URL_FILE"
 
-      - name: Import recipe from URL
-        if: steps.find-url.outputs.run == 'true'
+      - name: Import recipe from YouTube
+        if: steps.find-youtube.outputs.run == 'true'
         env:
-          RECIPE_URL_FILE: ${{ steps.find-url.outputs.url_file }}
+          RECIPE_URL_FILE: ${{ steps.find-youtube.outputs.url_file }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-url.R")'
+          Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-youtube.R")'
 
       - name: Commit generated recipe files
-        if: steps.find-url.outputs.run == 'true'
+        if: steps.find-youtube.outputs.run == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          # Ajouter les nouveaux fichiers de recette
           git add recettes/**/*.yaml recettes/**/*.qmd
+          git rm ${{ steps.find-youtube.outputs.url_file }}
 
-          # Supprimer le fichier URL temporaire
-          git rm ${{ steps.find-url.outputs.url_file }}
-
-          # Commit si des changements existent
           if git diff --staged --quiet; then
             echo "Aucun changement à commiter"
           else
-            git commit -m "🤖 Import automatique de recette depuis URL"
+            git commit -m "🤖 Import automatique de recette depuis YouTube"
             git push
           fi
 
       - name: Comment on PR
-        if: steps.find-url.outputs.run == 'true'
+        if: steps.find-youtube.outputs.run == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -108,5 +103,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '✅ **Import automatique terminé!**\n\nLa recette a été extraite et les fichiers ont été générés. Vous pouvez maintenant réviser les changements.'
+              body: '✅ **Import YouTube terminé!**\n\nLa transcription a été analysée et la recette a été générée.'
             })
