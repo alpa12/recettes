@@ -62,21 +62,26 @@ fetch_youtube_transcript <- function(video_url, video_id) {
   fs::dir_create(tmp, recurse = TRUE)
   outtmpl <- fs::path(tmp, paste0(video_id, ".%(ext)s"))
 
+  if (nzchar(Sys.which("yt-dlp")) == 0) {
+    stop("yt-dlp introuvable dans PATH.")
+  }
+
   cmd <- paste(
+    "timeout 180",
     "yt-dlp",
     "--skip-download",
     "--write-auto-subs",
     "--write-subs",
+    "--no-progress",
     "--sub-format", "vtt",
     "--sub-langs", shQuote("fr.*,en.*"),
     "-o", shQuote(outtmpl),
-    shQuote(video_url),
-    "2>&1"
+    shQuote(video_url)
   )
-  out <- system(cmd, intern = TRUE, ignore.stderr = FALSE)
-  status <- attr(out, "status")
+  cat("🧰 Commande transcription:", cmd, "\n")
+  status <- suppressWarnings(system(cmd, intern = FALSE, ignore.stdout = FALSE, ignore.stderr = FALSE))
   if (!is.null(status) && status != 0) {
-    stop("yt-dlp a échoué: ", paste(out, collapse = "\n"))
+    stop("yt-dlp a échoué (code ", status, ").")
   }
 
   vtt_files <- list.files(tmp, pattern = "\\.vtt$", full.names = TRUE)
