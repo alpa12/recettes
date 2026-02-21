@@ -1,14 +1,153 @@
 #!/usr/bin/env Rscript
 
 library(yaml)
-library(httr)
 library(rvest)
 library(jsonlite)
 library(glue)
 library(ellmer)
-library(gargle)
 
 `%||%` <- function(x, y) if (is.null(x) || length(x) == 0) y else x
+
+clean_line <- function(x) {
+  x <- as.character(x %||% "")
+  x <- gsub("[\r\t]", " ", x)
+  x <- gsub("\\s+", " ", x)
+  trimws(x)
+}
+
+is_noise_line <- function(x) {
+  s <- tolower(iconv(clean_line(x), from = "", to = "ASCII//TRANSLIT"))
+  if (!nzchar(s)) return(TRUE)
+  if (nchar(s) < 3) return(TRUE)
+  grepl(
+    "^(menu|navigation|accueil|connexion|compte|profil|rechercher|search|newsletter|politique|cookies|publicite|sponsored|voir plus|lire aussi)$",
+    s,
+    perl = TRUE
+  )
+}
+
+split_clean_lines <- function(text) {
+  lines <- unlist(strsplit(as.character(text %||% ""), "\n", fixed = TRUE), use.names = FALSE)
+  lines <- vapply(lines, clean_line, character(1))
+  lines <- lines[nzchar(lines)]
+  unique(lines)
+}
+
+guess_portions <- function(x) {
+  if (is.null(x)) return(NULL)
+  v <- as.character(x)
+  if (length(v) == 0) return(NULL)
+  v <- paste(v, collapse = " ")
+  m <- regexec("(\\d+)\\s*(portions?|personnes?|servings?)", tolower(v), perl = TRUE)
+  p <- regmatches(tolower(v), m)[[1]]
+  if (length(p) >= 2) {
+    out <- suppressWarnings(as.numeric(p[2]))
+    if (is.finite(out) && out > 0) return(as.integer(round(out)))
+  }
+  m2 <- regexec("\\b(\\d{1,2})\\b", v, perl = TRUE)
+  p2 <- regmatches(v, m2)[[1]]
+  if (length(p2) >= 2) {
+    out <- suppressWarnings(as.numeric(p2[2]))
+    if (is.finite(out) && out > 0 && out <= 30) return(as.integer(round(out)))
+  }
+  NULL
+}
+
+extract_recipe_page_context <- function(page) {
+  selectors <- c(
+    "article",
+    "main",
+    "[itemtype*='Recipe']",
+    ".wprm-recipe-container",
+    ".recipe",
+    ".entry-content",
+    ".post-content",
+    ".single-post"
+  )
+
+  blocks <- character()
+  for (sel in selectors) {
+    nodes <- rvest::html_elements(page, sel)
+    if (length(nodes) == 0) next
+    txt <- vapply(nodes, function(n) rvest::html_text2(n, preserve_nbsp = FALSE), character(1))
+    txt <- txt[nzchar(trimws(txt))]
+    blocks <- c(blocks, txt)
+  }
+
+  if (length(blocks) == 0) {
+    blocks <- rvest::html_text2(page, preserve_nbsp = FALSE)
+  }
+  blocks <- unique(blocks)
+
+  score_block <- function(txt) {
+    t <- tolower(iconv(txt, from = "", to = "ASCII//TRANSLIT"))
+    score <- 0
+    if (grepl("ingredient", t)) score <- score + 3
+    if (grepl("preparation|instructions?|etapes?|methode", t)) score <- score + 3
+    if (grepl("portion|servings?|rendement", t)) score <- score + 1
+    if (nchar(t) > 1000) score <- score + 1
+    if (nchar(t) > 80000) score <- score - 2
+    score
+  }
+
+  ord <- order(vapply(blocks, score_block, numeric(1)), decreasing = TRUE)
+  blocks <- blocks[ord]
+  focused_text <- paste(head(blocks, 3), collapse = "\n\n")
+  focused_lines <- split_clean_lines(focused_text)
+
+  lowered <- tolower(iconv(focused_lines, from = "", to = "ASCII//TRANSLIT"))
+  ing_idx <- which(grepl("^ingredients?$|\\bingredients?\\b", lowered))[1]
+  prep_idx <- which(grepl("^preparation$|^etapes?$|^instructions?$|\\bpreparation\\b|\\betapes?\\b|\\binstructions?\\b", lowered))[1]
+  stop_idx <- which(grepl("^nutrition$|^notes?$|^commentaires?$|^astuces?$|^faq$", lowered))[1]
+
+  ingredient_scope <- focused_lines
+  if (!is.na(ing_idx)) {
+    end_idx <- c(prep_idx, stop_idx, length(focused_lines) + 1)
+    end_idx <- end_idx[!is.na(end_idx) & end_idx > ing_idx]
+    ingredient_scope <- focused_lines[ing_idx:(min(end_idx) - 1)]
+  }
+
+  instruction_scope <- focused_lines
+  if (!is.na(prep_idx)) {
+    end_idx <- c(stop_idx, length(focused_lines) + 1)
+    end_idx <- end_idx[!is.na(end_idx) & end_idx > prep_idx]
+    instruction_scope <- focused_lines[prep_idx:(min(end_idx) - 1)]
+  }
+
+  ingredient_lines <- ingredient_scope[
+    !vapply(ingredient_scope, is_noise_line, logical(1)) &
+      !grepl("ingredient|preparation|instruction|etape", tolower(iconv(ingredient_scope, from = "", to = "ASCII//TRANSLIT"))) &
+      nchar(ingredient_scope) <= 140 &
+      (
+        grepl("^(?:-|\\*|•)\\s*", ingredient_scope, perl = TRUE) |
+        grepl("^\\d", ingredient_scope) |
+        grepl("\\b(c\\.|tasse|ml|g|kg|lb|oz|pincee|gousse|boite|cuill)", tolower(iconv(ingredient_scope, from = "", to = "ASCII//TRANSLIT")))
+      )
+  ]
+  ingredient_lines <- unique(ingredient_lines)
+
+  instruction_lines <- instruction_scope[
+    !vapply(instruction_scope, is_noise_line, logical(1)) &
+      !grepl("^ingredients?$", tolower(iconv(instruction_scope, from = "", to = "ASCII//TRANSLIT"))) &
+      nchar(instruction_scope) >= 20 &
+      nchar(instruction_scope) <= 400
+  ]
+  instruction_lines <- unique(instruction_lines)
+
+  title_guess <- tryCatch(
+    clean_line(rvest::html_text2(rvest::html_element(page, "h1"), preserve_nbsp = FALSE)),
+    error = function(e) ""
+  )
+  portions_guess <- guess_portions(focused_lines)
+
+  list(
+    title_guess = title_guess,
+    portions_guess = portions_guess,
+    ingredient_lines = ingredient_lines,
+    instruction_lines = instruction_lines,
+    focused_text = focused_text
+  )
+}
 
 as_character_vec <- function(x) {
   if (is.null(x)) return(character(0))
@@ -228,6 +367,60 @@ inject_fallback_ingredients <- function(recipe_data, ingredient_lines) {
   recipe_data
 }
 
+has_any_steps <- function(recipe_data) {
+  prep <- recipe_data$preparation
+  if (!is.list(prep) || length(prep) == 0) return(FALSE)
+  for (sec in prep) {
+    steps <- sec$etapes
+    if (is.list(steps) && length(steps) > 0) return(TRUE)
+  }
+  FALSE
+}
+
+inject_fallback_preparation <- function(recipe_data, instruction_lines) {
+  if (has_any_steps(recipe_data)) return(recipe_data)
+  lines <- unique(vapply(instruction_lines %||% character(0), clean_line, character(1)))
+  lines <- lines[nzchar(lines)]
+  if (length(lines) == 0) lines <- "Préparer les ingrédients et cuire selon la recette."
+
+  steps <- lapply(lines, function(txt) {
+    list(etape = txt, ingredients = list())
+  })
+
+  recipe_data$preparation <- list(
+    list(
+      section = "Préparation",
+      etapes = steps
+    )
+  )
+  recipe_data
+}
+
+apply_recipe_defaults <- function(recipe_data, recipe_url, structured_recipe, page_context) {
+  if (!nzchar(clean_line(recipe_data$nom %||% ""))) {
+    recipe_data$nom <- clean_line(structured_recipe$name %||% page_context$title_guess %||% "Recette importée")
+  }
+  if (!nzchar(clean_line(recipe_data$nom_court %||% ""))) {
+    base <- tolower(iconv(clean_line(recipe_data$nom), from = "", to = "ASCII//TRANSLIT"))
+    base <- gsub("[^a-z0-9]+", "-", base)
+    base <- gsub("^-|-$", "", base)
+    recipe_data$nom_court <- base
+  }
+  if (!nzchar(clean_line(recipe_data$source %||% ""))) {
+    recipe_data$source <- recipe_url
+  }
+
+  portions_value <- suppressWarnings(as.numeric(recipe_data$portions %||% NA_real_))
+  if (!(length(portions_value) == 1 && is.finite(portions_value) && portions_value > 0)) {
+    from_struct <- guess_portions(structured_recipe$recipeYield %||% NULL)
+    from_page <- page_context$portions_guess %||% NULL
+    recipe_data$portions <- from_struct %||% from_page %||% 4
+  }
+
+  if (is.null(recipe_data$commentaires)) recipe_data$commentaires <- list()
+  recipe_data
+}
+
 # Lire le fichier URL
 url_file <- Sys.getenv("RECIPE_URL_FILE")
 if (!file.exists(url_file)) {
@@ -258,10 +451,20 @@ if (!is.null(structured_recipe)) {
   cat("⚠️ Aucune donnée Recipe JSON-LD détectée, fallback texte brut.\n")
 }
 
-# Extraire le contenu texte de la page
-page_text <- page |> 
-  html_text() |> 
-  trimws()
+# Extraire le contenu principal (moins de bruit que html_text() brut)
+page_context <- extract_recipe_page_context(page)
+candidate_ingredient_lines <- unique(c(structured_recipe$ingredients %||% character(0), page_context$ingredient_lines %||% character(0)))
+candidate_instruction_lines <- unique(c(structured_recipe$instructions %||% character(0), page_context$instruction_lines %||% character(0)))
+page_text <- trimws(as.character(page_context$focused_text %||% ""))
+if (!nzchar(page_text)) {
+  page_text <- trimws(rvest::html_text2(page, preserve_nbsp = FALSE))
+}
+cat("🔎 Indices extraits du HTML ciblé:\n")
+cat("   - ingrédients candidats:", length(candidate_ingredient_lines), "\n")
+cat("   - étapes candidates:", length(candidate_instruction_lines), "\n")
+if (!is.null(page_context$portions_guess)) {
+  cat("   - portions candidates:", page_context$portions_guess, "\n")
+}
 
 # Tronquer si trop long (pour éviter de dépasser les limites du LLM)
 if (nchar(page_text) > 50000) {
@@ -285,7 +488,15 @@ Tu es un assistant qui extrait des recettes depuis des pages web.
 DONNÉES STRUCTURÉES EXTRAITES (prioritaires si présentes):
 {yaml::as.yaml(structured_recipe %||% list(note = "Aucune donnée structurée détectée"))}
 
-Voici le contenu d\'une page web contenant une recette :
+INDICES EXTRAITS DU HTML (utilise-les pour éviter les erreurs):
+{yaml::as.yaml(list(
+  titre_page = page_context$title_guess %||% NULL,
+  portions_candidates = page_context$portions_guess %||% NULL,
+  ingredients_candidates = head(candidate_ingredient_lines, 120),
+  etapes_candidates = head(candidate_instruction_lines, 120)
+))}
+
+Voici le contenu principal de la page :
 
 ---
 {page_text}
@@ -350,8 +561,10 @@ recipe_data <- tryCatch({
 
 cat("✅ YAML valide généré\n")
 
-# Fallback: si le LLM oublie les ingrédients, injecter la liste structurée dans la 1re étape.
-recipe_data <- inject_fallback_ingredients(recipe_data, structured_recipe$ingredients %||% character(0))
+# Fallbacks: réparer un YAML incomplet (étapes, ingrédients, champs clés).
+recipe_data <- inject_fallback_preparation(recipe_data, candidate_instruction_lines)
+recipe_data <- inject_fallback_ingredients(recipe_data, candidate_ingredient_lines)
+recipe_data <- apply_recipe_defaults(recipe_data, recipe_url, structured_recipe %||% list(), page_context %||% list())
 
 # Ajouter le champ soumis_par
 recipe_data$soumis_par <- submitted_by
@@ -361,11 +574,21 @@ recipe_category <- chat$chat("Dans quelle catégorie classerais-tu cette recette
   trimws() |> 
   tolower()
 
+category_map <- c(
+  "accompagnement" = "accompagnements",
+  "accompagnements" = "accompagnements",
+  "repas" = "repas",
+  "dessert" = "desserts",
+  "desserts" = "desserts"
+)
+recipe_category <- category_map[[recipe_category]] %||% "repas"
+
 # Générer le nom de fichier
 filename_base <- gsub("[^a-z0-9]+", "-", tolower(recipe_data$nom_court))
 filename_base <- gsub("^-|-$", "", filename_base)
 
 yaml_file <- glue("recettes/{recipe_category}/{filename_base}.yaml")
+fs::dir_create(dirname(yaml_file), recurse = TRUE)
 
 # Sauvegarder le fichier YAML
 cat("💾 Sauvegarde de", yaml_file, "\n")

@@ -33,4 +33,4 @@ jobs:
 
       - name: Validate recipe YAML files
         run: |
-          Rscript --vanilla R/validate_recipes.R
+          Rscript -e 'source("renv/activate.R"); source("R/validate_recipes.R")'

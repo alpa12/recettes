@@ -32,10 +32,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
 
-      - name: Install R packages
+      - name: Restore R packages with renv
+        uses: r-lib/actions/setup-renv@v2
+
+      - name: Install missing import dependencies in renv library
         run: |
-          Rscript -e 'install.packages(c("yaml", "httr", "rvest", "jsonlite", "glue", "fs", "stringr", "here"), repos="https://cloud.r-project.org")'
-          Rscript -e 'install.packages(c("ellmer", "gitcreds", "gargle"), repos="https://cloud.r-project.org")'
+          Rscript -e 'source("renv/activate.R"); renv::install(c("rvest", "ellmer", "gitcreds"), prompt = FALSE, repos = "https://cloud.r-project.org")'
 
       - name: Download CNF dataset (Health Canada)
         run: |
@@ -45,7 +47,7 @@ jobs:
 
       - name: Build CNF foods mapping file
         run: |
-          Rscript --vanilla R/build_cnf_foods.R
+          Rscript -e 'source("renv/activate.R"); source("R/build_cnf_foods.R")'
 
       - name: Find pending recipe URL file
         id: find-url
@@ -66,7 +68,7 @@ jobs:
           RECIPE_URL_FILE: ${{ steps.find-url.outputs.url_file }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          Rscript --vanilla .github/scripts/import-recipe-from-url.R
+          Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-url.R")'
 
       - name: Commit generated recipe files
         run: |

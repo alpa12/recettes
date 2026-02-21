@@ -189,8 +189,10 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   yaml_qp <- utils::URLencode(yaml_rel_to_root, reserved = TRUE)
   edit_href <- paste0("../", EDIT_PAGE_HREF, "?", EDIT_PARAM_NAME, "=", yaml_qp)
-  base_portions <- suppressWarnings(as.numeric(recipe$portions))
-  base_portions <- if (!is.na(base_portions) && base_portions > 0) base_portions else NULL
+  base_portions <- suppressWarnings(as.numeric(recipe$portions %||% NA_real_))
+  if (length(base_portions) != 1 || !is.finite(base_portions) || base_portions <= 0) {
+    base_portions <- NULL
+  }
 
   cart_ingredients <- list()
   for (section in recipe$preparation %||% list()) {
