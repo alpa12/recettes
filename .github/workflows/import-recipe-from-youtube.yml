@@ -30,7 +30,12 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev yt-dlp
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev yt-dlp python3-pip
+
+      - name: Install Python transcript dependency
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install youtube-transcript-api
 
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2

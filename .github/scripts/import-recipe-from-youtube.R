@@ -57,7 +57,63 @@ read_vtt_as_text <- function(path) {
   paste(lines, collapse = "\n")
 }
 
-fetch_youtube_transcript <- function(video_url, video_id) {
+fetch_youtube_transcript_python <- function(video_id) {
+  if (nzchar(Sys.which("python3")) == 0) {
+    stop("python3 introuvable dans PATH (fallback transcript API indisponible).")
+  }
+
+  out_file <- tempfile(pattern = paste0("yt-transcript-", video_id, "-"), fileext = ".txt")
+  py_code <- paste(
+    "import sys",
+    "from youtube_transcript_api import YouTubeTranscriptApi",
+    "video_id = sys.argv[1]",
+    "out_path = sys.argv[2]",
+    "segments = None",
+    "try:",
+    "    segments = YouTubeTranscriptApi.get_transcript(video_id, languages=['fr', 'en'])",
+    "except Exception:",
+    "    api = YouTubeTranscriptApi()",
+    "    fetched = api.fetch(video_id=video_id, languages=['fr', 'en'])",
+    "    segments = list(fetched)",
+    "lines = []",
+    "for s in segments:",
+    "    txt = ''",
+    "    if isinstance(s, dict):",
+    "        txt = (s.get('text') or '').strip()",
+    "    else:",
+    "        txt = (getattr(s, 'text', '') or '').strip()",
+    "    if txt:",
+    "        lines.append(txt)",
+    "with open(out_path, 'w', encoding='utf-8') as f:",
+    "    f.write('\\n'.join(lines))",
+    sep = "\n"
+  )
+
+  out <- system2(
+    "python3",
+    args = c("-c", py_code, video_id, out_file),
+    stdout = TRUE,
+    stderr = TRUE
+  )
+  status <- attr(out, "status")
+  if (!is.null(status) && status != 0) {
+    stop("python transcript API a échoué: ", paste(out, collapse = "\n"))
+  }
+  if (!file.exists(out_file)) {
+    stop("python transcript API n'a pas produit de fichier de sortie.")
+  }
+
+  txt <- paste(readLines(out_file, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+  txt <- gsub("\r", "", txt, fixed = TRUE)
+  txt <- gsub("\n{2,}", "\n", txt, perl = TRUE)
+  txt <- trimws(txt)
+  if (!nzchar(clean_line(txt))) {
+    stop("Transcription vide via python transcript API.")
+  }
+  txt
+}
+
+fetch_youtube_transcript_ytdlp <- function(video_url, video_id) {
   tmp <- fs::path_temp(paste0("yt-", video_id))
   fs::dir_create(tmp, recurse = TRUE)
   outtmpl <- fs::path(tmp, paste0(video_id, ".%(ext)s"))
@@ -97,6 +153,16 @@ fetch_youtube_transcript <- function(video_url, video_id) {
     stop("Transcription vide après nettoyage.")
   }
   txt
+}
+
+fetch_youtube_transcript <- function(video_url, video_id) {
+  tryCatch(
+    fetch_youtube_transcript_ytdlp(video_url, video_id),
+    error = function(e) {
+      cat("⚠️ yt-dlp indisponible ou bloqué (", conditionMessage(e), "). Fallback python transcript API...\n", sep = "")
+      fetch_youtube_transcript_python(video_id)
+    }
+  )
 }
 
 parse_numeric_token <- function(token) {
