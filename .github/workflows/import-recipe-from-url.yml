@@ -32,9 +32,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
 
-      - name: Install R dependencies
+      - name: Restore R packages with renv
+        uses: r-lib/actions/setup-renv@v2
+
+      - name: Install missing import dependencies in renv library
         run: |
-          Rscript -e 'install.packages(c("yaml","httr","rvest","jsonlite","glue","fs","stringr","here","ellmer","gitcreds","gargle"), repos="https://cloud.r-project.org", Ncpus=2)'
+          Rscript --vanilla -e 'renv::install(c("rvest", "ellmer", "gitcreds"), prompt = FALSE, repos = "https://cloud.r-project.org")'
 
       - name: Download CNF dataset (Health Canada)
         run: |

@@ -28,9 +28,8 @@ jobs:
         with:
           r-version: '4.5.2'
 
-      - name: Install R dependencies
-        run: |
-          Rscript -e 'install.packages(c("yaml","glue","cli","here"), repos="https://cloud.r-project.org", Ncpus=2)'
+      - name: Restore R packages with renv
+        uses: r-lib/actions/setup-renv@v2
 
       - name: Validate recipe YAML files
         run: |

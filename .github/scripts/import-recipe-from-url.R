@@ -1,12 +1,10 @@
 #!/usr/bin/env Rscript
 
 library(yaml)
-library(httr)
 library(rvest)
 library(jsonlite)
 library(glue)
 library(ellmer)
-library(gargle)
 
 `%||%` <- function(x, y) if (is.null(x) || length(x) == 0) y else x
 
