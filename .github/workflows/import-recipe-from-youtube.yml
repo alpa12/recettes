@@ -40,6 +40,10 @@ jobs:
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2
 
+      - name: Install local livrec package
+        run: |
+          Rscript -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE)'
+
       - name: Install missing import dependencies in renv library
         run: |
           Rscript -e 'source("renv/activate.R"); renv::install(c("rvest", "ellmer", "gitcreds"), prompt = FALSE, repos = "https://cloud.r-project.org")'
@@ -52,7 +56,7 @@ jobs:
 
       - name: Build CNF foods mapping file
         run: |
-          Rscript -e 'source("renv/activate.R"); source("R/build_cnf_foods.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_build_cnf_foods()'
 
       - name: Find pending YouTube URL file
         id: find-youtube
@@ -77,7 +81,7 @@ jobs:
           RECIPE_URL_FILE: ${{ steps.find-youtube.outputs.url_file }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-youtube.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_import_recipe_from_youtube()'
 
       - name: Commit generated recipe files
         if: steps.find-youtube.outputs.run == 'true' && steps.import-youtube.outcome == 'success'
@@ -133,7 +137,7 @@ git pull --ff-only origin ${branch}
 export RECIPE_URL_FILE="${urlFile}"
 export GEMINI_API_KEY="$(grep '^GEMINI_API_KEY=' .Renviron | sed 's/^GEMINI_API_KEY=//')"
 
-Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-youtube.R")'
+Rscript -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE); livrec::gha_import_recipe_from_youtube()'
 
 git add recettes/**/*.yaml recettes/**/*.qmd
 git rm "${urlFile}"

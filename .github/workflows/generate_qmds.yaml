@@ -6,9 +6,7 @@ on:
     paths:
       - 'recettes/**/*.yaml'
       - 'recettes/**/*.yml'
-      - 'R/generate_qmds.R'
-      - 'R/build_cnf_foods.R'
-      - 'R/nutrition.R'
+      - 'livrec/**'
       - 'data/nutrition/cnf_food_map.csv'
       - '!recettes/url_imports/**'
       - '!recettes/url_imports_web/**'
@@ -53,7 +51,7 @@ jobs:
           echo "$CHANGED_FILES"
 
           # Exclure les fichiers dans recettes/pending/ (URLs en attente d'import LLM)
-          RELEVANT_FILES=$(echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|R/generate_qmds\.R|R/build_cnf_foods\.R|R/nutrition\.R|data/nutrition/cnf_food_map\.csv)$' | grep -v '^recettes/pending/' || true)
+          RELEVANT_FILES=$(echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|livrec/|data/nutrition/cnf_food_map\.csv)$' | grep -v '^recettes/pending/' || true)
 
           if [ -n "$RELEVANT_FILES" ]; then
             echo "Relevant changes found:"
@@ -89,6 +87,10 @@ jobs:
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2
 
+      - name: Install local livrec package
+        run: |
+          Rscript -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE)'
+
       - name: Download CNF dataset (Health Canada)
         run: |
           mkdir -p data/nutrition/cnf
@@ -97,11 +99,11 @@ jobs:
 
       - name: Build CNF foods mapping file
         run: |
-          Rscript -e 'source("renv/activate.R"); source("R/build_cnf_foods.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_build_cnf_foods()'
 
       - name: Run QMD generation script
         run: |
-          Rscript -e 'source("renv/activate.R"); source("R/generate_qmds.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_generate_qmds()'
 
       - name: Commit generated QMD files
         if: github.event.pull_request.head.repo.full_name == github.repository

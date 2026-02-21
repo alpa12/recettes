@@ -35,6 +35,10 @@ jobs:
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2
 
+      - name: Install local livrec package
+        run: |
+          Rscript -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE)'
+
       - name: Install missing import dependencies in renv library
         run: |
           Rscript -e 'source("renv/activate.R"); renv::install(c("rvest", "ellmer", "gitcreds"), prompt = FALSE, repos = "https://cloud.r-project.org")'
@@ -47,7 +51,7 @@ jobs:
 
       - name: Build CNF foods mapping file
         run: |
-          Rscript -e 'source("renv/activate.R"); source("R/build_cnf_foods.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_build_cnf_foods()'
 
       - name: Find pending recipe URL file
         id: find-url
@@ -70,7 +74,7 @@ jobs:
           RECIPE_URL_FILE: ${{ steps.find-url.outputs.url_file }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-url.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_import_recipe_from_url()'
 
       - name: Commit generated recipe files
         if: steps.find-url.outputs.run == 'true'

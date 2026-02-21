@@ -5,14 +5,14 @@ on:
     paths:
       - 'recettes/**/*.yaml'
       - 'recettes/**/*.yml'
-      - 'R/validate_recipes.R'
+      - 'livrec/**'
       - 'recettes/template.yaml'
   push:
     branches: [dev, main]
     paths:
       - 'recettes/**/*.yaml'
       - 'recettes/**/*.yml'
-      - 'R/validate_recipes.R'
+      - 'livrec/**'
       - 'recettes/template.yaml'
 
 jobs:
@@ -31,6 +31,10 @@ jobs:
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2
 
+      - name: Install local livrec package
+        run: |
+          Rscript -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE)'
+
       - name: Validate recipe YAML files
         run: |
-          Rscript -e 'source("renv/activate.R"); source("R/validate_recipes.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_validate_recipes()'
