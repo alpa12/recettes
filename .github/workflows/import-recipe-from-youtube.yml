@@ -30,7 +30,12 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev yt-dlp
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev yt-dlp python3-pip
+
+      - name: Install Python transcript dependency
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install youtube-transcript-api
 
       - name: Restore R packages with renv
         uses: r-lib/actions/setup-renv@v2
@@ -65,7 +70,9 @@ jobs:
           echo "Fichier YouTube trouvé: $URL_FILE"
 
       - name: Import recipe from YouTube
+        id: import-youtube
         if: steps.find-youtube.outputs.run == 'true'
+        continue-on-error: true
         env:
           RECIPE_URL_FILE: ${{ steps.find-youtube.outputs.url_file }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -73,7 +80,7 @@ jobs:
           Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-youtube.R")'
 
       - name: Commit generated recipe files
-        if: steps.find-youtube.outputs.run == 'true'
+        if: steps.find-youtube.outputs.run == 'true' && steps.import-youtube.outcome == 'success'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -89,7 +96,7 @@ jobs:
           fi
 
       - name: Comment on PR
-        if: steps.find-youtube.outputs.run == 'true'
+        if: steps.find-youtube.outputs.run == 'true' && steps.import-youtube.outcome == 'success'
         uses: actions/github-script@v7
         with:
           script: |
@@ -98,4 +105,39 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: '✅ **Import YouTube terminé!**\n\nLa transcription a été analysée et la recette a été générée.'
+            })
+
+      - name: Comment on PR (manual handling required)
+        if: steps.find-youtube.outputs.run == 'true' && steps.import-youtube.outcome != 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+            const urlFile = '${{ steps.find-youtube.outputs.url_file }}';
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `⚠️ **Import YouTube automatique échoué**
+
+La vidéo semble bloquer l'accès automatisé à la transcription. La demande URL est conservée pour traitement manuel.
+
+Commande à copier-coller dans ton terminal:
+
+\`\`\`bash
+cd /Users/alexandreparent/Documents/r-projects/recettes
+git fetch origin
+git checkout ${branch}
+git pull --ff-only origin ${branch}
+
+export RECIPE_URL_FILE="${urlFile}"
+export GEMINI_API_KEY="$(grep '^GEMINI_API_KEY=' .Renviron | sed 's/^GEMINI_API_KEY=//')"
+
+Rscript -e 'source("renv/activate.R"); source(".github/scripts/import-recipe-from-youtube.R")'
+
+git add recettes/**/*.yaml recettes/**/*.qmd
+git rm "${urlFile}"
+git commit -m "🤖 Import manuel recette depuis YouTube"
+git push origin ${branch}
+\`\`\``
             })
