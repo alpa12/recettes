@@ -556,7 +556,7 @@ async function handleUrlSubmit(e) {
     // Store requests in dedicated folders to route to the right workflow
     const requestFolder = youtube ? "recettes/url_imports_youtube" : "recettes/url_imports_web";
     const filePath = `${requestFolder}/${slug}-${guid}.yaml`;
-    const baseBranchName = `recette-url/${slug}`;
+    const baseBranchName = `recette-url/${slug}-${guid}`;
 
     const branchName = await createBranchWithSuffixes({ owner, repo, headers, baseSha, baseBranchName });
 
