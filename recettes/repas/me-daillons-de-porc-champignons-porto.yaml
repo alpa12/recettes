@@ -47,8 +47,8 @@ preparation:
           Faire sauter à feu vif.
         ingredients:
           - nom: Sel
-            qte: ~
-            uni: ~
+            qte: 1
+            uni: au goût
             rangee: Epicerie
       - etape: Laisser cuire jusqu'à ce que l'eau des champignons se soit évaporée
           et qu'ils commencent à dorer (environ 5-10 minutes). Remuer occasionnellement
@@ -61,16 +61,16 @@ preparation:
           du sel et du poivre.
         ingredients:
           - nom: Médaillons de porc
-            qte: ~
-            uni: ~
-            rangee: Fruits et legumes
+            qte: 500
+            uni: g
+            rangee: Viandes et substituts
           - nom: Sel
-            qte: ~
-            uni: ~
+            qte: 1
+            uni: au goût
             rangee: Epicerie
           - nom: Poivre
-            qte: ~
-            uni: ~
+            qte: 1
+            uni: au goût
             rangee: Epicerie
       - etape: Rouler chaque médaillon dans la farine, puis taper pour enlever l'excès
           de farine.
@@ -118,7 +118,7 @@ preparation:
           - nom: Fond de volaille
             qte: 125
             uni: ml
-            rangee: Fruits et legumes
+            rangee: Conserves et sauces
         equipements: Petite casserole
       - etape: Utiliser la poêle ayant servi à cuire le porc. Retirer l'excès de gras.
           Augmenter le feu. Déglacer la poêle avec le porto en raclant le fond pour
@@ -139,12 +139,12 @@ preparation:
           si nécessaire.
         ingredients:
           - nom: Sel
-            qte: ~
-            uni: ~
+            qte: 1
+            uni: au goût
             rangee: Epicerie
           - nom: Poivre
-            qte: ~
-            uni: ~
+            qte: 1
+            uni: au goût
             rangee: Epicerie
       - etape: Filtrer la sauce à travers une passoire fine dans un récipient propre
           pour obtenir une sauce lisse.
@@ -157,16 +157,16 @@ preparation:
           et les médaillons de porc chauds.
         ingredients:
           - nom: Riz
-            qte: ~
-            uni: ~
+            qte: 1
+            uni: portion
             rangee: Epicerie
       - etape: Napper généreusement les médaillons de porc avec la sauce crémeuse
           aux champignons.
       - etape: (Facultatif) Garnir avec une branche d'aneth frais pour la présentation.
         ingredients:
           - nom: Aneth frais
-            qte: ~
-            uni: ~
+            qte: 1
+            uni: branche
             rangee: Fruits et legumes
 commentaires: []
 soumis_par: Alexandre Parent

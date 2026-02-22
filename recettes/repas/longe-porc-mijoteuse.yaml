@@ -95,8 +95,8 @@ preparation:
             uni: tasse
             rangee: Epicerie
           - nom: Sel de table
-            qte: ~
-            uni: ~
+            qte: 1
+            uni: pincée
             rangee: Epicerie
         equipements: Poêle
       - etape: Verser la sauce chaude sur la longe de porc. Couvrir et cuire à basse
