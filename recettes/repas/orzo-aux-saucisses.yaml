@@ -1,0 +1,129 @@
+nom: Orzo aux saucisses
+nom_court: orzo-aux-saucisses
+source: https://bonpourtoi.ca/recettes/orzo-aux-saucisses/
+portions: 4
+se_congele: yes
+difficulte: Facile
+cout: $
+allergenes: Lait
+categories:
+- Pâtes et nouilles
+- Plats principaux
+temps:
+  preparation: 15
+  cuisson: 35
+  refrigeration: ~
+preparation:
+- etapes:
+  - etape: Chauffer l’huile végétale dans une grande casserole à feu moyen-élevé.
+      Ajouter la chair de saucisses (boyaux retirés), la défaire en morceaux et cuire
+      environ 7 minutes, jusqu’à ce qu’elle soit bien dorée.
+    image_guid: ~
+    ingredients:
+    - nom: Huile végétale
+      qte: 2
+      uni: c. à soupe
+      rangee: ~
+    - nom: Saucisses italiennes crues
+      qte: 375
+      uni: g
+      rangee: ~
+    equipements: Grande casserole
+  - etape: Ajouter l’oignon haché et cuire 3 minutes, jusqu’à ce qu’il commence à
+      attendrir. Ajouter l’ail haché et cuire 1 minute.
+    image_guid: ~
+    ingredients:
+    - nom: Oignon jaune
+      qte: 1
+      uni: oignon
+      rangee: ~
+    - nom: Ail
+      qte: 1.5
+      uni: c. à soupe
+      rangee: ~
+    equipements: []
+  - etape: Ajouter le poivron rouge en dés et la courgette en dés, puis cuire 5 minutes
+      en remuant. Ajouter la pâte de tomates et les tomates séchées (égouttées et
+      coupées en morceaux), puis poursuivre la cuisson 1 minute pour concentrer les
+      saveurs.
+    image_guid: ~
+    ingredients:
+    - nom: Poivron rouge
+      qte: 1
+      uni: poivron
+      rangee: ~
+    - nom: Courgette
+      qte: 1
+      uni: moyenne
+      rangee: ~
+    - nom: Pâte de tomates
+      qte: 1
+      uni: c. à soupe
+      rangee: ~
+    - nom: Tomates séchées dans l’huile
+      qte: 0.33
+      uni: tasse
+      rangee: ~
+    equipements: []
+  - etape: Ajouter le vinaigre balsamique et le vin blanc sec. Gratter le fond pour
+      décoller les sucs, puis laisser réduire 2 minutes à feu moyen.
+    image_guid: ~
+    ingredients:
+    - nom: Vinaigre balsamique
+      qte: 1
+      uni: c. à soupe
+      rangee: ~
+    - nom: Vin blanc sec
+      qte: 0.5
+      uni: tasse
+      rangee: ~
+    equipements: []
+  - etape: Ajouter le bouillon de poulet, l’orzo sec et l’assaisonnement italien,
+      puis mélanger. Porter à légère ébullition à feu moyen-élevé, puis réduire à
+      feu moyen-doux. Laisser mijoter à découvert 15 minutes en remuant souvent, jusqu’à
+      ce que l’orzo soit tendre et que la sauce soit crémeuse. Si le mélange épaissit
+      trop vite, ajouter un petit trait de bouillon ou d’eau.
+    image_guid: ~
+    ingredients:
+    - nom: Bouillon de poulet
+      qte: 3.5
+      uni: tasse
+      rangee: ~
+    - nom: Orzo sec
+      qte: 1.5
+      uni: tasse
+      rangee: ~
+    - nom: Assaisonnement italien
+      qte: 2
+      uni: c. à thé
+      rangee: ~
+    equipements: []
+  - etape: Retirer du feu. Incorporer le fromage mozzarella râpé, puis mélanger jusqu’à
+      ce qu’il soit bien fondu.
+    image_guid: ~
+    ingredients:
+    - nom: Fromage mozzarella
+      qte: 1
+      uni: tasse
+      rangee: ~
+    equipements: []
+  - etape: Garnir la casserole d’orzo aux saucisses de fromage parmesan râpé finement,
+      de poivre du moulin et de basilic frais. Servir.
+    image_guid: ~
+    ingredients:
+    - nom: Fromage parmesan
+      qte: 0.33
+      uni: tasse
+      rangee: ~
+    - nom: Poivre noir du moulin
+      qte: 0.25
+      uni: c. à thé
+      rangee: ~
+    - nom: Basilic frais
+      qte: ~
+      uni: Au goût
+      rangee: ~
+    equipements: []
+commentaires: []
+image_guid: ~
+soumis_par: Alexandre Parent
