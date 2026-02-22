@@ -4,7 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
+      - 'recettes/url_imports_web/*.yaml'
       - 'recettes/url_imports_web/**/*.yaml'
+      - 'recettes/url_imports_youtube/*.yaml'
       - 'recettes/url_imports_youtube/**/*.yaml'
       - 'livrec/**'
 
@@ -32,13 +34,12 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev yt-dlp python3-pip
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev yt-dlp
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
 
       - name: Install Python transcript dependency
         run: |
@@ -146,30 +147,36 @@ jobs:
           script: |
             const branch = context.payload.pull_request.head.ref;
             const urlFile = '${{ steps.find-url.outputs.url_file }}';
+            const body = [
+              "⚠️ **Import YouTube automatique échoué**",
+              "",
+              "La vidéo semble bloquer l'accès automatisé à la transcription. La demande URL est conservée pour traitement manuel.",
+              "",
+              "Commande à copier-coller dans ton terminal:",
+              "",
+              "```bash",
+              "cd /Users/alexandreparent/Documents/r-projects/recettes",
+              "git fetch origin",
+              `git checkout ${branch}`,
+              `git pull --ff-only origin ${branch}`,
+              "",
+              `export RECIPE_URL_FILE=\"${urlFile}\"`,
+              "",
+              "if Rscript -e 'source(\"renv/activate.R\"); readRenviron(\".Renviron\"); renv::install(\"./livrec\", prompt = FALSE); livrec::gha_import_recipe_from_youtube()'; then",
+              "",
+              "  git add recettes/**/*.yaml recettes/**/*.qmd",
+              `  git rm \"${urlFile}\"`,
+              "  git commit -m \"🤖 Import manuel recette depuis YouTube\"",
+              `  git push origin ${branch}`,
+              "else",
+              "  echo \"Import YouTube echoue; YAML de demande conserve pour traitement ulterieur.\"",
+              "fi",
+              "```"
+            ].join("\n");
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `⚠️ **Import YouTube automatique échoué**
-
-La vidéo semble bloquer l'accès automatisé à la transcription. La demande URL est conservée pour traitement manuel.
-
-Commande à copier-coller dans ton terminal (en fournissant ta clé API manuellement):
-
-\`\`\`bash
-cd /Users/alexandreparent/Documents/r-projects/recettes
-git fetch origin
-git checkout ${branch}
-git pull --ff-only origin ${branch}
-
-export RECIPE_URL_FILE="${urlFile}"
-export GEMINI_API_KEY="<COLLE_TA_CLE_API_ICI>"
-
-Rscript -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE); livrec::gha_import_recipe_from_youtube()'
-
-git add recettes/**/*.yaml recettes/**/*.qmd
-git rm "${urlFile}"
-git commit -m "🤖 Import manuel recette depuis YouTube"
-git push origin ${branch}
-\`\`\``
+              body
             })

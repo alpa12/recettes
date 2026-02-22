@@ -1,4 +1,20 @@
+gha_ensure_gemini_api_key <- function() {
+  current_key <- Sys.getenv("GEMINI_API_KEY", unset = "")
+  if (nzchar(current_key)) return(invisible(TRUE))
+
+  renv_paths <- c(".Renviron", "~/.Renviron")
+  for (path in renv_paths) {
+    expanded <- path.expand(path)
+    if (!file.exists(expanded)) next
+    tryCatch(readRenviron(expanded), error = function(e) NULL)
+    if (nzchar(Sys.getenv("GEMINI_API_KEY", unset = ""))) return(invisible(TRUE))
+  }
+
+  stop("GEMINI_API_KEY introuvable. Definis la variable d'environnement ou ajoute-la dans .Renviron.")
+}
+
 gha_new_chat <- function() {
+  gha_ensure_gemini_api_key()
   ellmer::chat_google_gemini(
     system_prompt = paste(
       "Tu es un expert en extraction de recettes.",

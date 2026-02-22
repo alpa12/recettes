@@ -234,6 +234,226 @@ fetch_youtube_transcript <- function(video_url, video_id) {
   )
 }
 
+as_clean_scalar <- function(x) {
+  vals <- as.character(x %||% "")
+  vals <- vapply(vals, clean_line, character(1))
+  vals <- vals[nzchar(vals)]
+  if (length(vals) == 0) "" else vals[[1]]
+}
+
+collapse_clean_values <- function(x, sep = ", ", max_items = 50L) {
+  vals <- as.character(x %||% character(0))
+  vals <- vapply(vals, clean_line, character(1))
+  vals <- vals[nzchar(vals)]
+  if (length(vals) == 0) return("")
+  vals <- unique(vals)
+  paste(head(vals, max_items), collapse = sep)
+}
+
+parse_json_safely <- function(txt) {
+  if (!nzchar(clean_line(txt))) return(NULL)
+  tryCatch(
+    jsonlite::fromJSON(txt, simplifyVector = FALSE),
+    error = function(e) NULL
+  )
+}
+
+extract_ytdlp_json <- function(out_lines) {
+  if (length(out_lines) == 0) return(NULL)
+
+  raw_txt <- paste(out_lines, collapse = "\n")
+  full <- parse_json_safely(raw_txt)
+  if (!is.null(full)) return(full)
+
+  # yt-dlp can emit warnings around the JSON payload; try likely JSON lines first.
+  line_candidates <- out_lines[grepl("^\\s*\\{", out_lines)]
+  if (length(line_candidates) > 0) {
+    for (candidate in rev(line_candidates)) {
+      parsed <- parse_json_safely(candidate)
+      if (!is.null(parsed)) return(parsed)
+    }
+  }
+
+  start_pos <- regexpr("\\{", raw_txt, perl = TRUE)[1]
+  end_pos <- tail(gregexpr("\\}", raw_txt, perl = TRUE)[[1]], 1)
+  if (!is.na(start_pos) && !is.na(end_pos) && start_pos > 0 && end_pos > start_pos) {
+    sliced <- substr(raw_txt, start_pos, end_pos)
+    parsed <- parse_json_safely(sliced)
+    if (!is.null(parsed)) return(parsed)
+  }
+
+  NULL
+}
+
+metadata_from_ytdlp <- function(video_url) {
+  if (nzchar(Sys.which("yt-dlp")) == 0) stop("yt-dlp introuvable dans PATH.")
+
+  out <- system2(
+    "yt-dlp",
+    args = c("--skip-download", "--dump-single-json", "--no-warnings", "--no-progress", video_url),
+    stdout = TRUE,
+    stderr = TRUE
+  )
+  status <- attr(out, "status")
+  if (!is.null(status) && status != 0) {
+    stop("yt-dlp metadata a echoue: ", paste(out, collapse = "\n"))
+  }
+
+  info <- extract_ytdlp_json(out)
+  if (is.null(info)) stop("Impossible de parser les metadonnees yt-dlp.")
+
+  chapter_lines <- character(0)
+  if (is.list(info$chapters) && length(info$chapters) > 0) {
+    chapter_lines <- vapply(
+      info$chapters,
+      function(ch) as_clean_scalar(ch$title %||% ""),
+      character(1)
+    )
+    chapter_lines <- chapter_lines[nzchar(chapter_lines)]
+  }
+
+  list(
+    title = as_clean_scalar(info$title %||% info$fulltitle %||% ""),
+    description = as_clean_scalar(info$description %||% ""),
+    chapters = chapter_lines,
+    tags = collapse_clean_values(info$tags %||% character(0)),
+    source = "yt-dlp"
+  )
+}
+
+metadata_from_watch_page <- function(video_url) {
+  page <- tryCatch(rvest::read_html(video_url), error = function(e) NULL)
+  if (is.null(page)) stop("Impossible de telecharger la page YouTube.")
+
+  title <- as_clean_scalar(
+    rvest::html_attr(rvest::html_element(page, "meta[property='og:title']"), "content")
+  )
+  if (!nzchar(title)) {
+    title <- as_clean_scalar(
+      rvest::html_text2(rvest::html_element(page, "title"), preserve_nbsp = FALSE)
+    )
+  }
+
+  description <- as_clean_scalar(
+    rvest::html_attr(rvest::html_element(page, "meta[property='og:description']"), "content")
+  )
+  if (!nzchar(description)) {
+    description <- as_clean_scalar(
+      rvest::html_attr(rvest::html_element(page, "meta[name='description']"), "content")
+    )
+  }
+
+  keywords <- as_clean_scalar(
+    rvest::html_attr(rvest::html_element(page, "meta[name='keywords']"), "content")
+  )
+
+  list(
+    title = title,
+    description = description,
+    chapters = character(0),
+    tags = keywords,
+    source = "watch_page"
+  )
+}
+
+metadata_from_oembed <- function(video_url) {
+  endpoint <- paste0(
+    "https://www.youtube.com/oembed?url=",
+    utils::URLencode(video_url, reserved = TRUE),
+    "&format=json"
+  )
+  lines <- tryCatch(readLines(endpoint, warn = FALSE, encoding = "UTF-8"), error = function(e) character(0))
+  if (length(lines) == 0) stop("oEmbed indisponible.")
+
+  obj <- parse_json_safely(paste(lines, collapse = "\n"))
+  if (is.null(obj)) stop("oEmbed JSON invalide.")
+
+  author <- as_clean_scalar(obj$author_name %||% "")
+  list(
+    title = as_clean_scalar(obj$title %||% ""),
+    description = if (nzchar(author)) paste("Chaine:", author) else "",
+    chapters = character(0),
+    tags = "",
+    source = "oembed"
+  )
+}
+
+build_metadata_context <- function(meta, video_url, video_id, transcript_error = "") {
+  title <- as_clean_scalar(meta$title %||% "")
+  description <- as_clean_scalar(meta$description %||% "")
+  chapters <- as.character(meta$chapters %||% character(0))
+  chapters <- vapply(chapters, clean_line, character(1))
+  chapters <- chapters[nzchar(chapters)]
+  tags <- as_clean_scalar(meta$tags %||% "")
+  source <- as_clean_scalar(meta$source %||% "metadonnees")
+
+  context_lines <- c(
+    if (nzchar(title)) paste("Titre:", title),
+    if (nzchar(description)) c("Description:", description),
+    if (length(chapters) > 0) c("Chapitres:", chapters),
+    if (nzchar(tags)) paste("Tags:", tags),
+    paste("Video ID:", video_id),
+    paste("URL:", video_url)
+  )
+
+  error_line <- clean_line(transcript_error)
+  if (nchar(error_line) > 280) error_line <- paste0(substr(error_line, 1, 280), "...")
+  if (!nzchar(title) && nzchar(error_line)) {
+    context_lines <- c(context_lines, paste("Contrainte extraction:", error_line))
+  }
+
+  context_lines <- context_lines[nzchar(vapply(context_lines, clean_line, character(1)))]
+  context_text <- paste(context_lines, collapse = "\n")
+
+  if (!nzchar(clean_line(context_text))) {
+    context_text <- paste(
+      "Titre: Recette YouTube",
+      paste("Video ID:", video_id),
+      paste("URL:", video_url),
+      sep = "\n"
+    )
+  }
+
+  list(
+    text = context_text,
+    title = if (nzchar(title)) title else paste0("recette-youtube-", video_id),
+    source = source
+  )
+}
+
+fetch_youtube_metadata_context <- function(video_url, video_id, transcript_error = "") {
+  sources <- list(
+    ytdlp = function() metadata_from_ytdlp(video_url),
+    watch_page = function() metadata_from_watch_page(video_url),
+    oembed = function() metadata_from_oembed(video_url)
+  )
+
+  errs <- character(0)
+  for (source_name in names(sources)) {
+    meta <- tryCatch(sources[[source_name]](), error = function(e) {
+      errs <<- c(errs, paste0(source_name, "=[", conditionMessage(e), "]"))
+      NULL
+    })
+    if (is.null(meta)) next
+
+    ctx <- build_metadata_context(
+      meta = meta,
+      video_url = video_url,
+      video_id = video_id,
+      transcript_error = transcript_error
+    )
+    if (nzchar(clean_line(ctx$text))) return(ctx)
+  }
+
+  minimal <- build_metadata_context(
+    meta = list(title = "", description = "", chapters = character(0), tags = "", source = "minimal"),
+    video_url = video_url,
+    video_id = video_id,
+    transcript_error = paste(c(transcript_error, errs), collapse = " | ")
+  )
+  minimal
+}
+
 #' Import a recipe from a YouTube URL YAML request.
 #'
 #' GitHub Actions entrypoint for YouTube-based recipe imports.
@@ -253,7 +473,22 @@ gha_import_recipe_from_youtube <- function(url_file = Sys.getenv("RECIPE_URL_FIL
   if (is.null(video_id)) stop("Impossible d'extraire l'identifiant de video YouTube.")
 
   cat("Import YouTube:", video_url, "\n")
-  transcript_text <- fetch_youtube_transcript(video_url, video_id)
+  transcript_source <- "transcription"
+  fallback_title <- "Recette importee de YouTube"
+  transcript_text <- tryCatch(
+    fetch_youtube_transcript(video_url, video_id),
+    error = function(e) {
+      cat("Transcription indisponible, fallback metadonnees YouTube:", conditionMessage(e), "\n")
+      md <- fetch_youtube_metadata_context(
+        video_url = video_url,
+        video_id = video_id,
+        transcript_error = conditionMessage(e)
+      )
+      transcript_source <<- as_clean_scalar(md$source %||% "metadonnees")
+      if (nzchar(as_clean_scalar(md$title %||% ""))) fallback_title <<- as_clean_scalar(md$title)
+      md$text
+    }
+  )
   if (nchar(transcript_text) > 70000) transcript_text <- substr(transcript_text, 1, 70000)
 
   transcript_lines <- split_clean_lines(transcript_text)
@@ -270,11 +505,12 @@ gha_import_recipe_from_youtube <- function(url_file = Sys.getenv("RECIPE_URL_FIL
   context_yaml <- yaml::as.yaml(list(
     ingredients_candidates = head(candidate_ingredient_lines, 120),
     etapes_candidates = head(candidate_instruction_lines, 120),
-    transcription_longueur = nchar(transcript_text)
+    transcription_longueur = nchar(transcript_text),
+    source_contenu = transcript_source
   ))
 
   prompt <- gha_build_prompt(
-    context_title = "Transcription YouTube",
+    context_title = if (transcript_source == "transcription") "Transcription YouTube" else "Metadonnees YouTube",
     source_url = video_url,
     template_example = template_example,
     context_yaml = context_yaml,
@@ -292,7 +528,7 @@ gha_import_recipe_from_youtube <- function(url_file = Sys.getenv("RECIPE_URL_FIL
     recipe_data = recipe_data,
     source_url = video_url,
     submitted_by = submitted_by,
-    fallback_title = "Recette importee de YouTube",
+    fallback_title = fallback_title,
     portions_text = transcript_text,
     ingredient_lines = candidate_ingredient_lines,
     instruction_lines = candidate_instruction_lines
