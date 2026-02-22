@@ -6,148 +6,167 @@ se_congele: no
 difficulte: Intermédiaire
 cout: $$
 allergenes:
-- Lait
-- Gluten
-- Porc
+  - Lait
+  - Gluten
+  - Porc
 categories:
-- Porc
-- Français
-- Sauce
+  - Porc
+  - Français
+  - Sauce
 temps:
   preparation: 20
   cuisson: 45
   refrigeration: ~
 preparation:
-- section: Préparation des ingrédients
-  etapes:
-  - etape: Couper les champignons en fines tranches d'environ 0.5 mm.
-    ingredients:
-    - nom: Champignons
-      qte: 250
-      uni: g
-  - etape: Couper le filet de porc en médaillons d'environ 5 cm (2 pouces) d'épaisseur.
-      Réserver les petites chutes si nécessaire.
-    ingredients:
-    - nom: Filet de porc
-      qte: 500
-      uni: g
-- section: Cuisson des champignons
-  etapes:
-  - etape: Dans une poêle à feu moyen-vif, faire fondre 1 cuillère à soupe de beurre.
-      Ajouter les champignons tranchés.
-    ingredients:
-    - nom: Beurre
-      qte: 1
-      uni: c. à soupe
-    equipements: Poêle
-  - etape: Assaisonner les champignons avec du sel (pas de poivre pour l'instant).
-      Faire sauter à feu vif.
-    ingredients:
-    - nom: Sel
-      qte: ~
-      uni: ~
-  - etape: Laisser cuire jusqu'à ce que l'eau des champignons se soit évaporée et
-      qu'ils commencent à dorer (environ 5-10 minutes). Remuer occasionnellement pour
-      éviter qu'ils ne collent.
-  - etape: Lorsque les champignons ont une belle couleur dorée, retirer du feu et
-      réserver dans un récipient propre.
-- section: Préparation et cuisson des médaillons de porc
-  etapes:
-  - etape: Assaisonner généreusement les médaillons de porc des deux côtés avec du
-      sel et du poivre.
-    ingredients:
-    - nom: Médaillons de porc
-      qte: ~
-      uni: ~
-    - nom: Sel
-      qte: ~
-      uni: ~
-    - nom: Poivre
-      qte: ~
-      uni: ~
-  - etape: Rouler chaque médaillon dans la farine, puis taper pour enlever l'excès
-      de farine.
-    ingredients:
-    - nom: Farine
-      qte: 0.25
-      uni: t
-  - etape: Dans la même poêle (après l'avoir nettoyée), à feu moyen-vif, faire fondre
-      1 cuillère à soupe de beurre et ajouter 1 cuillère à café d'huile végétale.
-    ingredients:
-    - nom: Beurre
-      qte: 1
-      uni: c. à soupe
-    - nom: Huile végétale
-      qte: 1
-      uni: c. à café
-    equipements: Poêle
-  - etape: Placer les médaillons de porc dans la poêle chaude. Cuire pendant 3 minutes
-      de chaque côté.
-  - etape: Pour les pièces plus épaisses, les faire tenir sur le côté et cuire 1 minute
-      sur les bords pour assurer une cuisson uniforme.
-  - etape: Retirer les médaillons de la poêle et les réserver dans un four préchauffé
-      à 150°C (250°F) pour les maintenir au chaud.
-    equipements:
-    - Four
-    - Plat allant au four
-- section: Préparation de la sauce crémeuse
-  etapes:
-  - etape: Dans une petite casserole à feu moyen, faire réduire la crème pure d'environ
-      un quart. La crème est prête lorsqu'elle nappe le dos d'une cuillère et qu'un
-      trait tracé avec le doigt reste visible. Éteindre le feu.
-    ingredients:
-    - nom: Crème pure (35%)
-      qte: 250
-      uni: ml
-    equipements: Petite casserole
-  - etape: Dans une autre petite casserole, réchauffer doucement le fond de volaille
-      à feu doux.
-    ingredients:
-    - nom: Fond de volaille
-      qte: 125
-      uni: ml
-    equipements: Petite casserole
-  - etape: Utiliser la poêle ayant servi à cuire le porc. Retirer l'excès de gras.
-      Augmenter le feu. Déglacer la poêle avec le porto en raclant le fond pour décoller
-      les sucs de cuisson.
-    ingredients:
-    - nom: Porto
-      qte: 60
-      uni: ml
-    equipements: Poêle
-  - etape: Ajouter un peu de la crème réduite dans la poêle, remuer pour bien incorporer.
-  - etape: Ajouter le reste de la crème réduite et laisser cuire doucement en remuant
-      pour bien incorporer tous les sucs de cuisson.
-  - etape: Incorporer le fond de volaille chaud à la sauce. Laisser réduire la sauce
-      jusqu'à obtenir la consistance désirée.
-  - etape: Goûter la sauce et ajuster l'assaisonnement avec du sel et du poivre si
-      nécessaire.
-    ingredients:
-    - nom: Sel
-      qte: ~
-      uni: ~
-    - nom: Poivre
-      qte: ~
-      uni: ~
-  - etape: Filtrer la sauce à travers une passoire fine dans un récipient propre pour
-      obtenir une sauce lisse.
-    equipements: Passoire fine
-  - etape: Ajouter les champignons réservés à la sauce filtrée et laisser infuser
-      quelques minutes à feu doux.
-- section: Dressage
-  etapes:
-  - etape: Sur une assiette, disposer le riz (ou l'accompagnement de votre choix)
-      et les médaillons de porc chauds.
-    ingredients:
-    - nom: Riz
-      qte: ~
-      uni: ~
-  - etape: Napper généreusement les médaillons de porc avec la sauce crémeuse aux
-      champignons.
-  - etape: (Facultatif) Garnir avec une branche d'aneth frais pour la présentation.
-    ingredients:
-    - nom: Aneth frais
-      qte: ~
-      uni: ~
+  - section: Préparation des ingrédients
+    etapes:
+      - etape: Couper les champignons en fines tranches d'environ 0.5 mm.
+        ingredients:
+          - nom: Champignons
+            qte: 250
+            uni: g
+            rangee: Fruits et legumes
+      - etape: Couper le filet de porc en médaillons d'environ 5 cm (2 pouces) d'épaisseur.
+          Réserver les petites chutes si nécessaire.
+        ingredients:
+          - nom: Filet de porc
+            qte: 500
+            uni: g
+            rangee: Viandes et substituts
+  - section: Cuisson des champignons
+    etapes:
+      - etape: Dans une poêle à feu moyen-vif, faire fondre 1 cuillère à soupe de
+          beurre. Ajouter les champignons tranchés.
+        ingredients:
+          - nom: Beurre
+            qte: 1
+            uni: c. à soupe
+            rangee: Produits laitiers et oeufs
+        equipements: Poêle
+      - etape: Assaisonner les champignons avec du sel (pas de poivre pour l'instant).
+          Faire sauter à feu vif.
+        ingredients:
+          - nom: Sel
+            qte: 1
+            uni: au goût
+            rangee: Epicerie
+      - etape: Laisser cuire jusqu'à ce que l'eau des champignons se soit évaporée
+          et qu'ils commencent à dorer (environ 5-10 minutes). Remuer occasionnellement
+          pour éviter qu'ils ne collent.
+      - etape: Lorsque les champignons ont une belle couleur dorée, retirer du feu
+          et réserver dans un récipient propre.
+  - section: Préparation et cuisson des médaillons de porc
+    etapes:
+      - etape: Assaisonner généreusement les médaillons de porc des deux côtés avec
+          du sel et du poivre.
+        ingredients:
+          - nom: Médaillons de porc
+            qte: 500
+            uni: g
+            rangee: Viandes et substituts
+          - nom: Sel
+            qte: 1
+            uni: au goût
+            rangee: Epicerie
+          - nom: Poivre
+            qte: 1
+            uni: au goût
+            rangee: Epicerie
+      - etape: Rouler chaque médaillon dans la farine, puis taper pour enlever l'excès
+          de farine.
+        ingredients:
+          - nom: Farine
+            qte: 0.25
+            uni: t
+            rangee: Epicerie
+      - etape: Dans la même poêle (après l'avoir nettoyée), à feu moyen-vif, faire
+          fondre 1 cuillère à soupe de beurre et ajouter 1 cuillère à café d'huile
+          végétale.
+        ingredients:
+          - nom: Beurre
+            qte: 1
+            uni: c. à soupe
+            rangee: Produits laitiers et oeufs
+          - nom: Huile végétale
+            qte: 1
+            uni: c. à café
+            rangee: Epicerie
+        equipements: Poêle
+      - etape: Placer les médaillons de porc dans la poêle chaude. Cuire pendant 3
+          minutes de chaque côté.
+      - etape: Pour les pièces plus épaisses, les faire tenir sur le côté et cuire
+          1 minute sur les bords pour assurer une cuisson uniforme.
+      - etape: Retirer les médaillons de la poêle et les réserver dans un four préchauffé
+          à 150°C (250°F) pour les maintenir au chaud.
+        equipements:
+          - Four
+          - Plat allant au four
+  - section: Préparation de la sauce crémeuse
+    etapes:
+      - etape: Dans une petite casserole à feu moyen, faire réduire la crème pure
+          d'environ un quart. La crème est prête lorsqu'elle nappe le dos d'une cuillère
+          et qu'un trait tracé avec le doigt reste visible. Éteindre le feu.
+        ingredients:
+          - nom: Crème pure (35%)
+            qte: 250
+            uni: ml
+            rangee: Produits laitiers et oeufs
+        equipements: Petite casserole
+      - etape: Dans une autre petite casserole, réchauffer doucement le fond de volaille
+          à feu doux.
+        ingredients:
+          - nom: Fond de volaille
+            qte: 125
+            uni: ml
+            rangee: Conserves et sauces
+        equipements: Petite casserole
+      - etape: Utiliser la poêle ayant servi à cuire le porc. Retirer l'excès de gras.
+          Augmenter le feu. Déglacer la poêle avec le porto en raclant le fond pour
+          décoller les sucs de cuisson.
+        ingredients:
+          - nom: Porto
+            qte: 60
+            uni: ml
+            rangee: Epicerie
+        equipements: Poêle
+      - etape: Ajouter un peu de la crème réduite dans la poêle, remuer pour bien
+          incorporer.
+      - etape: Ajouter le reste de la crème réduite et laisser cuire doucement en
+          remuant pour bien incorporer tous les sucs de cuisson.
+      - etape: Incorporer le fond de volaille chaud à la sauce. Laisser réduire la
+          sauce jusqu'à obtenir la consistance désirée.
+      - etape: Goûter la sauce et ajuster l'assaisonnement avec du sel et du poivre
+          si nécessaire.
+        ingredients:
+          - nom: Sel
+            qte: 1
+            uni: au goût
+            rangee: Epicerie
+          - nom: Poivre
+            qte: 1
+            uni: au goût
+            rangee: Epicerie
+      - etape: Filtrer la sauce à travers une passoire fine dans un récipient propre
+          pour obtenir une sauce lisse.
+        equipements: Passoire fine
+      - etape: Ajouter les champignons réservés à la sauce filtrée et laisser infuser
+          quelques minutes à feu doux.
+  - section: Dressage
+    etapes:
+      - etape: Sur une assiette, disposer le riz (ou l'accompagnement de votre choix)
+          et les médaillons de porc chauds.
+        ingredients:
+          - nom: Riz
+            qte: 1
+            uni: portion
+            rangee: Epicerie
+      - etape: Napper généreusement les médaillons de porc avec la sauce crémeuse
+          aux champignons.
+      - etape: (Facultatif) Garnir avec une branche d'aneth frais pour la présentation.
+        ingredients:
+          - nom: Aneth frais
+            qte: 1
+            uni: branche
+            rangee: Fruits et legumes
 commentaires: []
 soumis_par: Alexandre Parent

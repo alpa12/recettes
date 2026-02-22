@@ -158,6 +158,12 @@ _schema:
                         type: string
                       rangee:
                         type: string
+                        enum:
+                          - Fruits et legumes
+                          - Viandes et substituts
+                          - Produits laitiers et oeufs
+                          - Epicerie
+                          - Conserves et sauces
                         nullable: true
                 equipements:
                   type: array

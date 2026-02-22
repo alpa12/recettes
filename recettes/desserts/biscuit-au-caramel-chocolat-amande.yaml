@@ -2,106 +2,126 @@ nom: Biscuits au chocolat, aux amandes et au caramel
 nom_court: Biscuits chocolat amandes caramel
 source: Ricardo
 portions: 20
-se_congele: true
+se_congele: yes
 categories:
-- Biscuit
-- Chocolat
+  - Biscuit
+  - Chocolat
 temps:
   preparation: 40
   cuisson: 8
   refrigeration: 125
 preparation:
-- section: Pâte
-  etapes:
-  - etape: Mélanger la farine, le cacao, le bicarbonate et le sel dans un bol.
-    ingredients:
-    - nom: Farine tout usage non blanchie
-      qte: 225
-      uni: g
-    - nom: Cacao
-      qte: 50
-      uni: g
-    - nom: Bicarbonate de soude
-      qte: 2.5
-      uni: ml
-    - nom: Sel
-      qte: 1
-      uni: ml
-    equipements:
-    - Bol
-    - Cuillère
-  - etape: Mélanger le beurre fondu, la cassonade, le sucre et le beurre d’amandes au batteur électrique.
-    ingredients:
-    - nom: Beurre non salé, fondu et tempéré
-      qte: 170
-      uni: g
-    - nom: Cassonade
-      qte: 160
-      uni: g
-    - nom: Sucre
-      qte: 105
-      uni: g
-    - nom: Beurre d’amandes
-      qte: 45
-      uni: ml
-    equipements:
-    - Bol
-    - Batteur électrique
-  - etape: Ajouter les œufs, un à la fois, puis incorporer les ingrédients secs, 170 g de chocolat et 85 g d'amandes à basse vitesse.
-    ingredients:
-    - nom: Œufs
-      qte: 2
-      uni: unité
-    - nom: Chocolat au lait, en pastilles ou haché grossièrement
-      qte: 170
-      uni: g
-    - nom: Amandes, grillées et hachées
-      qte: 85
-      uni: g
-    equipements:
-    - Batteur électrique
-    - Spatule
-- section: Formation
-  etapes:
-  - etape: Former des boules de pâte à l’aide d’une cuillère à crème glacée de 45 ml et réfrigérer 5 à 10 minutes.
-    ingredients: []
-    equipements:
-    - Cuillère à crème glacée
-    - Plaque de cuisson
-  - etape: Insérer un caramel au centre de chaque boule et refermer la pâte.
-    ingredients:
-    - nom: Caramels mous du commerce
-      qte: 20
-      uni: unité
-    equipements:
-    - Plaque de cuisson
-  - etape: Ajouter le reste du chocolat et des amandes sur les boules de pâte. Réfrigérer 2 heures ou congeler.
-    ingredients:
-    - nom: Chocolat restant
-      qte: 80
-      uni: g
-    - nom: Amandes restantes
-      qte: 45
-      uni: g
-    equipements:
-    - Plaque de cuisson
-- section: Cuisson
-  etapes:
-  - etape: Préchauffer le four à 190 °C et tapisser deux plaques de cuisson de papier parchemin. Répartir 6 à 8 biscuits par plaque.
-    ingredients: []
-    equipements:
-    - Four
-    - Papier parchemin
-  - etape: Cuire au four 8 à 10 minutes jusqu’à ce que les biscuits soient cuits à l’extérieur mais encore mous au centre. Parsemer de fleur de sel.
-    ingredients:
-    - nom: Fleur de sel
-      qte: 1
-      uni: au goût
-    equipements:
-    - Four
-    - Plaque de cuisson
+  - section: Pâte
+    etapes:
+      - etape: Mélanger la farine, le cacao, le bicarbonate et le sel dans un bol.
+        ingredients:
+          - nom: Farine tout usage non blanchie
+            qte: 225
+            uni: g
+            rangee: Epicerie
+          - nom: Cacao
+            qte: 50
+            uni: g
+            rangee: Epicerie
+          - nom: Bicarbonate de soude
+            qte: 2.5
+            uni: ml
+            rangee: Epicerie
+          - nom: Sel
+            qte: 1
+            uni: ml
+            rangee: Epicerie
+        equipements:
+          - Bol
+          - Cuillère
+      - etape: Mélanger le beurre fondu, la cassonade, le sucre et le beurre d’amandes
+          au batteur électrique.
+        ingredients:
+          - nom: Beurre non salé, fondu et tempéré
+            qte: 170
+            uni: g
+            rangee: Produits laitiers et oeufs
+          - nom: Cassonade
+            qte: 160
+            uni: g
+            rangee: Epicerie
+          - nom: Sucre
+            qte: 105
+            uni: g
+            rangee: Epicerie
+          - nom: Beurre d’amandes
+            qte: 45
+            uni: ml
+            rangee: Epicerie
+        equipements:
+          - Bol
+          - Batteur électrique
+      - etape: Ajouter les œufs, un à la fois, puis incorporer les ingrédients secs,
+          170 g de chocolat et 85 g d'amandes à basse vitesse.
+        ingredients:
+          - nom: Œufs
+            qte: 2
+            uni: unité
+            rangee: Produits laitiers et oeufs
+          - nom: Chocolat au lait, en pastilles ou haché grossièrement
+            qte: 170
+            uni: g
+            rangee: Epicerie
+          - nom: Amandes, grillées et hachées
+            qte: 85
+            uni: g
+            rangee: Epicerie
+        equipements:
+          - Batteur électrique
+          - Spatule
+  - section: Formation
+    etapes:
+      - etape: Former des boules de pâte à l’aide d’une cuillère à crème glacée de
+          45 ml et réfrigérer 5 à 10 minutes.
+        ingredients: []
+        equipements:
+          - Cuillère à crème glacée
+          - Plaque de cuisson
+      - etape: Insérer un caramel au centre de chaque boule et refermer la pâte.
+        ingredients:
+          - nom: Caramels mous du commerce
+            qte: 20
+            uni: unité
+            rangee: Epicerie
+        equipements: Plaque de cuisson
+      - etape: Ajouter le reste du chocolat et des amandes sur les boules de pâte.
+          Réfrigérer 2 heures ou congeler.
+        ingredients:
+          - nom: Chocolat restant
+            qte: 80
+            uni: g
+            rangee: Epicerie
+          - nom: Amandes restantes
+            qte: 45
+            uni: g
+            rangee: Epicerie
+        equipements: Plaque de cuisson
+  - section: Cuisson
+    etapes:
+      - etape: Préchauffer le four à 190 °C et tapisser deux plaques de cuisson de
+          papier parchemin. Répartir 6 à 8 biscuits par plaque.
+        ingredients: []
+        equipements:
+          - Four
+          - Papier parchemin
+      - etape: Cuire au four 8 à 10 minutes jusqu’à ce que les biscuits soient cuits
+          à l’extérieur mais encore mous au centre. Parsemer de fleur de sel.
+        ingredients:
+          - nom: Fleur de sel
+            qte: 1
+            uni: au goût
+            rangee: Epicerie
+        equipements:
+          - Four
+          - Plaque de cuisson
 commentaires:
-  - 'Il est possible d’ajouter tout le chocolat et les amandes dès le début, mais en garder pour le dessus rend les biscuits plus jolis.'
-  - 'Repos de 2 heures au réfrigérateur évite que les biscuits s’étalent trop.'
-  - 'La pâte peut reposer jusqu’à 12 heures pour meilleure absorption des liquides.'
-  - 'Se conserve 3 jours à température ambiante ou 3 mois au congélateur.'
+  - Il est possible d’ajouter tout le chocolat et les amandes dès le début, mais en
+    garder pour le dessus rend les biscuits plus jolis.
+  - Repos de 2 heures au réfrigérateur évite que les biscuits s’étalent trop.
+  - La pâte peut reposer jusqu’à 12 heures pour meilleure absorption des liquides.
+  - Se conserve 3 jours à température ambiante ou 3 mois au congélateur.

@@ -7,115 +7,116 @@ difficulte: ~
 cout: ~
 allergenes: Gluten
 categories:
-- Mijotés
-- Plats principaux
-- Réconfortantes
-- Végétalien
+  - Mijotés
+  - Plats principaux
+  - Réconfortantes
+  - Végétalien
 temps:
   preparation: 15
   cuisson: 20
   refrigeration: 0
 preparation:
-- section: Tofu au beurre
-  etapes:
-  - etape: Dans un bol, mélanger la farine, le garam masala, la poudre de cari, le
-      cumin et le gingembre moulu. Ajouter le tofu en dés et mélanger pour que chaque
-      cube soit bien recouvert du mélange.
-    image_guid: ~
-    ingredients:
-    - nom: Farine tout usage
-      qte: 1
-      uni: c.s.
-      rangee: ~
-    - nom: Garam masala
-      qte: 1
-      uni: c.t.
-      rangee: ~
-    - nom: Poudre de cari
-      qte: 0.25
-      uni: c.t.
-      rangee: ~
-    - nom: Cumin
-      qte: 0.25
-      uni: c.t.
-      rangee: ~
-    - nom: Gingembre moulu
-      qte: 0.25
-      uni: c.t.
-      rangee: ~
-    - nom: Tofu ferme en cubes
-      qte: 454
-      uni: g
-      rangee: ~
-    equipements: Bol
-  - etape: Dans une poêle antiadhésive, chauffer l’huile à feu moyen et cuire les
-      morceaux de tofu environ 5 minutes ou jusqu’à ce qu’il devienne croustillant.
-      Réserver le tofu dans un bol.
-    image_guid: ~
-    ingredients:
-    - nom: Huile végétale
-      qte: 1
-      uni: c.s.
-      rangee: ~
-    equipements: Poêle antiadhésive
-- section: Sauce pour le tofu au beurre
-  etapes:
-  - etape: Dans la même poêle chaude ayant servi à la cuisson du tofu, chauffer l’huile
-      à feu moyen et cuire l’oignon jusqu’à ce que celui-ci soit translucide. Ajouter
-      l’ail et le gingembre frais et cuire 2 minutes.
-    image_guid: ~
-    ingredients:
-    - nom: Huile végétale
-      qte: 1
-      uni: c.s.
-      rangee: ~
-    - nom: Oignon haché
-      qte: 1
-      uni: moyen
-      rangee: ~
-    - nom: Ail haché
-      qte: 1
-      uni: gousse
-      rangee: ~
-    - nom: Gingembre frais haché
-      qte: 1
-      uni: c.s.
-      rangee: ~
-    equipements: Poêle antiadhésive
-  - etape: Incorporer ensuite les épices, le lait de coco et la pâte de tomates. Porter
-      le tout à ébullition. Réduire à feu moyen et mijoter 5 minutes.
-    image_guid: ~
-    ingredients:
-    - nom: Garam masala
-      qte: 1
-      uni: c.s.
-      rangee: ~
-    - nom: Poudre de cari
-      qte: 1
-      uni: c.t.
-      rangee: ~
-    - nom: Sel
-      qte: 0.5
-      uni: c.t.
-      rangee: ~
-    - nom: Poivre
-      qte: 0.5
-      uni: c.t.
-      rangee: ~
-    - nom: Lait de coco
-      qte: 398
-      uni: ml
-      rangee: ~
-    - nom: Pâte de tomates
-      qte: 156
-      uni: ml
-      rangee: ~
-    equipements: []
-  - etape: Ajouter les petits cubes de tofu à la sauce crémeuse et laisser mijoter
-      10 minutes. Servir immédiatement et accompagner de pain naan ou de riz au jasmin.
-    image_guid: ~
-    ingredients: []
-    equipements: []
+  - section: Tofu au beurre
+    etapes:
+      - etape: Dans un bol, mélanger la farine, le garam masala, la poudre de cari,
+          le cumin et le gingembre moulu. Ajouter le tofu en dés et mélanger pour
+          que chaque cube soit bien recouvert du mélange.
+        image_guid: ~
+        ingredients:
+          - nom: Farine tout usage
+            qte: 1
+            uni: c.s.
+            rangee: Epicerie
+          - nom: Garam masala
+            qte: 1
+            uni: c.t.
+            rangee: Epicerie
+          - nom: Poudre de cari
+            qte: 0.25
+            uni: c.t.
+            rangee: Epicerie
+          - nom: Cumin
+            qte: 0.25
+            uni: c.t.
+            rangee: Epicerie
+          - nom: Gingembre moulu
+            qte: 0.25
+            uni: c.t.
+            rangee: Epicerie
+          - nom: Tofu ferme en cubes
+            qte: 454
+            uni: g
+            rangee: Viandes et substituts
+        equipements: Bol
+      - etape: Dans une poêle antiadhésive, chauffer l’huile à feu moyen et cuire
+          les morceaux de tofu environ 5 minutes ou jusqu’à ce qu’il devienne croustillant.
+          Réserver le tofu dans un bol.
+        image_guid: ~
+        ingredients:
+          - nom: Huile végétale
+            qte: 1
+            uni: c.s.
+            rangee: Epicerie
+        equipements: Poêle antiadhésive
+  - section: Sauce pour le tofu au beurre
+    etapes:
+      - etape: Dans la même poêle chaude ayant servi à la cuisson du tofu, chauffer
+          l’huile à feu moyen et cuire l’oignon jusqu’à ce que celui-ci soit translucide.
+          Ajouter l’ail et le gingembre frais et cuire 2 minutes.
+        image_guid: ~
+        ingredients:
+          - nom: Huile végétale
+            qte: 1
+            uni: c.s.
+            rangee: Epicerie
+          - nom: Oignon haché
+            qte: 1
+            uni: moyen
+            rangee: Fruits et legumes
+          - nom: Ail haché
+            qte: 1
+            uni: gousse
+            rangee: Fruits et legumes
+          - nom: Gingembre frais haché
+            qte: 1
+            uni: c.s.
+            rangee: Fruits et legumes
+        equipements: Poêle antiadhésive
+      - etape: Incorporer ensuite les épices, le lait de coco et la pâte de tomates.
+          Porter le tout à ébullition. Réduire à feu moyen et mijoter 5 minutes.
+        image_guid: ~
+        ingredients:
+          - nom: Garam masala
+            qte: 1
+            uni: c.s.
+            rangee: Epicerie
+          - nom: Poudre de cari
+            qte: 1
+            uni: c.t.
+            rangee: Epicerie
+          - nom: Sel
+            qte: 0.5
+            uni: c.t.
+            rangee: Epicerie
+          - nom: Poivre
+            qte: 0.5
+            uni: c.t.
+            rangee: Epicerie
+          - nom: Lait de coco
+            qte: 398
+            uni: ml
+            rangee: Conserves et sauces
+          - nom: Pâte de tomates
+            qte: 156
+            uni: ml
+            rangee: Conserves et sauces
+        equipements: []
+      - etape: Ajouter les petits cubes de tofu à la sauce crémeuse et laisser mijoter
+          10 minutes. Servir immédiatement et accompagner de pain naan ou de riz au
+          jasmin.
+        image_guid: ~
+        ingredients: []
+        equipements: []
 commentaires: []
 image_guid: ~
 soumis_par: Élodie Bourgeois
