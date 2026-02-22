@@ -12,12 +12,17 @@ on:
       - '!recettes/url_imports_web/**'
       - '!recettes/url_imports_youtube/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
 jobs:
   check-changes:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       run: ${{ steps.diff.outputs.run }}
 
@@ -67,6 +72,7 @@ jobs:
     needs: check-changes
     if: needs.check-changes.outputs.run == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
       - name: Checkout PR branch

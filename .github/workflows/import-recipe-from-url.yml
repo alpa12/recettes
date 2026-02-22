@@ -7,9 +7,14 @@ on:
       - 'recettes/url_imports_web/**/*.yaml'
       - 'livrec/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   import-recipe:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     permissions:
       contents: write

@@ -7,9 +7,14 @@ on:
       - 'recettes/url_imports_youtube/**/*.yaml'
       - 'livrec/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   import-recipe-youtube:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
 
     permissions:
       contents: write
@@ -27,6 +32,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev yt-dlp python3-pip
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
 
       - name: Install Python transcript dependency
         run: |
