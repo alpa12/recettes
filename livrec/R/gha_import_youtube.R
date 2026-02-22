@@ -234,6 +234,64 @@ fetch_youtube_transcript <- function(video_url, video_id) {
   )
 }
 
+fetch_youtube_metadata_context <- function(video_url, video_id) {
+  if (nzchar(Sys.which("yt-dlp")) == 0) stop("yt-dlp introuvable dans PATH.")
+
+  out <- system2(
+    "yt-dlp",
+    args = c("--skip-download", "--dump-single-json", video_url),
+    stdout = TRUE,
+    stderr = TRUE
+  )
+  status <- attr(out, "status")
+  if (!is.null(status) && status != 0) {
+    stop("yt-dlp metadata a echoue: ", paste(out, collapse = "\n"))
+  }
+
+  json_txt <- paste(out, collapse = "\n")
+  info <- tryCatch(
+    jsonlite::fromJSON(json_txt, simplifyVector = FALSE),
+    error = function(e) NULL
+  )
+  if (is.null(info)) stop("Impossible de parser les metadonnees yt-dlp.")
+
+  title <- clean_line(as.character(info$title %||% ""))
+  description <- clean_line(as.character(info$description %||% ""))
+  if (!nzchar(description)) description <- clean_line(as.character(info$fulltitle %||% ""))
+
+  chapter_lines <- character(0)
+  if (is.list(info$chapters) && length(info$chapters) > 0) {
+    chapter_lines <- vapply(
+      info$chapters,
+      function(ch) clean_line(as.character(ch$title %||% "")),
+      character(1)
+    )
+    chapter_lines <- chapter_lines[nzchar(chapter_lines)]
+  }
+
+  tags <- character(0)
+  if (is.character(info$tags)) {
+    tags <- clean_line(paste(info$tags, collapse = ", "))
+  }
+
+  context_lines <- c(
+    if (nzchar(title)) paste("Titre:", title),
+    if (nzchar(description)) c("Description:", description),
+    if (length(chapter_lines) > 0) c("Chapitres:", chapter_lines),
+    if (nzchar(tags)) paste("Tags:", tags)
+  )
+  context_lines <- context_lines[nzchar(vapply(context_lines, clean_line, character(1)))]
+  context_text <- paste(context_lines, collapse = "\n")
+  if (!nzchar(clean_line(context_text))) {
+    stop("Metadonnees YouTube vides.")
+  }
+
+  list(
+    text = context_text,
+    title = title
+  )
+}
+
 #' Import a recipe from a YouTube URL YAML request.
 #'
 #' GitHub Actions entrypoint for YouTube-based recipe imports.
@@ -253,7 +311,18 @@ gha_import_recipe_from_youtube <- function(url_file = Sys.getenv("RECIPE_URL_FIL
   if (is.null(video_id)) stop("Impossible d'extraire l'identifiant de video YouTube.")
 
   cat("Import YouTube:", video_url, "\n")
-  transcript_text <- fetch_youtube_transcript(video_url, video_id)
+  transcript_source <- "transcription"
+  fallback_title <- "Recette importee de YouTube"
+  transcript_text <- tryCatch(
+    fetch_youtube_transcript(video_url, video_id),
+    error = function(e) {
+      cat("Transcription indisponible, fallback metadonnees YouTube:", conditionMessage(e), "\n")
+      md <- fetch_youtube_metadata_context(video_url, video_id)
+      transcript_source <<- "metadonnees"
+      if (nzchar(md$title %||% "")) fallback_title <<- md$title
+      md$text
+    }
+  )
   if (nchar(transcript_text) > 70000) transcript_text <- substr(transcript_text, 1, 70000)
 
   transcript_lines <- split_clean_lines(transcript_text)
@@ -270,11 +339,12 @@ gha_import_recipe_from_youtube <- function(url_file = Sys.getenv("RECIPE_URL_FIL
   context_yaml <- yaml::as.yaml(list(
     ingredients_candidates = head(candidate_ingredient_lines, 120),
     etapes_candidates = head(candidate_instruction_lines, 120),
-    transcription_longueur = nchar(transcript_text)
+    transcription_longueur = nchar(transcript_text),
+    source_contenu = transcript_source
   ))
 
   prompt <- gha_build_prompt(
-    context_title = "Transcription YouTube",
+    context_title = if (transcript_source == "transcription") "Transcription YouTube" else "Metadonnees YouTube",
     source_url = video_url,
     template_example = template_example,
     context_yaml = context_yaml,
@@ -292,7 +362,7 @@ gha_import_recipe_from_youtube <- function(url_file = Sys.getenv("RECIPE_URL_FIL
     recipe_data = recipe_data,
     source_url = video_url,
     submitted_by = submitted_by,
-    fallback_title = "Recette importee de YouTube",
+    fallback_title = fallback_title,
     portions_text = transcript_text,
     ingredient_lines = candidate_ingredient_lines,
     instruction_lines = candidate_instruction_lines
