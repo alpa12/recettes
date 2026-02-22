@@ -2,73 +2,88 @@ nom: Choux à la crème framboise
 nom_court: Choux
 source: Ricardo
 portions: 33
-se_congele: true
+se_congele: yes
 categories:
-- Pâtisserie
-- Dessert
+  - Pâtisserie
+  - Dessert
 temps:
   preparation: 30
   cuisson: 30
-  refrigeration: null
+  refrigeration: ~
 preparation:
-- section: Pâte à choux
-  etapes:
-  - etape: Porter l’eau et le beurre à ébullition, retirer du feu. Ajouter la farine et mélanger vigoureusement jusqu’à formation d’une boule.
-    ingredients:
-    - nom: Eau
-      qte: 125
-      uni: ml
-    - nom: Beurre non salé, coupé en cubes
-      qte: 60
-      uni: ml
-    - nom: Sel
-      qte: 1
-      uni: pincée
-    - nom: Farine tout usage non blanchie
-      qte: 125
-      uni: ml
-    equipements:
-    - Casserole
-    - Cuillère en bois
-  - etape: Cuire sur feu doux 2 minutes en remuant. Laisser tiédir 10 minutes puis ajouter les œufs un à un en battant.
-    ingredients:
-    - nom: Œufs
-      qte: 2
-      uni: unité
-    equipements:
-    - Cuillère en bois
-    - Bol
-  - etape: Former des éclairs ou petits choux sur plaque tapissée de papier parchemin à l’aide d’une poche à pâtisserie.
-    ingredients: []
-    equipements:
-    - Poche à pâtisserie
-    - Plaque de cuisson
-    - Papier parchemin
-  - etape: Cuire 30 minutes à 190 °C jusqu’à doré. Fendre pour laisser échapper la vapeur, remettre 10-15 minutes dans four éteint.
-    ingredients: []
-    equipements:
-    - Four
-- section: Confiture de framboises
-  etapes:
-  - etape: Déposer les framboises dans une casserole, porter à ébullition en écrasant les baies.
-    ingredients:
-    - nom: Framboises fraîches
-      qte: 900
-      uni: g
-    equipements:
-    - Casserole
-    - Cuillère
-  - etape: Ajouter le sucre et le jus de citron, porter de nouveau à ébullition et mijoter 15 à 20 minutes jusqu’à épaississement. Verser dans bocaux stérilisés et laisser refroidir.
-    ingredients:
-    - nom: Sucre granulé
-      qte: 900
-      uni: g
-    - nom: Jus de citron
-      qte: 15
-      uni: ml
-    equipements:
-    - Casserole
-    - Bocaux
+  - section: Pâte à choux
+    etapes:
+      - etape: Porter l’eau et le beurre à ébullition, retirer du feu. Ajouter la
+          farine et mélanger vigoureusement jusqu’à formation d’une boule.
+        ingredients:
+          - nom: Eau
+            qte: 125
+            uni: ml
+            rangee: Epicerie
+          - nom: Beurre non salé, coupé en cubes
+            qte: 60
+            uni: ml
+            rangee: Produits laitiers et oeufs
+          - nom: Sel
+            qte: 1
+            uni: pincée
+            rangee: Epicerie
+          - nom: Farine tout usage non blanchie
+            qte: 125
+            uni: ml
+            rangee: Epicerie
+        equipements:
+          - Casserole
+          - Cuillère en bois
+      - etape: Cuire sur feu doux 2 minutes en remuant. Laisser tiédir 10 minutes
+          puis ajouter les œufs un à un en battant.
+        ingredients:
+          - nom: Œufs
+            qte: 2
+            uni: unité
+            rangee: Produits laitiers et oeufs
+        equipements:
+          - Cuillère en bois
+          - Bol
+      - etape: Former des éclairs ou petits choux sur plaque tapissée de papier parchemin
+          à l’aide d’une poche à pâtisserie.
+        ingredients: []
+        equipements:
+          - Poche à pâtisserie
+          - Plaque de cuisson
+          - Papier parchemin
+      - etape: Cuire 30 minutes à 190 °C jusqu’à doré. Fendre pour laisser échapper
+          la vapeur, remettre 10-15 minutes dans four éteint.
+        ingredients: []
+        equipements: Four
+  - section: Confiture de framboises
+    etapes:
+      - etape: Déposer les framboises dans une casserole, porter à ébullition en écrasant
+          les baies.
+        ingredients:
+          - nom: Framboises fraîches
+            qte: 900
+            uni: g
+            rangee: Fruits et legumes
+        equipements:
+          - Casserole
+          - Cuillère
+      - etape: Ajouter le sucre et le jus de citron, porter de nouveau à ébullition
+          et mijoter 15 à 20 minutes jusqu’à épaississement. Verser dans bocaux stérilisés
+          et laisser refroidir.
+        ingredients:
+          - nom: Sucre granulé
+            qte: 900
+            uni: g
+            rangee: Epicerie
+          - nom: Jus de citron
+            qte: 15
+            uni: ml
+            rangee: Fruits et legumes
+        equipements:
+          - Casserole
+          - Bocaux
 commentaires:
-  - 'Ajouter de la crème fouettée dans les choux.'
-  - 'Pour retrouver la texture croustillante après congélation, cuire 8 à 10 minutes à 150 °C.'
+  - Ajouter de la crème fouettée dans les choux.
+  - Pour retrouver la texture croustillante après congélation, cuire 8 à 10 minutes
+    à 150 °C.

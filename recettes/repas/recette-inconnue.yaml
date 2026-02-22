@@ -12,13 +12,13 @@ temps:
   cuisson: 1
   refrigeration: ~
 preparation:
-- section: Informations Générales
-  etapes:
-  - etape: Aucune étape de recette n'a pu être extraite du contenu fourni. Le contenu
-      est des métadonnées YouTube.
-    image_guid: ~
-    ingredients: []
-    equipements: []
+  - section: Informations Générales
+    etapes:
+      - etape: Aucune étape de recette n'a pu être extraite du contenu fourni. Le
+          contenu est des métadonnées YouTube.
+        image_guid: ~
+        ingredients: []
+        equipements: []
 commentaires: []
 image_guid: ~
 soumis_par: Alexandre Parent

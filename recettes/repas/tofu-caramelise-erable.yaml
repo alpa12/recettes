@@ -2,9 +2,9 @@ nom: Tofu caramélisé à l’érable
 nom_court: Tofu caramelise erable
 source: Ricardo
 portions: 4
-se_congele: true
-difficulte: null
-cout: null
+se_congele: yes
+difficulte: ~
+cout: ~
 allergenes: []
 categories:
   - Plats principaux
@@ -17,66 +17,84 @@ categories:
 temps:
   preparation: 20
   cuisson: 12
-  refrigeration: null
+  refrigeration: ~
 preparation:
   - section: Tofu
     etapes:
-      - etape: Déchirer le tofu en morceaux et le déposer dans un bol. Saupoudrer de la fécule et bien mélanger pour enrober le tofu.
-        image_guid: null
+      - etape: Déchirer le tofu en morceaux et le déposer dans un bol. Saupoudrer
+          de la fécule et bien mélanger pour enrober le tofu.
+        image_guid: ~
         ingredients:
           - nom: tofu ferme
             qte: 450
             uni: g
+            rangee: Viandes et substituts
           - nom: fécule de maïs
             qte: 45
             uni: g
+            rangee: Epicerie
         equipements: []
-      - etape: Dans une grande poêle antiadhésive à feu moyen-élevé, cuire le tofu dans l’huile 10 minutes ou jusqu’à ce qu’il soit bien doré de tous les côtés et très croustillant.
-        image_guid: null
+      - etape: Dans une grande poêle antiadhésive à feu moyen-élevé, cuire le tofu
+          dans l’huile 10 minutes ou jusqu’à ce qu’il soit bien doré de tous les côtés
+          et très croustillant.
+        image_guid: ~
         ingredients:
           - nom: huile végétale
             qte: 45
             uni: ml
+            rangee: Epicerie
         equipements: []
   - section: Sauce à l'érable
     etapes:
-      - etape: Entre-temps, dans un autre bol, mélanger au fouet tous les ingrédients, sauf l’oignon vert.
-        image_guid: null
+      - etape: Entre-temps, dans un autre bol, mélanger au fouet tous les ingrédients,
+          sauf l’oignon vert.
+        image_guid: ~
         ingredients:
           - nom: sirop d’érable
             qte: 163
             uni: g
+            rangee: Epicerie
           - nom: sauce hoisin
             qte: 93
             uni: g
+            rangee: Conserves et sauces
           - nom: sauce soya réduite en sodium
             qte: 34
             uni: g
+            rangee: Conserves et sauces
           - nom: vinaigre de riz
             qte: 10
             uni: g
+            rangee: Epicerie
           - nom: condiment épicé au chili ou sauce sriracha
             qte: 10
             uni: g
+            rangee: Conserves et sauces
           - nom: ail
             qte: 2
             uni: gousses
+            rangee: Fruits et legumes
         equipements:
           - bol
           - fouet
-      - etape: Dans la poêle, verser le mélange de sirop d’érable. Poursuivre la cuisson de 3 à 4 minutes ou jusqu’à ce que la sauce soit sirupeuse, en remuant pour bien en enrober le tofu.
-        image_guid: null
+      - etape: Dans la poêle, verser le mélange de sirop d’érable. Poursuivre la cuisson
+          de 3 à 4 minutes ou jusqu’à ce que la sauce soit sirupeuse, en remuant pour
+          bien en enrober le tofu.
+        image_guid: ~
         ingredients: []
         equipements: []
-      - etape: Garnir de l’oignon vert. Accompagner d’un riz blanc et d’un légume vert, si désiré.
-        image_guid: null
+      - etape: Garnir de l’oignon vert. Accompagner d’un riz blanc et d’un légume
+          vert, si désiré.
+        image_guid: ~
         ingredients:
           - nom: oignon vert
             qte: 1
             uni: oignon
+            rangee: Fruits et legumes
         equipements: []
 commentaires:
-  - commentaire: Essayer de mettre le tofu au four, au lieu d’à la poêle. Essayer 2 fois le tofu pour 1.5 fois la sauce.
+  - commentaire: Essayer de mettre le tofu au four, au lieu d’à la poêle. Essayer
+      2 fois le tofu pour 1.5 fois la sauce.
     date: 2026/02/19
     auteur: Élodie Bourgeois
     evaluation: 4

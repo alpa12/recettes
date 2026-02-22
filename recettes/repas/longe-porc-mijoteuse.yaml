@@ -7,132 +7,133 @@ difficulte: Facile
 cout: ~
 allergenes: []
 categories:
-- Porc
-- Mijoteuse
+  - Porc
+  - Mijoteuse
 temps:
   preparation: 15
   cuisson: 320
   refrigeration: ~
 preparation:
-- section: Préparation de la longe de porc et de la sauce
-  etapes:
-  - etape: Éponger soigneusement la longe de porc avec du papier absorbant pour retirer
-      l’excédent d’humidité.
-    image_guid: ~
-    ingredients:
-    - nom: Longe de porc
-      qte: 1
-      uni: longe
-      rangee: ~
-    equipements: []
-  - etape: Dans un petit bol, mélanger le paprika, le thym, le sel, la poudre d’oignon,
-      la poudre d’ail, le piment de Cayenne et le poivre. Frotter ce mélange d’épices
-      sur toute la surface de la longe pour bien l’enrober.
-    image_guid: ~
-    ingredients:
-    - nom: Paprika
-      qte: 2
-      uni: c. à thé
-      rangee: ~
-    - nom: Thym séché
-      qte: 2
-      uni: c. à thé
-      rangee: ~
-    - nom: Sel de table
-      qte: 0.5
-      uni: c. à soupe
-      rangee: ~
-    - nom: Poudre d’oignon
-      qte: 0.5
-      uni: c. à soupe
-      rangee: ~
-    - nom: Poudre d’ail
-      qte: 1
-      uni: c. à thé
-      rangee: ~
-    - nom: Piment de Cayenne moulu
-      qte: 0.25
-      uni: c. à thé
-      rangee: ~
-    - nom: Poivre noir moulu
-      qte: 0.25
-      uni: c. à thé
-      rangee: ~
-    equipements: Bol
-  - etape: Chauffer l’huile végétale dans une grande poêle à feu moyen. Déposer la
-      longe et la faire dorer sur toutes ses faces, environ 2 minutes par côté, jusqu’à
-      l’obtention d’une belle croûte dorée. Transférer la viande dans la mijoteuse.
-    image_guid: ~
-    ingredients:
-    - nom: Huile végétale
-      qte: 2
-      uni: c. à soupe
-      rangee: ~
-    equipements:
-    - Poêle
-    - Mijoteuse
-  - etape: Dans la même poêle, faire fondre le beurre à feu moyen, puis ajouter l’ail
-      haché. Cuire 1 minute, jusqu’à ce qu’il soit légèrement doré. Incorporer le
-      miel, le vinaigre de cidre et le sel. Porter à ébullition et laisser mijoter
-      30 secondes.
-    image_guid: ~
-    ingredients:
-    - nom: Beurre non salé
-      qte: 0.66
-      uni: tasse
-      rangee: ~
-    - nom: Ail frais haché
-      qte: 2
-      uni: c. à soupe
-      rangee: ~
-    - nom: Miel
-      qte: 1
-      uni: tasse
-      rangee: ~
-    - nom: Vinaigre de cidre de pomme
-      qte: 0.33
-      uni: tasse
-      rangee: ~
-    - nom: Sel de table
-      qte: ~
-      uni: ~
-      rangee: ~
-    equipements: Poêle
-  - etape: Verser la sauce chaude sur la longe de porc. Couvrir et cuire à basse température
-      pendant 5 heures, jusqu’à ce que la viande soit tendre.
-    image_guid: ~
-    ingredients: []
-    equipements: Mijoteuse
-  - etape: Retirer la longe de la mijoteuse et la déposer sur une planche ou une assiette
-      de service. Couvrir légèrement d’un papier d’aluminium et laisser reposer 15
-      minutes.
-    image_guid: ~
-    ingredients: []
-    equipements:
-    - Planche
-    - Assiette de service
-    - Papier d'aluminium
-  - etape: Verser le jus de cuisson dans une petite casserole. Délayer la fécule de
-      maïs dans l’eau, puis l’ajouter au jus. Porter à ébullition à feu moyen vif
-      en fouettant et laisser mijoter 5 minutes, jusqu’à ce que la sauce épaississe
-      et prenne une texture sirupeuse.
-    image_guid: ~
-    ingredients:
-    - nom: Fécule de maïs
-      qte: 1
-      uni: c. à soupe
-      rangee: ~
-    - nom: Eau
-      qte: 2
-      uni: c. à soupe
-      rangee: ~
-    equipements:
-    - Casserole
-    - Fouet
-  - etape: Trancher la viande et servir avec une généreuse quantité de sauce.
-    image_guid: ~
-    ingredients: []
-    equipements: []
+  - section: Préparation de la longe de porc et de la sauce
+    etapes:
+      - etape: Éponger soigneusement la longe de porc avec du papier absorbant pour
+          retirer l’excédent d’humidité.
+        image_guid: ~
+        ingredients:
+          - nom: Longe de porc
+            qte: 1
+            uni: longe
+            rangee: Viandes et substituts
+        equipements: []
+      - etape: Dans un petit bol, mélanger le paprika, le thym, le sel, la poudre
+          d’oignon, la poudre d’ail, le piment de Cayenne et le poivre. Frotter ce
+          mélange d’épices sur toute la surface de la longe pour bien l’enrober.
+        image_guid: ~
+        ingredients:
+          - nom: Paprika
+            qte: 2
+            uni: c. à thé
+            rangee: Epicerie
+          - nom: Thym séché
+            qte: 2
+            uni: c. à thé
+            rangee: Fruits et legumes
+          - nom: Sel de table
+            qte: 0.5
+            uni: c. à soupe
+            rangee: Epicerie
+          - nom: Poudre d’oignon
+            qte: 0.5
+            uni: c. à soupe
+            rangee: Fruits et legumes
+          - nom: Poudre d’ail
+            qte: 1
+            uni: c. à thé
+            rangee: Fruits et legumes
+          - nom: Piment de Cayenne moulu
+            qte: 0.25
+            uni: c. à thé
+            rangee: Epicerie
+          - nom: Poivre noir moulu
+            qte: 0.25
+            uni: c. à thé
+            rangee: Epicerie
+        equipements: Bol
+      - etape: Chauffer l’huile végétale dans une grande poêle à feu moyen. Déposer
+          la longe et la faire dorer sur toutes ses faces, environ 2 minutes par côté,
+          jusqu’à l’obtention d’une belle croûte dorée. Transférer la viande dans
+          la mijoteuse.
+        image_guid: ~
+        ingredients:
+          - nom: Huile végétale
+            qte: 2
+            uni: c. à soupe
+            rangee: Epicerie
+        equipements:
+          - Poêle
+          - Mijoteuse
+      - etape: Dans la même poêle, faire fondre le beurre à feu moyen, puis ajouter
+          l’ail haché. Cuire 1 minute, jusqu’à ce qu’il soit légèrement doré. Incorporer
+          le miel, le vinaigre de cidre et le sel. Porter à ébullition et laisser
+          mijoter 30 secondes.
+        image_guid: ~
+        ingredients:
+          - nom: Beurre non salé
+            qte: 0.66
+            uni: tasse
+            rangee: Produits laitiers et oeufs
+          - nom: Ail frais haché
+            qte: 2
+            uni: c. à soupe
+            rangee: Fruits et legumes
+          - nom: Miel
+            qte: 1
+            uni: tasse
+            rangee: Epicerie
+          - nom: Vinaigre de cidre de pomme
+            qte: 0.33
+            uni: tasse
+            rangee: Epicerie
+          - nom: Sel de table
+            qte: ~
+            uni: ~
+            rangee: Epicerie
+        equipements: Poêle
+      - etape: Verser la sauce chaude sur la longe de porc. Couvrir et cuire à basse
+          température pendant 5 heures, jusqu’à ce que la viande soit tendre.
+        image_guid: ~
+        ingredients: []
+        equipements: Mijoteuse
+      - etape: Retirer la longe de la mijoteuse et la déposer sur une planche ou une
+          assiette de service. Couvrir légèrement d’un papier d’aluminium et laisser
+          reposer 15 minutes.
+        image_guid: ~
+        ingredients: []
+        equipements:
+          - Planche
+          - Assiette de service
+          - Papier d'aluminium
+      - etape: Verser le jus de cuisson dans une petite casserole. Délayer la fécule
+          de maïs dans l’eau, puis l’ajouter au jus. Porter à ébullition à feu moyen
+          vif en fouettant et laisser mijoter 5 minutes, jusqu’à ce que la sauce épaississe
+          et prenne une texture sirupeuse.
+        image_guid: ~
+        ingredients:
+          - nom: Fécule de maïs
+            qte: 1
+            uni: c. à soupe
+            rangee: Epicerie
+          - nom: Eau
+            qte: 2
+            uni: c. à soupe
+            rangee: Epicerie
+        equipements:
+          - Casserole
+          - Fouet
+      - etape: Trancher la viande et servir avec une généreuse quantité de sauce.
+        image_guid: ~
+        ingredients: []
+        equipements: []
 commentaires: []
 image_guid: ~
 soumis_par: Alexandre Parent
