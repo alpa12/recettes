@@ -19,17 +19,15 @@ extract_image_guids <- function(recipe) {
 }
 
 generate_thumbnails <- function(yaml_files, images_dir = "images", thumbs_dir = file.path(images_dir, "thumbs")) {
-  if (!requireNamespace("magick", quietly = TRUE)) {
-    cli::cli_alert_info("Package {.code magick} non installe: miniatures non generees.")
+  magick_bin <- Sys.which("magick")
+  convert_bin <- Sys.which("convert")
+  bin <- if (nzchar(magick_bin)) "magick" else if (nzchar(convert_bin)) "convert" else ""
+  if (!nzchar(bin)) {
+    cli::cli_alert_info("ImageMagick CLI indisponible (magick/convert): miniatures non generees.")
     return(invisible(0L))
   }
 
   fs::dir_create(thumbs_dir, recurse = TRUE)
-  magick_ns <- asNamespace("magick")
-  image_read <- get("image_read", envir = magick_ns)
-  image_resize <- get("image_resize", envir = magick_ns)
-  image_strip <- get("image_strip", envir = magick_ns)
-  image_write <- get("image_write", envir = magick_ns)
   made <- 0L
   seen <- character()
 
@@ -45,10 +43,16 @@ generate_thumbnails <- function(yaml_files, images_dir = "images", thumbs_dir = 
       if (!file.exists(src)) next
       if (file.exists(dst) && file.info(dst)$mtime >= file.info(src)$mtime) next
 
-      img <- image_read(src)
-      img <- image_resize(img, "1200x1200>")
-      img <- image_strip(img)
-      image_write(img, path = dst, format = "jpeg", quality = 72)
+      args <- if (identical(bin, "magick")) {
+        c(src, "-resize", "1200x1200>", "-strip", "-quality", "72", dst)
+      } else {
+        c(src, "-resize", "1200x1200>", "-strip", "-quality", "72", dst)
+      }
+      status <- suppressWarnings(system2(bin, args = args, stdout = TRUE, stderr = TRUE))
+      if (!is.null(attr(status, "status")) && attr(status, "status") != 0) {
+        cli::cli_alert_warning(glue::glue("Echec miniature pour {basename(src)}"))
+        next
+      }
       made <- made + 1L
     }
   }
