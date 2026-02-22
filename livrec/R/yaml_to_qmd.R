@@ -158,12 +158,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   # ---- Quarto front-matter ----
   image_line <- if (!is.null(recipe$image_guid) && nzchar(as.character(recipe$image_guid))) {
     guid <- as.character(recipe$image_guid)
-    thumb_local <- file.path("images", "thumbs", paste0(guid, ".jpg"))
-    img_path <- if (file.exists(thumb_local)) {
-      paste0("/images/thumbs/", guid, ".jpg")
-    } else {
-      paste0("/images/", guid, ".jpg")
-    }
+    img_path <- paste0("/images/", guid, ".jpg")
     paste0("image: ", img_path)
   } else {
     ""

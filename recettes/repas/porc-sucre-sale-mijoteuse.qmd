@@ -1,6 +1,6 @@
 ---
 title: Porc sucré-salé à la mijoteuse
-image: /images/thumbs/b356c6b8-c180-483f-91fe-b2499aa4a130.jpg
+image: /images/b356c6b8-c180-483f-91fe-b2499aa4a130.jpg
 categories:
   - Plats principaux
   - Porc

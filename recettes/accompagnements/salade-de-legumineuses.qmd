@@ -1,6 +1,6 @@
 ---
 title: Salade de légumineuses André
-image: /images/thumbs/index.jpg
+image: /images/index.jpg
 categories:
   - Salade
   - Légumineuses
