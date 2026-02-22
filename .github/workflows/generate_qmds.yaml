@@ -6,13 +6,15 @@ on:
     paths:
       - 'recettes/**/*.yaml'
       - 'recettes/**/*.yml'
-      - 'R/generate_qmds.R'
-      - 'R/build_cnf_foods.R'
-      - 'R/nutrition.R'
+      - 'livrec/**'
       - 'data/nutrition/cnf_food_map.csv'
       - '!recettes/url_imports/**'
       - '!recettes/url_imports_web/**'
       - '!recettes/url_imports_youtube/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -20,6 +22,7 @@ permissions:
 jobs:
   check-changes:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       run: ${{ steps.diff.outputs.run }}
 
@@ -53,7 +56,7 @@ jobs:
           echo "$CHANGED_FILES"
 
           # Exclure les fichiers dans recettes/pending/ (URLs en attente d'import LLM)
-          RELEVANT_FILES=$(echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|R/generate_qmds\.R|R/build_cnf_foods\.R|R/nutrition\.R|data/nutrition/cnf_food_map\.csv)$' | grep -v '^recettes/pending/' || true)
+          RELEVANT_FILES=$(echo "$CHANGED_FILES" | grep -E '^(recettes/.*\.ya?ml|livrec/|data/nutrition/cnf_food_map\.csv)$' | grep -v '^recettes/pending/' || true)
 
           if [ -n "$RELEVANT_FILES" ]; then
             echo "Relevant changes found:"
@@ -69,6 +72,7 @@ jobs:
     needs: check-changes
     if: needs.check-changes.outputs.run == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
       - name: Checkout PR branch
@@ -76,18 +80,15 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Set up R
-        uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: '4.5.2'
-
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
 
-      - name: Restore R packages with renv
-        uses: r-lib/actions/setup-renv@v2
+      - name: Setup R environment
+        uses: ./.github/actions/setup-r-livrec
+        with:
+          r-version: '4.5.2'
 
       - name: Download CNF dataset (Health Canada)
         run: |
@@ -97,11 +98,13 @@ jobs:
 
       - name: Build CNF foods mapping file
         run: |
-          Rscript -e 'source("renv/activate.R"); source("R/build_cnf_foods.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_build_cnf_foods()'
 
       - name: Run QMD generation script
+        env:
+          LIVREC_GENERATE_THUMBS: "true"
         run: |
-          Rscript -e 'source("renv/activate.R"); source("R/generate_qmds.R")'
+          Rscript -e 'source("renv/activate.R"); livrec::gha_generate_qmds()'
 
       - name: Commit generated QMD files
         if: github.event.pull_request.head.repo.full_name == github.repository

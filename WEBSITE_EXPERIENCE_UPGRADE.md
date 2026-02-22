@@ -107,7 +107,7 @@ This document explains the major UX improvements implemented for the recipe webs
 ## How to Regenerate Pages
 
 ```bash
-Rscript --vanilla R/generate_qmds.R
+Rscript --vanilla -e 'source("renv/activate.R"); renv::install("./livrec", prompt = FALSE); livrec::gha_generate_qmds()'
 ```
 
 Then preview:

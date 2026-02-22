@@ -6,9 +6,9 @@ NUTRITION_NUTRIENTS <- data.frame(
     "vitamin_d_ug"
   ),
   label = c(
-    "Calories", "Protéines", "Lipides", "Gras saturés", "Glucides", "Sucres",
-    "Fibres", "Sodium", "Potassium", "Calcium", "Fer", "Magnésium",
-    "Zinc", "Sélénium", "Vitamine C", "Vitamine B12", "Vitamine A (EAR)",
+    "Calories", "Prot\u00e9ines", "Lipides", "Gras satur\u00e9s", "Glucides", "Sucres",
+    "Fibres", "Sodium", "Potassium", "Calcium", "Fer", "Magn\u00e9sium",
+    "Zinc", "S\u00e9l\u00e9nium", "Vitamine C", "Vitamine B12", "Vitamine A (EAR)",
     "Vitamine D"
   ),
   unit = c(
@@ -72,17 +72,34 @@ normalize_unit <- function(unit) {
 
 load_nutrition_db <- local({
   cache <- NULL
+  resolve_data_file <- function(path) {
+    candidates <- c(path, file.path("..", path))
+    hit <- candidates[file.exists(candidates)]
+    if (length(hit) == 0) return(NA_character_)
+    hit[[1]]
+  }
 
   function() {
     if (!is.null(cache)) return(cache)
 
+    foods_path <- resolve_data_file("data/nutrition/foods.csv")
+    aliases_path <- resolve_data_file("data/nutrition/aliases.csv")
+    cnf_path <- resolve_data_file("data/nutrition/foods_cnf.csv")
+
+    if (is.na(foods_path) || is.na(aliases_path)) {
+      cache <<- list(
+        foods = data.frame(food_id = character(), stringsAsFactors = FALSE),
+        aliases = data.frame(alias = character(), food_id = character(), alias_norm = character(), stringsAsFactors = FALSE)
+      )
+      return(cache)
+    }
+
     foods <- read.csv(
-      "data/nutrition/foods.csv",
+      foods_path,
       stringsAsFactors = FALSE,
       check.names = FALSE
     )
-    cnf_path <- "data/nutrition/foods_cnf.csv"
-    if (file.exists(cnf_path)) {
+    if (!is.na(cnf_path) && file.exists(cnf_path)) {
       foods_cnf <- read.csv(
         cnf_path,
         stringsAsFactors = FALSE,
@@ -96,7 +113,7 @@ load_nutrition_db <- local({
     if (!("source" %in% names(foods))) foods$source <- "unknown"
     if (!("source_ref" %in% names(foods))) foods$source_ref <- ""
     aliases <- read.csv(
-      "data/nutrition/aliases.csv",
+      aliases_path,
       stringsAsFactors = FALSE,
       check.names = FALSE
     )
@@ -281,6 +298,11 @@ escape_html_local <- function(x) {
   gsub("\"", "&quot;", x, fixed = TRUE)
 }
 
+#' Build HTML nutrition table for a recipe.
+#' @param nutrition_result Output of [calc_recipe_nutrition()].
+#' @param portions Numeric portion count.
+#' @return A single HTML string.
+#' @export
 build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
   totals <- nutrition_result$total
   per_portion <- nutrition_result$per_portion
@@ -320,11 +342,11 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
   }
 
   status <- paste0(
-    "<p class=\"recipe-nutrition-meta\">Estimations basées sur les ingrédients saisis. ",
+    "<p class=\"recipe-nutrition-meta\">Estimations bas\u00e9es sur les ingr\u00e9dients saisis. ",
     if (is.finite(portions) && portions > 0) {
       paste0("Portions de base: ", format_number_fr(portions, 0), ".")
     } else {
-      "Portions non définies."
+      "Portions non d\u00e9finies."
     },
     "</p>"
   )
@@ -335,8 +357,8 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
       paste0(escape_html_local(source_usage$source[i]), ": ", source_usage$n[i])
     }, character(1))
     src_html <- paste0(
-      "<p class=\"recipe-nutrition-meta\">Sources nutrition (ingrédients calculés): ",
-      paste(src_items, collapse = " · "),
+      "<p class=\"recipe-nutrition-meta\">Sources nutrition (ingr\u00e9dients calcul\u00e9s): ",
+      paste(src_items, collapse = " \u00b7 "),
       ".</p>"
     )
   }
@@ -350,7 +372,7 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
     }, character(1))
     unresolved_html <- paste0(
       "<details class=\"recipe-nutrition-missing\">",
-      "<summary>Ingrédients non comptabilisés (", nrow(unresolved), ")</summary>",
+      "<summary>Ingr\u00e9dients non comptabilis\u00e9s (", nrow(unresolved), ")</summary>",
       "<ul>", paste(items, collapse = ""), "</ul>",
       "</details>"
     )
@@ -358,7 +380,7 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
 
   main_cards <- list(
     list(label = "Calories", key = "energy_kcal", unit = "kcal", dec = 0),
-    list(label = "Protéines", key = "protein_g", unit = "g", dec = 1),
+    list(label = "Prot\u00e9ines", key = "protein_g", unit = "g", dec = 1),
     list(label = "Glucides", key = "carbs_g", unit = "g", dec = 1),
     list(label = "Lipides", key = "fat_g", unit = "g", dec = 1)
   )
@@ -380,7 +402,7 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
     "<div class=\"recipe-nutrition-block\">",
     "<div class=\"recipe-nutrition-cards\">", cards_html, "</div>",
     "<details class=\"recipe-nutrition-details\">",
-    "<summary class=\"recipe-nutrition-toggle\">Afficher le détail complet</summary>",
+    "<summary class=\"recipe-nutrition-toggle\">Afficher le d\u00e9tail complet</summary>",
     status,
     src_html,
     "<table class=\"recipe-nutrition-table table table-sm\">",
@@ -393,6 +415,10 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
   )
 }
 
+#' Compute nutrition totals and per-portion values for a recipe.
+#' @param recipe Parsed recipe list from YAML.
+#' @return A list with totals, per-portion values and unresolved ingredients.
+#' @export
 calc_recipe_nutrition <- function(recipe) {
   db <- load_nutrition_db()
   foods <- db$foods

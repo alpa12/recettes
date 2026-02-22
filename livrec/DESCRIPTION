@@ -1,0 +1,24 @@
+Package: livrec
+Title: Utilities for the Recettes Cookbook Project
+Version: 0.1.0
+Authors@R: 
+    person(given = "Alexandre", family = "Parent", role = c("aut", "cre"), email = "alexandre@example.com")
+Description: Shared package for recipe import, validation, nutrition, and QMD generation
+    used by local scripts and GitHub Actions in the recettes project.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    cli,
+    ellmer,
+    fs,
+    glue,
+    jsonlite,
+    rvest,
+    stringi,
+    stringr,
+    yaml
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

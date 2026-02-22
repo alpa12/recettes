@@ -1,0 +1,60 @@
+name: R Quality
+
+on:
+  pull_request:
+    paths:
+      - 'livrec/**'
+      - 'recettes/**/*.yaml'
+      - 'recettes/**/*.yml'
+      - 'recettes/template.yaml'
+      - 'renv.lock'
+      - 'renv/settings.json'
+      - '.lintr'
+  push:
+    branches: [main, dev]
+    paths:
+      - 'livrec/**'
+      - 'recettes/**/*.yaml'
+      - 'recettes/**/*.yml'
+      - 'recettes/template.yaml'
+      - 'renv.lock'
+      - 'renv/settings.json'
+      - '.lintr'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup R environment
+        uses: ./.github/actions/setup-r-livrec
+        with:
+          r-version: '4.5.2'
+
+      - name: Install quality tooling
+        run: |
+          Rscript -e 'source("renv/activate.R"); renv::install(c("lintr", "testthat", "roxygen2"), prompt = FALSE, repos = "https://cloud.r-project.org")'
+
+      - name: Lint livrec
+        run: |
+          Rscript -e 'source("renv/activate.R"); lintr::lint_package("livrec")'
+
+      - name: Run livrec tests
+        run: |
+          Rscript -e 'source("renv/activate.R"); testthat::test_local("livrec")'
+
+      - name: Validate recipe YAML files
+        run: |
+          Rscript -e 'source("renv/activate.R"); livrec::gha_validate_recipes()'
+
+      - name: R CMD check livrec
+        run: |
+          R CMD build livrec
+          R CMD check --no-manual --as-cran livrec_*.tar.gz

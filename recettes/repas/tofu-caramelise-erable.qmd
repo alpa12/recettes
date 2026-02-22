@@ -1,6 +1,6 @@
 ---
 title: Tofu caramélisé à l’érable
-image: /images/35a1a2db-8161-46f3-a731-3cccaa0b9d96.jpg
+image: /images/thumbs/35a1a2db-8161-46f3-a731-3cccaa0b9d96.jpg
 categories:
   - Plats principaux
   - Tofu

@@ -1,0 +1,15 @@
+Package: recettesproj
+Type: Project
+Title: Recettes Project Dependency Manifest
+Version: 0.0.0.9000
+Description: Dependency manifest for the recettes repository. The runtime logic is
+    implemented in the local livrec package.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends:
+    R (>= 4.5)
+Imports:
+    livrec,
+    renv
+Remotes:
+    local::livrec

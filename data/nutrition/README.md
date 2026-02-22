@@ -13,7 +13,7 @@ If `data/nutrition/foods_cnf.csv` exists, rows in that file override `foods.csv`
 
 The GitHub Actions workflows download CNF and rebuild `foods_cnf.csv` automatically using:
 
-- `R/build_cnf_foods.R`
+- `livrec::gha_build_cnf_foods()`
 - `data/nutrition/cnf_food_map.csv` (mapping from local `food_id` to CNF `FoodID`)
 
 This means CNF raw files do not need to be committed to the repository.
