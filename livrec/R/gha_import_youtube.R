@@ -239,7 +239,7 @@ fetch_youtube_metadata_context <- function(video_url, video_id) {
 
   out <- system2(
     "yt-dlp",
-    args = c("--skip-download", "--dump-single-json", video_url),
+    args = c("--skip-download", "--dump-single-json", "--no-warnings", "--no-progress", video_url),
     stdout = TRUE,
     stderr = TRUE
   )
@@ -248,7 +248,13 @@ fetch_youtube_metadata_context <- function(video_url, video_id) {
     stop("yt-dlp metadata a echoue: ", paste(out, collapse = "\n"))
   }
 
-  json_txt <- paste(out, collapse = "\n")
+  raw_txt <- paste(out, collapse = "\n")
+  start_pos <- regexpr("\\{", raw_txt, perl = TRUE)[1]
+  end_pos <- tail(gregexpr("\\}", raw_txt, perl = TRUE)[[1]], 1)
+  if (is.na(start_pos) || is.na(end_pos) || start_pos <= 0 || end_pos <= 0 || end_pos <= start_pos) {
+    stop("Impossible d'extraire le JSON des metadonnees yt-dlp.")
+  }
+  json_txt <- substr(raw_txt, start_pos, end_pos)
   info <- tryCatch(
     jsonlite::fromJSON(json_txt, simplifyVector = FALSE),
     error = function(e) NULL
