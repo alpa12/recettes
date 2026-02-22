@@ -15,7 +15,7 @@
 # In the generated recipe page, we display:
 # - Average stars (from available evaluations)
 # - Total comment count
-# - Count of comments written by "Alexandre Parent" and "Élodie Bourgeois"
+# - Count of comments written by "Alexandre Parent" and "\u00c9lodie Bourgeois"
 #   (case-insensitive, accents-insensitive best-effort)
 # ------------------------------------------------------------------------------
 
@@ -135,6 +135,12 @@ extract_step_timers <- function(step_text) {
   out
 }
 
+#' Convert one recipe YAML file to Quarto (`.qmd`).
+#'
+#' @param yaml_path Path to source YAML recipe file.
+#' @param qmd_path Optional output `.qmd` path. Defaults to same path with
+#'   extension replaced by `.qmd`.
+#' @return Output `.qmd` path invisibly.
 #' @importFrom yaml read_yaml
 #' @importFrom fs path_ext_set path_file path_rel
 #' @importFrom stringr str_trim str_to_lower
@@ -221,28 +227,28 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
   if (!is.null(recipe$se_congele)) {
     txt <- if (isTRUE(recipe$se_congele)) "Oui" else "Non"
-    facts <- c(facts, build_fact_box("Se congèle", txt))
+    facts <- c(facts, build_fact_box("Se cong\u00e8le", txt))
   }
   t <- if (is.list(recipe$temps)) recipe$temps else list()
   prep <- if (!is.null(t$preparation) && nzchar(fmt_number(t$preparation))) paste0(fmt_number(t$preparation), " min") else "-"
   cook <- if (!is.null(t$cuisson) && nzchar(fmt_number(t$cuisson))) paste0(fmt_number(t$cuisson), " min") else "-"
-  facts <- c(facts, build_fact_box("Temps préparation", prep))
+  facts <- c(facts, build_fact_box("Temps pr\u00e9paration", prep))
   facts <- c(facts, build_fact_box("Temps cuisson", cook))
   if (!is.null(t$refrigeration) && nzchar(fmt_number(t$refrigeration))) {
     cool <- paste0(fmt_number(t$refrigeration), " min")
-    facts <- c(facts, build_fact_box("Temps réfrigération", cool))
+    facts <- c(facts, build_fact_box("Temps r\u00e9frig\u00e9ration", cool))
   }
 
   lines <- c(
     lines,
     "```{=html}",
     "<div class=\"recipe-toolbar\">",
-    paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">✏️ Modifier cette recette</a>"),
+    paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">\u270f\ufe0f Modifier cette recette</a>"),
     "<div class=\"recipe-toolbar-actions\">",
     "<button id=\"recipe-cart-toggle\" type=\"button\" class=\"btn btn-outline-success btn-sm\">Ajouter au panier</button>",
-    "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">🍳 Mode cuisson</button>",
-    "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">🖨️ Imprimer</button>",
-    "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">🔗 Copier le lien</button>",
+    "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\U0001f373 Mode cuisson</button>",
+    "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">\U0001f5a8\ufe0f Imprimer</button>",
+    "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">\U0001f517 Copier le lien</button>",
     "</div>",
     "</div>",
     if (length(facts) > 0) paste0("<div class=\"recipe-facts-grid\">", paste(facts, collapse = ""), "</div>") else "",
@@ -261,14 +267,14 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   meta_badges <- character()
   if (!is.null(recipe$difficulte) && nzchar(as.character(recipe$difficulte))) {
-    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Difficulté: ", escape_html(recipe$difficulte), "</span>"))
+    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Difficult\u00e9: ", escape_html(recipe$difficulte), "</span>"))
   }
   if (!is.null(recipe$cout) && nzchar(as.character(recipe$cout))) {
-    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Coût: ", escape_html(recipe$cout), "</span>"))
+    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Co\u00fbt: ", escape_html(recipe$cout), "</span>"))
   }
   if (is.list(recipe$allergenes) && length(recipe$allergenes) > 0) {
     allg <- paste(escape_html(unlist(recipe$allergenes, use.names = FALSE)), collapse = ", ")
-    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Allergènes: ", allg, "</span>"))
+    meta_badges <- c(meta_badges, paste0("<span class=\"recipe-meta-badge\">Allerg\u00e8nes: ", allg, "</span>"))
   }
   if (length(meta_badges) > 0) {
     lines <- c(
@@ -296,7 +302,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "<label for=\"servings-input\" class=\"form-label mb-1\">Ajuster les portions</label>",
         "<div class=\"d-flex gap-2 align-items-center\">",
         "<input id=\"servings-input\" class=\"form-control form-control-sm\" type=\"number\" min=\"1\" step=\"1\" value=\"", base_portions, "\" style=\"max-width: 110px;\">",
-        "<button id=\"servings-reset\" class=\"btn btn-outline-secondary btn-sm\" type=\"button\">Réinitialiser</button>",
+        "<button id=\"servings-reset\" class=\"btn btn-outline-secondary btn-sm\" type=\"button\">R\u00e9initialiser</button>",
         "<span class=\"text-muted small\">Base: ", base_portions, "</span>",
         "</div>",
         "</div>"
@@ -367,13 +373,13 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   )
 
   # ---- Ingredients (grouped by section) ----
-  lines <- c(lines, "## Ingrédients", "")
+  lines <- c(lines, "## Ingr\u00e9dients", "")
   lines <- c(
     lines,
     "```{=html}",
     "<div class=\"recipe-grocery-actions\">",
-    "<button id=\"copy-grocery-list\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">📋 Générer la liste d'épicerie</button>",
-    "<button id=\"reset-recipe-checks\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">↺ Réinitialiser les cases</button>",
+    "<button id=\"copy-grocery-list\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\U0001f4cb G\u00e9n\u00e9rer la liste d'\u00e9picerie</button>",
+    "<button id=\"reset-recipe-checks\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\u21ba R\u00e9initialiser les cases</button>",
     "<span id=\"grocery-copy-feedback\" class=\"text-muted small\"></span>",
     "</div>",
     "```",
@@ -401,7 +407,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
 
   # ---- Equipment (grouped by section) ----
-  lines <- c(lines, "## Équipements", "")
+  lines <- c(lines, "## \u00c9quipements", "")
 
   for (section in recipe$preparation) {
     lines <- c(lines, paste0("### ", section$section), "")
@@ -421,7 +427,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
 
   # ---- Preparation steps (2-column cooking layout) ----
-  lines <- c(lines, "## Préparation", "")
+  lines <- c(lines, "## Pr\u00e9paration", "")
 
   for (section in recipe$preparation) {
     lines <- c(lines, paste0("### ", section$section), "", "```{=html}", "<div class=\"recipe-prep-grid\">")
@@ -435,14 +441,14 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         ing_lines <- vapply(step$ingredients, function(x) render_ingredient_li(x, list_kind = "step"), character(1))
         ing_html <- paste0(
           "<div class=\"recipe-prep-ingredients\">",
-          "<div class=\"recipe-prep-label\">Ingrédients</div>",
+          "<div class=\"recipe-prep-label\">Ingr\u00e9dients</div>",
           "<ul class=\"recipe-ingredients recipe-step-ingredients\">",
           paste(ing_lines, collapse = ""),
           "</ul>",
           "</div>"
         )
       } else {
-        ing_html <- "<div class=\"recipe-prep-ingredients\"><div class=\"recipe-prep-label\">Ingrédients</div><div class=\"text-muted small\">Aucun ingrédient spécifique.</div></div>"
+        ing_html <- "<div class=\"recipe-prep-ingredients\"><div class=\"recipe-prep-label\">Ingr\u00e9dients</div><div class=\"text-muted small\">Aucun ingr\u00e9dient sp\u00e9cifique.</div></div>"
       }
 
       img_html <- ""
@@ -450,7 +456,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         src <- paste0("/images/", step$image_guid, ".jpg")
         img_html <- paste0(
           "<a href=\"", src, "\" class=\"glightbox recipe-step-image-link\" data-gallery=\"recipe-steps\">",
-          "<img src=\"", src, "\" alt=\"Image étape ", i, "\" class=\"recipe-step-thumb\">",
+          "<img src=\"", src, "\" alt=\"Image \u00e9tape ", i, "\" class=\"recipe-step-thumb\">",
           "</a>"
         )
       }
@@ -458,7 +464,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
       timer_html <- ""
       if (length(timers) > 0) {
         timer_buttons <- vapply(timers, function(t) {
-          paste0("<button type=\"button\" class=\"btn btn-outline-secondary btn-sm recipe-timer-btn\" data-seconds=\"", t$seconds, "\">⏱️ ", escape_html(t$label), "</button>")
+          paste0("<button type=\"button\" class=\"btn btn-outline-secondary btn-sm recipe-timer-btn\" data-seconds=\"", t$seconds, "\">\u23f1\ufe0f ", escape_html(t$label), "</button>")
         }, character(1))
         timer_html <- paste0("<div class=\"recipe-step-timers\">", paste(timer_buttons, collapse = ""), "</div>")
       }
@@ -469,7 +475,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
           "<article class=\"recipe-prep-step\">",
           ing_html,
           "<div class=\"recipe-prep-instruction\">",
-          "<div class=\"recipe-prep-stepno\"><label class=\"recipe-check-row\"><input type=\"checkbox\" class=\"recipe-check recipe-step-check\"><span>Étape ", i, "</span></label></div>",
+          "<div class=\"recipe-prep-stepno\"><label class=\"recipe-check-row\"><input type=\"checkbox\" class=\"recipe-check recipe-step-check\"><span>\u00c9tape ", i, "</span></label></div>",
           "<p>", step_text, "</p>",
           timer_html,
           img_html,
@@ -550,7 +556,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   lines <- c(
     lines,
     "```{=html}",
-    "<div id=\"recipe-timer-dock\" class=\"recipe-timer-dock d-none\"><strong>Minuteur</strong> <span id=\"recipe-timer-label\"></span> <span id=\"recipe-timer-remaining\"></span> <button id=\"recipe-timer-stop\" class=\"btn btn-sm btn-outline-light\" type=\"button\">Arrêter</button></div>",
+    "<div id=\"recipe-timer-dock\" class=\"recipe-timer-dock d-none\"><strong>Minuteur</strong> <span id=\"recipe-timer-label\"></span> <span id=\"recipe-timer-remaining\"></span> <button id=\"recipe-timer-stop\" class=\"btn btn-sm btn-outline-light\" type=\"button\">Arr\u00eater</button></div>",
     "<script>(function(){",
     "let timer=null, target=0, audioCtx=null, alarmInterval=null, alarmTimeout=null;",
     "const pad=(n)=>String(n).padStart(2,'0');",
@@ -561,7 +567,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "const startAlarm=async()=>{const ctx=await ensureAudio(); if(!ctx) return; stopAlarm(); const notes=[1760,1480,2093,1760,2349,1760]; let i=0; const ring=()=>{playBeep(ctx,notes[i%notes.length]); i+=1;}; ring(); alarmInterval=setInterval(ring,250); alarmTimeout=setTimeout(stopAlarm,15000);};",
     "const dock=document.getElementById('recipe-timer-dock'); const rem=document.getElementById('recipe-timer-remaining'); const lab=document.getElementById('recipe-timer-label'); const stop=document.getElementById('recipe-timer-stop');",
     "const hide=()=>{if(timer){clearInterval(timer); timer=null;} stopAlarm(); if(dock) dock.classList.add('d-none');};",
-    "document.addEventListener('click',async(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; await ensureAudio(); stopAlarm(); if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){if(timer){clearInterval(timer); timer=null;} if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none'); startAlarm();}},250);});",
+    "document.addEventListener('click',async(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; await ensureAudio(); stopAlarm(); if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('\u23f1\ufe0f','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){if(timer){clearInterval(timer); timer=null;} if(rem) rem.textContent='Termin\u00e9!'; if(dock) dock.classList.remove('d-none'); startAlarm();}},250);});",
     "if(stop) stop.addEventListener('click', hide);",
     "})();</script>",
     "```",
@@ -577,7 +583,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};",
     "const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};",
     "const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\\s+/g,' ').trim():li.innerText.replace(/\\s+/g,' ').trim();};",
-    "const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};",
+    "const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\\n'):'(Aucun ingr\u00e9dient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copi\u00e9e.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste pr\u00eate \u00e0 copier.';}};",
     "document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});",
     "})();</script>",
     "```",
@@ -597,15 +603,15 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
     n_total <- length(comments_norm)
     n_alex <- count_by_author(comments_norm, "Alexandre Parent")
-    n_elodie <- count_by_author(comments_norm, "Élodie Bourgeois")
+    n_elodie <- count_by_author(comments_norm, "\u00c9lodie Bourgeois")
 
     summary_parts <- c()
     if (stars != "") summary_parts <- c(summary_parts, paste0(stars, " (moyenne ", format(avg, digits = 2), "/5)"))
     summary_parts <- c(summary_parts, paste0(n_total, " commentaire(s)"))
     summary_parts <- c(summary_parts, paste0("Alexandre Parent: ", n_alex))
-    summary_parts <- c(summary_parts, paste0("Élodie Bourgeois: ", n_elodie))
+    summary_parts <- c(summary_parts, paste0("\u00c9lodie Bourgeois: ", n_elodie))
 
-    lines <- c(lines, paste0("_", paste(summary_parts, collapse = " · "), "_"), "")
+    lines <- c(lines, paste0("_", paste(summary_parts, collapse = " \u00b7 "), "_"), "")
 
     # Each comment
     for (cmt in comments_norm) {
@@ -618,6 +624,10 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 }
 
 #' Regenerate all recipe QMDs from YAMLs
+#'
+#' @param recipes_dir Directory containing YAML recipes.
+#' @param pattern File matching pattern for YAML recipes.
+#' @return Vector of processed YAML file paths invisibly.
 #' @export
 regenerate_recipe_qmds <- function(recipes_dir = "recettes", pattern = "\\.ya?ml$") {
   yaml_files <- list.files(recipes_dir, pattern = pattern, full.names = TRUE)

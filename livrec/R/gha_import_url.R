@@ -101,7 +101,7 @@ extract_recipe_page_context <- function(page) {
     !vapply(ingredient_scope, is_noise_line, logical(1)) &
       !grepl("ingredient|preparation|instruction|etape", tolower(iconv(ingredient_scope, from = "", to = "ASCII//TRANSLIT"))) &
       nchar(ingredient_scope) <= 140 &
-      (grepl("^(?:-|\\*|•)\\s*", ingredient_scope, perl = TRUE) |
+      (grepl("^(?:-|\\*|\u2022)\\s*", ingredient_scope, perl = TRUE) |
          grepl("^\\d", ingredient_scope) |
          grepl("\\b(c\\.|tasse|ml|g|kg|lb|oz|pincee|gousse|boite|cuill)", tolower(iconv(ingredient_scope, from = "", to = "ASCII//TRANSLIT"))))
   ]
@@ -215,7 +215,12 @@ extract_structured_recipe <- function(page) {
   )
 }
 
-#' GitHub Actions entrypoint: import a recipe from a generic URL YAML request.
+#' Import a recipe from a generic URL YAML request.
+#'
+#' GitHub Actions entrypoint for URL-based recipe imports.
+#'
+#' @param url_file Path to YAML request file (usually from `RECIPE_URL_FILE`).
+#' @return Generated recipe YAML file path invisibly.
 #' @export
 gha_import_recipe_from_url <- function(url_file = Sys.getenv("RECIPE_URL_FILE")) {
   if (!file.exists(url_file)) stop("Fichier URL introuvable: ", url_file)

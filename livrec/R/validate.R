@@ -80,7 +80,12 @@ collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_
   issues
 }
 
-#' GitHub Actions entrypoint: validate recipe YAML files.
+#' Validate recipe YAML files.
+#'
+#' GitHub Actions entrypoint for recipe structural validation.
+#'
+#' @param recipes_dir Directory containing recipe YAML files.
+#' @return Vector of validated YAML file paths invisibly.
 #' @export
 gha_validate_recipes <- function(recipes_dir = "recettes") {
   yaml_files <- list.files(recipes_dir, pattern = "\\.ya?ml$", recursive = TRUE, full.names = TRUE)

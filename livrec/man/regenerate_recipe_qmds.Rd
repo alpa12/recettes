@@ -6,6 +6,14 @@
 \usage{
 regenerate_recipe_qmds(recipes_dir = "recettes", pattern = "\\\\.ya?ml$")
 }
+\arguments{
+\item{recipes_dir}{Directory containing YAML recipes.}
+
+\item{pattern}{File matching pattern for YAML recipes.}
+}
+\value{
+Vector of processed YAML file paths invisibly.
+}
 \description{
 Regenerate all recipe QMDs from YAMLs
 }

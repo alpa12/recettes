@@ -2,10 +2,16 @@
 % Please edit documentation in R/gha_import_url.R
 \name{gha_import_recipe_from_url}
 \alias{gha_import_recipe_from_url}
-\title{GitHub Actions entrypoint: import a recipe from a generic URL YAML request.}
+\title{Import a recipe from a generic URL YAML request.}
 \usage{
 gha_import_recipe_from_url(url_file = Sys.getenv("RECIPE_URL_FILE"))
 }
+\arguments{
+\item{url_file}{Path to YAML request file (usually from \code{RECIPE_URL_FILE}).}
+}
+\value{
+Generated recipe YAML file path invisibly.
+}
 \description{
-GitHub Actions entrypoint: import a recipe from a generic URL YAML request.
+GitHub Actions entrypoint for URL-based recipe imports.
 }

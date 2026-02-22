@@ -80,7 +80,7 @@ extract_unit_and_name <- function(text) {
 }
 
 ingredient_line_to_obj <- function(line) {
-  raw <- clean_line(gsub("^[\\-\\*•\\s]+", "", as.character(line %||% "")))
+  raw <- clean_line(gsub("^[\\-\\*\u2022\\s]+", "", as.character(line %||% "")))
   if (!nzchar(raw)) return(NULL)
 
   qty <- extract_leading_quantity(raw)

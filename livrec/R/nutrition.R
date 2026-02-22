@@ -6,9 +6,9 @@ NUTRITION_NUTRIENTS <- data.frame(
     "vitamin_d_ug"
   ),
   label = c(
-    "Calories", "Protéines", "Lipides", "Gras saturés", "Glucides", "Sucres",
-    "Fibres", "Sodium", "Potassium", "Calcium", "Fer", "Magnésium",
-    "Zinc", "Sélénium", "Vitamine C", "Vitamine B12", "Vitamine A (EAR)",
+    "Calories", "Prot\u00e9ines", "Lipides", "Gras satur\u00e9s", "Glucides", "Sucres",
+    "Fibres", "Sodium", "Potassium", "Calcium", "Fer", "Magn\u00e9sium",
+    "Zinc", "S\u00e9l\u00e9nium", "Vitamine C", "Vitamine B12", "Vitamine A (EAR)",
     "Vitamine D"
   ),
   unit = c(
@@ -342,11 +342,11 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
   }
 
   status <- paste0(
-    "<p class=\"recipe-nutrition-meta\">Estimations basées sur les ingrédients saisis. ",
+    "<p class=\"recipe-nutrition-meta\">Estimations bas\u00e9es sur les ingr\u00e9dients saisis. ",
     if (is.finite(portions) && portions > 0) {
       paste0("Portions de base: ", format_number_fr(portions, 0), ".")
     } else {
-      "Portions non définies."
+      "Portions non d\u00e9finies."
     },
     "</p>"
   )
@@ -357,8 +357,8 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
       paste0(escape_html_local(source_usage$source[i]), ": ", source_usage$n[i])
     }, character(1))
     src_html <- paste0(
-      "<p class=\"recipe-nutrition-meta\">Sources nutrition (ingrédients calculés): ",
-      paste(src_items, collapse = " · "),
+      "<p class=\"recipe-nutrition-meta\">Sources nutrition (ingr\u00e9dients calcul\u00e9s): ",
+      paste(src_items, collapse = " \u00b7 "),
       ".</p>"
     )
   }
@@ -372,7 +372,7 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
     }, character(1))
     unresolved_html <- paste0(
       "<details class=\"recipe-nutrition-missing\">",
-      "<summary>Ingrédients non comptabilisés (", nrow(unresolved), ")</summary>",
+      "<summary>Ingr\u00e9dients non comptabilis\u00e9s (", nrow(unresolved), ")</summary>",
       "<ul>", paste(items, collapse = ""), "</ul>",
       "</details>"
     )
@@ -380,7 +380,7 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
 
   main_cards <- list(
     list(label = "Calories", key = "energy_kcal", unit = "kcal", dec = 0),
-    list(label = "Protéines", key = "protein_g", unit = "g", dec = 1),
+    list(label = "Prot\u00e9ines", key = "protein_g", unit = "g", dec = 1),
     list(label = "Glucides", key = "carbs_g", unit = "g", dec = 1),
     list(label = "Lipides", key = "fat_g", unit = "g", dec = 1)
   )
@@ -402,7 +402,7 @@ build_nutrition_table_html <- function(nutrition_result, portions = NA_real_) {
     "<div class=\"recipe-nutrition-block\">",
     "<div class=\"recipe-nutrition-cards\">", cards_html, "</div>",
     "<details class=\"recipe-nutrition-details\">",
-    "<summary class=\"recipe-nutrition-toggle\">Afficher le détail complet</summary>",
+    "<summary class=\"recipe-nutrition-toggle\">Afficher le d\u00e9tail complet</summary>",
     status,
     src_html,
     "<table class=\"recipe-nutrition-table table table-sm\">",

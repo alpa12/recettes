@@ -2,10 +2,16 @@
 % Please edit documentation in R/gha_import_youtube.R
 \name{gha_import_recipe_from_youtube}
 \alias{gha_import_recipe_from_youtube}
-\title{GitHub Actions entrypoint: import a recipe from a YouTube URL YAML request.}
+\title{Import a recipe from a YouTube URL YAML request.}
 \usage{
 gha_import_recipe_from_youtube(url_file = Sys.getenv("RECIPE_URL_FILE"))
 }
+\arguments{
+\item{url_file}{Path to YAML request file (usually from \code{RECIPE_URL_FILE}).}
+}
+\value{
+Generated recipe YAML file path invisibly.
+}
 \description{
-GitHub Actions entrypoint: import a recipe from a YouTube URL YAML request.
+GitHub Actions entrypoint for YouTube-based recipe imports.
 }

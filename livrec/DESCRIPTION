@@ -16,6 +16,7 @@ Imports:
     glue,
     jsonlite,
     rvest,
+    stringi,
     stringr,
     yaml
 Suggests:

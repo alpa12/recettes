@@ -1,4 +1,13 @@
-#' GitHub Actions entrypoint: build CNF-based nutrition file.
+#' Build CNF-based nutrition file.
+#'
+#' GitHub Actions entrypoint used to generate `data/nutrition/foods_cnf.csv`
+#' from downloaded CNF CSV files and the local mapping file.
+#'
+#' @param cnf_dir Directory containing CNF raw CSV files.
+#' @param map_path Path to mapping file linking local food ids to CNF ids.
+#' @param base_path Path to base foods CSV file.
+#' @param out_path Output path for generated CNF foods CSV.
+#' @return The generated data frame invisibly.
 #' @export
 gha_build_cnf_foods <- function(
   cnf_dir = Sys.getenv("CNF_DIR", unset = "data/nutrition/cnf"),

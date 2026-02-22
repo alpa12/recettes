@@ -2,7 +2,7 @@
 % Please edit documentation in R/cnf.R
 \name{gha_build_cnf_foods}
 \alias{gha_build_cnf_foods}
-\title{GitHub Actions entrypoint: build CNF-based nutrition file.}
+\title{Build CNF-based nutrition file.}
 \usage{
 gha_build_cnf_foods(
   cnf_dir = Sys.getenv("CNF_DIR", unset = "data/nutrition/cnf"),
@@ -11,6 +11,19 @@ gha_build_cnf_foods(
   out_path = Sys.getenv("CNF_OUT_PATH", unset = "data/nutrition/foods_cnf.csv")
 )
 }
+\arguments{
+\item{cnf_dir}{Directory containing CNF raw CSV files.}
+
+\item{map_path}{Path to mapping file linking local food ids to CNF ids.}
+
+\item{base_path}{Path to base foods CSV file.}
+
+\item{out_path}{Output path for generated CNF foods CSV.}
+}
+\value{
+The generated data frame invisibly.
+}
 \description{
-GitHub Actions entrypoint: build CNF-based nutrition file.
+GitHub Actions entrypoint used to generate \code{data/nutrition/foods_cnf.csv}
+from downloaded CNF CSV files and the local mapping file.
 }

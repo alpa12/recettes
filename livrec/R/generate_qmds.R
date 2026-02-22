@@ -76,8 +76,11 @@ find_recipe_yaml_files <- function(recipes_dir = "recettes") {
 }
 
 #' GitHub Actions entrypoint: generate QMD files from recipe YAMLs.
+#' @param recipes_dir Directory containing recipe YAML files.
+#' @param images_dir Directory containing recipe images.
 #' @param generate_thumbnails_enabled Whether to generate thumbnails.
 #'   Defaults to `FALSE` unless `LIVREC_GENERATE_THUMBS=true`.
+#' @return A summary list with counts of created/modified/unchanged files.
 #' @export
 gha_generate_qmds <- function(
   recipes_dir = "recettes",

@@ -12,8 +12,15 @@ gha_generate_qmds(
 )
 }
 \arguments{
+\item{recipes_dir}{Directory containing recipe YAML files.}
+
+\item{images_dir}{Directory containing recipe images.}
+
 \item{generate_thumbnails_enabled}{Whether to generate thumbnails.
 Defaults to \code{FALSE} unless \code{LIVREC_GENERATE_THUMBS=true}.}
+}
+\value{
+A summary list with counts of created/modified/unchanged files.
 }
 \description{
 GitHub Actions entrypoint: generate QMD files from recipe YAMLs.

@@ -2,10 +2,16 @@
 % Please edit documentation in R/validate.R
 \name{gha_validate_recipes}
 \alias{gha_validate_recipes}
-\title{GitHub Actions entrypoint: validate recipe YAML files.}
+\title{Validate recipe YAML files.}
 \usage{
 gha_validate_recipes(recipes_dir = "recettes")
 }
+\arguments{
+\item{recipes_dir}{Directory containing recipe YAML files.}
+}
+\value{
+Vector of validated YAML file paths invisibly.
+}
 \description{
-GitHub Actions entrypoint: validate recipe YAML files.
+GitHub Actions entrypoint for recipe structural validation.
 }

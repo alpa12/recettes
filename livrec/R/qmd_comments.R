@@ -35,7 +35,7 @@ normalize_comments <- function(commentaires) {
 stars_string <- function(avg) {
   n <- round(avg)
   n <- max(0, min(5, n))
-  paste0(strrep("★", n), strrep("☆", 5 - n))
+  paste0(strrep("\u2605", n), strrep("\u2606", 5 - n))
 }
 
 strip_accents <- function(x) {
@@ -61,14 +61,14 @@ format_comment_line <- function(cmt) {
   if (!is.null(cmt$evaluation) && !is.na(cmt$evaluation)) {
     ev <- as.integer(cmt$evaluation)
     if (!is.na(ev) && ev >= 1 && ev <= 5) {
-      parts <- c(parts, paste0(strrep("★", ev), strrep("☆", 5 - ev)))
+      parts <- c(parts, paste0(strrep("\u2605", ev), strrep("\u2606", 5 - ev)))
     }
   }
 
   if (!is.null(cmt$auteur) && cmt$auteur != "") parts <- c(parts, cmt$auteur)
   if (!is.null(cmt$date) && cmt$date != "") parts <- c(parts, cmt$date)
 
-  prefix <- if (length(parts) > 0) paste0("[", paste(parts, collapse = " · "), "] ") else ""
+  prefix <- if (length(parts) > 0) paste0("[", paste(parts, collapse = " \u00b7 "), "] ") else ""
   txt <- if (!is.null(cmt$commentaire) && cmt$commentaire != "") cmt$commentaire else "(sans texte)"
   paste0(prefix, txt)
 }

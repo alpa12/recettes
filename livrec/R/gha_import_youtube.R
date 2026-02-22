@@ -234,7 +234,12 @@ fetch_youtube_transcript <- function(video_url, video_id) {
   )
 }
 
-#' GitHub Actions entrypoint: import a recipe from a YouTube URL YAML request.
+#' Import a recipe from a YouTube URL YAML request.
+#'
+#' GitHub Actions entrypoint for YouTube-based recipe imports.
+#'
+#' @param url_file Path to YAML request file (usually from `RECIPE_URL_FILE`).
+#' @return Generated recipe YAML file path invisibly.
 #' @export
 gha_import_recipe_from_youtube <- function(url_file = Sys.getenv("RECIPE_URL_FILE")) {
   if (!file.exists(url_file)) stop("Fichier URL introuvable: ", url_file)
