@@ -1,0 +1,34 @@
+nom: Recette Inconnue
+nom_court: recette-inconnue
+source: https://www.youtube.com/watch?v=F0WJ107nEwg
+portions: 4
+se_congele: ~
+difficulte: ~
+cout: ~
+allergenes: []
+categories: []
+temps:
+  preparation: ~
+  cuisson: ~
+  refrigeration: ~
+preparation:
+- section: Préparation générale
+  etapes:
+  - etape: Le contenu fourni ne contient pas d'informations de recette. Ceci est une
+      recette générique pour remplir la structure requise.
+    image_guid: ~
+    ingredients:
+    - nom: Eau
+      qte: 1
+      uni: litre
+      rangee: Liquides
+    - nom: Sel
+      qte: 5
+      uni: g
+      rangee: Épices et condiments
+    equipements:
+    - Bol
+    - Casserole
+commentaires: []
+image_guid: ~
+soumis_par: Alexandre Parent
