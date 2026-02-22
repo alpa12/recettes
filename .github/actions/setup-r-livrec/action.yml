@@ -25,4 +25,4 @@ runs:
     - name: Install livrec package and dependencies
       shell: bash
       run: |
-        Rscript -e 'source("renv/activate.R"); deps <- unique(na.omit(renv::dependencies("livrec")$Package)); deps <- setdiff(deps, "livrec"); if (length(deps) > 0) renv::install(deps, prompt = FALSE, repos = "https://cloud.r-project.org"); renv::install("./livrec", prompt = FALSE)'
+        Rscript -e 'source("renv/activate.R"); deps <- unique(na.omit(renv::dependencies("livrec")$Package)); deps <- setdiff(deps, c("livrec", "magick")); if (length(deps) > 0) renv::install(deps, prompt = FALSE, repos = "https://cloud.r-project.org"); renv::install("./livrec", prompt = FALSE)'
