@@ -4,7 +4,16 @@
 \alias{gha_generate_qmds}
 \title{GitHub Actions entrypoint: generate QMD files from recipe YAMLs.}
 \usage{
-gha_generate_qmds(recipes_dir = "recettes", images_dir = "images")
+gha_generate_qmds(
+  recipes_dir = "recettes",
+  images_dir = "images",
+  generate_thumbnails_enabled = identical(tolower(Sys.getenv("LIVREC_GENERATE_THUMBS",
+    "false")), "true")
+)
+}
+\arguments{
+\item{generate_thumbnails_enabled}{Whether to generate thumbnails.
+Defaults to \code{FALSE} unless \code{LIVREC_GENERATE_THUMBS=true}.}
 }
 \description{
 GitHub Actions entrypoint: generate QMD files from recipe YAMLs.

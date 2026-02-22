@@ -76,18 +76,28 @@ find_recipe_yaml_files <- function(recipes_dir = "recettes") {
 }
 
 #' GitHub Actions entrypoint: generate QMD files from recipe YAMLs.
+#' @param generate_thumbnails_enabled Whether to generate thumbnails.
+#'   Defaults to `FALSE` unless `LIVREC_GENERATE_THUMBS=true`.
 #' @export
-gha_generate_qmds <- function(recipes_dir = "recettes", images_dir = "images") {
+gha_generate_qmds <- function(
+  recipes_dir = "recettes",
+  images_dir = "images",
+  generate_thumbnails_enabled = identical(tolower(Sys.getenv("LIVREC_GENERATE_THUMBS", "false")), "true")
+) {
   cli::cli_h1("Generation des fichiers QMD")
 
   yaml_files <- find_recipe_yaml_files(recipes_dir)
   cli::cli_alert_info(glue::glue("Recettes YAML detectees : {length(yaml_files)}"))
 
-  generate_thumbnails(
-    yaml_files = yaml_files,
-    images_dir = images_dir,
-    thumbs_dir = file.path(images_dir, "thumbs")
-  )
+  if (isTRUE(generate_thumbnails_enabled)) {
+    generate_thumbnails(
+      yaml_files = yaml_files,
+      images_dir = images_dir,
+      thumbs_dir = file.path(images_dir, "thumbs")
+    )
+  } else {
+    cli::cli_alert_info("Generation des miniatures desactivee (LIVREC_GENERATE_THUMBS != true).")
+  }
 
   created <- 0L
   modified <- 0L
