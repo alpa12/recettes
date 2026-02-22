@@ -172,7 +172,11 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   if (!is.null(recipe$categories)) {
     cats <- unlist(recipe$categories, use.names = FALSE)
-    lines <- c(lines, "categories:", paste0("  - ", cats))
+    cats <- stringr::str_trim(as.character(cats))
+    cats <- cats[nzchar(cats)]
+    if (length(cats) > 0) {
+      lines <- c(lines, "categories:", paste0("  - ", cats))
+    }
   }
   lines <- c(lines, "---", "")
 
