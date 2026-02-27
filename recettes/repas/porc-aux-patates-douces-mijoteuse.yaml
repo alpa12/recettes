@@ -1,71 +1,83 @@
 nom: Mijoté de porc aux patates douces
 nom_court: Mijoté porc patates douces
-source: Les recettes de Caty
+source: Caty
 portions: 4
-se_congele: true
+se_congele: yes
 categories:
-- Porc
-- Mijoteuse
+  - Porc
+  - Mijoteuse
 temps:
   preparation: 20
   cuisson: 480
-  refrigeration: null
+  refrigeration: ~
 preparation:
-- section: Préparation
-  etapes:
-  - etape: Déposer patates douces dans la mijoteuse.
-    ingredients:
-    - nom: Patates douces pelées et coupées en cubes
-      qte: 2
-      uni: unité
-    equipements:
-    - Mijoteuse
-  - etape: Faire dorer les cubes de porc à la poêle et transférer dans la mijoteuse.
-    ingredients:
-    - nom: Cubes de porc à ragoût
-      qte: 795
-      uni: g
-    - nom: Huile de canola
-      qte: 30
-      uni: ml
-    equipements:
-    - Poêle
-    - Mijoteuse
-  - etape: Cuire oignons, ail et céleri dans la poêle, saupoudrer de farine, transférer dans la mijoteuse.
-    ingredients:
-    - nom: Oignons perlés pelés
-      qte: 12
-      uni: unité
-    - nom: Ail haché
-      qte: 10
-      uni: ml
-    - nom: Branches de céleri émincées
-      qte: 2
-      uni: unité
-    - nom: Farine
-      qte: 60
-      uni: ml
-    equipements:
-    - Poêle
-    - Mijoteuse
-  - etape: Ajouter bouillon, sirop d’érable, feuille de laurier, romarin, sel et poivre, puis cuire 8 à 10 heures à faible intensité.
-    ingredients:
-    - nom: Bouillon de poulet
-      qte: 1000
-      uni: ml
-    - nom: Sirop d’érable
-      qte: 80
-      uni: ml
-    - nom: Feuille de laurier
-      qte: 1
-      uni: unité
-    - nom: Tige de romarin
-      qte: 1
-      uni: unité
-    - nom: Sel et poivre
-      qte: 1
-      uni: au goût
-    equipements:
-    - Mijoteuse
-commentaires:
-  - 'Un mijoté réconfortant qui se prépare lentement à la mijoteuse pour des saveurs optimales.'
+  - section: Préparation
+    etapes:
+      - etape: Déposer patates douces dans la mijoteuse.
+        ingredients:
+          - nom: Patates douces pelées et coupées en cubes
+            qte: 2
+            uni: unité
+            rangee: Fruits et legumes
+        equipements: Mijoteuse
+      - etape: Faire dorer les cubes de porc à la poêle et transférer dans la mijoteuse.
+        ingredients:
+          - nom: Cubes de porc à ragoût
+            qte: 795
+            uni: g
+            rangee: Viandes et substituts
+          - nom: Huile de canola
+            qte: 30
+            uni: ml
+            rangee: Epicerie
+        equipements:
+          - Poêle
+          - Mijoteuse
+      - etape: Cuire oignons, ail et céleri dans la poêle, saupoudrer de farine, transférer
+          dans la mijoteuse.
+        ingredients:
+          - nom: Oignons perlés pelés
+            qte: 12
+            uni: unité
+            rangee: Fruits et legumes
+          - nom: Ail haché
+            qte: 10
+            uni: ml
+            rangee: Fruits et legumes
+          - nom: Branches de céleri émincées
+            qte: 2
+            uni: unité
+            rangee: Fruits et legumes
+          - nom: Farine
+            qte: 60
+            uni: ml
+            rangee: Epicerie
+        equipements:
+          - Poêle
+          - Mijoteuse
+      - etape: Ajouter bouillon, sirop d’érable, feuille de laurier, romarin, sel
+          et poivre, puis cuire 8 à 10 heures à faible intensité.
+        ingredients:
+          - nom: Bouillon de poulet
+            qte: 1000
+            uni: ml
+            rangee: Conserves et sauces
+          - nom: Sirop d’érable
+            qte: 80
+            uni: ml
+            rangee: Epicerie
+          - nom: Feuille de laurier
+            qte: 1
+            uni: unité
+            rangee: Epicerie
+          - nom: Tige de romarin
+            qte: 1
+            uni: unité
+            rangee: Fruits et legumes
+          - nom: Sel et poivre
+            qte: 1
+            uni: au goût
+            rangee: Epicerie
+        equipements: Mijoteuse
+commentaires: Un mijoté réconfortant qui se prépare lentement à la mijoteuse pour
+  des saveurs optimales.

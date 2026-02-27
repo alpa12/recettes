@@ -11,15 +11,74 @@ categories:
   - Pommes
 ---
 
-[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Ftarte-pommes-meilleure.yaml){.btn .btn-outline-primary .btn-sm}
+```{=html}
+<div class="recipe-toolbar">
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Ftarte-pommes-meilleure.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
+<div class="recipe-toolbar-actions">
+<button id="recipe-cart-toggle" type="button" class="btn btn-outline-success btn-sm">Ajouter au panier</button>
+<button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisson</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>45 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>45 min</strong></div><div class="recipe-fact"><span>Temps réfrigération</span><strong>30 min</strong></div></div>
+```
+
+```{=html}
+<script id="recipe-cart-data" type="application/json">{"id":"/recettes/desserts/tarte-pommes-meilleure.qmd","title":"Tarte aux pommes (la meilleure)","url":"/recettes/desserts/tarte-pommes-meilleure.qmd","portions_base":8,"portions_target":8,"ingredients":[]}</script>
+<script src="/includes/recipe-cart.js"></script>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="8" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 8</span></div></div>
+```
+
+## Valeurs nutritives
+
+```{=html}
+<div class="recipe-nutrition-block"><div class="recipe-nutrition-cards"><div class="recipe-nutrition-card"><span>Calories</span><strong>0 kcal</strong></div><div class="recipe-nutrition-card"><span>Protéines</span><strong>0 g</strong></div><div class="recipe-nutrition-card"><span>Glucides</span><strong>0 g</strong></div><div class="recipe-nutrition-card"><span>Lipides</span><strong>0 g</strong></div></div><details class="recipe-nutrition-details"><summary class="recipe-nutrition-toggle">Afficher le détail complet</summary><p class="recipe-nutrition-meta">Estimations basées sur les ingrédients saisis. Portions de base: 8.</p><table class="recipe-nutrition-table table table-sm"><thead><tr><th>Nutriment</th><th>Par recette</th><th>Par portion</th></tr></thead><tbody><tr><th scope="row">Calories</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="0" data-unit="kcal">0 kcal</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="0" data-unit="kcal">0 kcal</td></tr><tr><th scope="row">Protéines</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Lipides</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Gras saturés</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Glucides</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Sucres</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Fibres</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Sodium</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="0" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="0" data-unit="mg">0 mg</td></tr><tr><th scope="row">Potassium</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="0" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="0" data-unit="mg">0 mg</td></tr><tr><th scope="row">Calcium</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="0" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="0" data-unit="mg">0 mg</td></tr><tr><th scope="row">Fer</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="mg">0 mg</td></tr><tr><th scope="row">Magnésium</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="0" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="0" data-unit="mg">0 mg</td></tr><tr><th scope="row">Zinc</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="mg">0 mg</td></tr><tr><th scope="row">Sélénium</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td></tr><tr><th scope="row">Vitamine C</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="mg">0 mg</td></tr><tr><th scope="row">Vitamine B12</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td></tr><tr><th scope="row">Vitamine A (EAR)</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="0" data-unit="ug">0 ug</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="0" data-unit="ug">0 ug</td></tr><tr><th scope="row">Vitamine D</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td></tr></tbody></table></details></div>
+```
+
+```{=html}
+<script>(function(){
+const key='recipe_reading_mode';
+let wakeLock=null;
+const apply=(on)=>{document.body.classList.toggle('reading-mode', on);};
+const requestWake=async()=>{try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');}}catch(e){}};
+const releaseWake=async()=>{try{if(wakeLock){await wakeLock.release(); wakeLock=null;}}catch(e){}};
+document.addEventListener('DOMContentLoaded', ()=>{
+const btn=document.getElementById('recipe-reading-mode');
+const saved=localStorage.getItem(key)==='1'; apply(saved); if(saved) requestWake();
+if(!btn) return;
+const refresh=()=>{btn.classList.toggle('active', document.body.classList.contains('reading-mode'));}; refresh();
+btn.addEventListener('click', async()=>{const next=!document.body.classList.contains('reading-mode'); apply(next); localStorage.setItem(key, next?'1':'0'); refresh(); if(next){await requestWake();} else {await releaseWake();}});
+});
+})();</script>
+```
 
 ## Ingrédients
 
+```{=html}
+<div class="recipe-grocery-actions">
+<button id="copy-grocery-list" type="button" class="btn btn-outline-secondary btn-sm">📋 Générer la liste d'épicerie</button>
+<button id="reset-recipe-checks" type="button" class="btn btn-outline-secondary btn-sm">↺ Réinitialiser les cases</button>
+<span id="grocery-copy-feedback" class="text-muted small"></span>
+</div>
+```
+
 ### Garniture aux pommes
 
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+</ul>
+```
 
 ### Croûte
 
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+</ul>
+```
 
 ## Équipements
 
@@ -33,14 +92,55 @@ categories:
 
 ### Garniture aux pommes
 
-1. Dans une grande poêle antiadhésive, fondre le beurre. Ajouter le sucre, bien mélanger et laisser cuire 1minute. Ajouter les pommes et la cannelle. Cuire à feu élevé en remuant régulièrement environ 10 minutes ou jusqu’à ce que les pommes McIntosh soient compotées, les Cortland fondantes et le sirop presque à sec. Verser dans un bol et laisser refroidir complètement.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Dans une grande poêle antiadhésive, fondre le beurre. Ajouter le sucre, bien mélanger et laisser cuire 1minute. Ajouter les pommes et la cannelle. Cuire à feu élevé en remuant régulièrement environ 10 minutes ou jusqu’à ce que les pommes McIntosh soient compotées, les Cortland fondantes et le sirop presque à sec. Verser dans un bol et laisser refroidir complètement.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="60">⏱️ 1min</button><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="600">⏱️ 10 min</button></div></div></article>
+</div>
+```
 
 ### Croûte
 
-1. Au robot culinaire, mélanger la farine, le sel et le beurre jusqu’à ce que le beurre ait la grosseur de petits pois. Ajouter l’eau et le vinaigre. Mélanger de nouveau jusqu’à ce qu’une boule commence à se former. Retirer la pâte du robot. Former deux disques avec les mains. Envelopper de pellicule plastique et réfrigérer 30 minutes.
-2. Placer la grille dans le bas du four. Préchauffer le four à 220°C (425°F).
-3. Sur un plan de travail fariné, abaisser les deux disques de pâte. Foncer un moule à tarte de 23cm (9po) de diamètre sur 2,5cm (1po) de hauteur avec une abaisse. Y répartir la garniture aux pommes en formant un amoncellement au centre de la tarte. À l’aide d’un petit emporte-pièce rond ou d’une douille unie de 1 à 2 cm (1/2 à 3/4 po) de diamètre, faire 5trous dans la deuxième abaisse. Recouvrir la tarte de la deuxième abaisse. Bien sceller en écrasant le rebord avec les doigts ou à l’aide d’une fourchette. À l’aide d’un pinceau, badigeonner de lait.
-4. Cuire au four environ 35 minutes ou jusqu’à ce que la croûte soit bien dorée. Laisser tiédir. La tarte se conserve 3 jours à la température ambiante.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Au robot culinaire, mélanger la farine, le sel et le beurre jusqu’à ce que le beurre ait la grosseur de petits pois. Ajouter l’eau et le vinaigre. Mélanger de nouveau jusqu’à ce qu’une boule commence à se former. Retirer la pâte du robot. Former deux disques avec les mains. Envelopper de pellicule plastique et réfrigérer 30 minutes.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="1800">⏱️ 30 min</button></div></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 2</span></label></div><p>Placer la grille dans le bas du four. Préchauffer le four à 220°C (425°F).</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 3</span></label></div><p>Sur un plan de travail fariné, abaisser les deux disques de pâte. Foncer un moule à tarte de 23cm (9po) de diamètre sur 2,5cm (1po) de hauteur avec une abaisse. Y répartir la garniture aux pommes en formant un amoncellement au centre de la tarte. À l’aide d’un petit emporte-pièce rond ou d’une douille unie de 1 à 2 cm (1/2 à 3/4 po) de diamètre, faire 5trous dans la deuxième abaisse. Recouvrir la tarte de la deuxième abaisse. Bien sceller en écrasant le rebord avec les doigts ou à l’aide d’une fourchette. À l’aide d’un pinceau, badigeonner de lait.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 4</span></label></div><p>Cuire au four environ 35 minutes ou jusqu’à ce que la croûte soit bien dorée. Laisser tiédir. La tarte se conserve 3 jours à la température ambiante.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="2100">⏱️ 35 min</button></div></div></article>
+</div>
+```
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=8;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });document.querySelectorAll('.recipe-nutrition-total[data-base-total]').forEach((el)=>{const baseTotal=parseFloat(el.getAttribute('data-base-total'));const unit=el.getAttribute('data-unit')||'';const dec=parseInt(el.getAttribute('data-decimals')||'1',10);if(Number.isFinite(baseTotal)){const v=baseTotal*ratio;let t=(Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toFixed(Math.max(0,dec));if(dec>0){t=t.replace(/\.0+$/,'').replace(/(\.[0-9]*?)0+$/,'$1');}t=t.replace('.',',');el.textContent=t+' '+unit;}});document.querySelectorAll('.recipe-nutrition-per-portion[data-base-total]').forEach((el)=>{const baseTotal=parseFloat(el.getAttribute('data-base-total'));const unit=el.getAttribute('data-unit')||'';const dec=parseInt(el.getAttribute('data-decimals')||'1',10);if(Number.isFinite(baseTotal)){const v=baseTotal/base;let t=(Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toFixed(Math.max(0,dec));if(dec>0){t=t.replace(/\.0+$/,'').replace(/(\.[0-9]*?)0+$/,'$1');}t=t.replace('.',',');el.textContent=t+' '+unit;}});};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
+
+```{=html}
+<div id="recipe-timer-dock" class="recipe-timer-dock d-none"><strong>Minuteur</strong> <span id="recipe-timer-label"></span> <span id="recipe-timer-remaining"></span> <button id="recipe-timer-stop" class="btn btn-sm btn-outline-light" type="button">Arrêter</button></div>
+<script>(function(){
+let timer=null, target=0, audioCtx=null, alarmInterval=null, alarmTimeout=null;
+const pad=(n)=>String(n).padStart(2,'0');
+const fmt=(s)=>{const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60; return h>0?`${h}:${pad(m)}:${pad(sec)}`:`${m}:${pad(sec)}`;};
+const ensureAudio=async()=>{const Ctx=window.AudioContext||window.webkitAudioContext; if(!Ctx) return null; if(!audioCtx) audioCtx=new Ctx(); if(audioCtx.state==='suspended'){try{await audioCtx.resume();}catch(e){}} return audioCtx;};
+const stopAlarm=()=>{if(alarmInterval){clearInterval(alarmInterval); alarmInterval=null;} if(alarmTimeout){clearTimeout(alarmTimeout); alarmTimeout=null;}};
+const playBeep=(ctx,freq)=>{const t=ctx.currentTime+0.01; const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.type='sawtooth'; osc.frequency.value=freq; gain.gain.setValueAtTime(0.0001,t); gain.gain.exponentialRampToValueAtTime(0.42,t+0.015); gain.gain.exponentialRampToValueAtTime(0.0001,t+0.19); osc.connect(gain); gain.connect(ctx.destination); osc.start(t); osc.stop(t+0.2);};
+const startAlarm=async()=>{const ctx=await ensureAudio(); if(!ctx) return; stopAlarm(); const notes=[1760,1480,2093,1760,2349,1760]; let i=0; const ring=()=>{playBeep(ctx,notes[i%notes.length]); i+=1;}; ring(); alarmInterval=setInterval(ring,250); alarmTimeout=setTimeout(stopAlarm,15000);};
+const dock=document.getElementById('recipe-timer-dock'); const rem=document.getElementById('recipe-timer-remaining'); const lab=document.getElementById('recipe-timer-label'); const stop=document.getElementById('recipe-timer-stop');
+const hide=()=>{if(timer){clearInterval(timer); timer=null;} stopAlarm(); if(dock) dock.classList.add('d-none');};
+document.addEventListener('click',async(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; await ensureAudio(); stopAlarm(); if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){if(timer){clearInterval(timer); timer=null;} if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none'); startAlarm();}},250);});
+if(stop) stop.addEventListener('click', hide);
+})();</script>
+```
+
+```{=html}
+<script>(function(){
+const pageKey='recipe_check_state:'+window.location.pathname;
+const save=()=>{const state={}; document.querySelectorAll('.recipe-check').forEach((cb,i)=>{state[i]=cb.checked?1:0;}); localStorage.setItem(pageKey, JSON.stringify(state));};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};
+const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};
+const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\s+/g,' ').trim():li.innerText.replace(/\s+/g,' ').trim();};
+const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};
+document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});
+})();</script>
+```
 
 ## Notes
 

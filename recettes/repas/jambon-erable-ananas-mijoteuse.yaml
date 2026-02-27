@@ -1,76 +1,82 @@
 nom: Jambon à l’érable et à l’ananas à la mijoteuse
 nom_court: Jambon érable ananas
-source: Les recettes de Caty
+source: Caty
 portions: 6
-se_congele: true
+se_congele: yes
 categories:
-- Porc
-- Mijoteuse
+  - Porc
+  - Mijoteuse
 temps:
   preparation: 10
   cuisson: 240
-  refrigeration: null
+  refrigeration: ~
 preparation:
-- section: Préparation
-  etapes:
-  - etape: Déposer le jambon dans la mijoteuse.
-    ingredients:
-    - nom: Jambon cuit (tranche ou cube)
-      qte: 1134
-      uni: g
-    equipements:
-    - Mijoteuse
-  - etape: Mélanger sirop d’érable, cassonade, moutarde de Dijon et vinaigre de cidre dans un bol.
-    ingredients:
-    - nom: Sirop d’érable
-      qte: 180
-      uni: ml
-    - nom: Cassonade
-      qte: 60
-      uni: ml
-    - nom: Moutarde de Dijon
-      qte: 15
-      uni: ml
-    - nom: Vinaigre de cidre
-      qte: 15
-      uni: ml
-    equipements:
-    - Bol
-    - Fouet
-  - etape: Ajouter le sirop et le jus d’ananas dans la mijoteuse, verser le mélange d’érable dessus.
-    ingredients:
-    - nom: Rondelles d’ananas (jus inclus)
-      qte: 1
-      uni: unité
-    - nom: Jus d’ananas
-      qte: 125
-      uni: ml
-    equipements:
-    - Mijoteuse
-  - etape: Déposer les rondelles d’ananas sur le jambon et piquer chaque rondelle avec un clou de girofle.
-    ingredients:
-    - nom: Clous de girofle
-      qte: 6
-      uni: unité
-    equipements:
-    - Mijoteuse
-  - etape: Couvrir et cuire 4 heures à faible intensité (Low).
-    ingredients:
-    - nom: Jambon préparé
-      qte: 1
-      uni: lot
-    equipements:
-    - Mijoteuse
-  - etape: 30 minutes avant la fin, délayer fécule de maïs dans l’eau et ajouter pour épaissir la sauce.
-    ingredients:
-    - nom: Fécule de maïs
-      qte: 15
-      uni: ml
-    - nom: Eau
-      qte: 30
-      uni: ml
-    equipements:
-    - Bol
-    - Mijoteuse
-commentaires:
-  - 'Plat sucré-salé parfait avec riz ou légumes.'
+  - section: Préparation
+    etapes:
+      - etape: Déposer le jambon dans la mijoteuse.
+        ingredients:
+          - nom: Jambon cuit (tranche ou cube)
+            qte: 1134
+            uni: g
+            rangee: Viandes et substituts
+        equipements: Mijoteuse
+      - etape: Mélanger sirop d’érable, cassonade, moutarde de Dijon et vinaigre de
+          cidre dans un bol.
+        ingredients:
+          - nom: Sirop d’érable
+            qte: 180
+            uni: ml
+            rangee: Epicerie
+          - nom: Cassonade
+            qte: 60
+            uni: ml
+            rangee: Epicerie
+          - nom: Moutarde de Dijon
+            qte: 15
+            uni: ml
+            rangee: Epicerie
+          - nom: Vinaigre de cidre
+            qte: 15
+            uni: ml
+            rangee: Epicerie
+        equipements:
+          - Bol
+          - Fouet
+      - etape: Ajouter le sirop et le jus d’ananas dans la mijoteuse, verser le mélange
+          d’érable dessus.
+        ingredients:
+          - nom: Rondelles d’ananas (jus inclus)
+            qte: 1
+            uni: unité
+            rangee: Fruits et legumes
+          - nom: Jus d’ananas
+            qte: 125
+            uni: ml
+            rangee: Fruits et legumes
+        equipements: Mijoteuse
+      - etape: Déposer les rondelles d’ananas sur le jambon et piquer chaque rondelle
+          avec un clou de girofle.
+        ingredients:
+          - nom: Clous de girofle
+            qte: 6
+            uni: unité
+            rangee: Epicerie
+        equipements: Mijoteuse
+      - etape: Couvrir et cuire 4 heures à faible intensité (Low).
+        ingredients: []
+        equipements: Mijoteuse
+      - etape: 30 minutes avant la fin, délayer fécule de maïs dans l’eau et ajouter
+          pour épaissir la sauce.
+        ingredients:
+          - nom: Fécule de maïs
+            qte: 15
+            uni: ml
+            rangee: Epicerie
+          - nom: Eau
+            qte: 30
+            uni: ml
+            rangee: Epicerie
+        equipements:
+          - Bol
+          - Mijoteuse
+commentaires: Plat sucré-salé parfait avec riz ou légumes.

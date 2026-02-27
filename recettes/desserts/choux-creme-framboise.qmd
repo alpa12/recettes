@@ -6,25 +6,82 @@ categories:
   - Dessert
 ---
 
-[✏️ Modifier cette recette](../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fchoux-creme-framboise.yaml){.btn .btn-outline-primary .btn-sm}
+```{=html}
+<div class="recipe-toolbar">
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Fdesserts%2Fchoux-creme-framboise.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
+<div class="recipe-toolbar-actions">
+<button id="recipe-cart-toggle" type="button" class="btn btn-outline-success btn-sm">Ajouter au panier</button>
+<button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisson</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>30 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>30 min</strong></div></div>
+```
+
+```{=html}
+<script id="recipe-cart-data" type="application/json">{"id":"/recettes/desserts/choux-creme-framboise.qmd","title":"Choux à la crème framboise","url":"/recettes/desserts/choux-creme-framboise.qmd","portions_base":33,"portions_target":33,"ingredients":[{"nom":"Eau","uni":"ml","qte":125,"rangee":"Epicerie"},{"nom":"Beurre non salé, coupé en cubes","uni":"ml","qte":60,"rangee":"Produits laitiers et oeufs"},{"nom":"Sel","uni":"pincée","qte":1,"rangee":"Epicerie"},{"nom":"Farine tout usage non blanchie","uni":"ml","qte":125,"rangee":"Epicerie"},{"nom":"Œufs","uni":"unité","qte":2,"rangee":"Produits laitiers et oeufs"},{"nom":"Framboises fraîches","uni":"g","qte":900,"rangee":"Fruits et legumes"},{"nom":"Sucre granulé","uni":"g","qte":900,"rangee":"Epicerie"},{"nom":"Jus de citron","uni":"ml","qte":15,"rangee":"Fruits et legumes"}]}</script>
+<script src="/includes/recipe-cart.js"></script>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="33" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 33</span></div></div>
+```
+
+## Valeurs nutritives
+
+```{=html}
+<div class="recipe-nutrition-block"><div class="recipe-nutrition-cards"><div class="recipe-nutrition-card"><span>Calories</span><strong>145 kcal</strong></div><div class="recipe-nutrition-card"><span>Protéines</span><strong>0,9 g</strong></div><div class="recipe-nutrition-card"><span>Glucides</span><strong>32 g</strong></div><div class="recipe-nutrition-card"><span>Lipides</span><strong>2 g</strong></div></div><details class="recipe-nutrition-details"><summary class="recipe-nutrition-toggle">Afficher le détail complet</summary><p class="recipe-nutrition-meta">Estimations basées sur les ingrédients saisis. Portions de base: 33.</p><p class="recipe-nutrition-meta">Sources nutrition (ingrédients calculés): cnf_2015: 7 · fallback_local: 1.</p><table class="recipe-nutrition-table table table-sm"><thead><tr><th>Nutriment</th><th>Par recette</th><th>Par portion</th></tr></thead><tbody><tr><th scope="row">Calories</th><td class="recipe-nutrition-total" data-base-total="4780.975" data-decimals="0" data-unit="kcal">4781 kcal</td><td class="recipe-nutrition-per-portion" data-base-total="4780.975" data-decimals="0" data-unit="kcal">145 kcal</td></tr><tr><th scope="row">Protéines</th><td class="recipe-nutrition-total" data-base-total="31.22512" data-decimals="1" data-unit="g">31,2 g</td><td class="recipe-nutrition-per-portion" data-base-total="31.22512" data-decimals="1" data-unit="g">0,9 g</td></tr><tr><th scope="row">Lipides</th><td class="recipe-nutrition-total" data-base-total="66.046" data-decimals="1" data-unit="g">66 g</td><td class="recipe-nutrition-per-portion" data-base-total="66.046" data-decimals="1" data-unit="g">2 g</td></tr><tr><th scope="row">Gras saturés</th><td class="recipe-nutrition-total" data-base-total="34.29122" data-decimals="1" data-unit="g">34,3 g</td><td class="recipe-nutrition-per-portion" data-base-total="34.29122" data-decimals="1" data-unit="g">1 g</td></tr><tr><th scope="row">Glucides</th><td class="recipe-nutrition-total" data-base-total="1057.263" data-decimals="1" data-unit="g">1057,3 g</td><td class="recipe-nutrition-per-portion" data-base-total="1057.263" data-decimals="1" data-unit="g">32 g</td></tr><tr><th scope="row">Sucres</th><td class="recipe-nutrition-total" data-base-total="939.5217" data-decimals="1" data-unit="g">939,5 g</td><td class="recipe-nutrition-per-portion" data-base-total="939.5217" data-decimals="1" data-unit="g">28,5 g</td></tr><tr><th scope="row">Fibres</th><td class="recipe-nutrition-total" data-base-total="60.33375" data-decimals="1" data-unit="g">60,3 g</td><td class="recipe-nutrition-per-portion" data-base-total="60.33375" data-decimals="1" data-unit="g">1,8 g</td></tr><tr><th scope="row">Sodium</th><td class="recipe-nutrition-total" data-base-total="289.2788" data-decimals="0" data-unit="mg">289 mg</td><td class="recipe-nutrition-per-portion" data-base-total="289.2788" data-decimals="0" data-unit="mg">9 mg</td></tr><tr><th scope="row">Potassium</th><td class="recipe-nutrition-total" data-base-total="1589.116" data-decimals="0" data-unit="mg">1589 mg</td><td class="recipe-nutrition-per-portion" data-base-total="1589.116" data-decimals="0" data-unit="mg">48 mg</td></tr><tr><th scope="row">Calcium</th><td class="recipe-nutrition-total" data-base-total="303.6614" data-decimals="0" data-unit="mg">304 mg</td><td class="recipe-nutrition-per-portion" data-base-total="303.6614" data-decimals="0" data-unit="mg">9 mg</td></tr><tr><th scope="row">Fer</th><td class="recipe-nutrition-total" data-base-total="11.38106" data-decimals="1" data-unit="mg">11,4 mg</td><td class="recipe-nutrition-per-portion" data-base-total="11.38106" data-decimals="1" data-unit="mg">0,3 mg</td></tr><tr><th scope="row">Magnésium</th><td class="recipe-nutrition-total" data-base-total="228.3161" data-decimals="0" data-unit="mg">228 mg</td><td class="recipe-nutrition-per-portion" data-base-total="228.3161" data-decimals="0" data-unit="mg">7 mg</td></tr><tr><th scope="row">Zinc</th><td class="recipe-nutrition-total" data-base-total="5.734485" data-decimals="1" data-unit="mg">5,7 mg</td><td class="recipe-nutrition-per-portion" data-base-total="5.734485" data-decimals="1" data-unit="mg">0,2 mg</td></tr><tr><th scope="row">Sélénium</th><td class="recipe-nutrition-total" data-base-total="76.59786" data-decimals="1" data-unit="ug">76,6 ug</td><td class="recipe-nutrition-per-portion" data-base-total="76.59786" data-decimals="1" data-unit="ug">2,3 ug</td></tr><tr><th scope="row">Vitamine C</th><td class="recipe-nutrition-total" data-base-total="241.605" data-decimals="1" data-unit="mg">241,6 mg</td><td class="recipe-nutrition-per-portion" data-base-total="241.605" data-decimals="1" data-unit="mg">7,3 mg</td></tr><tr><th scope="row">Vitamine B12</th><td class="recipe-nutrition-total" data-base-total="2.003" data-decimals="1" data-unit="ug">2 ug</td><td class="recipe-nutrition-per-portion" data-base-total="2.003" data-decimals="1" data-unit="ug">0,1 ug</td></tr><tr><th scope="row">Vitamine A (EAR)</th><td class="recipe-nutrition-total" data-base-total="621.0625" data-decimals="0" data-unit="ug">621 ug</td><td class="recipe-nutrition-per-portion" data-base-total="621.0625" data-decimals="0" data-unit="ug">19 ug</td></tr><tr><th scope="row">Vitamine D</th><td class="recipe-nutrition-total" data-base-total="2.3" data-decimals="1" data-unit="ug">2,3 ug</td><td class="recipe-nutrition-per-portion" data-base-total="2.3" data-decimals="1" data-unit="ug">0,1 ug</td></tr></tbody></table></details></div>
+```
+
+```{=html}
+<script>(function(){
+const key='recipe_reading_mode';
+let wakeLock=null;
+const apply=(on)=>{document.body.classList.toggle('reading-mode', on);};
+const requestWake=async()=>{try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');}}catch(e){}};
+const releaseWake=async()=>{try{if(wakeLock){await wakeLock.release(); wakeLock=null;}}catch(e){}};
+document.addEventListener('DOMContentLoaded', ()=>{
+const btn=document.getElementById('recipe-reading-mode');
+const saved=localStorage.getItem(key)==='1'; apply(saved); if(saved) requestWake();
+if(!btn) return;
+const refresh=()=>{btn.classList.toggle('active', document.body.classList.contains('reading-mode'));}; refresh();
+btn.addEventListener('click', async()=>{const next=!document.body.classList.contains('reading-mode'); apply(next); localStorage.setItem(key, next?'1':'0'); refresh(); if(next){await requestWake();} else {await releaseWake();}});
+});
+})();</script>
+```
 
 ## Ingrédients
 
+```{=html}
+<div class="recipe-grocery-actions">
+<button id="copy-grocery-list" type="button" class="btn btn-outline-secondary btn-sm">📋 Générer la liste d'épicerie</button>
+<button id="reset-recipe-checks" type="button" class="btn btn-outline-secondary btn-sm">↺ Réinitialiser les cases</button>
+<span id="grocery-copy-feedback" class="text-muted small"></span>
+</div>
+```
+
 ### Pâte à choux
 
-- 125 ml Eau
-- 60 ml Beurre non salé, coupé en cubes
-- 1 pincée Sel
-- 125 ml Farine tout usage non blanchie
-- 2 unité Œufs
-- 1 lot Pâte à choux
-- 1 lot Pâte à choux formée
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Epicerie" data-ingredient-name="Eau" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="125">125</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Eau</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Produits laitiers et oeufs" data-ingredient-name="Beurre non salé, coupé en cubes" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="60">60</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Beurre non salé, coupé en cubes</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Epicerie" data-ingredient-name="Sel" data-ingredient-unit="pincée"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">pincée</span> <span class="ingredient-nom">Sel</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Epicerie" data-ingredient-name="Farine tout usage non blanchie" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="125">125</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Farine tout usage non blanchie</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Produits laitiers et oeufs" data-ingredient-name="Œufs" data-ingredient-unit="unité"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Œufs</span></span></label></li>
+</ul>
+```
 
 ### Confiture de framboises
 
-- 900 g Framboises fraîches
-- 900 g Sucre granulé
-- 15 ml Jus de citron
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Fruits et legumes" data-ingredient-name="Framboises fraîches" data-ingredient-unit="g"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="900">900</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Framboises fraîches</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Epicerie" data-ingredient-name="Sucre granulé" data-ingredient-unit="g"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="900">900</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Sucre granulé</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Fruits et legumes" data-ingredient-name="Jus de citron" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="15">15</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Jus de citron</span></span></label></li>
+</ul>
+```
 
 ## Équipements
 
@@ -48,15 +105,56 @@ categories:
 
 ### Pâte à choux
 
-1. Porter l’eau et le beurre à ébullition, retirer du feu. Ajouter la farine et mélanger vigoureusement jusqu’à formation d’une boule.
-2. Cuire sur feu doux 2 minutes en remuant. Laisser tiédir 10 minutes puis ajouter les œufs un à un en battant.
-3. Former des éclairs ou petits choux sur plaque tapissée de papier parchemin à l’aide d’une poche à pâtisserie.
-4. Cuire 30 minutes à 190 °C jusqu’à doré. Fendre pour laisser échapper la vapeur, remettre 10-15 minutes dans four éteint.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step" data-rangee="Epicerie" data-ingredient-name="Eau" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="125">125</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Eau</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Produits laitiers et oeufs" data-ingredient-name="Beurre non salé, coupé en cubes" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="60">60</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Beurre non salé, coupé en cubes</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Epicerie" data-ingredient-name="Sel" data-ingredient-unit="pincée"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">pincée</span> <span class="ingredient-nom">Sel</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Epicerie" data-ingredient-name="Farine tout usage non blanchie" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="125">125</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Farine tout usage non blanchie</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Porter l’eau et le beurre à ébullition, retirer du feu. Ajouter la farine et mélanger vigoureusement jusqu’à formation d’une boule.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step" data-rangee="Produits laitiers et oeufs" data-ingredient-name="Œufs" data-ingredient-unit="unité"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-uni">unité</span> <span class="ingredient-nom">Œufs</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 2</span></label></div><p>Cuire sur feu doux 2 minutes en remuant. Laisser tiédir 10 minutes puis ajouter les œufs un à un en battant.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="120">⏱️ 2 min</button><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="600">⏱️ 10 min</button></div></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 3</span></label></div><p>Former des éclairs ou petits choux sur plaque tapissée de papier parchemin à l’aide d’une poche à pâtisserie.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 4</span></label></div><p>Cuire 30 minutes à 190 °C jusqu’à doré. Fendre pour laisser échapper la vapeur, remettre 10-15 minutes dans four éteint.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="1800">⏱️ 30 min</button><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="900">⏱️ 15 min</button></div></div></article>
+</div>
+```
 
 ### Confiture de framboises
 
-1. Déposer les framboises dans une casserole, porter à ébullition en écrasant les baies.
-2. Ajouter le sucre et le jus de citron, porter de nouveau à ébullition et mijoter 15 à 20 minutes jusqu’à épaississement. Verser dans bocaux stérilisés et laisser refroidir.
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step" data-rangee="Fruits et legumes" data-ingredient-name="Framboises fraîches" data-ingredient-unit="g"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="900">900</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Framboises fraîches</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Déposer les framboises dans une casserole, porter à ébullition en écrasant les baies.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step" data-rangee="Epicerie" data-ingredient-name="Sucre granulé" data-ingredient-unit="g"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="900">900</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Sucre granulé</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Fruits et legumes" data-ingredient-name="Jus de citron" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="15">15</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Jus de citron</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 2</span></label></div><p>Ajouter le sucre et le jus de citron, porter de nouveau à ébullition et mijoter 15 à 20 minutes jusqu’à épaississement. Verser dans bocaux stérilisés et laisser refroidir.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="1200">⏱️ 20 min</button></div></div></article>
+</div>
+```
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=33;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });document.querySelectorAll('.recipe-nutrition-total[data-base-total]').forEach((el)=>{const baseTotal=parseFloat(el.getAttribute('data-base-total'));const unit=el.getAttribute('data-unit')||'';const dec=parseInt(el.getAttribute('data-decimals')||'1',10);if(Number.isFinite(baseTotal)){const v=baseTotal*ratio;let t=(Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toFixed(Math.max(0,dec));if(dec>0){t=t.replace(/\.0+$/,'').replace(/(\.[0-9]*?)0+$/,'$1');}t=t.replace('.',',');el.textContent=t+' '+unit;}});document.querySelectorAll('.recipe-nutrition-per-portion[data-base-total]').forEach((el)=>{const baseTotal=parseFloat(el.getAttribute('data-base-total'));const unit=el.getAttribute('data-unit')||'';const dec=parseInt(el.getAttribute('data-decimals')||'1',10);if(Number.isFinite(baseTotal)){const v=baseTotal/base;let t=(Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toFixed(Math.max(0,dec));if(dec>0){t=t.replace(/\.0+$/,'').replace(/(\.[0-9]*?)0+$/,'$1');}t=t.replace('.',',');el.textContent=t+' '+unit;}});};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
+
+```{=html}
+<div id="recipe-timer-dock" class="recipe-timer-dock d-none"><strong>Minuteur</strong> <span id="recipe-timer-label"></span> <span id="recipe-timer-remaining"></span> <button id="recipe-timer-stop" class="btn btn-sm btn-outline-light" type="button">Arrêter</button></div>
+<script>(function(){
+let timer=null, target=0, audioCtx=null, alarmInterval=null, alarmTimeout=null;
+const pad=(n)=>String(n).padStart(2,'0');
+const fmt=(s)=>{const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60; return h>0?`${h}:${pad(m)}:${pad(sec)}`:`${m}:${pad(sec)}`;};
+const ensureAudio=async()=>{const Ctx=window.AudioContext||window.webkitAudioContext; if(!Ctx) return null; if(!audioCtx) audioCtx=new Ctx(); if(audioCtx.state==='suspended'){try{await audioCtx.resume();}catch(e){}} return audioCtx;};
+const stopAlarm=()=>{if(alarmInterval){clearInterval(alarmInterval); alarmInterval=null;} if(alarmTimeout){clearTimeout(alarmTimeout); alarmTimeout=null;}};
+const playBeep=(ctx,freq)=>{const t=ctx.currentTime+0.01; const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.type='sawtooth'; osc.frequency.value=freq; gain.gain.setValueAtTime(0.0001,t); gain.gain.exponentialRampToValueAtTime(0.42,t+0.015); gain.gain.exponentialRampToValueAtTime(0.0001,t+0.19); osc.connect(gain); gain.connect(ctx.destination); osc.start(t); osc.stop(t+0.2);};
+const startAlarm=async()=>{const ctx=await ensureAudio(); if(!ctx) return; stopAlarm(); const notes=[1760,1480,2093,1760,2349,1760]; let i=0; const ring=()=>{playBeep(ctx,notes[i%notes.length]); i+=1;}; ring(); alarmInterval=setInterval(ring,250); alarmTimeout=setTimeout(stopAlarm,15000);};
+const dock=document.getElementById('recipe-timer-dock'); const rem=document.getElementById('recipe-timer-remaining'); const lab=document.getElementById('recipe-timer-label'); const stop=document.getElementById('recipe-timer-stop');
+const hide=()=>{if(timer){clearInterval(timer); timer=null;} stopAlarm(); if(dock) dock.classList.add('d-none');};
+document.addEventListener('click',async(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; await ensureAudio(); stopAlarm(); if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){if(timer){clearInterval(timer); timer=null;} if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none'); startAlarm();}},250);});
+if(stop) stop.addEventListener('click', hide);
+})();</script>
+```
+
+```{=html}
+<script>(function(){
+const pageKey='recipe_check_state:'+window.location.pathname;
+const save=()=>{const state={}; document.querySelectorAll('.recipe-check').forEach((cb,i)=>{state[i]=cb.checked?1:0;}); localStorage.setItem(pageKey, JSON.stringify(state));};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};
+const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};
+const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\s+/g,' ').trim():li.innerText.replace(/\s+/g,' ').trim();};
+const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};
+document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});
+})();</script>
+```
 
 ## Notes
 

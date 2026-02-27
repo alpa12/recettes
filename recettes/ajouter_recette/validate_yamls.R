@@ -12,6 +12,14 @@ suppressPackageStartupMessages({
   library(stringr)
 })
 
+ALLOWED_RANGEE <- c(
+  "Fruits et legumes",
+  "Viandes et substituts",
+  "Produits laitiers et oeufs",
+  "Epicerie",
+  "Conserves et sauces"
+)
+
 is_scalar_numeric <- function(x) {
   is.numeric(x) && length(x) == 1 && !is.na(x)
 }
@@ -58,6 +66,51 @@ validate_qte_numeric <- function(recipe, file = NA_character_) {
   issues
 }
 
+validate_rangee <- function(recipe, file = NA_character_) {
+  issues <- list()
+
+  add_issue <- function(path, value, msg) {
+    issues[[length(issues) + 1]] <<- list(
+      file = file,
+      path = path,
+      value = if (is.null(value)) "NULL" else as.character(value),
+      message = msg
+    )
+  }
+
+  prep <- recipe$preparation
+  if (is.null(prep) || !is.list(prep)) return(issues)
+
+  for (si in seq_along(prep)) {
+    sec <- prep[[si]]
+    etapes <- sec$etapes
+    if (is.null(etapes) || !is.list(etapes)) next
+
+    for (ei in seq_along(etapes)) {
+      et <- etapes[[ei]]
+      ing <- et$ingredients
+      if (is.null(ing) || !is.list(ing)) next
+
+      for (ii in seq_along(ing)) {
+        one <- ing[[ii]]
+        p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].rangee", si - 1, ei - 1, ii - 1)
+        rangee <- one$rangee
+
+        if (is.null(rangee) || (is.character(rangee) && str_trim(rangee) == "")) {
+          add_issue(p, rangee, "rangee manquant — attendu: valeur parmi ALLOWED_RANGEE")
+        } else if (!(as.character(rangee) %in% ALLOWED_RANGEE)) {
+          add_issue(p, rangee, sprintf(
+            "rangee invalide — valeurs permises: %s",
+            paste(ALLOWED_RANGEE, collapse = ", ")
+          ))
+        }
+      }
+    }
+  }
+
+  issues
+}
+
 validate_required <- function(recipe, file = NA_character_) {
   required <- c("nom", "nom_court", "source", "portions")
   issues <- list()
@@ -77,7 +130,8 @@ validate_recipe_file <- function(path) {
   recipe <- yaml.load_file(path)
   c(
     validate_required(recipe, file = path),
-    validate_qte_numeric(recipe, file = path)
+    validate_qte_numeric(recipe, file = path),
+    validate_rangee(recipe, file = path)
   )
 }
 
