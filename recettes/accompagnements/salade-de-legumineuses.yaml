@@ -17,16 +17,16 @@ preparation:
   - etape: Mélanger tous les ingrédients de la salade.
     ingredients:
     - nom: Pois chiches
-      qte: 1.1875
-      uni: lbs
+      qte: 19
+      uni: onces
       rangee: Conserves et sauces
     - nom: Fèves rouges
-      qte: 1.1875
-      uni: lbs
+      qte: 19
+      uni: onces
       rangee: Conserves et sauces
     - nom: Fèves mélangées
-      qte: 1.1875
-      uni: lbs
+      qte: 19
+      uni: onces
       rangee: Conserves et sauces
     - nom: Ail
       qte: 5

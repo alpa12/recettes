@@ -20,7 +20,7 @@ ALLOWED_RANGEE <- c(
   "Conserves et sauces"
 )
 
-ALLOWED_MASS_UNITS <- c("g", "lbs")
+ALLOWED_MASS_UNITS <- c("g", "lbs", "onces")
 ALLOWED_VOLUME_UNITS <- c("ml", "c. à thé", "c. à soupe", "tasse")
 
 is_scalar_numeric <- function(x) {

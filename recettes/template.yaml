@@ -170,7 +170,7 @@ _schema:
                       uni_masse:
                         type: string
                         title: Unité masse
-                        enum: [g, lbs]
+                        enum: [g, lbs, onces]
                         nullable: true
                       qte_volume:
                         type: number

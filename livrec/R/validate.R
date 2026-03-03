@@ -1,7 +1,7 @@
 collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_court", "source", "portions", "preparation")) {
   issues <- character()
   nom_courts <- character()
-  allowed_mass_units <- c("g", "lbs")
+  allowed_mass_units <- c("g", "lbs", "onces")
   allowed_volume_units <- c("ml", "c. à thé", "c. à soupe", "tasse")
 
   recipes_dir <- "recettes"
