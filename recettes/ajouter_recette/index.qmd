@@ -1619,6 +1619,12 @@ function validateRecipeData(data) {
         if (!hasAnyQty) {
           issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: au moins une quantité est requise (qte, qte_masse ou qte_volume).`);
         }
+        if (typeof ing?.qte_masse === "number" && Number.isFinite(ing.qte_masse) && !String(ing?.uni_masse || "").trim()) {
+          issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: uni_masse requis si qte_masse est fourni.`);
+        }
+        if (typeof ing?.qte_volume === "number" && Number.isFinite(ing.qte_volume) && !String(ing?.uni_volume || "").trim()) {
+          issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: uni_volume requis si qte_volume est fourni.`);
+        }
         qtyFields.forEach((f) => {
           const q = ing?.[f];
           if (typeof q === "number" && Number.isFinite(q) && q < 0) {

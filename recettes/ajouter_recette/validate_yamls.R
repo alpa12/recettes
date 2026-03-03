@@ -20,6 +20,9 @@ ALLOWED_RANGEE <- c(
   "Conserves et sauces"
 )
 
+ALLOWED_MASS_UNITS <- c("g", "lbs")
+ALLOWED_VOLUME_UNITS <- c("ml", "c. à thé", "c. à soupe", "tasse")
+
 is_scalar_numeric <- function(x) {
   is.numeric(x) && length(x) == 1 && !is.na(x)
 }
@@ -66,6 +69,21 @@ validate_qte_numeric <- function(recipe, file = NA_character_) {
           p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].%s", si - 1, ei - 1, ii - 1, field)
           if (!is_scalar_numeric(qte)) {
             add_issue(p, qte, sprintf("%s non numérique — corriger (ex: 0.5 au lieu de 1/2)", field))
+          }
+        }
+
+        if (!is.null(one$qte_masse) && !(is.character(one$qte_masse) && str_trim(one$qte_masse) == "")) {
+          u <- if (is.null(one$uni_masse)) "" else as.character(one$uni_masse)
+          if (!(u %in% ALLOWED_MASS_UNITS)) {
+            p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].uni_masse", si - 1, ei - 1, ii - 1)
+            add_issue(p, u, sprintf("uni_masse invalide — valeurs permises: %s", paste(ALLOWED_MASS_UNITS, collapse = ", ")))
+          }
+        }
+        if (!is.null(one$qte_volume) && !(is.character(one$qte_volume) && str_trim(one$qte_volume) == "")) {
+          u <- if (is.null(one$uni_volume)) "" else as.character(one$uni_volume)
+          if (!(u %in% ALLOWED_VOLUME_UNITS)) {
+            p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].uni_volume", si - 1, ei - 1, ii - 1)
+            add_issue(p, u, sprintf("uni_volume invalide — valeurs permises: %s", paste(ALLOWED_VOLUME_UNITS, collapse = ", ")))
           }
         }
       }

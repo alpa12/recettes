@@ -1,6 +1,8 @@
 collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_court", "source", "portions", "preparation")) {
   issues <- character()
   nom_courts <- character()
+  allowed_mass_units <- c("g", "lbs")
+  allowed_volume_units <- c("ml", "c. à thé", "c. à soupe", "tasse")
 
   recipes_dir <- "recettes"
   if (length(yaml_files) > 0) {
@@ -71,6 +73,18 @@ collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_
               has_any_qty <- TRUE
               if (!is.numeric(qv)) {
                 issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, {qf} non numerique."))
+              }
+            }
+            if (!is.null(ing$qte_masse) && !(is.character(ing$qte_masse) && !nzchar(trimws(ing$qte_masse)))) {
+              u <- as.character(ing$uni_masse %||% "")
+              if (!(u %in% allowed_mass_units)) {
+                issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, uni_masse invalide ({u})."))
+              }
+            }
+            if (!is.null(ing$qte_volume) && !(is.character(ing$qte_volume) && !nzchar(trimws(ing$qte_volume)))) {
+              u <- as.character(ing$uni_volume %||% "")
+              if (!(u %in% allowed_volume_units)) {
+                issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, uni_volume invalide ({u})."))
               }
             }
             if (!has_any_qty) {
