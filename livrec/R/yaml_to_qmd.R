@@ -8,7 +8,7 @@
 # - recipe$commentaires can be:
 #   (A) old format: character vector
 #   (B) new format: list of dict with optional fields:
-#       commentaire (string), evaluation (int 1..5), auteur (string), date (YYYY-MM-DD)
+#       commentaire (string), evaluation (0.5..5 by 0.5), auteur (string), date (YYYY-MM-DD)
 #   Backward compatibility:
 #       note -> evaluation, nom -> auteur
 #

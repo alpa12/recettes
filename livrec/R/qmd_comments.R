@@ -33,9 +33,12 @@ normalize_comments <- function(commentaires) {
 }
 
 stars_string <- function(avg) {
-  n <- round(avg)
-  n <- max(0, min(5, n))
-  paste0(strrep("\u2605", n), strrep("\u2606", 5 - n))
+  v <- round(as.numeric(avg) * 2) / 2
+  v <- max(0, min(5, v))
+  full <- floor(v)
+  half <- (v - full) >= 0.5
+  empty <- 5 - full - as.integer(half)
+  paste0(strrep("\u2605", full), if (half) "\u00bd" else "", strrep("\u2606", empty))
 }
 
 strip_accents <- function(x) {
@@ -59,9 +62,12 @@ format_comment_line <- function(cmt) {
   parts <- c()
 
   if (!is.null(cmt$evaluation) && !is.na(cmt$evaluation)) {
-    ev <- as.integer(cmt$evaluation)
-    if (!is.na(ev) && ev >= 1 && ev <= 5) {
-      parts <- c(parts, paste0(strrep("\u2605", ev), strrep("\u2606", 5 - ev)))
+    ev <- round(as.numeric(cmt$evaluation) * 2) / 2
+    if (!is.na(ev) && ev >= 0.5 && ev <= 5) {
+      full <- floor(ev)
+      half <- (ev - full) >= 0.5
+      empty <- 5 - full - as.integer(half)
+      parts <- c(parts, paste0(strrep("\u2605", full), if (half) "\u00bd" else "", strrep("\u2606", empty)))
     }
   }
 
