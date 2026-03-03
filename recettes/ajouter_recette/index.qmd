@@ -1594,7 +1594,6 @@ function validateRecipeData(data) {
       return;
     }
 
-    const seenIngredients = new Set();
     steps.forEach((step, ti) => {
       const stepText = String(step?.etape || "").trim();
       if (!stepText) {
@@ -1602,14 +1601,15 @@ function validateRecipeData(data) {
       }
 
       const ingredients = Array.isArray(step?.ingredients) ? step.ingredients : [];
+      const seenIngredientsInStep = new Set();
       ingredients.forEach((ing, ii) => {
         const name = String(ing?.nom || "").trim();
         if (name) {
           const key = name.toLowerCase();
-          if (seenIngredients.has(key)) {
-            issues.push(`${sectionName || `Section ${si + 1}`}: ingrédient dupliqué (« ${name} »).`);
+          if (seenIngredientsInStep.has(key)) {
+            issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}: ingrédient dupliqué (« ${name} »).`);
           } else {
-            seenIngredients.add(key);
+            seenIngredientsInStep.add(key);
           }
         }
         const q = ing?.qte;
