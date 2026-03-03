@@ -183,6 +183,20 @@ main.content {
   min-width: 120px;
 }
 
+.recipe-cover {
+  margin: 0.15rem 0 1.15rem;
+}
+
+.recipe-cover-image {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--site-border-soft);
+  box-shadow: var(--site-shadow);
+}
+
 .recipe-fact {
   display: flex;
   flex-direction: column;

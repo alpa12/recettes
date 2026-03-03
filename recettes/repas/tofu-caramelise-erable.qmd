@@ -24,6 +24,7 @@ categories:
 </div>
 </div>
 <div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Ricardo</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>12 min</strong></div></div>
+<figure class="recipe-cover"><img class="recipe-cover-image" src="/images/35a1a2db-8161-46f3-a731-3cccaa0b9d96.jpg" alt="Photo de couverture - Tofu caramélisé à l’érable" loading="eager" decoding="async"></figure>
 ```
 
 ```{=html}

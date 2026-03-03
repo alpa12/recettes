@@ -436,6 +436,19 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     cool <- paste0(fmt_number(t$refrigeration), " min")
     facts <- c(facts, build_fact_box("Temps r\u00e9frig\u00e9ration", cool))
   }
+  cover_image_html <- ""
+  if (!is.null(recipe$image_guid) && nzchar(as.character(recipe$image_guid))) {
+    guid <- trimws(as.character(recipe$image_guid))
+    if (nzchar(guid) && !tolower(guid) %in% c("na", "null", "~")) {
+      cover_src <- paste0("/images/", guid, ".jpg")
+      cover_alt <- escape_html(paste0("Photo de couverture - ", as.character(recipe$nom %||% "Recette")))
+      cover_image_html <- paste0(
+        "<figure class=\"recipe-cover\">",
+        "<img class=\"recipe-cover-image\" src=\"", cover_src, "\" alt=\"", cover_alt, "\" loading=\"eager\" decoding=\"async\">",
+        "</figure>"
+      )
+    }
+  }
 
   lines <- c(
     lines,
@@ -452,6 +465,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "</div>",
     "</div>",
     if (length(facts) > 0) paste0("<div class=\"recipe-facts-grid\">", paste(facts, collapse = ""), "</div>") else "",
+    cover_image_html,
     "```",
     ""
   )
