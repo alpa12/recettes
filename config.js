@@ -14,5 +14,5 @@ const GITHUB_CONFIG = {
     },
     owner: 'alpa12',
     repo: 'recettes',
-    baseBranch: 'dev'
+    baseBranch: 'main'
 };
