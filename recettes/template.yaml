@@ -33,6 +33,10 @@ exemple:
             - nom: Crème
               qte: 1
               uni: t
+              qte_masse: null
+              uni_masse: null
+              qte_volume: null
+              uni_volume: null
               rangee: Produits laitiers et oeufs
           equipements:
             - Bol
@@ -154,8 +158,22 @@ _schema:
                         type: string
                       qte:
                         type: number
+                        nullable: true
                       uni:
                         type: string
+                        nullable: true
+                      qte_masse:
+                        type: number
+                        nullable: true
+                      uni_masse:
+                        type: string
+                        nullable: true
+                      qte_volume:
+                        type: number
+                        nullable: true
+                      uni_volume:
+                        type: string
+                        nullable: true
                       rangee:
                         type: string
                         enum:

@@ -170,7 +170,7 @@ cat(paste0(
  * - Inline remove for primitive arrays
  * - Special layouts: temps + ingredients
  *
- * Numeric strictness for qte remains: must be a number (blocks submit if YAML had non-numeric).
+ * Numeric strictness for quantity fields remains: must be a number.
  */
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -749,7 +749,8 @@ function setSubmitLoading(form, isLoading, label="Soumettre la recette") {
 
 
 function isQtePath(path) {
-  return String(path[path.length - 1] || "") === "qte";
+  const key = String(path[path.length - 1] || "");
+  return key === "qte" || key === "qte_masse" || key === "qte_volume";
 }
 
 function normalizeNumericString(s) {
@@ -925,7 +926,8 @@ function renderIngredientRow(schema, value, path) {
   const wrap = document.createElement("div");
   wrap.className = "qrf-row-3 qrf-dense";
 
-  ["nom","qte","uni"].forEach((k) => {
+  ["nom","qte","uni","qte_masse","uni_masse","qte_volume","uni_volume","rangee"].forEach((k) => {
+    if (!props[k]) return;
     const col = document.createElement("div");
     col.className = "qrf-col";
     col.appendChild(renderPrimitive(props[k], obj[k], [...path, k], true));
@@ -1412,7 +1414,7 @@ function renderPrimitive(schema, value, path, dense=false) {
 
   // Numeric
   if (schema.type === "integer" || schema.type === "number") {
-    const isQte = String(path[path.length - 1] || "") === "qte";
+    const isQte = isQtePath(path);
 
     if (schema.type === "number" && isQte) {
       input.type = "text";
@@ -1612,10 +1614,17 @@ function validateRecipeData(data) {
             seenIngredientsInStep.add(key);
           }
         }
-        const q = ing?.qte;
-        if (typeof q === "number" && Number.isFinite(q) && q < 0) {
-          issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: quantité négative.`);
+        const qtyFields = ["qte", "qte_masse", "qte_volume"];
+        const hasAnyQty = qtyFields.some((f) => typeof ing?.[f] === "number" && Number.isFinite(ing[f]));
+        if (!hasAnyQty) {
+          issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: au moins une quantité est requise (qte, qte_masse ou qte_volume).`);
         }
+        qtyFields.forEach((f) => {
+          const q = ing?.[f];
+          if (typeof q === "number" && Number.isFinite(q) && q < 0) {
+            issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: quantité négative (${f}).`);
+          }
+        });
       });
     });
   });

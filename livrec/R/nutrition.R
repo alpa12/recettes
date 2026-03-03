@@ -447,8 +447,21 @@ calc_recipe_nutrition <- function(recipe) {
 
       for (ing in ings) {
         nm <- as.character(ing$nom %||% "")
-        unit <- as.character(ing$uni %||% "")
         qty <- suppressWarnings(as.numeric(ing$qte))
+        unit <- as.character(ing$uni %||% "")
+        if (!is.finite(qty) || !nzchar(trimws(unit))) {
+          qty_mass <- suppressWarnings(as.numeric(ing$qte_masse))
+          unit_mass <- as.character(ing$uni_masse %||% "")
+          qty_volume <- suppressWarnings(as.numeric(ing$qte_volume))
+          unit_volume <- as.character(ing$uni_volume %||% "")
+          if (is.finite(qty_mass) && nzchar(trimws(unit_mass))) {
+            qty <- qty_mass
+            unit <- unit_mass
+          } else if (is.finite(qty_volume) && nzchar(trimws(unit_volume))) {
+            qty <- qty_volume
+            unit <- unit_volume
+          }
+        }
 
         food_id <- lookup_food_id(nm, db)
         if (is.na(food_id)) {
@@ -457,7 +470,7 @@ calc_recipe_nutrition <- function(recipe) {
             data.frame(
               ingredient = nm,
               unit = unit,
-              qty = as.character(ing$qte %||% ""),
+              qty = as.character(qty %||% ""),
               reason = "ingredient_non_mappe",
               stringsAsFactors = FALSE
             )
@@ -472,7 +485,7 @@ calc_recipe_nutrition <- function(recipe) {
             data.frame(
               ingredient = nm,
               unit = unit,
-              qty = as.character(ing$qte %||% ""),
+              qty = as.character(qty %||% ""),
               reason = conv$reason,
               stringsAsFactors = FALSE
             )
@@ -487,7 +500,7 @@ calc_recipe_nutrition <- function(recipe) {
             data.frame(
               ingredient = nm,
               unit = unit,
-              qty = as.character(ing$qte %||% ""),
+              qty = as.character(qty %||% ""),
               reason = "food_id_introuvable",
               stringsAsFactors = FALSE
             )

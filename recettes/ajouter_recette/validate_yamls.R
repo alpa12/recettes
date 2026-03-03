@@ -1,5 +1,5 @@
 # validate_yamls.R
-# Validation stricte des YAML recettes: qte doit être NUMÉRIQUE.
+# Validation stricte des YAML recettes: les quantités doivent être NUMÉRIQUES.
 #
 # Exécution:
 #   Rscript recettes/ajouter_recette/validate_yamls.R
@@ -51,13 +51,22 @@ validate_qte_numeric <- function(recipe, file = NA_character_) {
 
       for (ii in seq_along(ing)) {
         one <- ing[[ii]]
-        p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].qte", si - 1, ei - 1, ii - 1)
-        qte <- one$qte
-
-        if (is.null(qte)) {
-          add_issue(p, qte, "qte manquant — attendu: nombre")
-        } else if (!is_scalar_numeric(qte)) {
-          add_issue(p, qte, "qte non numérique — corriger (ex: 0.5 au lieu de 1/2)")
+        qty_fields <- c("qte", "qte_masse", "qte_volume")
+        qty_values <- lapply(qty_fields, function(k) one[[k]])
+        has_any <- any(vapply(qty_values, function(v) !is.null(v) && !(is.character(v) && str_trim(v) == ""), logical(1)))
+        if (!has_any) {
+          p <- sprintf("preparation[%d].etapes[%d].ingredients[%d]", si - 1, ei - 1, ii - 1)
+          add_issue(p, "", "au moins une quantité est requise: qte ou qte_masse ou qte_volume")
+          next
+        }
+        for (fi in seq_along(qty_fields)) {
+          field <- qty_fields[[fi]]
+          qte <- qty_values[[fi]]
+          if (is.null(qte) || (is.character(qte) && str_trim(qte) == "")) next
+          p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].%s", si - 1, ei - 1, ii - 1, field)
+          if (!is_scalar_numeric(qte)) {
+            add_issue(p, qte, sprintf("%s non numérique — corriger (ex: 0.5 au lieu de 1/2)", field))
+          }
         }
       }
     }

@@ -63,8 +63,18 @@ collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_
             if (is.null(ing$nom) || !nzchar(trimws(as.character(ing$nom)))) {
               issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii} sans nom."))
             }
-            if (!is.null(ing$qte) && !is.numeric(ing$qte)) {
-              issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, qte non numerique."))
+            qty_fields <- c("qte", "qte_masse", "qte_volume")
+            has_any_qty <- FALSE
+            for (qf in qty_fields) {
+              qv <- ing[[qf]]
+              if (is.null(qv) || (is.character(qv) && !nzchar(trimws(qv)))) next
+              has_any_qty <- TRUE
+              if (!is.numeric(qv)) {
+                issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, {qf} non numerique."))
+              }
+            }
+            if (!has_any_qty) {
+              issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, aucune quantite (qte/qte_masse/qte_volume)."))
             }
           }
         }
