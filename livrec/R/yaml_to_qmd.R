@@ -382,6 +382,8 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   yaml_qp <- utils::URLencode(yaml_rel_to_root, reserved = TRUE)
   edit_href <- paste0("../", EDIT_PAGE_HREF, "?", EDIT_PARAM_NAME, "=", yaml_qp)
+  quick_comment_href <- paste0(edit_href, "&quick=comment")
+  quick_photos_href <- paste0(edit_href, "&quick=photos")
   base_portions <- suppressWarnings(as.numeric(recipe$portions %||% NA_real_))
   if (length(base_portions) != 1 || !is.finite(base_portions) || base_portions <= 0) {
     base_portions <- NULL
@@ -440,6 +442,8 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     "```{=html}",
     "<div class=\"recipe-toolbar\">",
     paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">\u270f\ufe0f Modifier cette recette</a>"),
+    paste0("<a href=\"", quick_comment_href, "\" class=\"btn btn-outline-primary btn-sm\">\ud83d\udcac Ajouter un commentaire</a>"),
+    paste0("<a href=\"", quick_photos_href, "\" class=\"btn btn-outline-primary btn-sm\">\ud83d\udcf7 Ajouter des photos</a>"),
     "<div class=\"recipe-toolbar-actions\">",
     "<button id=\"recipe-cart-toggle\" type=\"button\" class=\"btn btn-outline-success btn-sm\">Ajouter au panier</button>",
     "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\U0001f373 Mode cuisine</button>",
