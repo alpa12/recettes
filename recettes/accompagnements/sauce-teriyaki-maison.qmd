@@ -1,0 +1,152 @@
+---
+title: Sauce teriyaki maison
+
+categories:
+  - Sauce
+  - Japonaise
+---
+
+```{=html}
+<div class="recipe-toolbar">
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Faccompagnements%2Fsauce-teriyaki-maison.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
+<div class="recipe-toolbar-actions">
+<button id="recipe-cart-toggle" type="button" class="btn btn-outline-success btn-sm">Ajouter au panier</button>
+<button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisson</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
+</div>
+</div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>https://www.saveurs-magazine.fr/recettes/sauce-teriyaki-maison/</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>5 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>10 min</strong></div></div>
+```
+
+```{=html}
+<script id="recipe-cart-data" type="application/json">{"id":"/recettes/accompagnements/sauce-teriyaki-maison.qmd","title":"Sauce teriyaki maison","url":"/recettes/accompagnements/sauce-teriyaki-maison.qmd","portions_base":4,"portions_target":4,"ingredients":[{"nom":"Eau","uni":"ml","qte":350,"rangee":"Epicerie"},{"nom":"Sucre roux","uni":"g","qte":85,"rangee":"Epicerie"},{"nom":"Sauce soja","uni":"ml","qte":70,"rangee":"Conserves et sauces"},{"nom":"Gousse d'ail","uni":"grosse","qte":1,"rangee":"Fruits et legumes"},{"nom":"Gingembre","uni":"cm","qte":5,"rangee":"Fruits et legumes"},{"nom":"Fécule de maïs","uni":"c. à soupe","qte":1,"rangee":"Epicerie"},{"nom":"Vinaigre de riz","uni":"c. à soupe","qte":1,"rangee":"Conserves et sauces"},{"nom":"Graines de sésame","uni":"c. à soupe","qte":0.5,"rangee":"Epicerie"},{"nom":"Oignons nouveaux","uni":"","qte":2,"rangee":"Fruits et legumes"}]}</script>
+<script src="/includes/recipe-cart.js"></script>
+```
+
+```{=html}
+<div class="recipe-meta-badges"><span class="recipe-meta-badge">Difficulté: Facile</span></div>
+```
+
+```{=html}
+<div class="recipe-servings-control"><label for="servings-input" class="form-label mb-1">Ajuster les portions</label><div class="d-flex gap-2 align-items-center"><input id="servings-input" class="form-control form-control-sm" type="number" min="1" step="1" value="4" style="max-width: 110px;"><button id="servings-reset" class="btn btn-outline-secondary btn-sm" type="button">Réinitialiser</button><span class="text-muted small">Base: 4</span></div></div>
+```
+
+## Valeurs nutritives
+
+```{=html}
+<div class="recipe-nutrition-block"><div class="recipe-nutrition-cards"><div class="recipe-nutrition-card"><span>Calories</span><strong>9 kcal</strong></div><div class="recipe-nutrition-card"><span>Protéines</span><strong>0 g</strong></div><div class="recipe-nutrition-card"><span>Glucides</span><strong>1,9 g</strong></div><div class="recipe-nutrition-card"><span>Lipides</span><strong>0 g</strong></div></div><details class="recipe-nutrition-details"><summary class="recipe-nutrition-toggle">Afficher le détail complet</summary><p class="recipe-nutrition-meta">Estimations basées sur les ingrédients saisis. Portions de base: 4.</p><p class="recipe-nutrition-meta">Sources nutrition (ingrédients calculés): cnf_2015: 2 · fallback_local: 1.</p><table class="recipe-nutrition-table table table-sm"><thead><tr><th>Nutriment</th><th>Par recette</th><th>Par portion</th></tr></thead><tbody><tr><th scope="row">Calories</th><td class="recipe-nutrition-total" data-base-total="34.194" data-decimals="0" data-unit="kcal">34 kcal</td><td class="recipe-nutrition-per-portion" data-base-total="34.194" data-decimals="0" data-unit="kcal">9 kcal</td></tr><tr><th scope="row">Protéines</th><td class="recipe-nutrition-total" data-base-total="0.02106" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0.02106" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Lipides</th><td class="recipe-nutrition-total" data-base-total="0.00405" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0.00405" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Gras saturés</th><td class="recipe-nutrition-total" data-base-total="0.000729" data-decimals="1" data-unit="g">0 g</td><td class="recipe-nutrition-per-portion" data-base-total="0.000729" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Glucides</th><td class="recipe-nutrition-total" data-base-total="7.533765" data-decimals="1" data-unit="g">7,5 g</td><td class="recipe-nutrition-per-portion" data-base-total="7.533765" data-decimals="1" data-unit="g">1,9 g</td></tr><tr><th scope="row">Sucres</th><td class="recipe-nutrition-total" data-base-total="0.0606" data-decimals="1" data-unit="g">0,1 g</td><td class="recipe-nutrition-per-portion" data-base-total="0.0606" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Fibres</th><td class="recipe-nutrition-total" data-base-total="0.0729" data-decimals="1" data-unit="g">0,1 g</td><td class="recipe-nutrition-per-portion" data-base-total="0.0729" data-decimals="1" data-unit="g">0 g</td></tr><tr><th scope="row">Sodium</th><td class="recipe-nutrition-total" data-base-total="1.4865" data-decimals="0" data-unit="mg">1 mg</td><td class="recipe-nutrition-per-portion" data-base-total="1.4865" data-decimals="0" data-unit="mg">0 mg</td></tr><tr><th scope="row">Potassium</th><td class="recipe-nutrition-total" data-base-total="11.3025" data-decimals="0" data-unit="mg">11 mg</td><td class="recipe-nutrition-per-portion" data-base-total="11.3025" data-decimals="0" data-unit="mg">3 mg</td></tr><tr><th scope="row">Calcium</th><td class="recipe-nutrition-total" data-base-total="1.2225" data-decimals="0" data-unit="mg">1 mg</td><td class="recipe-nutrition-per-portion" data-base-total="1.2225" data-decimals="0" data-unit="mg">0 mg</td></tr><tr><th scope="row">Fer</th><td class="recipe-nutrition-total" data-base-total="0.06837" data-decimals="1" data-unit="mg">0,1 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0.06837" data-decimals="1" data-unit="mg">0 mg</td></tr><tr><th scope="row">Magnésium</th><td class="recipe-nutrition-total" data-base-total="1.0005" data-decimals="0" data-unit="mg">1 mg</td><td class="recipe-nutrition-per-portion" data-base-total="1.0005" data-decimals="0" data-unit="mg">0 mg</td></tr><tr><th scope="row">Zinc</th><td class="recipe-nutrition-total" data-base-total="0.01092" data-decimals="1" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0.01092" data-decimals="1" data-unit="mg">0 mg</td></tr><tr><th scope="row">Sélénium</th><td class="recipe-nutrition-total" data-base-total="0.24195" data-decimals="1" data-unit="ug">0,2 ug</td><td class="recipe-nutrition-per-portion" data-base-total="0.24195" data-decimals="1" data-unit="ug">0,1 ug</td></tr><tr><th scope="row">Vitamine C</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="mg">0 mg</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="mg">0 mg</td></tr><tr><th scope="row">Vitamine B12</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td></tr><tr><th scope="row">Vitamine A (EAR)</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="0" data-unit="ug">0 ug</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="0" data-unit="ug">0 ug</td></tr><tr><th scope="row">Vitamine D</th><td class="recipe-nutrition-total" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td><td class="recipe-nutrition-per-portion" data-base-total="0" data-decimals="1" data-unit="ug">0 ug</td></tr></tbody></table><details class="recipe-nutrition-missing"><summary>Ingrédients non comptabilisés (6)</summary><ul><li><code>Sucre roux</code> (ingredient_non_mappe)</li><li><code>Sauce soja</code> (ingredient_non_mappe)</li><li><code>Gousse d'ail</code> (ingredient_non_mappe)</li><li><code>Gingembre</code> (ingredient_non_mappe)</li><li><code>Graines de sésame</code> (ingredient_non_mappe)</li><li><code>Oignons nouveaux</code> (ingredient_non_mappe)</li></ul></details></details></div>
+```
+
+```{=html}
+<script>(function(){
+const key='recipe_reading_mode';
+let wakeLock=null;
+const apply=(on)=>{document.body.classList.toggle('reading-mode', on);};
+const requestWake=async()=>{try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');}}catch(e){}};
+const releaseWake=async()=>{try{if(wakeLock){await wakeLock.release(); wakeLock=null;}}catch(e){}};
+document.addEventListener('DOMContentLoaded', ()=>{
+const btn=document.getElementById('recipe-reading-mode');
+const saved=localStorage.getItem(key)==='1'; apply(saved); if(saved) requestWake();
+if(!btn) return;
+const refresh=()=>{btn.classList.toggle('active', document.body.classList.contains('reading-mode'));}; refresh();
+btn.addEventListener('click', async()=>{const next=!document.body.classList.contains('reading-mode'); apply(next); localStorage.setItem(key, next?'1':'0'); refresh(); if(next){await requestWake();} else {await releaseWake();}});
+});
+})();</script>
+```
+
+## Ingrédients
+
+```{=html}
+<div class="recipe-grocery-actions">
+<button id="copy-grocery-list" type="button" class="btn btn-outline-secondary btn-sm">📋 Générer la liste d'épicerie</button>
+<button id="reset-recipe-checks" type="button" class="btn btn-outline-secondary btn-sm">↺ Réinitialiser les cases</button>
+<span id="grocery-copy-feedback" class="text-muted small"></span>
+</div>
+```
+
+### Préparation de la sauce
+
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Epicerie" data-ingredient-name="Eau" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="350">350</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Eau</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Epicerie" data-ingredient-name="Sucre roux" data-ingredient-unit="g"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="85">85</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Sucre roux</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Conserves et sauces" data-ingredient-name="Sauce soja" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="70">70</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Sauce soja</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Fruits et legumes" data-ingredient-name="Gousse d'ail" data-ingredient-unit="grosse"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">grosse</span> <span class="ingredient-nom">Gousse d'ail</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Fruits et legumes" data-ingredient-name="Gingembre" data-ingredient-unit="cm"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="5">5</span> <span class="ingredient-uni">cm</span> <span class="ingredient-nom">Gingembre</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Epicerie" data-ingredient-name="Fécule de maïs" data-ingredient-unit="c. à soupe"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Fécule de maïs</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Conserves et sauces" data-ingredient-name="Vinaigre de riz" data-ingredient-unit="c. à soupe"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Vinaigre de riz</span></span></label></li>
+</ul>
+```
+
+### Pour servir
+
+```{=html}
+<ul class="recipe-ingredients recipe-grocery-list">
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Epicerie" data-ingredient-name="Graines de sésame" data-ingredient-unit="c. à soupe"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Graines de sésame</span></span></label></li>
+<li class="recipe-ingredient" data-list-kind="grocery" data-rangee="Fruits et legumes" data-ingredient-name="Oignons nouveaux" data-ingredient-unit=""><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-nom">Oignons nouveaux</span></span></label></li>
+</ul>
+```
+
+## Équipements
+
+### Préparation de la sauce
+
+- Casserole
+- Bocal
+
+### Pour servir
+
+- Réfrigérateur
+
+## Préparation
+
+### Préparation de la sauce
+
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step" data-rangee="Epicerie" data-ingredient-name="Eau" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="350">350</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Eau</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Epicerie" data-ingredient-name="Sucre roux" data-ingredient-unit="g"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="85">85</span> <span class="ingredient-uni">g</span> <span class="ingredient-nom">Sucre roux</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Conserves et sauces" data-ingredient-name="Sauce soja" data-ingredient-unit="ml"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="70">70</span> <span class="ingredient-uni">ml</span> <span class="ingredient-nom">Sauce soja</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Fruits et legumes" data-ingredient-name="Gousse d'ail" data-ingredient-unit="grosse"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">grosse</span> <span class="ingredient-nom">Gousse d'ail</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Fruits et legumes" data-ingredient-name="Gingembre" data-ingredient-unit="cm"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="5">5</span> <span class="ingredient-uni">cm</span> <span class="ingredient-nom">Gingembre</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Epicerie" data-ingredient-name="Fécule de maïs" data-ingredient-unit="c. à soupe"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Fécule de maïs</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Conserves et sauces" data-ingredient-name="Vinaigre de riz" data-ingredient-unit="c. à soupe"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="1">1</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Vinaigre de riz</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Versez 350 ml d’eau dans une petite casserole avec le sucre, la sauce soja, l’ail et le gingembre. Portez doucement à ébullition en remuant de temps en temps, jusqu’à ce que le sucre soit dissous. Laissez mijoter encore 5 min, ou jusqu’à ce que la sauce devienne brillante et légèrement sirupeuse. Délayez la fécule de maïs dans 1 c. à soupe d’eau, puis incorporez-la rapidement à la sauce. Ajoutez le vinaigre de riz. Si la sauce vous semble trop épaisse, ajoutez un peu d’eau pour ajuster la consistance. Versez dans un bocal propre et laissez refroidir à température ambiante.</p><div class="recipe-step-timers"><button type="button" class="btn btn-outline-secondary btn-sm recipe-timer-btn" data-seconds="300">⏱️ 5 min</button></div></div></article>
+</div>
+```
+
+### Pour servir
+
+```{=html}
+<div class="recipe-prep-grid">
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><ul class="recipe-ingredients recipe-step-ingredients"><li class="recipe-ingredient" data-list-kind="step" data-rangee="Epicerie" data-ingredient-name="Graines de sésame" data-ingredient-unit="c. à soupe"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="0.5">0.5</span> <span class="ingredient-uni">c. à soupe</span> <span class="ingredient-nom">Graines de sésame</span></span></label></li><li class="recipe-ingredient" data-list-kind="step" data-rangee="Fruits et legumes" data-ingredient-name="Oignons nouveaux" data-ingredient-unit=""><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-ingredient-check"><span class="ingredient-label"><span class="ingredient-qte" data-base="2">2</span> <span class="ingredient-nom">Oignons nouveaux</span></span></label></li></ul></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Une fois refroidie, la sauce se conserve jusqu’à une semaine au réfrigérateur. Au moment de servir, vous pouvez la parsemer de graines de sésame et d’oignons nouveaux, si vous le souhaitez.</p></div></article>
+</div>
+```
+
+```{=html}
+<script>(function(){const input=document.getElementById('servings-input');const reset=document.getElementById('servings-reset');if(!input) return;const base=4;const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};const update=()=>{const current=parseFloat(input.value);if(!Number.isFinite(current)||current<=0) return;const ratio=current/base;document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{const b=parseFloat(el.getAttribute('data-base'));if(Number.isFinite(b)){el.textContent=format(b*ratio);} });document.querySelectorAll('.recipe-nutrition-total[data-base-total]').forEach((el)=>{const baseTotal=parseFloat(el.getAttribute('data-base-total'));const unit=el.getAttribute('data-unit')||'';const dec=parseInt(el.getAttribute('data-decimals')||'1',10);if(Number.isFinite(baseTotal)){const v=baseTotal*ratio;let t=(Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toFixed(Math.max(0,dec));if(dec>0){t=t.replace(/\.0+$/,'').replace(/(\.[0-9]*?)0+$/,'$1');}t=t.replace('.',',');el.textContent=t+' '+unit;}});document.querySelectorAll('.recipe-nutrition-per-portion[data-base-total]').forEach((el)=>{const baseTotal=parseFloat(el.getAttribute('data-base-total'));const unit=el.getAttribute('data-unit')||'';const dec=parseInt(el.getAttribute('data-decimals')||'1',10);if(Number.isFinite(baseTotal)){const v=baseTotal/base;let t=(Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toFixed(Math.max(0,dec));if(dec>0){t=t.replace(/\.0+$/,'').replace(/(\.[0-9]*?)0+$/,'$1');}t=t.replace('.',',');el.textContent=t+' '+unit;}});};input.addEventListener('input', update);if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}update();})();</script>
+```
+
+```{=html}
+<div id="recipe-timer-dock" class="recipe-timer-dock d-none"><strong>Minuteur</strong> <span id="recipe-timer-label"></span> <span id="recipe-timer-remaining"></span> <button id="recipe-timer-stop" class="btn btn-sm btn-outline-light" type="button">Arrêter</button></div>
+<script>(function(){
+let timer=null, target=0, audioCtx=null, alarmInterval=null, alarmTimeout=null;
+const pad=(n)=>String(n).padStart(2,'0');
+const fmt=(s)=>{const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60; return h>0?`${h}:${pad(m)}:${pad(sec)}`:`${m}:${pad(sec)}`;};
+const ensureAudio=async()=>{const Ctx=window.AudioContext||window.webkitAudioContext; if(!Ctx) return null; if(!audioCtx) audioCtx=new Ctx(); if(audioCtx.state==='suspended'){try{await audioCtx.resume();}catch(e){}} return audioCtx;};
+const stopAlarm=()=>{if(alarmInterval){clearInterval(alarmInterval); alarmInterval=null;} if(alarmTimeout){clearTimeout(alarmTimeout); alarmTimeout=null;}};
+const playBeep=(ctx,freq)=>{const t=ctx.currentTime+0.01; const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.type='sawtooth'; osc.frequency.value=freq; gain.gain.setValueAtTime(0.0001,t); gain.gain.exponentialRampToValueAtTime(0.42,t+0.015); gain.gain.exponentialRampToValueAtTime(0.0001,t+0.19); osc.connect(gain); gain.connect(ctx.destination); osc.start(t); osc.stop(t+0.2);};
+const startAlarm=async()=>{const ctx=await ensureAudio(); if(!ctx) return; stopAlarm(); const notes=[1760,1480,2093,1760,2349,1760]; let i=0; const ring=()=>{playBeep(ctx,notes[i%notes.length]); i+=1;}; ring(); alarmInterval=setInterval(ring,250); alarmTimeout=setTimeout(stopAlarm,15000);};
+const dock=document.getElementById('recipe-timer-dock'); const rem=document.getElementById('recipe-timer-remaining'); const lab=document.getElementById('recipe-timer-label'); const stop=document.getElementById('recipe-timer-stop');
+const hide=()=>{if(timer){clearInterval(timer); timer=null;} stopAlarm(); if(dock) dock.classList.add('d-none');};
+document.addEventListener('click',async(e)=>{const b=e.target.closest('.recipe-timer-btn'); if(!b) return; const secs=parseInt(b.dataset.seconds||'0',10); if(!secs||secs<1) return; await ensureAudio(); stopAlarm(); if(timer) clearInterval(timer); target=Date.now()+secs*1000; if(lab) lab.textContent=b.textContent.replace('⏱️','').trim(); if(dock) dock.classList.remove('d-none'); timer=setInterval(()=>{const left=Math.max(0, Math.round((target-Date.now())/1000)); if(rem) rem.textContent=fmt(left); if(left<=0){if(timer){clearInterval(timer); timer=null;} if(rem) rem.textContent='Terminé!'; if(dock) dock.classList.remove('d-none'); startAlarm();}},250);});
+if(stop) stop.addEventListener('click', hide);
+})();</script>
+```
+
+```{=html}
+<script>(function(){
+const pageKey='recipe_check_state:'+window.location.pathname;
+const save=()=>{const state={}; document.querySelectorAll('.recipe-check').forEach((cb,i)=>{state[i]=cb.checked?1:0;}); localStorage.setItem(pageKey, JSON.stringify(state));};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(pageKey)||'{}'); document.querySelectorAll('.recipe-check').forEach((cb,i)=>{cb.checked=!!s[i];});}catch(e){}};
+const reset=()=>{document.querySelectorAll('.recipe-check').forEach(cb=>cb.checked=false); save();};
+const textFromLi=(li)=>{const label=li.querySelector('.ingredient-label'); return label?label.innerText.replace(/\s+/g,' ').trim():li.innerText.replace(/\s+/g,' ').trim();};
+const copyGroceries=async()=>{const items=[...document.querySelectorAll('.recipe-grocery-list .recipe-ingredient')].filter(li=>!(li.querySelector('.recipe-ingredient-check')||{}).checked).map(textFromLi).filter(Boolean); const txt=items.length?items.map(x=>'- '+x).join('\n'):'(Aucun ingrédient restant)'; const fb=document.getElementById('grocery-copy-feedback'); try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);} else {window.prompt('Copie la liste:', txt);} if(fb) fb.textContent='Liste copiée.';}catch(e){window.prompt('Copie la liste:', txt); if(fb) fb.textContent='Liste prête à copier.';}};
+document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelectorAll('.recipe-check').forEach(cb=>cb.addEventListener('change',save)); const c=document.getElementById('copy-grocery-list'); if(c) c.addEventListener('click',copyGroceries); const r=document.getElementById('reset-recipe-checks'); if(r) r.addEventListener('click',reset);});
+})();</script>
+```
+

@@ -1,0 +1,82 @@
+nom: Sauce teriyaki maison
+nom_court: sauce-teriyaki-maison
+source: https://www.saveurs-magazine.fr/recettes/sauce-teriyaki-maison/
+portions: 4
+se_congele: no
+difficulte: Facile
+cout: ~
+allergenes:
+- Gluten
+- Sésame
+- Soja
+- Sulfites
+categories:
+- Sauce
+- Japonaise
+temps:
+  preparation: 5
+  cuisson: 10
+  refrigeration: ~
+preparation:
+- section: Préparation de la sauce
+  etapes:
+  - etape: Versez 350 ml d’eau dans une petite casserole avec le sucre, la sauce soja,
+      l’ail et le gingembre. Portez doucement à ébullition en remuant de temps en
+      temps, jusqu’à ce que le sucre soit dissous. Laissez mijoter encore 5 min, ou
+      jusqu’à ce que la sauce devienne brillante et légèrement sirupeuse. Délayez
+      la fécule de maïs dans 1 c. à soupe d’eau, puis incorporez-la rapidement à la
+      sauce. Ajoutez le vinaigre de riz. Si la sauce vous semble trop épaisse, ajoutez
+      un peu d’eau pour ajuster la consistance. Versez dans un bocal propre et laissez
+      refroidir à température ambiante.
+    image_guid: ~
+    ingredients:
+    - nom: Eau
+      qte: 350
+      uni: ml
+      rangee: Epicerie
+    - nom: Sucre roux
+      qte: 85
+      uni: g
+      rangee: Epicerie
+    - nom: Sauce soja
+      qte: 70
+      uni: ml
+      rangee: Conserves et sauces
+    - nom: Gousse d'ail
+      qte: 1
+      uni: grosse
+      rangee: Fruits et legumes
+    - nom: Gingembre
+      qte: 5
+      uni: cm
+      rangee: Fruits et legumes
+    - nom: Fécule de maïs
+      qte: 1
+      uni: c. à soupe
+      rangee: Epicerie
+    - nom: Vinaigre de riz
+      qte: 1
+      uni: c. à soupe
+      rangee: Conserves et sauces
+    equipements:
+    - Casserole
+    - Bocal
+- section: Pour servir
+  etapes:
+  - etape: Une fois refroidie, la sauce se conserve jusqu’à une semaine au réfrigérateur.
+      Au moment de servir, vous pouvez la parsemer de graines de sésame et d’oignons
+      nouveaux, si vous le souhaitez.
+    image_guid: ~
+    ingredients:
+    - nom: Graines de sésame
+      qte: 0.5
+      uni: c. à soupe
+      rangee: Epicerie
+    - nom: Oignons nouveaux
+      qte: 2
+      uni: ~
+      rangee: Fruits et legumes
+    equipements: Réfrigérateur
+commentaires: []
+image_guid: ~
+soumis_par: Élodie
