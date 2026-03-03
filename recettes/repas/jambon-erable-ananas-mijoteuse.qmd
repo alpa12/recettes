@@ -8,14 +8,14 @@ categories:
 
 ```{=html}
 <div class="recipe-toolbar">
-<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fjambon-erable-ananas-mijoteuse.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier cette recette</a>
-<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fjambon-erable-ananas-mijoteuse.yaml&quick=comment" class="btn btn-outline-primary btn-sm">💬 Ajouter un commentaire</a>
-<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fjambon-erable-ananas-mijoteuse.yaml&quick=photos" class="btn btn-outline-primary btn-sm">📷 Ajouter des photos</a>
+<div class="recipe-toolbar-main">
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fjambon-erable-ananas-mijoteuse.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier</a>
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fjambon-erable-ananas-mijoteuse.yaml&quick=comment" class="btn btn-outline-primary btn-sm">💬 + Commentaire</a>
+<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fjambon-erable-ananas-mijoteuse.yaml&quick=photos" class="btn btn-outline-primary btn-sm">📷 + Photos</a>
+</div>
 <div class="recipe-toolbar-actions">
-<button id="recipe-cart-toggle" type="button" class="btn btn-outline-success btn-sm">Ajouter au panier</button>
+<button id="recipe-cart-toggle" type="button" class="btn btn-outline-success btn-sm">🛒 Mettre au panier</button>
 <button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisine</button>
-<button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Imprimer</button>
-<button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
 <div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>Caty</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>10 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>240 min</strong></div></div>
