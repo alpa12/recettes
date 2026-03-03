@@ -10,7 +10,7 @@ on:
       - 'livrec/**'
       - 'recettes/**/*.yaml'
   push:
-    branches: [main, dev]
+    branches: [main]
     paths:
       - '**/*.qmd'
       - '_quarto.yml'
