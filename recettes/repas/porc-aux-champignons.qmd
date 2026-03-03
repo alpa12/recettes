@@ -11,7 +11,6 @@ categories:
 <div class="recipe-toolbar-main">
 <a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fporc-aux-champignons.yaml" class="btn btn-outline-primary btn-sm">✏️ Modifier</a>
 <a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fporc-aux-champignons.yaml&quick=comment" class="btn btn-outline-primary btn-sm">💬 + Commentaire</a>
-<a href="../ajouter_recette/?yaml=%2Frecettes%2Frepas%2Fporc-aux-champignons.yaml&quick=photos" class="btn btn-outline-primary btn-sm">📷 + Photos</a>
 </div>
 <div class="recipe-toolbar-actions">
 <button id="recipe-cart-toggle" type="button" class="btn btn-outline-success btn-sm">🛒 Mettre au panier</button>

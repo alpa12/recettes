@@ -264,9 +264,8 @@ function activateQuickCommentForm(form) {
       <p class="text-muted small mb-3">Mode rapide: seuls les champs du commentaire sont affichés.</p>
       <form id="quick-comment-form" class="needs-validation" novalidate>
         <div class="mb-3">
-          <label for="quick-comment-text" class="form-label required-field">Commentaire</label>
-          <textarea id="quick-comment-text" class="form-control" rows="4" required></textarea>
-          <div class="invalid-feedback">Le commentaire est requis.</div>
+          <label for="quick-comment-text" class="form-label">Commentaire</label>
+          <textarea id="quick-comment-text" class="form-control" rows="4"></textarea>
         </div>
         <div class="qrf-quick-comment-meta">
           <div class="qrf-col">
@@ -299,9 +298,6 @@ function activateQuickCommentForm(form) {
 
   container.insertBefore(card, form);
 
-  const dateInput = card.querySelector("#quick-comment-date");
-  if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10).replace(/-/g, "/");
-
   const quickForm = card.querySelector("#quick-comment-form");
   const openFullBtn = card.querySelector("#quick-comment-open-full");
   const quickSubmitBtn = card.querySelector('button[type="submit"][data-requires-password="manual"]');
@@ -318,10 +314,6 @@ function activateQuickCommentForm(form) {
   quickForm?.addEventListener("submit", (e) => {
     e.preventDefault();
     clearMessages();
-    if (!quickForm.checkValidity()) {
-      quickForm.classList.add("was-validated");
-      return;
-    }
 
     if (!isPasswordValid(document.getElementById("site-password-manual")?.value || "")) {
       showError("Mot de passe incorrect.");
@@ -333,25 +325,24 @@ function activateQuickCommentForm(form) {
     const evaluationRaw = card.querySelector("#quick-comment-evaluation")?.value || "";
     const dateRaw = card.querySelector("#quick-comment-date")?.value || "";
     const date = normalizeDateSlash(dateRaw);
+    const hasAnyCommentField = Boolean(commentaire || auteur || date || evaluationRaw);
 
-    if (!commentaire) {
-      showError("Le commentaire est requis.");
-      return;
-    }
     if (date && !/^\d{4}\/\d{2}\/\d{2}$/.test(date)) {
       showError("La date doit être au format yyyy/mm/dd.");
       return;
     }
 
-    const appended = appendCommentToHiddenForm(form, {
-      commentaire,
-      auteur,
-      date,
-      evaluation: evaluationRaw === "" ? null : parseInt(evaluationRaw, 10)
-    });
-    if (!appended) {
-      showError("Impossible d'ajouter le commentaire dans le formulaire.");
-      return;
+    if (hasAnyCommentField) {
+      const appended = appendCommentToHiddenForm(form, {
+        commentaire,
+        auteur,
+        date,
+        evaluation: evaluationRaw === "" ? null : parseInt(evaluationRaw, 10)
+      });
+      if (!appended) {
+        showError("Impossible d'ajouter le commentaire dans le formulaire.");
+        return;
+      }
     }
 
     form.requestSubmit();
