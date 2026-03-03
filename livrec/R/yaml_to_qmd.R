@@ -419,7 +419,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">\u270f\ufe0f Modifier cette recette</a>"),
     "<div class=\"recipe-toolbar-actions\">",
     "<button id=\"recipe-cart-toggle\" type=\"button\" class=\"btn btn-outline-success btn-sm\">Ajouter au panier</button>",
-    "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\U0001f373 Mode cuisson</button>",
+    "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\U0001f373 Mode cuisine</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">\U0001f5a8\ufe0f Imprimer</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">\U0001f517 Copier le lien</button>",
     "</div>",
@@ -542,10 +542,11 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   if (!is.null(nutrition_html) && nzchar(nutrition_html)) {
     lines <- c(
       lines,
-      "## Valeurs nutritives",
-      "",
       "```{=html}",
+      "<section class=\"recipe-nutrition-section\">",
+      "<h2>Valeurs nutritives</h2>",
       nutrition_html,
+      "</section>",
       "```",
       ""
     )

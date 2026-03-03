@@ -493,6 +493,19 @@ body.reading-mode nav[role="doc-toc"] {
   display: none !important;
 }
 
+body.reading-mode .recipe-nutrition-section {
+  display: none !important;
+}
+
+body.reading-mode .recipe-toolbar > a.btn,
+body.reading-mode .recipe-toolbar-actions .btn {
+  display: none !important;
+}
+
+body.reading-mode .recipe-toolbar-actions #recipe-reading-mode {
+  display: inline-flex !important;
+}
+
 .recipe-cart-shell {
   display: grid;
   gap: 1rem;
