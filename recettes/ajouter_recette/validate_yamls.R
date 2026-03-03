@@ -1,5 +1,5 @@
 # validate_yamls.R
-# Validation stricte des YAML recettes: qte doit être NUMÉRIQUE.
+# Validation stricte des YAML recettes: les quantités doivent être NUMÉRIQUES.
 #
 # Exécution:
 #   Rscript recettes/ajouter_recette/validate_yamls.R
@@ -19,6 +19,9 @@ ALLOWED_RANGEE <- c(
   "Epicerie",
   "Conserves et sauces"
 )
+
+ALLOWED_MASS_UNITS <- c("g", "lbs", "onces")
+ALLOWED_VOLUME_UNITS <- c("ml", "c. à thé", "c. à soupe", "tasse")
 
 is_scalar_numeric <- function(x) {
   is.numeric(x) && length(x) == 1 && !is.na(x)
@@ -51,13 +54,37 @@ validate_qte_numeric <- function(recipe, file = NA_character_) {
 
       for (ii in seq_along(ing)) {
         one <- ing[[ii]]
-        p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].qte", si - 1, ei - 1, ii - 1)
-        qte <- one$qte
+        qty_fields <- c("qte", "qte_masse", "qte_volume")
+        qty_values <- lapply(qty_fields, function(k) one[[k]])
+        has_any <- any(vapply(qty_values, function(v) !is.null(v) && !(is.character(v) && str_trim(v) == ""), logical(1)))
+        if (!has_any) {
+          p <- sprintf("preparation[%d].etapes[%d].ingredients[%d]", si - 1, ei - 1, ii - 1)
+          add_issue(p, "", "au moins une quantité est requise: qte ou qte_masse ou qte_volume")
+          next
+        }
+        for (fi in seq_along(qty_fields)) {
+          field <- qty_fields[[fi]]
+          qte <- qty_values[[fi]]
+          if (is.null(qte) || (is.character(qte) && str_trim(qte) == "")) next
+          p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].%s", si - 1, ei - 1, ii - 1, field)
+          if (!is_scalar_numeric(qte)) {
+            add_issue(p, qte, sprintf("%s non numérique — corriger (ex: 0.5 au lieu de 1/2)", field))
+          }
+        }
 
-        if (is.null(qte)) {
-          add_issue(p, qte, "qte manquant — attendu: nombre")
-        } else if (!is_scalar_numeric(qte)) {
-          add_issue(p, qte, "qte non numérique — corriger (ex: 0.5 au lieu de 1/2)")
+        if (!is.null(one$qte_masse) && !(is.character(one$qte_masse) && str_trim(one$qte_masse) == "")) {
+          u <- if (is.null(one$uni_masse)) "" else as.character(one$uni_masse)
+          if (!(u %in% ALLOWED_MASS_UNITS)) {
+            p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].uni_masse", si - 1, ei - 1, ii - 1)
+            add_issue(p, u, sprintf("uni_masse invalide — valeurs permises: %s", paste(ALLOWED_MASS_UNITS, collapse = ", ")))
+          }
+        }
+        if (!is.null(one$qte_volume) && !(is.character(one$qte_volume) && str_trim(one$qte_volume) == "")) {
+          u <- if (is.null(one$uni_volume)) "" else as.character(one$uni_volume)
+          if (!(u %in% ALLOWED_VOLUME_UNITS)) {
+            p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].uni_volume", si - 1, ei - 1, ii - 1)
+            add_issue(p, u, sprintf("uni_volume invalide — valeurs permises: %s", paste(ALLOWED_VOLUME_UNITS, collapse = ", ")))
+          }
         }
       }
     }

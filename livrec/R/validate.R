@@ -1,6 +1,8 @@
 collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_court", "source", "portions", "preparation")) {
   issues <- character()
   nom_courts <- character()
+  allowed_mass_units <- c("g", "lbs", "onces")
+  allowed_volume_units <- c("ml", "c. à thé", "c. à soupe", "tasse")
 
   recipes_dir <- "recettes"
   if (length(yaml_files) > 0) {
@@ -63,8 +65,30 @@ collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_
             if (is.null(ing$nom) || !nzchar(trimws(as.character(ing$nom)))) {
               issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii} sans nom."))
             }
-            if (!is.null(ing$qte) && !is.numeric(ing$qte)) {
-              issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, qte non numerique."))
+            qty_fields <- c("qte", "qte_masse", "qte_volume")
+            has_any_qty <- FALSE
+            for (qf in qty_fields) {
+              qv <- ing[[qf]]
+              if (is.null(qv) || (is.character(qv) && !nzchar(trimws(qv)))) next
+              has_any_qty <- TRUE
+              if (!is.numeric(qv)) {
+                issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, {qf} non numerique."))
+              }
+            }
+            if (!is.null(ing$qte_masse) && !(is.character(ing$qte_masse) && !nzchar(trimws(ing$qte_masse)))) {
+              u <- as.character(ing$uni_masse %||% "")
+              if (!(u %in% allowed_mass_units)) {
+                issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, uni_masse invalide ({u})."))
+              }
+            }
+            if (!is.null(ing$qte_volume) && !(is.character(ing$qte_volume) && !nzchar(trimws(ing$qte_volume)))) {
+              u <- as.character(ing$uni_volume %||% "")
+              if (!(u %in% allowed_volume_units)) {
+                issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, uni_volume invalide ({u})."))
+              }
+            }
+            if (!has_any_qty) {
+              issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, aucune quantite (qte/qte_masse/qte_volume)."))
             }
           }
         }

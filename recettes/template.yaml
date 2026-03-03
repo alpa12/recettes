@@ -32,7 +32,11 @@ exemple:
           ingredients:
             - nom: Crème
               qte: 1
-              uni: t
+              uni: tasse
+              qte_masse: null
+              uni_masse: null
+              qte_volume: null
+              uni_volume: null
               rangee: Produits laitiers et oeufs
           equipements:
             - Bol
@@ -154,8 +158,28 @@ _schema:
                         type: string
                       qte:
                         type: number
+                        nullable: true
                       uni:
                         type: string
+                        title: Unité (legacy/autre)
+                        description: Utiliser pour les unités non convertibles (ex. gousse, unité).
+                        nullable: true
+                      qte_masse:
+                        type: number
+                        nullable: true
+                      uni_masse:
+                        type: string
+                        title: Unité masse
+                        enum: [g, lbs, onces]
+                        nullable: true
+                      qte_volume:
+                        type: number
+                        nullable: true
+                      uni_volume:
+                        type: string
+                        title: Unité volume
+                        enum: [ml, "c. à thé", "c. à soupe", tasse]
+                        nullable: true
                       rangee:
                         type: string
                         enum:

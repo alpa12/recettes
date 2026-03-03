@@ -41,33 +41,229 @@ fmt_number <- function(x) {
   sub("\\.$", "", s)
 }
 
-render_ingredient_li <- function(ing, list_kind = "generic") {
-  q_raw <- ing$qte %||% ""
-  q_num <- suppressWarnings(as.numeric(q_raw))
-  q_is_num <- !is.na(q_num)
-  q_label <- escape_html(fmt_number(q_raw))
-  uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
-  nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
-  rangee <- escape_html(stringr::str_trim(as.character(ing$rangee %||% ing$rayon %||% "")))
+normalize_measure_text <- function(x) {
+  txt <- tolower(as.character(x %||% ""))
+  txt <- iconv(txt, from = "", to = "ASCII//TRANSLIT")
+  txt <- gsub("[^a-z0-9]+", " ", txt)
+  trimws(gsub("\\s+", " ", txt))
+}
 
-  content <- if (q_is_num) {
-    paste0(
-      "<span class=\"ingredient-qte\" data-base=\"", q_num, "\">", q_label, "</span>",
-      if (nzchar(uni)) paste0(" <span class=\"ingredient-uni\">", uni, "</span>") else "",
-      if (nzchar(nom)) paste0(" <span class=\"ingredient-nom\">", nom, "</span>") else ""
+mass_unit_factor_g <- function(unit) {
+  u <- normalize_measure_text(unit)
+  map <- c(
+    "g" = 1, "gramme" = 1, "grammes" = 1, "gram" = 1, "grams" = 1,
+    "kg" = 1000, "kilogramme" = 1000, "kilogrammes" = 1000,
+    "lb" = 453.59237, "lbs" = 453.59237,
+    "oz" = 28.34952, "once" = 28.34952, "onces" = 28.34952
+  )
+  v <- unname(map[u])
+  if (length(v) == 1 && !is.na(v)) as.numeric(v) else NA_real_
+}
+
+volume_unit_factor_ml <- function(unit) {
+  u <- normalize_measure_text(unit)
+  map <- c(
+    "ml" = 1, "millilitre" = 1, "millilitres" = 1,
+    "l" = 1000, "litre" = 1000, "litres" = 1000,
+    "t" = 250, "tasse" = 250, "tasses" = 250,
+    "c a soupe" = 15, "cuillere a soupe" = 15, "cuilleres a soupe" = 15, "c a table" = 15, "c s" = 15, "c.s." = 15,
+    "c a the" = 5, "cuillere a the" = 5, "cuilleres a the" = 5, "c t" = 5, "c.t." = 5
+  )
+  v <- unname(map[u])
+  if (length(v) == 1 && !is.na(v)) as.numeric(v) else NA_real_
+}
+
+canonical_mass_unit <- function(unit) {
+  u <- normalize_measure_text(unit)
+  if (u %in% c("lb", "lbs")) return("lbs")
+  if (u %in% c("oz", "once", "onces")) return("onces")
+  if (u %in% c("g", "gramme", "grammes", "gram", "grams", "kg", "kilogramme", "kilogrammes")) return("g")
+  "g"
+}
+
+canonical_volume_unit <- function(unit) {
+  u <- normalize_measure_text(unit)
+  if (u %in% c("ml", "millilitre", "millilitres", "l", "litre", "litres")) return("ml")
+  if (u %in% c("t", "tasse", "tasses")) return("tasse")
+  if (u %in% c("c a soupe", "cuillere a soupe", "cuilleres a soupe", "c a table", "c s", "c.s.")) return("c. à soupe")
+  if (u %in% c("c a the", "cuillere a the", "cuilleres a the", "c t", "c.t.")) return("c. à thé")
+  "ml"
+}
+
+convert_from_g <- function(value_g, unit) {
+  f <- mass_unit_factor_g(unit)
+  if (!is.finite(value_g) || !is.finite(f) || f <= 0) return(NA_real_)
+  value_g / f
+}
+
+convert_from_ml <- function(value_ml, unit) {
+  f <- volume_unit_factor_ml(unit)
+  if (!is.finite(value_ml) || !is.finite(f) || f <= 0) return(NA_real_)
+  value_ml / f
+}
+
+ingredient_density_table <- local({
+  cache <- NULL
+  function() {
+    if (!is.null(cache)) return(cache)
+    paths <- c(
+      "data/ingredient_density_qc_20_25c.csv",
+      "../data/ingredient_density_qc_20_25c.csv"
     )
-  } else {
-    paste0(
-      if (nzchar(q_label)) q_label else "",
-      if (nzchar(uni)) paste0(" ", uni) else "",
-      if (nzchar(nom)) paste0(" ", nom) else ""
-    )
+    hit <- paths[file.exists(paths)]
+    if (length(hit) == 0) {
+      cache <<- data.frame()
+      return(cache)
+    }
+    tbl <- utils::read.csv(hit[[1]], stringsAsFactors = FALSE, check.names = FALSE)
+    if (!("ingredient_key" %in% names(tbl)) || !("density_g_ml" %in% names(tbl))) {
+      cache <<- data.frame()
+      return(cache)
+    }
+    tbl$ingredient_key_norm <- normalize_measure_text(tbl$ingredient_key)
+    tbl$aliases <- as.character(tbl$aliases %||% "")
+    cache <<- tbl
+    cache
   }
+})
+
+lookup_density_g_ml <- function(ingredient_name, density_tbl = ingredient_density_table()) {
+  if (!is.data.frame(density_tbl) || nrow(density_tbl) == 0) return(NA_real_)
+  name_norm <- normalize_measure_text(ingredient_name)
+  if (!nzchar(name_norm)) return(NA_real_)
+
+  exact <- density_tbl$density_g_ml[density_tbl$ingredient_key_norm == name_norm]
+  if (length(exact) > 0) return(suppressWarnings(as.numeric(exact[[1]])))
+
+  for (i in seq_len(nrow(density_tbl))) {
+    aliases <- unlist(strsplit(as.character(density_tbl$aliases[i] %||% ""), "\\|", fixed = FALSE))
+    aliases <- normalize_measure_text(aliases)
+    aliases <- aliases[nzchar(aliases)]
+    if (length(aliases) == 0) next
+    name_padded <- paste0(" ", name_norm, " ")
+    if (any(vapply(aliases, function(a) grepl(paste0(" ", a, " "), name_padded, fixed = TRUE), logical(1)))) {
+      return(suppressWarnings(as.numeric(density_tbl$density_g_ml[i])))
+    }
+  }
+  NA_real_
+}
+
+ingredient_measurement <- function(ing, density_tbl = ingredient_density_table()) {
+  q_legacy <- suppressWarnings(as.numeric(ing$qte %||% NA_real_))
+  u_legacy <- as.character(ing$uni %||% "")
+  q_mass <- suppressWarnings(as.numeric(ing$qte_masse %||% NA_real_))
+  u_mass <- as.character(ing$uni_masse %||% "")
+  q_volume <- suppressWarnings(as.numeric(ing$qte_volume %||% NA_real_))
+  u_volume <- as.character(ing$uni_volume %||% "")
+
+  legacy_mass_factor <- mass_unit_factor_g(u_legacy)
+  legacy_volume_factor <- volume_unit_factor_ml(u_legacy)
+
+  explicit_mass_g <- if (is.finite(q_mass) && is.finite(mass_unit_factor_g(u_mass))) q_mass * mass_unit_factor_g(u_mass) else NA_real_
+  explicit_volume_ml <- if (is.finite(q_volume) && is.finite(volume_unit_factor_ml(u_volume))) q_volume * volume_unit_factor_ml(u_volume) else NA_real_
+  if (!is.finite(explicit_mass_g) && is.finite(q_legacy) && is.finite(legacy_mass_factor)) explicit_mass_g <- q_legacy * legacy_mass_factor
+  if (!is.finite(explicit_volume_ml) && is.finite(q_legacy) && is.finite(legacy_volume_factor)) explicit_volume_ml <- q_legacy * legacy_volume_factor
+
+  has_explicit_mass <- is.finite(explicit_mass_g)
+  has_explicit_volume <- is.finite(explicit_volume_ml)
+  density <- lookup_density_g_ml(ing$nom %||% "", density_tbl)
+
+  base_mass_g <- explicit_mass_g
+  base_volume_ml <- explicit_volume_ml
+  mass_is_derived <- FALSE
+  volume_is_derived <- FALSE
+
+  if (!is.finite(base_mass_g) && is.finite(base_volume_ml) && is.finite(density) && density > 0) {
+    base_mass_g <- base_volume_ml * density
+    mass_is_derived <- TRUE
+  }
+  if (!is.finite(base_volume_ml) && is.finite(base_mass_g) && is.finite(density) && density > 0) {
+    base_volume_ml <- base_mass_g / density
+    volume_is_derived <- TRUE
+  }
+
+  explicit_mass_unit <- if (nzchar(stringr::str_trim(u_mass))) canonical_mass_unit(u_mass) else if (is.finite(legacy_mass_factor)) canonical_mass_unit(u_legacy) else "g"
+  explicit_volume_unit <- if (nzchar(stringr::str_trim(u_volume))) canonical_volume_unit(u_volume) else if (is.finite(legacy_volume_factor)) canonical_volume_unit(u_legacy) else "ml"
+
+  can_toggle <- is.finite(base_mass_g) && is.finite(base_volume_ml)
+  default_mode <- if (can_toggle) "volume" else if (is.finite(base_volume_ml)) "volume" else if (is.finite(base_mass_g)) "mass" else "none"
+  if (!can_toggle && is.finite(q_legacy) && is.finite(legacy_mass_factor)) default_mode <- "mass"
+  if (!can_toggle && is.finite(q_legacy) && is.finite(legacy_volume_factor)) default_mode <- "volume"
+
+  list(
+    base_mass_g = base_mass_g,
+    base_volume_ml = base_volume_ml,
+    has_explicit_mass = has_explicit_mass,
+    has_explicit_volume = has_explicit_volume,
+    mass_is_derived = mass_is_derived,
+    volume_is_derived = volume_is_derived,
+    unit_mass = explicit_mass_unit,
+    unit_volume = explicit_volume_unit,
+    explicit_mass_unit = explicit_mass_unit,
+    explicit_volume_unit = explicit_volume_unit,
+    can_toggle = can_toggle,
+    default_mode = default_mode,
+    q_legacy = q_legacy,
+    u_legacy = u_legacy
+  )
+}
+
+ingredient_display_for_mode <- function(meta, mode = "volume") {
+  if (identical(mode, "mass") && is.finite(meta$base_mass_g)) {
+    unit <- meta$explicit_mass_unit %||% "g"
+    qty <- convert_from_g(meta$base_mass_g, unit)
+    if (!is.finite(qty)) {
+      unit <- "g"
+      qty <- meta$base_mass_g
+    }
+    return(list(qty = qty, unit = unit, derived = !isTRUE(meta$has_explicit_mass)))
+  }
+  if (identical(mode, "volume") && is.finite(meta$base_volume_ml)) {
+    unit <- meta$explicit_volume_unit %||% "ml"
+    qty <- convert_from_ml(meta$base_volume_ml, unit)
+    if (!is.finite(qty)) {
+      unit <- "ml"
+      qty <- meta$base_volume_ml
+    }
+    return(list(qty = qty, unit = unit, derived = !isTRUE(meta$has_explicit_volume)))
+  }
+  list(qty = meta$q_legacy %||% NA_real_, unit = meta$u_legacy %||% "", derived = FALSE)
+}
+
+render_ingredient_li <- function(ing, list_kind = "generic", density_tbl = ingredient_density_table()) {
+  nom_raw <- stringr::str_trim(as.character(ing$nom %||% ""))
+  rangee_raw <- stringr::str_trim(as.character(ing$rangee %||% ing$rayon %||% ""))
+  nom <- escape_html(nom_raw)
+  rangee <- escape_html(rangee_raw)
+  meta <- ingredient_measurement(ing, density_tbl = density_tbl)
+  shown <- ingredient_display_for_mode(meta, mode = meta$default_mode)
+
+  q_label <- escape_html(fmt_number(shown$qty))
+  uni <- escape_html(stringr::str_trim(as.character(shown$unit %||% "")))
+  derived_cls <- if (isTRUE(shown$derived)) " ingredient-approx" else ""
+
+  q_attr <- if (is.finite(suppressWarnings(as.numeric(shown$qty)))) paste0(" data-base=\"", suppressWarnings(as.numeric(shown$qty)), "\"") else ""
+  content <- paste0(
+    "<span class=\"ingredient-qte", derived_cls, "\"", q_attr, ">", q_label, "</span>",
+    if (nzchar(uni)) paste0(" <span class=\"ingredient-uni\">", uni, "</span>") else "",
+    if (nzchar(nom)) paste0(" <span class=\"ingredient-nom\">", nom, "</span>") else ""
+  )
+
   paste0(
     "<li class=\"recipe-ingredient\" data-list-kind=\"", list_kind,
     "\" data-rangee=\"", rangee,
     "\" data-ingredient-name=\"", nom,
-    "\" data-ingredient-unit=\"", uni, "\">",
+    "\" data-ingredient-unit=\"", uni,
+    "\" data-measure-enabled=\"", if (meta$can_toggle) "1" else "0",
+    "\" data-base-mass-g=\"", if (is.finite(meta$base_mass_g)) meta$base_mass_g else "",
+    "\" data-base-volume-ml=\"", if (is.finite(meta$base_volume_ml)) meta$base_volume_ml else "",
+    "\" data-unit-mass=\"", escape_html(meta$unit_mass %||% "g"),
+    "\" data-unit-volume=\"", escape_html(meta$unit_volume %||% "ml"),
+    "\" data-explicit-unit-mass=\"", escape_html(meta$explicit_mass_unit %||% "g"),
+    "\" data-explicit-unit-volume=\"", escape_html(meta$explicit_volume_unit %||% "ml"),
+    "\" data-explicit-mass=\"", if (isTRUE(meta$has_explicit_mass)) "1" else "0",
+    "\" data-explicit-volume=\"", if (isTRUE(meta$has_explicit_volume)) "1" else "0",
+    "\" data-default-mode=\"", meta$default_mode, "\">",
     "<label class=\"recipe-check-row\">",
     "<input type=\"checkbox\" class=\"recipe-check recipe-ingredient-check\">",
     "<span class=\"ingredient-label\">", content, "</span>",
@@ -76,43 +272,40 @@ render_ingredient_li <- function(ing, list_kind = "generic") {
   )
 }
 
-render_ingredient_inline <- function(ing) {
-  q_raw <- ing$qte %||% ""
-  q_num <- suppressWarnings(as.numeric(q_raw))
-  q_is_num <- !is.na(q_num)
-  q_label <- escape_html(fmt_number(q_raw))
-  uni <- escape_html(stringr::str_trim(as.character(ing$uni %||% "")))
-  nom <- escape_html(stringr::str_trim(as.character(ing$nom %||% "")))
-  rangee <- escape_html(stringr::str_trim(as.character(ing$rangee %||% ing$rayon %||% "")))
-
-  content <- if (q_is_num) {
-    paste0(
-      "<span class=\"ingredient-qte\" data-base=\"", q_num, "\">", q_label, "</span>",
-      if (nzchar(uni)) paste0(" <span class=\"ingredient-uni\">", uni, "</span>") else "",
-      if (nzchar(nom)) paste0(" <span class=\"ingredient-nom\">", nom, "</span>") else ""
-    )
-  } else {
-    paste0(
-      if (nzchar(q_label)) q_label else "",
-      if (nzchar(uni)) paste0(" ", uni) else "",
-      if (nzchar(nom)) paste0(" ", nom) else ""
-    )
-  }
-  paste0(
-    "<label class=\"recipe-check-row\" data-rangee=\"", rangee, "\">",
-    "<input type=\"checkbox\" class=\"recipe-check recipe-ingredient-check\">",
-    "<span class=\"ingredient-label\">", content, "</span>",
-    "</label>"
-  )
+render_ingredient_inline <- function(ing, density_tbl = ingredient_density_table()) {
+  li <- render_ingredient_li(ing, list_kind = "inline", density_tbl = density_tbl)
+  sub("^<li[^>]*><label", "<label", sub("</label></li>$", "</label>", li))
 }
 
-build_fact_box <- function(label, value) {
+build_fact_box <- function(label, value, href = NULL) {
+  value_html <- if (!is.null(href) && nzchar(as.character(href))) {
+    paste0(
+      "<a href=\"", escape_html(as.character(href)),
+      "\" target=\"_blank\" rel=\"noopener noreferrer\">",
+      escape_html(value),
+      "</a>"
+    )
+  } else {
+    escape_html(value)
+  }
   paste0(
     "<div class=\"recipe-fact\">",
     "<span>", escape_html(label), "</span>",
-    "<strong>", escape_html(value), "</strong>",
+    "<strong>", value_html, "</strong>",
     "</div>"
   )
+}
+
+source_label_and_href <- function(source_raw) {
+  src <- stringr::str_trim(as.character(source_raw %||% ""))
+  if (!nzchar(src)) return(list(label = "", href = NULL))
+  if (!grepl("^https?://", src, ignore.case = TRUE)) {
+    return(list(label = src, href = NULL))
+  }
+  host <- sub("^https?://([^/]+).*$", "\\1", src, ignore.case = TRUE)
+  host <- sub("^www\\.", "", host, ignore.case = TRUE)
+  if (!nzchar(host)) host <- src
+  list(label = host, href = src)
 }
 
 extract_step_timers <- function(step_text) {
@@ -153,6 +346,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
 
   recipe <- yaml::read_yaml(yaml_path)
+  density_tbl <- ingredient_density_table()
   lines <- character()
 
   # ---- Quarto front-matter ----
@@ -199,10 +393,12 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
       for (ing in step$ingredients %||% list()) {
         nom <- as.character(ing$nom %||% "")
         if (!nzchar(stringr::str_trim(nom))) next
+        meta <- ingredient_measurement(ing, density_tbl = density_tbl)
+        shown <- ingredient_display_for_mode(meta, mode = meta$default_mode)
         cart_ingredients[[length(cart_ingredients) + 1]] <- list(
           nom = nom,
-          uni = as.character(ing$uni %||% ""),
-          qte = ing$qte %||% NULL,
+          uni = as.character(shown$unit %||% ""),
+          qte = if (is.finite(suppressWarnings(as.numeric(shown$qty)))) as.numeric(shown$qty) else shown$qty,
           rangee = as.character(ing$rangee %||% ing$rayon %||% "")
         )
       }
@@ -222,7 +418,8 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   # ---- Quick facts and tools ----
   facts <- character()
   if (!is.null(recipe$source) && nzchar(as.character(recipe$source))) {
-    facts <- c(facts, build_fact_box("Source", recipe$source))
+    src <- source_label_and_href(recipe$source)
+    facts <- c(facts, build_fact_box("Source", src$label, href = src$href))
   }
   if (!is.null(recipe$se_congele)) {
     txt <- if (isTRUE(recipe$se_congele)) "Oui" else "Non"
@@ -245,7 +442,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">\u270f\ufe0f Modifier cette recette</a>"),
     "<div class=\"recipe-toolbar-actions\">",
     "<button id=\"recipe-cart-toggle\" type=\"button\" class=\"btn btn-outline-success btn-sm\">Ajouter au panier</button>",
-    "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\U0001f373 Mode cuisson</button>",
+    "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\U0001f373 Mode cuisine</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">\U0001f5a8\ufe0f Imprimer</button>",
     "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">\U0001f517 Copier le lien</button>",
     "</div>",
@@ -286,24 +483,62 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   }
 
   has_scaler <- !is.null(base_portions) && !is.na(base_portions) && base_portions > 0
+  has_measure_toggle <- any(vapply(recipe$preparation %||% list(), function(section) {
+    any(vapply(section$etapes %||% list(), function(step) {
+      any(vapply(step$ingredients %||% list(), function(ing) {
+        meta <- ingredient_measurement(ing, density_tbl = density_tbl)
+        is.finite(meta$base_mass_g) || is.finite(meta$base_volume_ml)
+      }, logical(1)))
+    }, logical(1)))
+  }, logical(1)))
   has_step_images <- any(vapply(recipe$preparation %||% list(), function(section) {
     any(vapply(section$etapes %||% list(), function(step) {
       !is.null(step$image_guid) && nzchar(as.character(step$image_guid))
     }, logical(1)))
   }, logical(1)))
 
-  if (has_scaler) {
+  if (has_scaler || has_measure_toggle) {
+    portions_html <- ""
+    if (has_scaler) {
+      portions_html <- paste0(
+        "<label for=\"servings-input\" class=\"form-label mb-1\">Ajuster les portions</label>",
+        "<div class=\"d-flex gap-2 align-items-center mb-2\">",
+        "<input id=\"servings-input\" class=\"form-control form-control-sm\" type=\"number\" min=\"1\" step=\"1\" value=\"", base_portions, "\" style=\"max-width: 110px;\">",
+        "<button id=\"servings-reset\" class=\"btn btn-outline-secondary btn-sm\" type=\"button\">R\u00e9initialiser</button>",
+        "<span class=\"text-muted small\">Base: ", base_portions, "</span>",
+        "</div>"
+      )
+    }
+    mode_html <- ""
+    if (has_measure_toggle) {
+      mode_html <- paste0(
+        "<div class=\"recipe-measure-mode\">",
+        "<span class=\"form-label mb-1 d-block\">Affichage des quantit\u00e9s</span>",
+        "<div class=\"btn-group btn-group-sm\" role=\"group\" aria-label=\"Mode de mesure\">",
+        "<button id=\"measure-mode-volume\" class=\"btn btn-outline-secondary\" type=\"button\" data-mode=\"volume\">Volume</button>",
+        "<button id=\"measure-mode-mass\" class=\"btn btn-outline-secondary\" type=\"button\" data-mode=\"mass\">Masse</button>",
+        "</div>",
+        "<div class=\"recipe-measure-submodes mt-2\">",
+        "<div class=\"btn-group btn-group-sm\" role=\"group\" aria-label=\"Format volume\">",
+        "<button id=\"volume-unit-kitchen\" class=\"btn btn-outline-secondary\" type=\"button\">Cuill\u00e8res / tasse</button>",
+        "<button id=\"volume-unit-ml\" class=\"btn btn-outline-secondary\" type=\"button\">mL</button>",
+        "</div>",
+        "<div class=\"btn-group btn-group-sm ms-2\" role=\"group\" aria-label=\"Format masse\">",
+        "<button id=\"mass-unit-g\" class=\"btn btn-outline-secondary\" type=\"button\">g</button>",
+        "<button id=\"mass-unit-lbs\" class=\"btn btn-outline-secondary\" type=\"button\">lbs</button>",
+        "</div>",
+        "</div>",
+        "<span class=\"text-muted small d-block mt-1\">Les quantit\u00e9s converties sont affich\u00e9es dans une couleur diff\u00e9rente.</span>",
+        "</div>"
+      )
+    }
     lines <- c(
       lines,
       "```{=html}",
       paste0(
         "<div class=\"recipe-servings-control\">",
-        "<label for=\"servings-input\" class=\"form-label mb-1\">Ajuster les portions</label>",
-        "<div class=\"d-flex gap-2 align-items-center\">",
-        "<input id=\"servings-input\" class=\"form-control form-control-sm\" type=\"number\" min=\"1\" step=\"1\" value=\"", base_portions, "\" style=\"max-width: 110px;\">",
-        "<button id=\"servings-reset\" class=\"btn btn-outline-secondary btn-sm\" type=\"button\">R\u00e9initialiser</button>",
-        "<span class=\"text-muted small\">Base: ", base_portions, "</span>",
-        "</div>",
+        portions_html,
+        mode_html,
         "</div>"
       ),
       "```",
@@ -330,10 +565,11 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   if (!is.null(nutrition_html) && nzchar(nutrition_html)) {
     lines <- c(
       lines,
-      "## Valeurs nutritives",
-      "",
       "```{=html}",
+      "<section class=\"recipe-nutrition-section\">",
+      "<h2>Valeurs nutritives</h2>",
       nutrition_html,
+      "</section>",
       "```",
       ""
     )
@@ -400,7 +636,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
       }
     }
     lines <- c(lines, "```{=html}", "<ul class=\"recipe-ingredients recipe-grocery-list\">")
-    for (item in ing_list) lines <- c(lines, render_ingredient_li(item, list_kind = "grocery"))
+    for (item in ing_list) lines <- c(lines, render_ingredient_li(item, list_kind = "grocery", density_tbl = density_tbl))
     lines <- c(lines, "</ul>", "```")
     lines <- c(lines, "")
   }
@@ -437,7 +673,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
       ing_html <- ""
       if (is.list(step$ingredients) && length(step$ingredients) > 0) {
-        ing_lines <- vapply(step$ingredients, function(x) render_ingredient_li(x, list_kind = "step"), character(1))
+        ing_lines <- vapply(step$ingredients, function(x) render_ingredient_li(x, list_kind = "step", density_tbl = density_tbl), character(1))
         ing_html <- paste0(
           "<div class=\"recipe-prep-ingredients\">",
           "<div class=\"recipe-prep-label\">Ingr\u00e9dients</div>",
@@ -487,7 +723,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     lines <- c(lines, "</div>", "```", "")
   }
 
-  if (has_scaler) {
+  if (has_scaler || has_measure_toggle) {
     lines <- c(
       lines,
       "```{=html}",
@@ -496,14 +732,36 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "(function(){",
         "const input=document.getElementById('servings-input');",
         "const reset=document.getElementById('servings-reset');",
-        "if(!input) return;",
-        "const base=", base_portions, ";",
+        "const btnVolume=document.getElementById('measure-mode-volume');",
+        "const btnMass=document.getElementById('measure-mode-mass');",
+        "const btnVolKitchen=document.getElementById('volume-unit-kitchen');",
+        "const btnVolMl=document.getElementById('volume-unit-ml');",
+        "const btnMassG=document.getElementById('mass-unit-g');",
+        "const btnMassLbs=document.getElementById('mass-unit-lbs');",
+        "const hasScaler=!!input;",
+        "const base=", if (has_scaler) base_portions else "1", ";",
+        "const modeKey='recipe_measure_mode:'+window.location.pathname;",
+        "const volumeUnitKey='recipe_volume_unit_mode:'+window.location.pathname;",
+        "const massUnitKey='recipe_mass_unit_mode:'+window.location.pathname;",
+        "let mode=(localStorage.getItem(modeKey)==='mass')?'mass':'volume';",
+        "let volumeUnitMode=(localStorage.getItem(volumeUnitKey)==='ml')?'ml':'kitchen';",
+        "let massUnitMode=(localStorage.getItem(massUnitKey)==='lbs')?'lbs':'g';",
         "const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};",
+        "const normalize=(u)=>String(u||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();",
+        "const massFactor=(unit)=>{const u=normalize(unit); const m={'g':1,'gramme':1,'grammes':1,'gram':1,'grams':1,'kg':1000,'kilogramme':1000,'kilogrammes':1000,'lb':453.59237,'lbs':453.59237,'oz':28.34952,'once':28.34952,'onces':28.34952}; return Object.prototype.hasOwnProperty.call(m,u)?m[u]:NaN;};",
+        "const volumeFactor=(unit)=>{const u=normalize(unit); const m={'ml':1,'millilitre':1,'millilitres':1,'l':1000,'litre':1000,'litres':1000,'t':250,'tasse':250,'tasses':250,'c a soupe':15,'cuillere a soupe':15,'cuilleres a soupe':15,'c a table':15,'c s':15,'c.s.':15,'c a the':5,'cuillere a the':5,'cuilleres a the':5,'c t':5,'c.t.':5}; return Object.prototype.hasOwnProperty.call(m,u)?m[u]:NaN;};",
+        "const isKitchenUnit=(u)=>{const n=normalize(u); return n==='tasse'||n==='t'||n==='c a soupe'||n==='cuillere a soupe'||n==='cuilleres a soupe'||n==='c a table'||n==='c s'||n==='c.s.'||n==='c a the'||n==='cuillere a the'||n==='cuilleres a the'||n==='c t'||n==='c.t.';};",
+        "const chooseKitchenUnit=(volumeMl,explicit)=>{if(isKitchenUnit(explicit)) return explicit; if(!Number.isFinite(volumeMl)) return 'c. à thé'; if(volumeMl>=125) return 'tasse'; if(volumeMl>=7.5) return 'c. à soupe'; return 'c. à thé';};",
+        "const chooseImperialMassUnit=(massG,explicit)=>{const e=normalize(explicit); if(e==='once'||e==='onces'||e==='oz') return 'onces'; if(e==='lb'||e==='lbs') return 'lbs'; if(!Number.isFinite(massG)) return 'lbs'; return massG<453.59237?'onces':'lbs';};",
+        "const setDerived=(label,qNode,uNode,isDerived)=>{if(qNode) qNode.classList.toggle('ingredient-approx',!!isDerived);};",
+        "const updateIngredientForMode=(li,ratio)=>{const qNode=li.querySelector('.ingredient-qte'); const uNode=li.querySelector('.ingredient-uni'); const label=li.querySelector('.ingredient-label'); if(!qNode||!label) return false; const baseMass=parseFloat(li.dataset.baseMassG||''); const baseVolume=parseFloat(li.dataset.baseVolumeMl||''); const explicitMass=li.dataset.explicitMass==='1'; const explicitVolume=li.dataset.explicitVolume==='1'; const explicitUnitMass=li.dataset.explicitUnitMass||'g'; const explicitUnitVolume=li.dataset.explicitUnitVolume||'ml'; let qty=NaN; let unit=''; let derived=false; if(mode==='mass'&&Number.isFinite(baseMass)){unit=(massUnitMode==='lbs')?chooseImperialMassUnit(baseMass*ratio,explicitUnitMass):'g'; const f=massFactor(unit); qty=Number.isFinite(f)&&f>0?(baseMass*ratio)/f:baseMass*ratio; derived=!explicitMass;} else if(mode==='volume'&&Number.isFinite(baseVolume)){unit=(volumeUnitMode==='ml')?'ml':chooseKitchenUnit(baseVolume*ratio,explicitUnitVolume); const f=volumeFactor(unit); qty=Number.isFinite(f)&&f>0?(baseVolume*ratio)/f:(baseVolume*ratio); derived=!explicitVolume;} else if(Number.isFinite(baseVolume)){unit=(volumeUnitMode==='ml')?'ml':chooseKitchenUnit(baseVolume*ratio,explicitUnitVolume); const f=volumeFactor(unit); qty=Number.isFinite(f)&&f>0?(baseVolume*ratio)/f:(baseVolume*ratio); derived=!explicitVolume;} else if(Number.isFinite(baseMass)){unit=(massUnitMode==='lbs')?chooseImperialMassUnit(baseMass*ratio,explicitUnitMass):'g'; const f=massFactor(unit); qty=Number.isFinite(f)&&f>0?(baseMass*ratio)/f:baseMass*ratio; derived=!explicitMass;} else {li.removeAttribute('data-live-updated'); return false;} qNode.textContent=format(qty); if(uNode){uNode.textContent=unit;} li.setAttribute('data-ingredient-unit', unit); li.setAttribute('data-live-updated','1'); setDerived(label,qNode,uNode,derived); return true;};",
+        "const applyModeButtons=()=>{if(btnVolume) btnVolume.classList.toggle('active', mode==='volume'); if(btnMass) btnMass.classList.toggle('active', mode==='mass'); if(btnVolKitchen) btnVolKitchen.classList.toggle('active', volumeUnitMode==='kitchen'); if(btnVolMl) btnVolMl.classList.toggle('active', volumeUnitMode==='ml'); if(btnMassG) btnMassG.classList.toggle('active', massUnitMode==='g'); if(btnMassLbs) btnMassLbs.classList.toggle('active', massUnitMode==='lbs');};",
         "const update=()=>{",
-        "const current=parseFloat(input.value);",
-        "if(!Number.isFinite(current)||current<=0) return;",
-        "const ratio=current/base;",
+        "const current=hasScaler?parseFloat(input.value):base;",
+        "const ratio=(hasScaler&&Number.isFinite(current)&&current>0)?(current/base):1;",
+        "document.querySelectorAll('.recipe-ingredient').forEach((li)=>{if(!updateIngredientForMode(li,ratio)){li.removeAttribute('data-live-updated');}});",
         "document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{",
+        "if(el.closest('.recipe-ingredient[data-live-updated=\"1\"]')) return;",
         "const b=parseFloat(el.getAttribute('data-base'));",
         "if(Number.isFinite(b)){el.textContent=format(b*ratio);} });",
         "document.querySelectorAll('.recipe-nutrition-total[data-base-total]').forEach((el)=>{",
@@ -531,8 +789,15 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "}",
         "});",
         "};",
-        "input.addEventListener('input', update);",
-        "if(reset){reset.addEventListener('click', ()=>{input.value=String(base); update();});}",
+        "if(input){input.addEventListener('input', update);} ",
+        "if(reset&&input){reset.addEventListener('click', ()=>{input.value=String(base); update();});}",
+        "if(btnVolume){btnVolume.addEventListener('click', ()=>{mode='volume'; localStorage.setItem(modeKey,'volume'); applyModeButtons(); update();});}",
+        "if(btnMass){btnMass.addEventListener('click', ()=>{mode='mass'; localStorage.setItem(modeKey,'mass'); applyModeButtons(); update();});}",
+        "if(btnVolKitchen){btnVolKitchen.addEventListener('click', ()=>{volumeUnitMode='kitchen'; localStorage.setItem(volumeUnitKey,'kitchen'); applyModeButtons(); update();});}",
+        "if(btnVolMl){btnVolMl.addEventListener('click', ()=>{volumeUnitMode='ml'; localStorage.setItem(volumeUnitKey,'ml'); applyModeButtons(); update();});}",
+        "if(btnMassG){btnMassG.addEventListener('click', ()=>{massUnitMode='g'; localStorage.setItem(massUnitKey,'g'); applyModeButtons(); update();});}",
+        "if(btnMassLbs){btnMassLbs.addEventListener('click', ()=>{massUnitMode='lbs'; localStorage.setItem(massUnitKey,'lbs'); applyModeButtons(); update();});}",
+        "applyModeButtons();",
         "update();",
         "})();",
         "</script>"

@@ -1,14 +1,42 @@
 /* Brand tokens */
 :root {
+  --site-font-body: "Avenir Next", "Nunito Sans", "Segoe UI", sans-serif;
+  --site-font-heading: "Fraunces", "Georgia", serif;
   --site-accent: #d84f2a;
+  --site-accent-contrast: #fff;
+  --site-derived-color: #0f6f8c;
+  --site-danger-badge: #d7263d;
+  --site-timer-bg: color-mix(in srgb, #102a43 88%, #000);
+  --site-shadow-rgb: 0, 0, 0;
+  --site-shadow-strength: 0.09;
   --site-accent-soft: color-mix(in srgb, var(--site-accent) 16%, transparent);
   --site-surface-soft: color-mix(in srgb, var(--bs-body-bg) 92%, var(--bs-emphasis-color));
   --site-border-soft: color-mix(in srgb, var(--bs-border-color) 70%, transparent);
-  --site-shadow: 0 14px 30px rgba(0, 0, 0, 0.09);
+  --site-shadow: 0 14px 30px rgba(var(--site-shadow-rgb), var(--site-shadow-strength));
+}
+
+[data-bs-theme="light"] {
+  --site-accent: #d84f2a;
+  --site-accent-contrast: #fff;
+  --site-derived-color: #0f6f8c;
+  --site-danger-badge: #d7263d;
+  --site-timer-bg: color-mix(in srgb, #102a43 88%, #000);
+  --site-shadow-rgb: 0, 0, 0;
+  --site-shadow-strength: 0.09;
+}
+
+[data-bs-theme="dark"] {
+  --site-accent: #ef8a67;
+  --site-accent-contrast: #1b1b1b;
+  --site-derived-color: #69c9e9;
+  --site-danger-badge: #ff5d73;
+  --site-timer-bg: color-mix(in srgb, #0b1f35 90%, #000);
+  --site-shadow-rgb: 0, 0, 0;
+  --site-shadow-strength: 0.42;
 }
 
 body {
-  font-family: "Avenir Next", "Nunito Sans", "Segoe UI", sans-serif;
+  font-family: var(--site-font-body);
   letter-spacing: 0.01em;
 }
 
@@ -29,8 +57,42 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: "Fraunces", "Georgia", serif;
+  font-family: var(--site-font-heading);
   letter-spacing: -0.01em;
+}
+
+.btn {
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  padding: 0.32rem 0.68rem;
+  letter-spacing: 0.01em;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+.btn-sm {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.5rem;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--site-accent);
+  border-color: var(--site-accent);
+  color: var(--site-accent-contrast);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: color-mix(in srgb, var(--site-accent) 90%, #000);
+  border-color: color-mix(in srgb, var(--site-accent) 90%, #000);
+  color: var(--site-accent-contrast);
 }
 
 .navbar {
@@ -158,6 +220,19 @@ main.content {
   background: var(--site-surface-soft);
 }
 
+.recipe-measure-mode .btn.active {
+  background: var(--site-accent);
+  border-color: var(--site-accent);
+  color: var(--site-accent-contrast);
+}
+
+.recipe-measure-submodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
 .recipe-meta-badges {
   display: flex;
   flex-wrap: wrap;
@@ -203,6 +278,8 @@ main.content {
   align-items: flex-start;
   gap: 0.5rem;
   width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .recipe-check-row input[type="checkbox"] {
@@ -219,6 +296,11 @@ main.content {
   min-width: 2ch;
   font-weight: 700;
   color: var(--site-accent);
+}
+
+.ingredient-approx {
+  color: var(--site-derived-color);
+  font-weight: 800;
 }
 
 h2 {
@@ -261,6 +343,8 @@ ol li img {
 
 .recipe-prep-instruction p {
   margin-bottom: 0.55rem;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .recipe-prep-stepno {
@@ -380,8 +464,8 @@ ol li img {
   align-items: center;
   padding: 0.6rem 0.75rem;
   border-radius: 12px;
-  color: #fff;
-  background: color-mix(in srgb, #102a43 88%, #000);
+  color: var(--site-accent-contrast);
+  background: var(--site-timer-bg);
   box-shadow: var(--site-shadow);
 }
 
@@ -421,6 +505,19 @@ body.reading-mode .recipe-prep-step {
 body.reading-mode .toc,
 body.reading-mode nav[role="doc-toc"] {
   display: none !important;
+}
+
+body.reading-mode .recipe-nutrition-section {
+  display: none !important;
+}
+
+body.reading-mode .recipe-toolbar > a.btn,
+body.reading-mode .recipe-toolbar-actions .btn {
+  display: none !important;
+}
+
+body.reading-mode .recipe-toolbar-actions #recipe-reading-mode {
+  display: inline-flex !important;
 }
 
 .recipe-cart-shell {
@@ -489,7 +586,7 @@ body.reading-mode nav[role="doc-toc"] {
   margin-left: 0.35rem;
   padding: 0 0.28rem;
   border-radius: 999px;
-  background: #d7263d;
+  background: var(--site-danger-badge);
   color: #fff;
   font-size: 0.7rem;
   font-weight: 700;
