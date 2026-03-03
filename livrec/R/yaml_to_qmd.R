@@ -240,13 +240,11 @@ render_ingredient_li <- function(ing, list_kind = "generic", density_tbl = ingre
   q_label <- escape_html(fmt_number(shown$qty))
   uni <- escape_html(stringr::str_trim(as.character(shown$unit %||% "")))
   derived_cls <- if (isTRUE(shown$derived)) " ingredient-approx" else ""
-  derived_note <- if (isTRUE(shown$derived)) " <span class=\"ingredient-note ingredient-approx\">(estimé)</span>" else ""
 
   q_attr <- if (is.finite(suppressWarnings(as.numeric(shown$qty)))) paste0(" data-base=\"", suppressWarnings(as.numeric(shown$qty)), "\"") else ""
   content <- paste0(
     "<span class=\"ingredient-qte", derived_cls, "\"", q_attr, ">", q_label, "</span>",
-    if (nzchar(uni)) paste0(" <span class=\"ingredient-uni", derived_cls, "\">", uni, "</span>") else "",
-    derived_note,
+    if (nzchar(uni)) paste0(" <span class=\"ingredient-uni\">", uni, "</span>") else "",
     if (nzchar(nom)) paste0(" <span class=\"ingredient-nom\">", nom, "</span>") else ""
   )
 
@@ -506,7 +504,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "<button id=\"mass-unit-lbs\" class=\"btn btn-outline-secondary\" type=\"button\">lbs</button>",
         "</div>",
         "</div>",
-        "<span class=\"text-muted small d-block mt-1\">Les valeurs d\u00e9duites sont affich\u00e9es en italique.</span>",
+        "<span class=\"text-muted small d-block mt-1\">Les quantit\u00e9s converties sont affich\u00e9es dans une couleur diff\u00e9rente.</span>",
         "</div>"
       )
     }
@@ -729,7 +727,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "const volumeFactor=(unit)=>{const u=normalize(unit); const m={'ml':1,'millilitre':1,'millilitres':1,'l':1000,'litre':1000,'litres':1000,'t':250,'tasse':250,'tasses':250,'c a soupe':15,'cuillere a soupe':15,'cuilleres a soupe':15,'c a table':15,'c s':15,'c.s.':15,'c a the':5,'cuillere a the':5,'cuilleres a the':5,'c t':5,'c.t.':5}; return Object.prototype.hasOwnProperty.call(m,u)?m[u]:NaN;};",
         "const isKitchenUnit=(u)=>{const n=normalize(u); return n==='tasse'||n==='t'||n==='c a soupe'||n==='cuillere a soupe'||n==='cuilleres a soupe'||n==='c a table'||n==='c s'||n==='c.s.'||n==='c a the'||n==='cuillere a the'||n==='cuilleres a the'||n==='c t'||n==='c.t.';};",
         "const chooseKitchenUnit=(volumeMl,explicit)=>{if(isKitchenUnit(explicit)) return explicit; if(!Number.isFinite(volumeMl)) return 'c. à thé'; if(volumeMl>=125) return 'tasse'; if(volumeMl>=7.5) return 'c. à soupe'; return 'c. à thé';};",
-        "const setDerived=(label,qNode,uNode,isDerived)=>{if(qNode) qNode.classList.toggle('ingredient-approx',!!isDerived); if(uNode) uNode.classList.toggle('ingredient-approx',!!isDerived); let note=label.querySelector('.ingredient-note'); if(isDerived){ if(!note){note=document.createElement('span'); note.className='ingredient-note ingredient-approx'; note.textContent='(estimé)'; label.insertBefore(document.createTextNode(' '), label.querySelector('.ingredient-nom')); label.insertBefore(note, label.querySelector('.ingredient-nom')); } } else if(note){ note.remove(); }};",
+        "const setDerived=(label,qNode,uNode,isDerived)=>{if(qNode) qNode.classList.toggle('ingredient-approx',!!isDerived);};",
         "const updateIngredientForMode=(li,ratio)=>{const qNode=li.querySelector('.ingredient-qte'); const uNode=li.querySelector('.ingredient-uni'); const label=li.querySelector('.ingredient-label'); if(!qNode||!label) return false; const baseMass=parseFloat(li.dataset.baseMassG||''); const baseVolume=parseFloat(li.dataset.baseVolumeMl||''); const explicitMass=li.dataset.explicitMass==='1'; const explicitVolume=li.dataset.explicitVolume==='1'; const explicitUnitMass=li.dataset.explicitUnitMass||'g'; const explicitUnitVolume=li.dataset.explicitUnitVolume||'ml'; let qty=NaN; let unit=''; let derived=false; if(mode==='mass'&&Number.isFinite(baseMass)){unit=(massUnitMode==='lbs')?'lbs':'g'; const f=massFactor(unit); qty=Number.isFinite(f)&&f>0?(baseMass*ratio)/f:baseMass*ratio; derived=!(explicitMass&&normalize(explicitUnitMass)===normalize(unit));} else if(mode==='volume'&&Number.isFinite(baseVolume)){unit=(volumeUnitMode==='ml')?'ml':chooseKitchenUnit(baseVolume*ratio,explicitUnitVolume); const f=volumeFactor(unit); qty=Number.isFinite(f)&&f>0?(baseVolume*ratio)/f:(baseVolume*ratio); derived=!(explicitVolume&&normalize(explicitUnitVolume)===normalize(unit));} else if(Number.isFinite(baseVolume)){unit=(volumeUnitMode==='ml')?'ml':chooseKitchenUnit(baseVolume*ratio,explicitUnitVolume); const f=volumeFactor(unit); qty=Number.isFinite(f)&&f>0?(baseVolume*ratio)/f:(baseVolume*ratio); derived=!explicitVolume;} else if(Number.isFinite(baseMass)){unit=(massUnitMode==='lbs')?'lbs':'g'; const f=massFactor(unit); qty=Number.isFinite(f)&&f>0?(baseMass*ratio)/f:baseMass*ratio; derived=!explicitMass;} else {li.removeAttribute('data-live-updated'); return false;} qNode.textContent=format(qty); if(uNode){uNode.textContent=unit;} li.setAttribute('data-ingredient-unit', unit); li.setAttribute('data-live-updated','1'); setDerived(label,qNode,uNode,derived); return true;};",
         "const applyModeButtons=()=>{if(btnVolume) btnVolume.classList.toggle('active', mode==='volume'); if(btnMass) btnMass.classList.toggle('active', mode==='mass'); if(btnVolKitchen) btnVolKitchen.classList.toggle('active', volumeUnitMode==='kitchen'); if(btnVolMl) btnVolMl.classList.toggle('active', volumeUnitMode==='ml'); if(btnMassG) btnMassG.classList.toggle('active', massUnitMode==='g'); if(btnMassLbs) btnMassLbs.classList.toggle('active', massUnitMode==='lbs');};",
         "const update=()=>{",

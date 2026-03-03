@@ -235,13 +235,8 @@ main.content {
 }
 
 .ingredient-approx {
-  font-style: italic;
-  opacity: 0.9;
-}
-
-.ingredient-note {
-  font-size: 0.82rem;
-  color: var(--bs-secondary-color);
+  color: #0f6f8c;
+  font-weight: 800;
 }
 
 h2 {
