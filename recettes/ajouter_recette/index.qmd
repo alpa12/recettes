@@ -155,6 +155,10 @@ cat(paste0(
   box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--bs-primary) 25%, transparent);
   border-radius: .5rem;
 }
+.qrf-quick-comment-card { border: 1px solid rgba(0,0,0,.12); border-radius: .75rem; }
+.qrf-quick-comment-card .card-title { margin-bottom: .35rem; }
+.qrf-quick-comment-meta { display:flex; flex-wrap: wrap; gap: .75rem; align-items:flex-end; }
+.qrf-quick-comment-meta .qrf-col { flex: 1 1 180px; min-width: 180px; }
 
 </style>
 
@@ -230,12 +234,164 @@ function applyQuickAction(form) {
   const quick = String(getQueryParam("quick") || "").trim().toLowerCase();
   if (!form || !quick) return;
   if (quick === "comment") {
-    quickAddComment(form);
+    activateQuickCommentForm(form);
     return;
   }
   if (quick === "photos") {
     quickFocusPhotos(form);
   }
+}
+
+function activateQuickCommentForm(form) {
+  if (!window.__EDIT_MODE__) {
+    quickAddComment(form);
+    return;
+  }
+
+  const container = document.getElementById("recipe-form-container");
+  const draftCard = document.getElementById("draft-tools-card");
+  if (!container) return;
+
+  if (draftCard) draftCard.classList.add("d-none");
+  form.classList.add("d-none");
+
+  const card = document.createElement("div");
+  card.className = "card mb-3 qrf-quick-comment-card";
+  card.id = "quick-comment-card";
+  card.innerHTML = `
+    <div class="card-body">
+      <h5 class="card-title">💬 Ajouter un commentaire</h5>
+      <p class="text-muted small mb-3">Mode rapide: seuls les champs du commentaire sont affichés.</p>
+      <form id="quick-comment-form" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="quick-comment-text" class="form-label required-field">Commentaire</label>
+          <textarea id="quick-comment-text" class="form-control" rows="4" required></textarea>
+          <div class="invalid-feedback">Le commentaire est requis.</div>
+        </div>
+        <div class="qrf-quick-comment-meta">
+          <div class="qrf-col">
+            <label for="quick-comment-evaluation" class="form-label">Évaluation</label>
+            <select id="quick-comment-evaluation" class="form-select">
+              <option value="">—</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div class="qrf-col">
+            <label for="quick-comment-author" class="form-label">Auteur</label>
+            <input id="quick-comment-author" type="text" class="form-control">
+          </div>
+          <div class="qrf-col">
+            <label for="quick-comment-date" class="form-label">Date</label>
+            <input id="quick-comment-date" type="text" class="form-control" placeholder="yyyy/mm/dd">
+          </div>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button type="submit" class="btn btn-primary" data-requires-password="manual">Soumettre le commentaire</button>
+          <button type="button" id="quick-comment-open-full" class="btn btn-outline-secondary">Ouvrir le formulaire complet</button>
+        </div>
+      </form>
+    </div>
+  `;
+
+  container.insertBefore(card, form);
+
+  const dateInput = card.querySelector("#quick-comment-date");
+  if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10).replace(/-/g, "/");
+
+  const quickForm = card.querySelector("#quick-comment-form");
+  const openFullBtn = card.querySelector("#quick-comment-open-full");
+  const quickSubmitBtn = card.querySelector('button[type="submit"][data-requires-password="manual"]');
+  if (quickSubmitBtn) {
+    quickSubmitBtn.disabled = !isPasswordValid(document.getElementById("site-password-manual")?.value || "");
+  }
+
+  openFullBtn?.addEventListener("click", () => {
+    card.remove();
+    form.classList.remove("d-none");
+    quickAddComment(form);
+  });
+
+  quickForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    clearMessages();
+    if (!quickForm.checkValidity()) {
+      quickForm.classList.add("was-validated");
+      return;
+    }
+
+    if (!isPasswordValid(document.getElementById("site-password-manual")?.value || "")) {
+      showError("Mot de passe incorrect.");
+      return;
+    }
+
+    const commentaire = card.querySelector("#quick-comment-text")?.value?.trim() || "";
+    const auteur = card.querySelector("#quick-comment-author")?.value?.trim() || "";
+    const evaluationRaw = card.querySelector("#quick-comment-evaluation")?.value || "";
+    const dateRaw = card.querySelector("#quick-comment-date")?.value || "";
+    const date = normalizeDateSlash(dateRaw);
+
+    if (!commentaire) {
+      showError("Le commentaire est requis.");
+      return;
+    }
+    if (date && !/^\d{4}\/\d{2}\/\d{2}$/.test(date)) {
+      showError("La date doit être au format yyyy/mm/dd.");
+      return;
+    }
+
+    const appended = appendCommentToHiddenForm(form, {
+      commentaire,
+      auteur,
+      date,
+      evaluation: evaluationRaw === "" ? null : parseInt(evaluationRaw, 10)
+    });
+    if (!appended) {
+      showError("Impossible d'ajouter le commentaire dans le formulaire.");
+      return;
+    }
+
+    form.requestSubmit();
+  });
+}
+
+function appendCommentToHiddenForm(form, commentObj) {
+  const commentsArray = form.querySelector('[data-array-path="commentaires"]');
+  if (!commentsArray) return false;
+
+  const addBtn = commentsArray.querySelector('[data-array-add-path="commentaires"]');
+  if (addBtn) addBtn.click();
+
+  const commentInputs = commentsArray.querySelectorAll('[data-path^="commentaires."][data-path$=".commentaire"]');
+  if (!commentInputs.length) return false;
+
+  const lastPath = String(commentInputs[commentInputs.length - 1].dataset.path || "");
+  const idxMatch = lastPath.match(/^commentaires\.(\d+)\.commentaire$/);
+  if (!idxMatch) return false;
+  const idx = idxMatch[1];
+
+  setPathValue(form, `commentaires.${idx}.commentaire`, commentObj.commentaire || "");
+  setPathValue(form, `commentaires.${idx}.auteur`, commentObj.auteur || "");
+  setPathValue(form, `commentaires.${idx}.date`, commentObj.date || "");
+  if (Number.isFinite(commentObj.evaluation)) {
+    setPathValue(form, `commentaires.${idx}.evaluation`, String(commentObj.evaluation));
+  }
+  return true;
+}
+
+function setPathValue(container, path, value) {
+  const input = container.querySelector(`[data-path="${path}"]`);
+  if (!input) return;
+  if (input.type === "checkbox") {
+    input.checked = !!value;
+  } else {
+    input.value = value ?? "";
+  }
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+  input.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
 function quickAddComment(form) {
@@ -450,11 +606,15 @@ function setupPasswordGateForManualForm(form) {
   const submitBtn = form?.querySelector('button[type="submit"]');
   if (!pwInput || !submitBtn) return;
 
-  submitBtn.disabled = true;
-
   const refresh = () => {
     const ok = isPasswordValid(pwInput.value);
-    submitBtn.disabled = !ok;
+    const controlledBtns = [
+      submitBtn,
+      ...Array.from(document.querySelectorAll('[data-requires-password="manual"]'))
+    ];
+    controlledBtns.forEach((btn) => {
+      if (btn) btn.disabled = !ok;
+    });
 
     if (!ok && pwInput.value !== "") {
       fb?.classList.remove("d-none");
