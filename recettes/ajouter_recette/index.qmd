@@ -297,6 +297,10 @@ function activateQuickCommentForm(form) {
   `;
 
   container.insertBefore(card, form);
+  const dateInput = card.querySelector("#quick-comment-date");
+  if (dateInput && !String(dateInput.value || "").trim()) {
+    dateInput.value = new Date().toISOString().slice(0, 10).replace(/-/g, "/");
+  }
 
   const quickForm = card.querySelector("#quick-comment-form");
   const openFullBtn = card.querySelector("#quick-comment-open-full");
@@ -1259,6 +1263,17 @@ function addArrayItem(list, itemSchema, path, initialData, formRoot) {
   const itemPath = [...path, String(idx)];
   const itemDiv = renderArrayItem(itemSchema, itemPath, initialData, formRoot);
   list.appendChild(itemDiv);
+
+  // New comment entries default to today's date (yyyy/mm/dd).
+  const isCommentArray = path.join(".") === "commentaires";
+  if (isCommentArray) {
+    const dateInput = itemDiv.querySelector(`[data-path="${itemPath.join(".")}.date"]`);
+    if (dateInput && !String(dateInput.value || "").trim()) {
+      dateInput.value = new Date().toISOString().slice(0, 10).replace(/-/g, "/");
+      dateInput.dispatchEvent(new Event("input", { bubbles: true }));
+      dateInput.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  }
 }
 
 function renderArrayItem(itemSchema, path, initialData, formRoot) {
