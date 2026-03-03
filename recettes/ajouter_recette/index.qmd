@@ -151,6 +151,10 @@ cat(paste0(
 .qrf-star-btn.qrf-stars-muted { color: color-mix(in srgb, var(--bs-secondary-color) 75%, transparent); }
 .qrf-star-btn.qrf-stars-active { color: var(--bs-warning); text-shadow: 0 0 .22rem color-mix(in srgb, var(--bs-warning) 55%, transparent); }
 .qrf-stars-clear { margin-left:.5rem; }
+.qrf-quick-highlight {
+  box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--bs-primary) 25%, transparent);
+  border-radius: .5rem;
+}
 
 </style>
 
@@ -209,6 +213,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     setupPasswordGateForUrlForm();
     setupUrlImportForm();
     setupDraftAutosave(form, schema, { isEditMode: !!yamlPath });
+    applyQuickAction(form);
   } catch (e) {
     showError(e?.message || "Erreur au chargement du formulaire.");
   }
@@ -219,6 +224,60 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ---------------------------
 function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
+}
+
+function applyQuickAction(form) {
+  const quick = String(getQueryParam("quick") || "").trim().toLowerCase();
+  if (!form || !quick) return;
+  if (quick === "comment") {
+    quickAddComment(form);
+    return;
+  }
+  if (quick === "photos") {
+    quickFocusPhotos(form);
+  }
+}
+
+function quickAddComment(form) {
+  const commentsArray = form.querySelector('[data-array-path="commentaires"]');
+  if (!commentsArray) return;
+
+  const addBtn = commentsArray.querySelector('[data-array-add-path="commentaires"]');
+  if (addBtn) addBtn.click();
+
+  const commentTargets = commentsArray.querySelectorAll('[data-path^="commentaires."][data-path$=".commentaire"]');
+  const target = commentTargets.length > 0 ? commentTargets[commentTargets.length - 1] : commentsArray;
+  highlightAndFocusQuickTarget(target);
+}
+
+function quickFocusPhotos(form) {
+  const targets = [];
+  const coverGuidInput = form.querySelector('[data-path="image_guid"]');
+  const stepGuidInput = form.querySelector('[data-path^="preparation."][data-path$=".image_guid"]');
+
+  if (coverGuidInput) targets.push(coverGuidInput.closest(".mb-3") || coverGuidInput.parentElement || coverGuidInput);
+  if (stepGuidInput) targets.push(stepGuidInput.closest(".mb-3") || stepGuidInput.parentElement || stepGuidInput);
+  if (targets.length === 0) return;
+
+  highlightAndFocusQuickTarget(targets[0]);
+  if (targets[1]) {
+    targets[1].classList.add("qrf-quick-highlight");
+    setTimeout(() => targets[1].classList.remove("qrf-quick-highlight"), 2200);
+  }
+}
+
+function highlightAndFocusQuickTarget(target) {
+  if (!target) return;
+  target.classList.add("qrf-quick-highlight");
+  setTimeout(() => target.classList.remove("qrf-quick-highlight"), 2200);
+  target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  const focusable = target.matches("input,textarea,select,button")
+    ? target
+    : target.querySelector('textarea, input[type="file"], input, select, button');
+  if (focusable && typeof focusable.focus === "function") {
+    setTimeout(() => focusable.focus({ preventScroll: true }), 120);
+  }
 }
 
 function stripLeadingSlash(p) {
@@ -1035,6 +1094,7 @@ function renderArray(schema, value, path, formRoot) {
   const addBtn = document.createElement("button");
   addBtn.type = "button";
   addBtn.className = "btn btn-outline-primary btn-sm mt-2";
+  addBtn.dataset.arrayAddPath = path.join(".");
   const addLabel = labelForArrayItems(path, schema.items);
   addBtn.textContent = `+ Ajouter ${String(addLabel || "élément").toLowerCase()}`;
   addBtn.onclick = () => addArrayItem(list, schema.items, path, null, formRoot);
