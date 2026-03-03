@@ -164,6 +164,13 @@ main.content {
   color: #fff;
 }
 
+.recipe-measure-submodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
 .recipe-meta-badges {
   display: flex;
   flex-wrap: wrap;

@@ -66,11 +66,27 @@ volume_unit_factor_ml <- function(unit) {
     "ml" = 1, "millilitre" = 1, "millilitres" = 1,
     "l" = 1000, "litre" = 1000, "litres" = 1000,
     "t" = 250, "tasse" = 250, "tasses" = 250,
-    "c a soupe" = 15, "cuillere a soupe" = 15, "cuilleres a soupe" = 15, "c s" = 15, "c.s." = 15,
+    "c a soupe" = 15, "cuillere a soupe" = 15, "cuilleres a soupe" = 15, "c a table" = 15, "c s" = 15, "c.s." = 15,
     "c a the" = 5, "cuillere a the" = 5, "cuilleres a the" = 5, "c t" = 5, "c.t." = 5
   )
   v <- unname(map[u])
   if (length(v) == 1 && !is.na(v)) as.numeric(v) else NA_real_
+}
+
+canonical_mass_unit <- function(unit) {
+  u <- normalize_measure_text(unit)
+  if (u %in% c("lb", "lbs")) return("lbs")
+  if (u %in% c("g", "gramme", "grammes", "gram", "grams", "kg", "kilogramme", "kilogrammes", "oz", "once", "onces")) return("g")
+  "g"
+}
+
+canonical_volume_unit <- function(unit) {
+  u <- normalize_measure_text(unit)
+  if (u %in% c("ml", "millilitre", "millilitres", "l", "litre", "litres")) return("ml")
+  if (u %in% c("t", "tasse", "tasses")) return("tasse")
+  if (u %in% c("c a soupe", "cuillere a soupe", "cuilleres a soupe", "c a table", "c s", "c.s.")) return("c. à soupe")
+  if (u %in% c("c a the", "cuillere a the", "cuilleres a the", "c t", "c.t.")) return("c. à thé")
+  "ml"
 }
 
 convert_from_g <- function(value_g, unit) {
@@ -165,8 +181,8 @@ ingredient_measurement <- function(ing, density_tbl = ingredient_density_table()
     volume_is_derived <- TRUE
   }
 
-  unit_mass <- if (nzchar(stringr::str_trim(u_mass))) u_mass else if (is.finite(legacy_mass_factor)) u_legacy else "g"
-  unit_volume <- if (nzchar(stringr::str_trim(u_volume))) u_volume else if (is.finite(legacy_volume_factor)) u_legacy else "ml"
+  explicit_mass_unit <- if (nzchar(stringr::str_trim(u_mass))) canonical_mass_unit(u_mass) else if (is.finite(legacy_mass_factor)) canonical_mass_unit(u_legacy) else "g"
+  explicit_volume_unit <- if (nzchar(stringr::str_trim(u_volume))) canonical_volume_unit(u_volume) else if (is.finite(legacy_volume_factor)) canonical_volume_unit(u_legacy) else "ml"
 
   can_toggle <- is.finite(base_mass_g) && is.finite(base_volume_ml)
   default_mode <- if (can_toggle) "volume" else if (is.finite(base_volume_ml)) "volume" else if (is.finite(base_mass_g)) "mass" else "none"
@@ -180,8 +196,10 @@ ingredient_measurement <- function(ing, density_tbl = ingredient_density_table()
     has_explicit_volume = has_explicit_volume,
     mass_is_derived = mass_is_derived,
     volume_is_derived = volume_is_derived,
-    unit_mass = unit_mass,
-    unit_volume = unit_volume,
+    unit_mass = explicit_mass_unit,
+    unit_volume = explicit_volume_unit,
+    explicit_mass_unit = explicit_mass_unit,
+    explicit_volume_unit = explicit_volume_unit,
     can_toggle = can_toggle,
     default_mode = default_mode,
     q_legacy = q_legacy,
@@ -191,7 +209,7 @@ ingredient_measurement <- function(ing, density_tbl = ingredient_density_table()
 
 ingredient_display_for_mode <- function(meta, mode = "volume") {
   if (identical(mode, "mass") && is.finite(meta$base_mass_g)) {
-    unit <- meta$unit_mass %||% "g"
+    unit <- meta$explicit_mass_unit %||% "g"
     qty <- convert_from_g(meta$base_mass_g, unit)
     if (!is.finite(qty)) {
       unit <- "g"
@@ -200,7 +218,7 @@ ingredient_display_for_mode <- function(meta, mode = "volume") {
     return(list(qty = qty, unit = unit, derived = !isTRUE(meta$has_explicit_mass)))
   }
   if (identical(mode, "volume") && is.finite(meta$base_volume_ml)) {
-    unit <- meta$unit_volume %||% "ml"
+    unit <- meta$explicit_volume_unit %||% "ml"
     qty <- convert_from_ml(meta$base_volume_ml, unit)
     if (!is.finite(qty)) {
       unit <- "ml"
@@ -242,6 +260,8 @@ render_ingredient_li <- function(ing, list_kind = "generic", density_tbl = ingre
     "\" data-base-volume-ml=\"", if (is.finite(meta$base_volume_ml)) meta$base_volume_ml else "",
     "\" data-unit-mass=\"", escape_html(meta$unit_mass %||% "g"),
     "\" data-unit-volume=\"", escape_html(meta$unit_volume %||% "ml"),
+    "\" data-explicit-unit-mass=\"", escape_html(meta$explicit_mass_unit %||% "g"),
+    "\" data-explicit-unit-volume=\"", escape_html(meta$explicit_volume_unit %||% "ml"),
     "\" data-explicit-mass=\"", if (isTRUE(meta$has_explicit_mass)) "1" else "0",
     "\" data-explicit-volume=\"", if (isTRUE(meta$has_explicit_volume)) "1" else "0",
     "\" data-default-mode=\"", meta$default_mode, "\">",
@@ -444,7 +464,8 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   has_measure_toggle <- any(vapply(recipe$preparation %||% list(), function(section) {
     any(vapply(section$etapes %||% list(), function(step) {
       any(vapply(step$ingredients %||% list(), function(ing) {
-        isTRUE(ingredient_measurement(ing, density_tbl = density_tbl)$can_toggle)
+        meta <- ingredient_measurement(ing, density_tbl = density_tbl)
+        is.finite(meta$base_mass_g) || is.finite(meta$base_volume_ml)
       }, logical(1)))
     }, logical(1)))
   }, logical(1)))
@@ -475,7 +496,17 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "<button id=\"measure-mode-volume\" class=\"btn btn-outline-secondary\" type=\"button\" data-mode=\"volume\">Volume</button>",
         "<button id=\"measure-mode-mass\" class=\"btn btn-outline-secondary\" type=\"button\" data-mode=\"mass\">Masse</button>",
         "</div>",
-        "<span class=\"text-muted small ms-2\">Les valeurs d\u00e9duites sont affich\u00e9es en italique.</span>",
+        "<div class=\"recipe-measure-submodes mt-2\">",
+        "<div class=\"btn-group btn-group-sm\" role=\"group\" aria-label=\"Format volume\">",
+        "<button id=\"volume-unit-kitchen\" class=\"btn btn-outline-secondary\" type=\"button\">Cuill\u00e8res / tasse</button>",
+        "<button id=\"volume-unit-ml\" class=\"btn btn-outline-secondary\" type=\"button\">mL</button>",
+        "</div>",
+        "<div class=\"btn-group btn-group-sm ms-2\" role=\"group\" aria-label=\"Format masse\">",
+        "<button id=\"mass-unit-g\" class=\"btn btn-outline-secondary\" type=\"button\">g</button>",
+        "<button id=\"mass-unit-lbs\" class=\"btn btn-outline-secondary\" type=\"button\">lbs</button>",
+        "</div>",
+        "</div>",
+        "<span class=\"text-muted small d-block mt-1\">Les valeurs d\u00e9duites sont affich\u00e9es en italique.</span>",
         "</div>"
       )
     }
@@ -680,23 +711,33 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "const reset=document.getElementById('servings-reset');",
         "const btnVolume=document.getElementById('measure-mode-volume');",
         "const btnMass=document.getElementById('measure-mode-mass');",
+        "const btnVolKitchen=document.getElementById('volume-unit-kitchen');",
+        "const btnVolMl=document.getElementById('volume-unit-ml');",
+        "const btnMassG=document.getElementById('mass-unit-g');",
+        "const btnMassLbs=document.getElementById('mass-unit-lbs');",
         "const hasScaler=!!input;",
         "const base=", if (has_scaler) base_portions else "1", ";",
         "const modeKey='recipe_measure_mode:'+window.location.pathname;",
+        "const volumeUnitKey='recipe_volume_unit_mode:'+window.location.pathname;",
+        "const massUnitKey='recipe_mass_unit_mode:'+window.location.pathname;",
         "let mode=(localStorage.getItem(modeKey)==='mass')?'mass':'volume';",
+        "let volumeUnitMode=(localStorage.getItem(volumeUnitKey)==='ml')?'ml':'kitchen';",
+        "let massUnitMode=(localStorage.getItem(massUnitKey)==='lbs')?'lbs':'g';",
         "const format=(n)=>{const r=Math.round(n*100)/100; return (Math.abs(r-Math.round(r))<1e-9)?String(Math.round(r)):String(r).replace('.',',');};",
         "const normalize=(u)=>String(u||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();",
         "const massFactor=(unit)=>{const u=normalize(unit); const m={'g':1,'gramme':1,'grammes':1,'gram':1,'grams':1,'kg':1000,'kilogramme':1000,'kilogrammes':1000,'lb':453.59237,'lbs':453.59237,'oz':28.34952,'once':28.34952,'onces':28.34952}; return Object.prototype.hasOwnProperty.call(m,u)?m[u]:NaN;};",
-        "const volumeFactor=(unit)=>{const u=normalize(unit); const m={'ml':1,'millilitre':1,'millilitres':1,'l':1000,'litre':1000,'litres':1000,'t':250,'tasse':250,'tasses':250,'c a soupe':15,'cuillere a soupe':15,'cuilleres a soupe':15,'c s':15,'c.s.':15,'c a the':5,'cuillere a the':5,'cuilleres a the':5,'c t':5,'c.t.':5}; return Object.prototype.hasOwnProperty.call(m,u)?m[u]:NaN;};",
+        "const volumeFactor=(unit)=>{const u=normalize(unit); const m={'ml':1,'millilitre':1,'millilitres':1,'l':1000,'litre':1000,'litres':1000,'t':250,'tasse':250,'tasses':250,'c a soupe':15,'cuillere a soupe':15,'cuilleres a soupe':15,'c a table':15,'c s':15,'c.s.':15,'c a the':5,'cuillere a the':5,'cuilleres a the':5,'c t':5,'c.t.':5}; return Object.prototype.hasOwnProperty.call(m,u)?m[u]:NaN;};",
+        "const isKitchenUnit=(u)=>{const n=normalize(u); return n==='tasse'||n==='t'||n==='c a soupe'||n==='cuillere a soupe'||n==='cuilleres a soupe'||n==='c a table'||n==='c s'||n==='c.s.'||n==='c a the'||n==='cuillere a the'||n==='cuilleres a the'||n==='c t'||n==='c.t.';};",
+        "const chooseKitchenUnit=(volumeMl,explicit)=>{if(isKitchenUnit(explicit)) return explicit; if(!Number.isFinite(volumeMl)) return 'c. à thé'; if(volumeMl>=125) return 'tasse'; if(volumeMl>=7.5) return 'c. à soupe'; return 'c. à thé';};",
         "const setDerived=(label,qNode,uNode,isDerived)=>{if(qNode) qNode.classList.toggle('ingredient-approx',!!isDerived); if(uNode) uNode.classList.toggle('ingredient-approx',!!isDerived); let note=label.querySelector('.ingredient-note'); if(isDerived){ if(!note){note=document.createElement('span'); note.className='ingredient-note ingredient-approx'; note.textContent='(estimé)'; label.insertBefore(document.createTextNode(' '), label.querySelector('.ingredient-nom')); label.insertBefore(note, label.querySelector('.ingredient-nom')); } } else if(note){ note.remove(); }};",
-        "const updateIngredientForMode=(li,ratio)=>{const qNode=li.querySelector('.ingredient-qte'); const uNode=li.querySelector('.ingredient-uni'); const label=li.querySelector('.ingredient-label'); if(!qNode||!label) return; const baseMass=parseFloat(li.dataset.baseMassG||''); const baseVolume=parseFloat(li.dataset.baseVolumeMl||''); const unitMass=li.dataset.unitMass||'g'; const unitVolume=li.dataset.unitVolume||'ml'; const explicitMass=li.dataset.explicitMass==='1'; const explicitVolume=li.dataset.explicitVolume==='1'; let chosen=mode; let qty=NaN; let unit=''; let derived=false; if(chosen==='mass'&&Number.isFinite(baseMass)){const f=massFactor(unitMass); qty=Number.isFinite(f)&&f>0?(baseMass*ratio)/f:baseMass*ratio; unit=(Number.isFinite(f)&&f>0)?unitMass:'g'; derived=!explicitMass;} else if(chosen==='volume'&&Number.isFinite(baseVolume)){const f=volumeFactor(unitVolume); qty=Number.isFinite(f)&&f>0?(baseVolume*ratio)/f:baseVolume*ratio; unit=(Number.isFinite(f)&&f>0)?unitVolume:'ml'; derived=!explicitVolume;} else if(Number.isFinite(baseVolume)){const f=volumeFactor(unitVolume); qty=Number.isFinite(f)&&f>0?(baseVolume*ratio)/f:baseVolume*ratio; unit=(Number.isFinite(f)&&f>0)?unitVolume:'ml'; derived=!explicitVolume;} else if(Number.isFinite(baseMass)){const f=massFactor(unitMass); qty=Number.isFinite(f)&&f>0?(baseMass*ratio)/f:baseMass*ratio; unit=(Number.isFinite(f)&&f>0)?unitMass:'g'; derived=!explicitMass;} else {return;} qNode.textContent=format(qty); if(uNode){uNode.textContent=unit;} li.setAttribute('data-ingredient-unit', unit); setDerived(label,qNode,uNode,derived);};",
-        "const applyModeButtons=()=>{if(btnVolume) btnVolume.classList.toggle('active', mode==='volume'); if(btnMass) btnMass.classList.toggle('active', mode==='mass');};",
+        "const updateIngredientForMode=(li,ratio)=>{const qNode=li.querySelector('.ingredient-qte'); const uNode=li.querySelector('.ingredient-uni'); const label=li.querySelector('.ingredient-label'); if(!qNode||!label) return false; const baseMass=parseFloat(li.dataset.baseMassG||''); const baseVolume=parseFloat(li.dataset.baseVolumeMl||''); const explicitMass=li.dataset.explicitMass==='1'; const explicitVolume=li.dataset.explicitVolume==='1'; const explicitUnitMass=li.dataset.explicitUnitMass||'g'; const explicitUnitVolume=li.dataset.explicitUnitVolume||'ml'; let qty=NaN; let unit=''; let derived=false; if(mode==='mass'&&Number.isFinite(baseMass)){unit=(massUnitMode==='lbs')?'lbs':'g'; const f=massFactor(unit); qty=Number.isFinite(f)&&f>0?(baseMass*ratio)/f:baseMass*ratio; derived=!(explicitMass&&normalize(explicitUnitMass)===normalize(unit));} else if(mode==='volume'&&Number.isFinite(baseVolume)){unit=(volumeUnitMode==='ml')?'ml':chooseKitchenUnit(baseVolume*ratio,explicitUnitVolume); const f=volumeFactor(unit); qty=Number.isFinite(f)&&f>0?(baseVolume*ratio)/f:(baseVolume*ratio); derived=!(explicitVolume&&normalize(explicitUnitVolume)===normalize(unit));} else if(Number.isFinite(baseVolume)){unit=(volumeUnitMode==='ml')?'ml':chooseKitchenUnit(baseVolume*ratio,explicitUnitVolume); const f=volumeFactor(unit); qty=Number.isFinite(f)&&f>0?(baseVolume*ratio)/f:(baseVolume*ratio); derived=!explicitVolume;} else if(Number.isFinite(baseMass)){unit=(massUnitMode==='lbs')?'lbs':'g'; const f=massFactor(unit); qty=Number.isFinite(f)&&f>0?(baseMass*ratio)/f:baseMass*ratio; derived=!explicitMass;} else {li.removeAttribute('data-live-updated'); return false;} qNode.textContent=format(qty); if(uNode){uNode.textContent=unit;} li.setAttribute('data-ingredient-unit', unit); li.setAttribute('data-live-updated','1'); setDerived(label,qNode,uNode,derived); return true;};",
+        "const applyModeButtons=()=>{if(btnVolume) btnVolume.classList.toggle('active', mode==='volume'); if(btnMass) btnMass.classList.toggle('active', mode==='mass'); if(btnVolKitchen) btnVolKitchen.classList.toggle('active', volumeUnitMode==='kitchen'); if(btnVolMl) btnVolMl.classList.toggle('active', volumeUnitMode==='ml'); if(btnMassG) btnMassG.classList.toggle('active', massUnitMode==='g'); if(btnMassLbs) btnMassLbs.classList.toggle('active', massUnitMode==='lbs');};",
         "const update=()=>{",
         "const current=hasScaler?parseFloat(input.value):base;",
         "const ratio=(hasScaler&&Number.isFinite(current)&&current>0)?(current/base):1;",
-        "document.querySelectorAll('.recipe-ingredient[data-measure-enabled=\"1\"]').forEach((li)=>updateIngredientForMode(li,ratio));",
+        "document.querySelectorAll('.recipe-ingredient').forEach((li)=>{if(!updateIngredientForMode(li,ratio)){li.removeAttribute('data-live-updated');}});",
         "document.querySelectorAll('.ingredient-qte[data-base]').forEach((el)=>{",
-        "if(el.closest('.recipe-ingredient[data-measure-enabled=\"1\"]')) return;",
+        "if(el.closest('.recipe-ingredient[data-live-updated=\"1\"]')) return;",
         "const b=parseFloat(el.getAttribute('data-base'));",
         "if(Number.isFinite(b)){el.textContent=format(b*ratio);} });",
         "document.querySelectorAll('.recipe-nutrition-total[data-base-total]').forEach((el)=>{",
@@ -728,6 +769,10 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "if(reset&&input){reset.addEventListener('click', ()=>{input.value=String(base); update();});}",
         "if(btnVolume){btnVolume.addEventListener('click', ()=>{mode='volume'; localStorage.setItem(modeKey,'volume'); applyModeButtons(); update();});}",
         "if(btnMass){btnMass.addEventListener('click', ()=>{mode='mass'; localStorage.setItem(modeKey,'mass'); applyModeButtons(); update();});}",
+        "if(btnVolKitchen){btnVolKitchen.addEventListener('click', ()=>{volumeUnitMode='kitchen'; localStorage.setItem(volumeUnitKey,'kitchen'); applyModeButtons(); update();});}",
+        "if(btnVolMl){btnVolMl.addEventListener('click', ()=>{volumeUnitMode='ml'; localStorage.setItem(volumeUnitKey,'ml'); applyModeButtons(); update();});}",
+        "if(btnMassG){btnMassG.addEventListener('click', ()=>{massUnitMode='g'; localStorage.setItem(massUnitKey,'g'); applyModeButtons(); update();});}",
+        "if(btnMassLbs){btnMassLbs.addEventListener('click', ()=>{massUnitMode='lbs'; localStorage.setItem(massUnitKey,'lbs'); applyModeButtons(); update();});}",
         "applyModeButtons();",
         "update();",
         "})();",
