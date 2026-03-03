@@ -158,6 +158,12 @@ main.content {
   background: var(--site-surface-soft);
 }
 
+.recipe-measure-mode .btn.active {
+  background: var(--site-accent);
+  border-color: var(--site-accent);
+  color: #fff;
+}
+
 .recipe-meta-badges {
   display: flex;
   flex-wrap: wrap;
@@ -219,6 +225,16 @@ main.content {
   min-width: 2ch;
   font-weight: 700;
   color: var(--site-accent);
+}
+
+.ingredient-approx {
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.ingredient-note {
+  font-size: 0.82rem;
+  color: var(--bs-secondary-color);
 }
 
 h2 {

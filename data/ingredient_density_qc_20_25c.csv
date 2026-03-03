@@ -1,0 +1,12 @@
+ingredient_key,aliases,density_g_ml,temp_c_min,temp_c_max,source_url,source_note,last_checked
+water,eau|water,0.9982,20,25,https://www.engineeringtoolbox.com/water-temperature-specific-gravity-d_1179.html,"Water density at 20 C (approx 998.2 kg/m3 => 0.9982 g/ml)",2026-03-03
+milk,lait|milk|lait 2%,1.0300,20,25,https://www.engineeringtoolbox.com/liquids-densities-d_743.html,"Milk listed around 1030 kg/m3",2026-03-03
+canola_oil,huile canola|huile de canola|canola oil|huile vegetale,0.9200,20,25,https://www.engineeringtoolbox.com/vegetable-oil-densities-d_1711.html,"Canola oil listed around 920 kg/m3 at room temperature",2026-03-03
+olive_oil,huile olive|huile d olive|olive oil,0.9150,20,25,https://www.engineeringtoolbox.com/vegetable-oil-densities-d_1711.html,"Olive oil typical density around 0.91-0.92 g/ml at room temperature",2026-03-03
+honey,miel|honey,1.4200,20,25,https://www.kingarthurbaking.com/learn/ingredient-weight-chart,"21 g per tablespoon; converted using 1 tbsp US = 14.7868 ml",2026-03-03
+maple_syrup,sirop d erable|sirop erable|maple syrup,1.3190,20,25,https://www.kingarthurbaking.com/learn/ingredient-weight-chart,"156 g per 1/2 cup; converted using 1 cup US = 236.588 ml",2026-03-03
+all_purpose_flour,farine tout usage|farine blanche|all purpose flour,0.5070,20,25,https://www.kingarthurbaking.com/learn/ingredient-weight-chart,"120 g per cup; converted using 1 cup US = 236.588 ml",2026-03-03
+granulated_sugar,sucre|sucre blanc|sucre granule|granulated sugar,0.8370,20,25,https://www.kingarthurbaking.com/learn/ingredient-weight-chart,"198 g per cup; converted using 1 cup US = 236.588 ml",2026-03-03
+brown_sugar,sucre brun|cassonade|brown sugar,0.9000,20,25,https://www.kingarthurbaking.com/learn/ingredient-weight-chart,"213 g per cup (packed); converted using 1 cup US = 236.588 ml",2026-03-03
+table_salt,sel|sel de table|table salt,1.2170,20,25,https://www.kingarthurbaking.com/learn/ingredient-weight-chart,"18 g per tablespoon; converted using 1 tbsp US = 14.7868 ml",2026-03-03
+cornstarch,fecule de mais|fécule de maïs|cornstarch,0.5410,20,25,https://www.kingarthurbaking.com/learn/ingredient-weight-chart,"128 g per cup; converted using 1 cup US = 236.588 ml",2026-03-03
