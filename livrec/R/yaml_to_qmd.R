@@ -277,13 +277,35 @@ render_ingredient_inline <- function(ing, density_tbl = ingredient_density_table
   sub("^<li[^>]*><label", "<label", sub("</label></li>$", "</label>", li))
 }
 
-build_fact_box <- function(label, value) {
+build_fact_box <- function(label, value, href = NULL) {
+  value_html <- if (!is.null(href) && nzchar(as.character(href))) {
+    paste0(
+      "<a href=\"", escape_html(as.character(href)),
+      "\" target=\"_blank\" rel=\"noopener noreferrer\">",
+      escape_html(value),
+      "</a>"
+    )
+  } else {
+    escape_html(value)
+  }
   paste0(
     "<div class=\"recipe-fact\">",
     "<span>", escape_html(label), "</span>",
-    "<strong>", escape_html(value), "</strong>",
+    "<strong>", value_html, "</strong>",
     "</div>"
   )
+}
+
+source_label_and_href <- function(source_raw) {
+  src <- stringr::str_trim(as.character(source_raw %||% ""))
+  if (!nzchar(src)) return(list(label = "", href = NULL))
+  if (!grepl("^https?://", src, ignore.case = TRUE)) {
+    return(list(label = src, href = NULL))
+  }
+  host <- sub("^https?://([^/]+).*$", "\\1", src, ignore.case = TRUE)
+  host <- sub("^www\\.", "", host, ignore.case = TRUE)
+  if (!nzchar(host)) host <- src
+  list(label = host, href = src)
 }
 
 extract_step_timers <- function(step_text) {
@@ -396,7 +418,8 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
   # ---- Quick facts and tools ----
   facts <- character()
   if (!is.null(recipe$source) && nzchar(as.character(recipe$source))) {
-    facts <- c(facts, build_fact_box("Source", recipe$source))
+    src <- source_label_and_href(recipe$source)
+    facts <- c(facts, build_fact_box("Source", src$label, href = src$href))
   }
   if (!is.null(recipe$se_congele)) {
     txt <- if (isTRUE(recipe$se_congele)) "Oui" else "Non"

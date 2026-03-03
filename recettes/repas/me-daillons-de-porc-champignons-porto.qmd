@@ -17,7 +17,7 @@ categories:
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>https://www.youtube.com/watch?v=MG77NcLJA8o</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>45 min</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://www.youtube.com/watch?v=MG77NcLJA8o" target="_blank" rel="noopener noreferrer">youtube.com</a></strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>45 min</strong></div></div>
 ```
 
 ```{=html}

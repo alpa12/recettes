@@ -16,7 +16,7 @@ categories:
 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">🔗 Copier le lien</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>https://bonpourtoi.ca/recettes/recette-facile-de-longe-de-porc-a-la-mijoteuse/?cookmode</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>15 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>320 min</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://bonpourtoi.ca/recettes/recette-facile-de-longe-de-porc-a-la-mijoteuse/?cookmode" target="_blank" rel="noopener noreferrer">bonpourtoi.ca</a></strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>15 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>320 min</strong></div></div>
 ```
 
 ```{=html}
