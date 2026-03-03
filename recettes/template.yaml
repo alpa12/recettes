@@ -49,7 +49,7 @@ exemple:
     - commentaire: À refaire
       date: 2026-02-13
       auteur: Alex
-      evaluation: 4
+      evaluation: 4.5
 
 # ============================================================
 # Schéma dynamique du formulaire
@@ -210,8 +210,8 @@ _schema:
             type: string
             nullable: true
           evaluation:
-            type: integer
-            enum: [1, 2, 3, 4, 5]
+            type: number
+            enum: [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
             nullable: true
 
     image_guid:

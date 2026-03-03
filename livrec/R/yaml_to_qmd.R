@@ -8,7 +8,7 @@
 # - recipe$commentaires can be:
 #   (A) old format: character vector
 #   (B) new format: list of dict with optional fields:
-#       commentaire (string), evaluation (int 1..5), auteur (string), date (YYYY-MM-DD)
+#       commentaire (string), evaluation (0.5..5 by 0.5), auteur (string), date (YYYY-MM-DD)
 #   Backward compatibility:
 #       note -> evaluation, nom -> auteur
 #
@@ -382,6 +382,7 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
 
   yaml_qp <- utils::URLencode(yaml_rel_to_root, reserved = TRUE)
   edit_href <- paste0("../", EDIT_PAGE_HREF, "?", EDIT_PARAM_NAME, "=", yaml_qp)
+  quick_comment_href <- paste0(edit_href, "&quick=comment")
   base_portions <- suppressWarnings(as.numeric(recipe$portions %||% NA_real_))
   if (length(base_portions) != 1 || !is.finite(base_portions) || base_portions <= 0) {
     base_portions <- NULL
@@ -434,20 +435,35 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
     cool <- paste0(fmt_number(t$refrigeration), " min")
     facts <- c(facts, build_fact_box("Temps r\u00e9frig\u00e9ration", cool))
   }
+  cover_image_html <- ""
+  if (!is.null(recipe$image_guid) && nzchar(as.character(recipe$image_guid))) {
+    guid <- trimws(as.character(recipe$image_guid))
+    if (nzchar(guid) && !tolower(guid) %in% c("na", "null", "~")) {
+      cover_src <- paste0("/images/", guid, ".jpg")
+      cover_alt <- escape_html(paste0("Photo de couverture - ", as.character(recipe$nom %||% "Recette")))
+      cover_image_html <- paste0(
+        "<figure class=\"recipe-cover\">",
+        "<img class=\"recipe-cover-image\" src=\"", cover_src, "\" alt=\"", cover_alt, "\" loading=\"eager\" decoding=\"async\">",
+        "</figure>"
+      )
+    }
+  }
 
   lines <- c(
     lines,
     "```{=html}",
     "<div class=\"recipe-toolbar\">",
-    paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">\u270f\ufe0f Modifier cette recette</a>"),
+    "<div class=\"recipe-toolbar-main\">",
+    paste0("<a href=\"", edit_href, "\" class=\"btn btn-outline-primary btn-sm\">\u270f\ufe0f Modifier</a>"),
+    paste0("<a href=\"", quick_comment_href, "\" class=\"btn btn-outline-primary btn-sm\">\ud83d\udcac + Commentaire</a>"),
+    "</div>",
     "<div class=\"recipe-toolbar-actions\">",
-    "<button id=\"recipe-cart-toggle\" type=\"button\" class=\"btn btn-outline-success btn-sm\">Ajouter au panier</button>",
+    "<button id=\"recipe-cart-toggle\" type=\"button\" class=\"btn btn-outline-success btn-sm\">\ud83d\uded2 Mettre au panier</button>",
     "<button id=\"recipe-reading-mode\" type=\"button\" class=\"btn btn-outline-secondary btn-sm\">\U0001f373 Mode cuisine</button>",
-    "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"window.print()\">\U0001f5a8\ufe0f Imprimer</button>",
-    "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"navigator.clipboard && navigator.clipboard.writeText(window.location.href)\">\U0001f517 Copier le lien</button>",
     "</div>",
     "</div>",
     if (length(facts) > 0) paste0("<div class=\"recipe-facts-grid\">", paste(facts, collapse = ""), "</div>") else "",
+    cover_image_html,
     "```",
     ""
   )
