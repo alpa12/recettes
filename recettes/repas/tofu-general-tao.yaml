@@ -1,34 +1,77 @@
 nom: Tofu Général Tao
 nom_court: tofu-general-tao
 source: https://www.lacuisinedejeanphilippe.com/recipe/tofu-general-tao/
-portions: 10
-se_congele: ~
+portions: 3
+se_congele: no
 difficulte: Facile
-cout: ~
-allergenes: []
-categories: []
+cout: $
+allergenes: Soya
+categories:
+- Tofu
+- Végétarien
+- Rapide
 temps:
   preparation: ~
   cuisson: ~
   refrigeration: ~
 preparation:
-- section: ~
-  etapes:
-  - etape: Se référer à la source pour les étapes de préparation. Le contenu fourni
-      ne contient pas la recette elle-même.
-    image_guid: ~
+- etapes:
+  - etape: Couper le tofu en dés et bien l’enrober de fécule de maïs.
+    ingredients:
+    - nom: Tofu ferme
+      qte: 1
+      uni: bloc
+      qte_masse: 450
+      uni_masse: g
+      rangee: Viandes et substituts
+    - nom: Fécule de maïs
+      qte: 0.25
+      uni_volume: tasse
+      rangee: Epicerie
+  - etape: Dans une casserole faire chauffer l’huile. Ajouter les cubes de tofu et
+      les faire revenir jusqu’a ce qu’ils soient bien dorés et croustillants. Ajouter
+      de l’huile si nécessaire.
+    ingredients:
+    - nom: Huile végétale
+      qte: 3
+      uni_volume: c. à soupe
+      rangee: Epicerie
+  - etape: Incorporer l’ail, le gingembre, le sirop d’érable, la sauce soya, le ketchup,
+      la sauce sriracha, les oignons verts et le bouillon de légume.
+    ingredients:
+    - nom: Ail haché
+      qte: 2
+      uni: gousses
+      rangee: Fruits et legumes
+    - nom: Gingembre haché
+      qte: 1
+      uni_volume: c. à soupe
+      rangee: Fruits et legumes
+    - nom: Sirop d'érable
+      qte: 2
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Sauce soya
+      qte: 2
+      uni_volume: c. à soupe
+      rangee: Conserves et sauces
+    - nom: Ketchup
+      qte: 2
+      uni_volume: c. à soupe
+      rangee: Conserves et sauces
+    - nom: Sauce sriracha
+      qte: 1
+      uni_volume: c. à thé
+      rangee: Conserves et sauces
+    - nom: Oignons verts émincés
+      qte: 3
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Bouillon de légumes
+      qte: 0.75
+      uni_volume: tasse
+      rangee: Conserves et sauces
+  - etape: Laisser réduire quelques minutes et servir.
     ingredients: []
-    equipements: []
-commentaires:
-- commentaire: Un délice!! Une recette simple à faire, avec peu d’ingrédients, et
-    qui est un vrai régal. Merci!
-  date: '2018-02-12'
-  auteur: Andréanne
-  evaluation: 5
-- commentaire: "simplement WOW !! la recette est facile à faire et rapide. Enplus
-    , j’avais déjà tous les ingrédients (sauf le tofu) dans mon frigidaire. Je vais
-    refaire cette recette c’est certain. Merci beaucoup \U0001F642"
-  date: '2018-03-01'
-  auteur: catherine
-  evaluation: 5
-soumis_par: Élodie
+commentaires: []
+soumis_par: Alex
