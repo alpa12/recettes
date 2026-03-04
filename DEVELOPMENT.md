@@ -39,7 +39,7 @@ Rules:
 - Client JS then uses:
   - `window.GITHUB_PAT`
   - `window.RECIPE_PASSWORD`
-- `config.js` is public config only (no secrets).
+- No GitHub token should be stored in tracked JS files.
 
 If deployed environment shows `Bad credentials`, verify `GITHUB_PAT` is set correctly in deployment environment variables.
 

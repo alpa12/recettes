@@ -39,7 +39,6 @@ format:
     respect-user-color-scheme: true
 
 resources:
-  - config.js
   - includes/recipe-cart.js
   - includes/recipe-cart-loader.html
   - recettes/template.yaml
