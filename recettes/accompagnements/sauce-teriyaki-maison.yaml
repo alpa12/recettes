@@ -1,0 +1,107 @@
+nom: Sauce teriyaki maison
+nom_court: sauce-teriyaki-maison
+source: https://www.saveurs-magazine.fr/recettes/sauce-teriyaki-maison/
+portions: 4
+se_congele: no
+difficulte: Facile
+cout: ~
+allergenes:
+- Gluten
+- Sésame
+- Soja
+- Sulfites
+categories:
+- Sauce
+- Japon
+temps:
+  preparation: 5
+  cuisson: 10
+  refrigeration: ~
+preparation:
+- section: Préparation de la sauce
+  etapes:
+  - etape: Versez 350 ml d’eau dans une petite casserole avec le sucre, la sauce soja,
+      l’ail et le gingembre. Portez doucement à ébullition en remuant de temps en
+      temps, jusqu’à ce que le sucre soit dissous. Laissez mijoter encore 5 min, ou
+      jusqu’à ce que la sauce devienne brillante et légèrement sirupeuse. Délayez
+      la fécule de maïs dans 1 c. à soupe d’eau, puis incorporez-la rapidement à la
+      sauce. Ajoutez le vinaigre de riz. Si la sauce vous semble trop épaisse, ajoutez
+      un peu d’eau pour ajuster la consistance. Versez dans un bocal propre et laissez
+      refroidir à température ambiante.
+    image_guid: ~
+    ingredients:
+    - nom: Sucre roux
+      qte: 85
+      uni: ~
+      qte_masse: 85
+      uni_masse: g
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Epicerie
+    - nom: Sauce soja
+      qte: 70
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 70
+      uni_volume: ml
+      rangee: Conserves et sauces
+    - nom: Ail
+      qte: 1
+      uni: gousse
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Fruits et legumes
+    - nom: Gingembre
+      qte: 1
+      uni: morceau de 5 cm
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Fruits et legumes
+    - nom: Fécule de maïs
+      qte: 1
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 1
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Vinaigre de riz
+      qte: 1
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 1
+      uni_volume: c. à soupe
+      rangee: Conserves et sauces
+    equipements:
+    - Casserole
+    - Bocal
+  - etape: Une fois refroidie, la sauce se conserve jusqu’à une semaine au réfrigérateur.
+      Au moment de servir, vous pouvez la parsemer de graines de sésame et d’oignons
+      nouveaux, si vous le souhaitez.
+    image_guid: ~
+    ingredients:
+    - nom: Graines de sésame
+      qte: ~
+      uni: facultatif
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Epicerie
+    - nom: Oignons nouveaux
+      qte: 2
+      uni: (facultatif)
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Fruits et legumes
+    equipements: ~
+commentaires: []
+soumis_par: Alex
