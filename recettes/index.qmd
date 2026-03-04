@@ -1,3 +1,10 @@
-# Accueil des recettes
+# Recettes
 
-TODO PRO-52: Lister les sections des recettes
+Bienvenue dans le livre de recettes.
+
+Utilise la barre de navigation pour accéder rapidement aux sections:
+- Accompagnements
+- Repas
+- Desserts
+- Panier
+- Ajouter une recette
