@@ -14,17 +14,13 @@ title: Tofu Général Tao
 <button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisine</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://www.lacuisinedejeanphilippe.com/recipe/tofu-general-tao/" target="_blank" rel="noopener noreferrer">lacuisinedejeanphilippe.com</a></strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>-</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>-</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://www.lacuisinedejeanphilippe.com/recipe/tofu-general-tao/" target="_blank" rel="noopener noreferrer">lacuisinedejeanphilippe.com</a></strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>-</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>-</strong></div></div>
 
 ```
 
 ```{=html}
 <script id="recipe-cart-data" type="application/json">{"id":"/recettes/repas/tofu-general-tao.qmd","title":"Tofu Général Tao","url":"/recettes/repas/tofu-general-tao.qmd","portions_base":10,"portions_target":10,"ingredients":[]}</script>
 <script src="/includes/recipe-cart.js"></script>
-```
-
-```{=html}
-<div class="recipe-meta-badges"><span class="recipe-meta-badge">Difficulté: Facile</span></div>
 ```
 
 ```{=html}
@@ -65,7 +61,7 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 </div>
 ```
 
-### 
+### Recette non disponible
 
 ```{=html}
 <ul class="recipe-ingredients recipe-grocery-list">
@@ -74,16 +70,16 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 
 ## Équipements
 
-### 
+### Recette non disponible
 
 
 ## Préparation
 
-### 
+### Recette non disponible
 
 ```{=html}
 <div class="recipe-prep-grid">
-<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Se référer à la source pour les étapes de préparation. Le contenu fourni ne contient pas la recette elle-même.</p></div></article>
+<article class="recipe-prep-step"><div class="recipe-prep-ingredients"><div class="recipe-prep-label">Ingrédients</div><div class="text-muted small">Aucun ingrédient spécifique.</div></div><div class="recipe-prep-instruction"><div class="recipe-prep-stepno"><label class="recipe-check-row"><input type="checkbox" class="recipe-check recipe-step-check"><span>Étape 1</span></label></div><p>Veuillez consulter la source originale pour les étapes détaillées de la recette.</p></div></article>
 </div>
 ```
 
@@ -122,7 +118,8 @@ document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelector
 
 ## Notes
 
-_★★★★★ (moyenne 5/5) · 2 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
+_★★★★★ (moyenne 5/5) · 3 commentaire(s) · Alexandre Parent: 0 · Élodie Bourgeois: 0_
 
+- [Agnès Lecouvet · 2017-11-10] Est-il possible de faire cette recette avec du tout fumé? Et Par quoi puis-je remplacer la fécule de maïs (Et fécule de pomme de terre). Car je suis en Roumanie et ici impossible de trouver ces ingredients^^. Je ne trouve que de la farine ou un mélange à base de maïs qui sert à faire des snitzels… (poulet pané)
 - [★★★★★ · Andréanne · 2018-02-12] Un délice!! Une recette simple à faire, avec peu d’ingrédients, et qui est un vrai régal. Merci!
-- [★★★★★ · catherine · 2018-03-01] simplement WOW !! la recette est facile à faire et rapide. Enplus , j’avais déjà tous les ingrédients (sauf le tofu) dans mon frigidaire. Je vais refaire cette recette c’est certain. Merci beaucoup 🙂
+- [★★★★★ · catherine · 2018-03-01] simplement WOW !! la recette est facile à faire et rapide. Enplus , j’avais déjà tous les ingrédients (sauf le tofu) dans mon frigidaire. Je vais refaire cette recette c’est certain. Merci beaucoup :)

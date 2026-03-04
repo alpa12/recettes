@@ -2,8 +2,8 @@ nom: Tofu Général Tao
 nom_court: tofu-general-tao
 source: https://www.lacuisinedejeanphilippe.com/recipe/tofu-general-tao/
 portions: 10
-se_congele: ~
-difficulte: Facile
+se_congele: no
+difficulte: ~
 cout: ~
 allergenes: []
 categories: []
@@ -12,23 +12,32 @@ temps:
   cuisson: ~
   refrigeration: ~
 preparation:
-- section: ~
+- section: Recette non disponible
   etapes:
-  - etape: Se référer à la source pour les étapes de préparation. Le contenu fourni
-      ne contient pas la recette elle-même.
+  - etape: Veuillez consulter la source originale pour les étapes détaillées de la
+      recette.
     image_guid: ~
     ingredients: []
     equipements: []
 commentaires:
+- commentaire: Est-il possible de faire cette recette avec du tout fumé? Et Par quoi
+    puis-je remplacer la fécule de maïs (Et fécule de pomme de terre). Car je suis
+    en Roumanie et ici impossible de trouver ces ingredients^^. Je ne trouve que de
+    la farine ou un mélange à base de maïs qui sert à faire des snitzels… (poulet
+    pané)
+  date: '2017-11-10'
+  auteur: Agnès Lecouvet
+  evaluation: ~
 - commentaire: Un délice!! Une recette simple à faire, avec peu d’ingrédients, et
     qui est un vrai régal. Merci!
   date: '2018-02-12'
   auteur: Andréanne
   evaluation: 5
-- commentaire: "simplement WOW !! la recette est facile à faire et rapide. Enplus
-    , j’avais déjà tous les ingrédients (sauf le tofu) dans mon frigidaire. Je vais
-    refaire cette recette c’est certain. Merci beaucoup \U0001F642"
+- commentaire: simplement WOW !! la recette est facile à faire et rapide. Enplus ,
+    j’avais déjà tous les ingrédients (sauf le tofu) dans mon frigidaire. Je vais
+    refaire cette recette c’est certain. Merci beaucoup :)
   date: '2018-03-01'
   auteur: catherine
   evaluation: 5
-soumis_par: Élodie
+image_guid: ~
+soumis_par: Alex
