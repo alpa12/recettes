@@ -1,0 +1,162 @@
+nom: Rôti de bœuf braisé
+nom_court: roti-de-boeuf-braise
+source: https://www.cookwithcampbells.ca/fr/recipe/roti-de-boeuf-braise/
+portions: 8
+se_congele: yes
+difficulte: Facile
+cout: $$
+allergenes: []
+categories:
+- Boeuf
+- Plat principal
+- Braisé
+temps:
+  preparation: 10
+  cuisson: 180
+  refrigeration: ~
+preparation:
+- section: Préparation principale
+  etapes:
+  - etape: Dans une cocotte ou un faitout épais fermé par un couvercle hermétique,
+      mélanger le bouillon, les pommes de terre, les champignons, les carottes, le
+      céleri, l’oignon, l’ail, la sauce Worcestershire, le thym, la pâte de tomate
+      et la feuille de laurier. Mijoter à feu moyen.
+    image_guid: ~
+    ingredients:
+    - nom: Bouillon de Boeuf avec du Vin Rouge avec 30 % moins de sodium
+      qte: 2.5
+      uni: tasses
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 625
+      uni_volume: ml
+      rangee: Conserves et sauces
+    - nom: petites pommes de terre, coupées en deux
+      qte: 3
+      uni: tasses
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 750
+      uni_volume: ml
+      rangee: Fruits et legumes
+    - nom: champignons creminis tranchés, coupés en deux
+      qte: 2
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Fruits et legumes
+    - nom: carottes miniatures
+      qte: 1
+      uni: tasse
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 250
+      uni_volume: ml
+      rangee: Fruits et legumes
+    - nom: branches de céleri, coupées en morceaux de 2,5 cm (1 po)
+      qte: 2
+      uni: branches
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Fruits et legumes
+    - nom: oignon coupé en dés
+      qte: 1
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Fruits et legumes
+    - nom: ail émincées
+      qte: 4
+      uni: gousses
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Fruits et legumes
+    - nom: sauce Worcestershire
+      qte: 1
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 1
+      uni_volume: c. à soupe
+      rangee: Conserves et sauces
+    - nom: feuilles de thym frais
+      qte: 1
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 1
+      uni_volume: c. à soupe
+      rangee: Fruits et legumes
+    - nom: pâte de tomate
+      qte: 2
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 2
+      uni_volume: c. à thé
+      rangee: Conserves et sauces
+    - nom: feuille de laurier
+      qte: 1
+      uni: feuille
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Epicerie
+    equipements:
+    - Cocotte
+    - Faitout
+  - etape: Saler et poivrer le rôti de tous les côtés, au goût. Plonger dans la sauce
+      et les légumes qui mijotent. Réduire le feu, couvrir et mijoter de 2 heures
+      et demie à 3 heures et demie ou jusqu’à ce que le bœuf soit tendre et se défasse
+      à la fourchette.
+    image_guid: ~
+    ingredients:
+    - nom: rôti de boeuf, sans l’os
+      qte: ~
+      uni: ~
+      qte_masse: 1.5
+      uni_masse: kg
+      qte_volume: ~
+      uni_volume: ~
+      rangee: Viandes et substituts
+    equipements: []
+  - etape: Transférer le rôti de bœuf et les légumes dans un plat de service. Incorporer
+      le mélange de fécule de maïs dans le liquide de cuisson qui mijote. Cuire en
+      remuant jusqu’à l’obtention d’une texture plus épaisse, environ une minute.
+      Servir avec le rôti de bœuf et les légumes.
+    image_guid: ~
+    ingredients:
+    - nom: fécule de maïs
+      qte: 1
+      uni: ~
+      qte_masse: ~
+      uni_masse: ~
+      qte_volume: 1
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    equipements: Plat de service
+- section: Conseil (Facultatif)
+  etapes:
+  - etape: Pour plus de saveur et une couleur plus riche, saisir le rôti de bœuf entier
+      avec 1 c. à soupe d’huile de canola dans une poêle à feu moyen-vif avant de
+      l’ajouter aux autres ingrédients dans le faitout.
+    image_guid: ~
+    ingredients: []
+    equipements: Poêle
+- section: Suggestion de service
+  etapes:
+  - etape: Servir avec une salade ou un pain croûté pour imbiber la délicieuse sauce.
+    image_guid: ~
+    ingredients: []
+    equipements: []
+commentaires: []
+soumis_par: Élodie
