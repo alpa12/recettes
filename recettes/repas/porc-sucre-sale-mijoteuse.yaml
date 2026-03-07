@@ -27,7 +27,7 @@ preparation:
     ingredients:
     - nom: rôti d’épaule de porc de 1,8 kg (4 lb) désossé et sans la couenne
       qte: 1
-      uni: ''
+      uni: rôti
       rangee: Viandes et substituts
     - nom: huile végétale
       qte: 15.0
@@ -58,9 +58,9 @@ preparation:
       qte: 60.0
       uni: ml
       rangee: Epicerie
-    - nom: oignons verts hachés finement
+    - nom: oignon vert haché finement
       qte: 6
-      uni: ''
+      uni: unité
       rangee: Fruits et legumes
     equipements:
     - poêle

@@ -59,7 +59,7 @@ preparation:
   - etape: Ajouter les œufs, un à la fois, puis incorporer les ingrédients secs, 170
       g de chocolat et 85 g d'amandes à basse vitesse.
     ingredients:
-    - nom: Œufs
+    - nom: Oeuf
       qte: 2
       uni: unité
       rangee: Produits laitiers et oeufs
@@ -84,7 +84,7 @@ preparation:
     - Plaque de cuisson
   - etape: Insérer un caramel au centre de chaque boule et refermer la pâte.
     ingredients:
-    - nom: Caramels mous du commerce
+    - nom: Caramel mou du commerce
       qte: 20
       uni: unité
       rangee: Epicerie

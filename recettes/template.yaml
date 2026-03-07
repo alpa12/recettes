@@ -161,8 +161,8 @@ _schema:
                         nullable: true
                       uni:
                         type: string
-                        title: Unité (legacy/autre)
-                        description: Utiliser pour les unités non convertibles (ex. gousse, unité).
+                        title: Unité par défaut
+                        description: Toujours remplir. C'est l'unité affichée par défaut sur le site (ex. g, ml, tasse, gousse, unité).
                         nullable: true
                       qte_masse:
                         type: number
@@ -170,7 +170,7 @@ _schema:
                       uni_masse:
                         type: string
                         title: Unité masse
-                        enum: [g, lbs, onces]
+                        enum: [g, kg, lbs, onces]
                         nullable: true
                       qte_volume:
                         type: number

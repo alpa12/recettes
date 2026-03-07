@@ -33,9 +33,21 @@ gha_prompt_rules <- function(source_url) {
     "5. source doit etre", source_url, ".",
     "6. nom_court doit etre un slug simple.",
     "7. Chaque etape pertinente doit inclure un tableau ingredients.",
-    "8. qte doit etre numerique (ex: 0.5, pas 1/2).",
-    "9. Regle stricte anti-repetition: dans une etape, mets UNIQUEMENT les ingredients introduits pour la premiere fois a cette etape.",
-    "10. Si un ingredient reapparait dans une etape ulterieure, ne le repete pas dans ingredients de cette etape.",
+    "8. CHAQUE ingredient doit toujours definir nom, qte et uni.",
+    "9. qte doit etre numerique (ex: 0.5, pas 1/2).",
+    "10. uni est l'unite par defaut affichee sur le site. Elle ne doit jamais etre vide.",
+    "11. Si l'ingredient est comptable a l'unite (oignon, oeuf, poivron, gousse, branche, bloc, boite, conserve, etc.), utilise une unite par defaut textuelle adaptee; si c'est strictement un compte generique, utilise uni: unite au singulier.",
+    "12. Si uni vaut unite, le nom doit etre au singulier et aussi neutre que possible (ex: Poivron, Oignon vert emince, Oeuf).",
+    "13. Si uni vaut unite, ne renseigne PAS qte_masse/uni_masse ni qte_volume/uni_volume, sauf si la source donne explicitement une equivalence fiable indispensable.",
+    "14. qte_masse/uni_masse et qte_volume/uni_volume sont optionnels. Ne les remplis que si la source donne clairement l'information ou si l'autre forme est triviale et certaine.",
+    "15. Si tu remplis uni_masse, utilise uniquement: g, kg, lbs, onces.",
+    "16. Si tu remplis uni_volume, utilise uniquement: ml, c. a the, c. a soupe, tasse.",
+    "17. Pour les unites de cuisine, privilegie des valeurs naturelles pour le site: 0.25 tasse plutot que 4 c. a soupe; 0.5 tasse plutot que 8 c. a soupe; 0.75 tasse plutot que 12 c. a soupe.",
+    "18. Pour les noms d'ingredients, prefere une forme source neutre, idealement au singulier quand c'est simple. Le site gerera ensuite certains pluriels a l'affichage.",
+    "19. rangee doit toujours etre remplie avec une de ces valeurs exactes: Fruits et legumes, Viandes et substituts, Produits laitiers et oeufs, Epicerie, Conserves et sauces.",
+    "20. Regle stricte anti-repetition: dans une etape, mets UNIQUEMENT les ingredients introduits pour la premiere fois a cette etape.",
+    "21. Si un ingredient reapparait dans une etape ulterieure, ne le repete pas dans ingredients de cette etape.",
+    "22. Si une garniture est seulement optionnelle et sans quantite precise, donne une valeur raisonnable compatible avec le site (souvent qte: 1 avec uni textuel comme facultatif ou unite selon le cas).",
     sep = "\n"
   )
 }
@@ -59,6 +71,106 @@ Genere un YAML valide avec EXACTEMENT la meme structure que ce template:
 {template_example}
 
 {gha_prompt_rules(source_url)}")
+}
+
+normalize_import_measure_text <- function(x) {
+  txt <- clean_line(x)
+  txt <- tolower(stringi::stri_trans_general(txt, "Latin-ASCII"))
+  txt <- gsub("[^a-z0-9]+", " ", txt)
+  trimws(gsub("\\s+", " ", txt))
+}
+
+is_import_count_unit <- function(unit) {
+  normalize_import_measure_text(unit) %in% c("unite", "unites", "unit", "units")
+}
+
+canonical_import_mass_unit <- function(unit) {
+  u <- normalize_import_measure_text(unit)
+  if (u %in% c("kg", "kilogramme", "kilogrammes")) return("kg")
+  if (u %in% c("lb", "lbs")) return("lbs")
+  if (u %in% c("oz", "once", "onces")) return("onces")
+  if (u %in% c("g", "gramme", "grammes", "gram", "grams")) return("g")
+  clean_line(unit)
+}
+
+canonical_import_volume_unit <- function(unit) {
+  u <- normalize_import_measure_text(unit)
+  if (u %in% c("ml", "millilitre", "millilitres", "l", "litre", "litres")) return("ml")
+  if (u %in% c("c a the", "cuillere a the", "cuilleres a the", "c t", "c t")) return("c. à thé")
+  if (u %in% c("c a soupe", "cuillere a soupe", "cuilleres a soupe", "c a table", "c s")) return("c. à soupe")
+  if (u %in% c("t", "tasse", "tasses")) return("tasse")
+  clean_line(unit)
+}
+
+normalize_import_ingredient <- function(ing) {
+  if (!is.list(ing)) return(ing)
+
+  ing$nom <- clean_line(ing$nom %||% "")
+  ing$uni <- clean_line(ing$uni %||% "")
+  ing$uni_masse <- clean_line(ing$uni_masse %||% "")
+  ing$uni_volume <- clean_line(ing$uni_volume %||% "")
+  ing$rangee <- clean_line(ing$rangee %||% "")
+
+  if (nzchar(ing$uni_masse)) ing$uni_masse <- canonical_import_mass_unit(ing$uni_masse)
+  if (nzchar(ing$uni_volume)) ing$uni_volume <- canonical_import_volume_unit(ing$uni_volume)
+  if (is_import_count_unit(ing$uni)) ing$uni <- "unité"
+
+  qte <- suppressWarnings(as.numeric(ing$qte %||% NA_real_))
+  qte_masse <- suppressWarnings(as.numeric(ing$qte_masse %||% NA_real_))
+  qte_volume <- suppressWarnings(as.numeric(ing$qte_volume %||% NA_real_))
+
+  if (!is.finite(qte)) {
+    if (is.finite(qte_masse) && nzchar(ing$uni_masse)) {
+      ing$qte <- qte_masse
+      ing$uni <- ing$uni_masse
+    } else if (is.finite(qte_volume) && nzchar(ing$uni_volume)) {
+      ing$qte <- qte_volume
+      ing$uni <- ing$uni_volume
+    } else {
+      ing$qte <- 1
+    }
+  }
+
+  if (!nzchar(ing$uni)) {
+    if (is.finite(qte_masse) && nzchar(ing$uni_masse)) {
+      ing$uni <- ing$uni_masse
+    } else if (is.finite(qte_volume) && nzchar(ing$uni_volume)) {
+      ing$uni <- ing$uni_volume
+    } else {
+      ing$uni <- "unité"
+    }
+  }
+
+  if (is_import_count_unit(ing$uni)) {
+    ing$uni <- "unité"
+    ing$qte_masse <- NULL
+    ing$uni_masse <- NULL
+    ing$qte_volume <- NULL
+    ing$uni_volume <- NULL
+  }
+
+  if (!nzchar(ing$rangee)) ing$rangee <- "Epicerie"
+  ing
+}
+
+normalize_import_recipe <- function(recipe_data) {
+  prep <- recipe_data$preparation
+  if (!is.list(prep)) return(recipe_data)
+
+  for (si in seq_along(prep)) {
+    steps <- prep[[si]]$etapes
+    if (!is.list(steps)) next
+    for (ti in seq_along(steps)) {
+      ings <- steps[[ti]]$ingredients
+      if (!is.list(ings)) {
+        recipe_data$preparation[[si]]$etapes[[ti]]$ingredients <- list()
+        next
+      }
+      recipe_data$preparation[[si]]$etapes[[ti]]$ingredients <- lapply(ings, normalize_import_ingredient)
+    }
+  }
+
+  recipe_data
 }
 
 gha_parse_llm_yaml <- function(response_text) {
@@ -168,6 +280,7 @@ inject_fallback_ingredients <- function(recipe_data, ingredient_lines) {
 gha_finalize_recipe <- function(recipe_data, source_url, submitted_by, fallback_title, portions_text, ingredient_lines, instruction_lines) {
   recipe_data <- inject_fallback_preparation(recipe_data, instruction_lines)
   recipe_data <- inject_fallback_ingredients(recipe_data, ingredient_lines)
+  recipe_data <- normalize_import_recipe(recipe_data)
   recipe_data <- apply_recipe_defaults(recipe_data, source_url, fallback_title, portions_text)
   recipe_data <- enforce_new_ingredients_by_step(recipe_data)
   recipe_data$soumis_par <- submitted_by

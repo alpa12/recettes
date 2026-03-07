@@ -30,7 +30,7 @@ preparation:
             rangee: Viandes et substituts
           - nom: Fécule de maïs
             qte: 0.25
-            uni: null
+            uni: tasse
             qte_masse: null
             uni_masse: null
             qte_volume: null
@@ -42,7 +42,7 @@ preparation:
         ingredients:
           - nom: Huile végétale
             qte: 3
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
             qte_volume: null
@@ -62,7 +62,7 @@ preparation:
             rangee: Fruits et legumes
           - nom: Gingembre haché
             qte: 1
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
             qte_volume: null
@@ -70,7 +70,7 @@ preparation:
             rangee: Fruits et legumes
           - nom: Sirop d'érable
             qte: 2
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
             qte_volume: null
@@ -78,7 +78,7 @@ preparation:
             rangee: Epicerie
           - nom: Sauce soya
             qte: 2
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
             qte_volume: null
@@ -86,7 +86,7 @@ preparation:
             rangee: Conserves et sauces
           - nom: Ketchup
             qte: 2
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
             qte_volume: null
@@ -94,13 +94,13 @@ preparation:
             rangee: Conserves et sauces
           - nom: Sauce sriracha
             qte: 1
-            uni: null
+            uni: c. à thé
             qte_masse: null
             uni_masse: null
             qte_volume: null
             uni_volume: c. à thé
             rangee: Conserves et sauces
-          - nom: Oignons verts émincés
+          - nom: Oignon vert émincé
             qte: 3
             uni: unité
             qte_masse: null
@@ -110,7 +110,7 @@ preparation:
             rangee: Fruits et legumes
           - nom: Bouillon de légumes
             qte: 0.75
-            uni: null
+            uni: tasse
             qte_masse: null
             uni_masse: null
             qte_volume: null

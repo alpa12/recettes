@@ -20,7 +20,7 @@ ALLOWED_RANGEE <- c(
   "Conserves et sauces"
 )
 
-ALLOWED_MASS_UNITS <- c("g", "lbs", "onces")
+ALLOWED_MASS_UNITS <- c("g", "kg", "lbs", "onces")
 ALLOWED_VOLUME_UNITS <- c("ml", "c. à thé", "c. à soupe", "tasse")
 
 is_scalar_numeric <- function(x) {
@@ -54,14 +54,21 @@ validate_qte_numeric <- function(recipe, file = NA_character_) {
 
       for (ii in seq_along(ing)) {
         one <- ing[[ii]]
-        qty_fields <- c("qte", "qte_masse", "qte_volume")
-        qty_values <- lapply(qty_fields, function(k) one[[k]])
-        has_any <- any(vapply(qty_values, function(v) !is.null(v) && !(is.character(v) && str_trim(v) == ""), logical(1)))
-        if (!has_any) {
-          p <- sprintf("preparation[%d].etapes[%d].ingredients[%d]", si - 1, ei - 1, ii - 1)
-          add_issue(p, "", "au moins une quantité est requise: qte ou qte_masse ou qte_volume")
-          next
+        qte_default <- one$qte
+        uni_default <- if (is.null(one$uni)) "" else as.character(one$uni)
+        p_default_qte <- sprintf("preparation[%d].etapes[%d].ingredients[%d].qte", si - 1, ei - 1, ii - 1)
+        p_default_uni <- sprintf("preparation[%d].etapes[%d].ingredients[%d].uni", si - 1, ei - 1, ii - 1)
+        if (is.null(qte_default) || (is.character(qte_default) && str_trim(qte_default) == "")) {
+          add_issue(p_default_qte, qte_default, "qte manquante — chaque ingrédient doit définir la quantité par défaut")
+        } else if (!is_scalar_numeric(qte_default)) {
+          add_issue(p_default_qte, qte_default, "qte non numérique — corriger (ex: 0.5 au lieu de 1/2)")
         }
+        if (!nzchar(str_trim(uni_default))) {
+          add_issue(p_default_uni, uni_default, "uni manquante — chaque ingrédient doit définir l’unité par défaut")
+        }
+
+        qty_fields <- c("qte_masse", "qte_volume")
+        qty_values <- lapply(qty_fields, function(k) one[[k]])
         for (fi in seq_along(qty_fields)) {
           field <- qty_fields[[fi]]
           qte <- qty_values[[fi]]

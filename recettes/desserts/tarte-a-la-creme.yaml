@@ -62,7 +62,7 @@ preparation:
   - etape: Monter les blancs d’œufs au batteur électrique, ajouter le sucre progressivement
       jusqu’à pics fermes.
     ingredients:
-    - nom: Blancs d'œufs
+    - nom: Blanc d'oeuf
       qte: 3
       uni: unité
       rangee: Produits laitiers et oeufs

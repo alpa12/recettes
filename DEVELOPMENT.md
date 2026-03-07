@@ -50,6 +50,19 @@ If deployed environment shows `Bad credentials`, verify `GITHUB_PAT` is set corr
   - `quarto render`
 - Treat successful render as required validation before finalizing work.
 
+## Recipe Quantity Conventions
+
+- Every ingredient entry in recipe YAMLs must define default `qte` and `uni`.
+- Ingredient names in YAML should stay in a neutral singular form when practical; site rendering handles simple count-based wording improvements for display.
+- Optional alternate forms stay in `qte_masse`/`uni_masse` and `qte_volume`/`uni_volume`.
+- The recipe UI supports three quantity display modes:
+  - default (`qte` + `uni`)
+  - mass
+  - volume
+- Converted quantities inferred from the opposite measurement type should remain visually distinct.
+- For count-based ingredients, prefer `uni: unité` with a neutral singular ingredient name when no more specific default unit is needed.
+- Import prompts and import post-processing must preserve these conventions so generated YAMLs are valid without manual cleanup.
+
 ## Commit Hygiene
 
 - Prefer small, focused commits (clean history).

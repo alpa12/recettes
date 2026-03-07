@@ -32,13 +32,13 @@ preparation:
       qte: 5
       uni: gousses
       rangee: Fruits et legumes
-    - nom: Échalottes
+    - nom: Échalote
       qte: 1
       uni: unité
       rangee: Fruits et legumes
     - nom: Poivron
       qte: 3
-      uni: unités
+      uni: unité
       rangee: Fruits et legumes
     equipements:
     - Bol

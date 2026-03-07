@@ -38,7 +38,7 @@ preparation:
   - etape: Cuire sur feu doux 2 minutes en remuant. Laisser tiédir 10 minutes puis
       ajouter les œufs un à un en battant.
     ingredients:
-    - nom: Œufs
+    - nom: Oeuf
       qte: 2
       uni: unité
       rangee: Produits laitiers et oeufs
