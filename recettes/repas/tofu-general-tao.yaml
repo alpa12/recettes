@@ -33,7 +33,7 @@ preparation:
             uni: tasse
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 0.25
             uni_volume: tasse
             rangee: Epicerie
         equipements: []
@@ -45,7 +45,7 @@ preparation:
             uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 3
             uni_volume: c. à soupe
             rangee: Epicerie
         equipements: []
@@ -54,7 +54,7 @@ preparation:
         ingredients:
           - nom: Ail haché
             qte: 2
-            uni: gousses
+            uni: gousse
             qte_masse: null
             uni_masse: null
             qte_volume: null
@@ -65,7 +65,7 @@ preparation:
             uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 1
             uni_volume: c. à soupe
             rangee: Fruits et legumes
           - nom: Sirop d'érable
@@ -73,7 +73,7 @@ preparation:
             uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 2
             uni_volume: c. à soupe
             rangee: Epicerie
           - nom: Sauce soya
@@ -81,7 +81,7 @@ preparation:
             uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 2
             uni_volume: c. à soupe
             rangee: Conserves et sauces
           - nom: Ketchup
@@ -89,7 +89,7 @@ preparation:
             uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 2
             uni_volume: c. à soupe
             rangee: Conserves et sauces
           - nom: Sauce sriracha
@@ -97,7 +97,7 @@ preparation:
             uni: c. à thé
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 1
             uni_volume: c. à thé
             rangee: Conserves et sauces
           - nom: Oignon vert émincé
@@ -113,7 +113,7 @@ preparation:
             uni: tasse
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 0.75
             uni_volume: tasse
             rangee: Conserves et sauces
         equipements: []

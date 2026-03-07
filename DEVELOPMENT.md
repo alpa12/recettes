@@ -49,6 +49,8 @@ If deployed environment shows `Bad credentials`, verify `GITHUB_PAT` is set corr
 - After significant edits, run:
   - `quarto render`
 - Treat successful render as required validation before finalizing work.
+- Recipe import should auto-correct safe YAML format issues when possible, then fail with a complete, actionable error report if anything invalid remains.
+- YAML validation output must enumerate every detected issue and explain exactly how to correct each one.
 
 ## Recipe Quantity Conventions
 

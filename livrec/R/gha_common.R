@@ -150,10 +150,11 @@ normalize_import_ingredient <- function(ing) {
   }
 
   if (!nzchar(ing$rangee)) ing$rangee <- "Epicerie"
-  ing
+  autofix_recipe_ingredient(ing)
 }
 
 normalize_import_recipe <- function(recipe_data) {
+  recipe_data <- autofix_recipe_data(recipe_data)
   prep <- recipe_data$preparation
   if (!is.list(prep)) return(recipe_data)
 
@@ -170,7 +171,7 @@ normalize_import_recipe <- function(recipe_data) {
     }
   }
 
-  recipe_data
+  autofix_recipe_data(recipe_data)
 }
 
 gha_parse_llm_yaml <- function(response_text) {
@@ -283,6 +284,11 @@ gha_finalize_recipe <- function(recipe_data, source_url, submitted_by, fallback_
   recipe_data <- normalize_import_recipe(recipe_data)
   recipe_data <- apply_recipe_defaults(recipe_data, source_url, fallback_title, portions_text)
   recipe_data <- enforce_new_ingredients_by_step(recipe_data)
+  recipe_data <- autofix_recipe_data(recipe_data)
+  signal_recipe_validation_errors(
+    validate_recipe_data(recipe_data, file = source_url),
+    heading = "Le YAML produit par l'import automatique ne respecte pas les règles du site"
+  )
   recipe_data$soumis_par <- submitted_by
   recipe_data
 }
