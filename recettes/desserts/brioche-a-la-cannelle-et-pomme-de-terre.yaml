@@ -52,7 +52,7 @@ preparation:
       qte: 5.0
       uni: ml
       rangee: Epicerie
-    - nom: Œufs
+    - nom: Oeuf
       qte: 2
       uni: unité
       rangee: Produits laitiers et oeufs

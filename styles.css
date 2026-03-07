@@ -258,6 +258,14 @@ main.content {
   align-items: center;
 }
 
+.recipe-measure-group-hidden {
+  opacity: 0.45;
+}
+
+.recipe-measure-group-hidden .btn {
+  pointer-events: none;
+}
+
 .recipe-meta-badges {
   display: flex;
   flex-wrap: wrap;

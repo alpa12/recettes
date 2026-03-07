@@ -30,10 +30,10 @@ preparation:
             rangee: Viandes et substituts
           - nom: Fécule de maïs
             qte: 0.25
-            uni: null
+            uni: tasse
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 0.25
             uni_volume: tasse
             rangee: Epicerie
         equipements: []
@@ -42,10 +42,10 @@ preparation:
         ingredients:
           - nom: Huile végétale
             qte: 3
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 3
             uni_volume: c. à soupe
             rangee: Epicerie
         equipements: []
@@ -54,7 +54,7 @@ preparation:
         ingredients:
           - nom: Ail haché
             qte: 2
-            uni: gousses
+            uni: gousse
             qte_masse: null
             uni_masse: null
             qte_volume: null
@@ -62,45 +62,45 @@ preparation:
             rangee: Fruits et legumes
           - nom: Gingembre haché
             qte: 1
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 1
             uni_volume: c. à soupe
             rangee: Fruits et legumes
           - nom: Sirop d'érable
             qte: 2
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 2
             uni_volume: c. à soupe
             rangee: Epicerie
           - nom: Sauce soya
             qte: 2
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 2
             uni_volume: c. à soupe
             rangee: Conserves et sauces
           - nom: Ketchup
             qte: 2
-            uni: null
+            uni: c. à soupe
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 2
             uni_volume: c. à soupe
             rangee: Conserves et sauces
           - nom: Sauce sriracha
             qte: 1
-            uni: null
+            uni: c. à thé
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 1
             uni_volume: c. à thé
             rangee: Conserves et sauces
-          - nom: Oignons verts émincés
+          - nom: Oignon vert émincé
             qte: 3
             uni: unité
             qte_masse: null
@@ -110,10 +110,10 @@ preparation:
             rangee: Fruits et legumes
           - nom: Bouillon de légumes
             qte: 0.75
-            uni: null
+            uni: tasse
             qte_masse: null
             uni_masse: null
-            qte_volume: null
+            qte_volume: 0.75
             uni_volume: tasse
             rangee: Conserves et sauces
         equipements: []

@@ -32,7 +32,7 @@ preparation:
     ingredients:
     - nom: Sucre roux
       qte: 85
-      uni: ~
+      uni: g
       qte_masse: 85
       uni_masse: g
       qte_volume: ~
@@ -40,7 +40,7 @@ preparation:
       rangee: Epicerie
     - nom: Sauce soja
       qte: 70
-      uni: ~
+      uni: ml
       qte_masse: ~
       uni_masse: ~
       qte_volume: 70
@@ -64,7 +64,7 @@ preparation:
       rangee: Fruits et legumes
     - nom: Fécule de maïs
       qte: 1
-      uni: ~
+      uni: c. à soupe
       qte_masse: ~
       uni_masse: ~
       qte_volume: 1
@@ -72,7 +72,7 @@ preparation:
       rangee: Epicerie
     - nom: Vinaigre de riz
       qte: 1
-      uni: ~
+      uni: c. à soupe
       qte_masse: ~
       uni_masse: ~
       qte_volume: 1
@@ -87,7 +87,7 @@ preparation:
     image_guid: ~
     ingredients:
     - nom: Graines de sésame
-      qte: ~
+      qte: 1
       uni: facultatif
       qte_masse: ~
       uni_masse: ~

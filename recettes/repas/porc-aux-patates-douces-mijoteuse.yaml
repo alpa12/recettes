@@ -15,7 +15,7 @@ preparation:
   etapes:
   - etape: Déposer patates douces dans la mijoteuse.
     ingredients:
-    - nom: Patates douces pelées et coupées en cubes
+    - nom: Patate douce pelée et coupée en cubes
       qte: 2
       uni: unité
       rangee: Fruits et legumes
@@ -36,7 +36,7 @@ preparation:
   - etape: Cuire oignons, ail et céleri dans la poêle, saupoudrer de farine, transférer
       dans la mijoteuse.
     ingredients:
-    - nom: Oignons perlés pelés
+    - nom: Oignon perlé pelé
       qte: 12
       uni: unité
       rangee: Fruits et legumes
@@ -44,7 +44,7 @@ preparation:
       qte: 10.0
       uni: ml
       rangee: Fruits et legumes
-    - nom: Branches de céleri émincées
+    - nom: Branche de céleri émincée
       qte: 2
       uni: unité
       rangee: Fruits et legumes

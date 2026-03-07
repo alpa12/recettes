@@ -72,7 +72,7 @@ preparation:
       rangee: Conserves et sauces
     - nom: ail
       qte: 2
-      uni: gousses
+      uni: gousse
       rangee: Fruits et legumes
     equipements:
     - bol

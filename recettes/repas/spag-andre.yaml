@@ -23,7 +23,7 @@ preparation:
       qte: 1
       uni: unité
       rangee: Fruits et legumes
-    - nom: Carottes
+    - nom: Carotte
       qte: 2
       uni: unité
       rangee: Fruits et legumes
@@ -54,7 +54,7 @@ preparation:
       qte: 1
       uni: unité
       rangee: Conserves et sauces
-    - nom: Petites boîtes de pâte de tomate
+    - nom: Petite boîte de pâte de tomate
       qte: 2
       uni: unité
       rangee: Conserves et sauces

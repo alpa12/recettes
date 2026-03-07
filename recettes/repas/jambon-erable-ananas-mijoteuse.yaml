@@ -45,7 +45,7 @@ preparation:
   - etape: Ajouter le sirop et le jus d’ananas dans la mijoteuse, verser le mélange
       d’érable dessus.
     ingredients:
-    - nom: Rondelles d’ananas (jus inclus)
+    - nom: Rondelle d’ananas (jus inclus)
       qte: 1
       uni: unité
       rangee: Fruits et legumes
@@ -57,7 +57,7 @@ preparation:
   - etape: Déposer les rondelles d’ananas sur le jambon et piquer chaque rondelle
       avec un clou de girofle.
     ingredients:
-    - nom: Clous de girofle
+    - nom: Clou de girofle
       qte: 6
       uni: unité
       rangee: Epicerie

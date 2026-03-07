@@ -1,5 +1,4 @@
-# validate_yamls.R
-# Validation stricte des YAML recettes: les quantités doivent être NUMÉRIQUES.
+# Validation stricte des YAML recettes.
 #
 # Exécution:
 #   Rscript recettes/ajouter_recette/validate_yamls.R
@@ -7,159 +6,18 @@
 #   source("recettes/ajouter_recette/validate_yamls.R"); validate_all("recettes")
 
 suppressPackageStartupMessages({
-  library(yaml)
   library(fs)
   library(stringr)
+  library(yaml)
 })
 
-ALLOWED_RANGEE <- c(
-  "Fruits et legumes",
-  "Viandes et substituts",
-  "Produits laitiers et oeufs",
-  "Epicerie",
-  "Conserves et sauces"
-)
-
-ALLOWED_MASS_UNITS <- c("g", "lbs", "onces")
-ALLOWED_VOLUME_UNITS <- c("ml", "c. à thé", "c. à soupe", "tasse")
-
-is_scalar_numeric <- function(x) {
-  is.numeric(x) && length(x) == 1 && !is.na(x)
-}
-
-validate_qte_numeric <- function(recipe, file = NA_character_) {
-  issues <- list()
-
-  add_issue <- function(path, value, msg) {
-    issues[[length(issues) + 1]] <<- list(
-      file = file,
-      path = path,
-      value = if (is.null(value)) "NULL" else as.character(value),
-      message = msg
-    )
-  }
-
-  prep <- recipe$preparation
-  if (is.null(prep) || !is.list(prep)) return(issues)
-
-  for (si in seq_along(prep)) {
-    sec <- prep[[si]]
-    etapes <- sec$etapes
-    if (is.null(etapes) || !is.list(etapes)) next
-
-    for (ei in seq_along(etapes)) {
-      et <- etapes[[ei]]
-      ing <- et$ingredients
-      if (is.null(ing) || !is.list(ing)) next
-
-      for (ii in seq_along(ing)) {
-        one <- ing[[ii]]
-        qty_fields <- c("qte", "qte_masse", "qte_volume")
-        qty_values <- lapply(qty_fields, function(k) one[[k]])
-        has_any <- any(vapply(qty_values, function(v) !is.null(v) && !(is.character(v) && str_trim(v) == ""), logical(1)))
-        if (!has_any) {
-          p <- sprintf("preparation[%d].etapes[%d].ingredients[%d]", si - 1, ei - 1, ii - 1)
-          add_issue(p, "", "au moins une quantité est requise: qte ou qte_masse ou qte_volume")
-          next
-        }
-        for (fi in seq_along(qty_fields)) {
-          field <- qty_fields[[fi]]
-          qte <- qty_values[[fi]]
-          if (is.null(qte) || (is.character(qte) && str_trim(qte) == "")) next
-          p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].%s", si - 1, ei - 1, ii - 1, field)
-          if (!is_scalar_numeric(qte)) {
-            add_issue(p, qte, sprintf("%s non numérique — corriger (ex: 0.5 au lieu de 1/2)", field))
-          }
-        }
-
-        if (!is.null(one$qte_masse) && !(is.character(one$qte_masse) && str_trim(one$qte_masse) == "")) {
-          u <- if (is.null(one$uni_masse)) "" else as.character(one$uni_masse)
-          if (!(u %in% ALLOWED_MASS_UNITS)) {
-            p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].uni_masse", si - 1, ei - 1, ii - 1)
-            add_issue(p, u, sprintf("uni_masse invalide — valeurs permises: %s", paste(ALLOWED_MASS_UNITS, collapse = ", ")))
-          }
-        }
-        if (!is.null(one$qte_volume) && !(is.character(one$qte_volume) && str_trim(one$qte_volume) == "")) {
-          u <- if (is.null(one$uni_volume)) "" else as.character(one$uni_volume)
-          if (!(u %in% ALLOWED_VOLUME_UNITS)) {
-            p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].uni_volume", si - 1, ei - 1, ii - 1)
-            add_issue(p, u, sprintf("uni_volume invalide — valeurs permises: %s", paste(ALLOWED_VOLUME_UNITS, collapse = ", ")))
-          }
-        }
-      }
-    }
-  }
-
-  issues
-}
-
-validate_rangee <- function(recipe, file = NA_character_) {
-  issues <- list()
-
-  add_issue <- function(path, value, msg) {
-    issues[[length(issues) + 1]] <<- list(
-      file = file,
-      path = path,
-      value = if (is.null(value)) "NULL" else as.character(value),
-      message = msg
-    )
-  }
-
-  prep <- recipe$preparation
-  if (is.null(prep) || !is.list(prep)) return(issues)
-
-  for (si in seq_along(prep)) {
-    sec <- prep[[si]]
-    etapes <- sec$etapes
-    if (is.null(etapes) || !is.list(etapes)) next
-
-    for (ei in seq_along(etapes)) {
-      et <- etapes[[ei]]
-      ing <- et$ingredients
-      if (is.null(ing) || !is.list(ing)) next
-
-      for (ii in seq_along(ing)) {
-        one <- ing[[ii]]
-        p <- sprintf("preparation[%d].etapes[%d].ingredients[%d].rangee", si - 1, ei - 1, ii - 1)
-        rangee <- one$rangee
-
-        if (is.null(rangee) || (is.character(rangee) && str_trim(rangee) == "")) {
-          add_issue(p, rangee, "rangee manquant — attendu: valeur parmi ALLOWED_RANGEE")
-        } else if (!(as.character(rangee) %in% ALLOWED_RANGEE)) {
-          add_issue(p, rangee, sprintf(
-            "rangee invalide — valeurs permises: %s",
-            paste(ALLOWED_RANGEE, collapse = ", ")
-          ))
-        }
-      }
-    }
-  }
-
-  issues
-}
-
-validate_required <- function(recipe, file = NA_character_) {
-  required <- c("nom", "nom_court", "source", "portions")
-  issues <- list()
-
-  for (k in required) {
-    if (is.null(recipe[[k]]) || (is.character(recipe[[k]]) && recipe[[k]] == "")) {
-      issues[[length(issues) + 1]] <- list(
-        file = file, path = k, value = if (is.null(recipe[[k]])) "NULL" else as.character(recipe[[k]]),
-        message = sprintf("champ requis manquant: %s", k)
-      )
-    }
-  }
-  issues
-}
+source("livrec/R/utils.R")
+source("livrec/R/recipe_validation.R")
+source("livrec/R/gha_common.R")
 
 validate_recipe_file <- function(path) {
   recipe <- yaml.load_file(path)
-  c(
-    validate_required(recipe, file = path),
-    validate_qte_numeric(recipe, file = path),
-    validate_rangee(recipe, file = path)
-  )
+  validate_recipe_data(recipe, file = path)
 }
 
 validate_all <- function(root = "recettes") {
@@ -176,14 +34,17 @@ validate_all <- function(root = "recettes") {
     return(invisible(all_issues))
   }
 
-  df <- do.call(rbind, lapply(all_issues, as.data.frame))
-  rownames(df) <- NULL
-  print(df)
-
-  message(sprintf("❌ %d problème(s) trouvé(s).", nrow(df)))
+  report <- format_recipe_validation_report(
+    all_issues,
+    heading = "❌ Des YAML ne respectent pas le format attendu par le site"
+  )
+  cat(report, sep = "\n")
+  cat("\n", sep = "")
+  message(sprintf("Résumé: %d problème(s) à corriger dans %d fichier(s).", length(all_issues), length(unique(vapply(all_issues, `[[`, character(1), "file")))))
   invisible(all_issues)
 }
 
 if (!interactive()) {
-  validate_all("recettes")
+  issues <- validate_all("recettes")
+  if (length(issues) > 0) quit(status = 1)
 }

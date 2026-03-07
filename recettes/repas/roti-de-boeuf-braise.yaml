@@ -25,7 +25,7 @@ preparation:
     ingredients:
     - nom: Bouillon de Boeuf avec du Vin Rouge avec 30 % moins de sodium
       qte: 2.5
-      uni: tasses
+      uni: tasse
       qte_masse: ~
       uni_masse: ~
       qte_volume: 625
@@ -33,7 +33,7 @@ preparation:
       rangee: Conserves et sauces
     - nom: petites pommes de terre, coupées en deux
       qte: 3
-      uni: tasses
+      uni: tasse
       qte_masse: ~
       uni_masse: ~
       qte_volume: 750
@@ -41,7 +41,7 @@ preparation:
       rangee: Fruits et legumes
     - nom: champignons creminis tranchés, coupés en deux
       qte: 2
-      uni: ~
+      uni: tasse
       qte_masse: ~
       uni_masse: ~
       qte_volume: ~
@@ -57,7 +57,7 @@ preparation:
       rangee: Fruits et legumes
     - nom: branches de céleri, coupées en morceaux de 2,5 cm (1 po)
       qte: 2
-      uni: branches
+      uni: branche
       qte_masse: ~
       uni_masse: ~
       qte_volume: ~
@@ -65,7 +65,7 @@ preparation:
       rangee: Fruits et legumes
     - nom: oignon coupé en dés
       qte: 1
-      uni: ~
+      uni: unité
       qte_masse: ~
       uni_masse: ~
       qte_volume: ~
@@ -73,7 +73,7 @@ preparation:
       rangee: Fruits et legumes
     - nom: ail émincées
       qte: 4
-      uni: gousses
+      uni: gousse
       qte_masse: ~
       uni_masse: ~
       qte_volume: ~
@@ -81,7 +81,7 @@ preparation:
       rangee: Fruits et legumes
     - nom: sauce Worcestershire
       qte: 1
-      uni: ~
+      uni: c. à soupe
       qte_masse: ~
       uni_masse: ~
       qte_volume: 1
@@ -89,7 +89,7 @@ preparation:
       rangee: Conserves et sauces
     - nom: feuilles de thym frais
       qte: 1
-      uni: ~
+      uni: c. à soupe
       qte_masse: ~
       uni_masse: ~
       qte_volume: 1
@@ -97,7 +97,7 @@ preparation:
       rangee: Fruits et legumes
     - nom: pâte de tomate
       qte: 2
-      uni: ~
+      uni: c. à thé
       qte_masse: ~
       uni_masse: ~
       qte_volume: 2
@@ -121,8 +121,8 @@ preparation:
     image_guid: ~
     ingredients:
     - nom: rôti de boeuf, sans l’os
-      qte: ~
-      uni: ~
+      qte: 1.5
+      uni: kg
       qte_masse: 1.5
       uni_masse: kg
       qte_volume: ~
@@ -137,7 +137,7 @@ preparation:
     ingredients:
     - nom: fécule de maïs
       qte: 1
-      uni: ~
+      uni: c. à soupe
       qte_masse: ~
       uni_masse: ~
       qte_volume: 1
