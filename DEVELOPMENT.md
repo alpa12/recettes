@@ -56,6 +56,7 @@ If deployed environment shows `Bad credentials`, verify `GITHUB_PAT` is set corr
 
 - Every ingredient entry in recipe YAMLs must define default `qte` and `uni`.
 - Ingredient names in YAML should stay in a neutral singular form when practical; site rendering handles simple count-based wording improvements for display.
+- Site rendering should also pluralize simple textual count units (`gousse`, `branche`, `bloc`, etc.) and add natural connectors (`de` / `d'`) so the displayed ingredient text reads naturally without requiring verbose YAML names.
 - Optional alternate forms stay in `qte_masse`/`uni_masse` and `qte_volume`/`uni_volume`.
 - The recipe UI supports three quantity display modes:
   - default (`qte` + `uni`)

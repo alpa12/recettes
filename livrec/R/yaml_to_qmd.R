@@ -52,9 +52,70 @@ is_count_unit <- function(unit) {
   normalize_measure_text(unit) %in% c("unite", "unites", "unit", "units")
 }
 
-display_measure_unit <- function(unit) {
-  if (is_count_unit(unit)) return("")
-  stringr::str_trim(as.character(unit %||% ""))
+is_textual_count_display_unit <- function(unit) {
+  normalize_measure_text(unit) %in% c(
+    "gousse", "gousses",
+    "branche", "branches",
+    "feuille", "feuilles",
+    "boite", "boites",
+    "conserve", "conserves",
+    "tranche", "tranches",
+    "paquet", "paquets",
+    "bloc", "blocs"
+  )
+}
+
+lowercase_initial <- function(x) {
+  txt <- stringr::str_trim(as.character(x %||% ""))
+  if (!nzchar(txt)) return(txt)
+  first <- substr(txt, 1, 1)
+  rest <- substr(txt, 2, nchar(txt))
+  if (!grepl("^[A-ZÀ-ÖÙ-Ý]", first)) return(txt)
+  if (nchar(txt) > 1 && grepl("^[A-ZÀ-ÖÙ-Ý]{2}", substr(txt, 1, 2))) return(txt)
+  paste0(tolower(first), rest)
+}
+
+pluralize_measure_unit <- function(unit, qty = NA_real_) {
+  raw <- stringr::str_trim(as.character(unit %||% ""))
+  if (is_count_unit(raw)) return("")
+  q <- suppressWarnings(as.numeric(qty))
+  singular <- !is.finite(q) || abs(q - 1) < 1e-9
+  norm <- normalize_measure_text(raw)
+
+  if (norm %in% c("tasse", "tasses")) return(if (singular) "tasse" else "tasses")
+  if (norm %in% c("once", "onces", "oz")) return(if (singular) "once" else "onces")
+  if (norm %in% c("gousse", "gousses")) return(if (singular) "gousse" else "gousses")
+  if (norm %in% c("branche", "branches")) return(if (singular) "branche" else "branches")
+  if (norm %in% c("feuille", "feuilles")) return(if (singular) "feuille" else "feuilles")
+  if (norm %in% c("boite", "boites")) return(if (singular) "boîte" else "boîtes")
+  if (norm %in% c("conserve", "conserves")) return(if (singular) "conserve" else "conserves")
+  if (norm %in% c("tranche", "tranches")) return(if (singular) "tranche" else "tranches")
+  if (norm %in% c("paquet", "paquets")) return(if (singular) "paquet" else "paquets")
+  if (norm %in% c("bloc", "blocs")) return(if (singular) "bloc" else "blocs")
+  raw
+}
+
+display_measure_unit <- function(unit, qty = NA_real_) {
+  pluralize_measure_unit(unit, qty = qty)
+}
+
+display_count_unit_name <- function(name, unit) {
+  nm <- stringr::str_trim(as.character(name %||% ""))
+  if (!nzchar(nm)) return(nm)
+  if (!is_textual_count_display_unit(unit)) return(nm)
+  unit_norm <- normalize_measure_text(unit)
+  stripped <- stringr::str_replace(
+    nm,
+    stringr::regex(sprintf("^(%s|%ss?)\\s+(de\\s+|d['’])?", unit_norm, unit_norm), ignore_case = TRUE),
+    ""
+  )
+  stripped <- stringr::str_trim(stripped)
+  lower_name <- lowercase_initial(if (nzchar(stripped)) stripped else nm)
+  if (grepl("^(de|du|des|d['’])\\b", lower_name, ignore.case = TRUE, perl = TRUE)) return(lower_name)
+  if (grepl("^[aeiouyhàâäéèêëîïôöùûü]", lower_name, ignore.case = TRUE, perl = TRUE)) {
+    return(paste0("d'", lower_name))
+  }
+  paste("de", lower_name)
 }
 
 pluralize_french_token <- function(token) {
@@ -83,9 +144,10 @@ pluralize_french_token <- function(token) {
 
 display_ingredient_name <- function(name, qty, unit) {
   nm <- stringr::str_trim(as.character(name %||% ""))
-  if (!nzchar(nm) || !is_count_unit(unit)) return(nm)
+  if (!nzchar(nm)) return(nm)
+  if (!is_count_unit(unit)) return(display_count_unit_name(nm, unit))
   q <- suppressWarnings(as.numeric(qty))
-  if (!is.finite(q) || abs(q - 1) < 1e-9) return(nm)
+  if (!is.finite(q) || abs(q - 1) < 1e-9) return(lowercase_initial(nm))
   parts <- strsplit(nm, "\\s+")[[1]]
   out <- character(length(parts))
   skip_next <- FALSE
@@ -109,7 +171,7 @@ display_ingredient_name <- function(name, qty, unit) {
     }
     out[[i]] <- pluralize_french_token(token)
   }
-  paste(out, collapse = " ")
+  lowercase_initial(paste(out, collapse = " "))
 }
 
 mass_unit_factor_g <- function(unit) {
@@ -319,7 +381,7 @@ render_ingredient_li <- function(ing, list_kind = "generic", density_tbl = ingre
   visible_name <- escape_html(display_ingredient_name(nom_raw, shown$qty, shown$unit))
 
   q_label <- escape_html(fmt_number(shown$qty))
-  uni <- escape_html(display_measure_unit(shown$unit))
+  uni <- escape_html(display_measure_unit(shown$unit, qty = shown$qty))
   derived_cls <- if (isTRUE(shown$derived)) " ingredient-approx" else ""
 
   q_attr <- if (is.finite(suppressWarnings(as.numeric(shown$qty)))) paste0(" data-base=\"", suppressWarnings(as.numeric(shown$qty)), "\"") else ""
@@ -337,7 +399,7 @@ render_ingredient_li <- function(ing, list_kind = "generic", density_tbl = ingre
     "\" data-ingredient-unit=\"", uni,
     "\" data-default-qty=\"", if (is.finite(meta$q_legacy)) meta$q_legacy else "",
     "\" data-default-unit=\"", escape_html(meta$u_legacy %||% ""),
-    "\" data-display-default-unit=\"", escape_html(display_measure_unit(meta$u_legacy %||% "")),
+    "\" data-display-default-unit=\"", escape_html(display_measure_unit(meta$u_legacy %||% "", qty = meta$q_legacy)),
     "\" data-default-kind=\"", escape_html(meta$default_kind %||% "other"),
     "\" data-measure-enabled=\"", if (meta$can_toggle) "1" else "0",
     "\" data-base-mass-g=\"", if (is.finite(meta$base_mass_g)) meta$base_mass_g else "",
@@ -858,10 +920,13 @@ yaml_recipe_to_qmd <- function(yaml_path, qmd_path = NULL) {
         "const formatFraction=(n)=>{const whole=Math.floor(n+1e-9); const frac=n-whole; const choices=[[0.25,'1/4'],[1/3,'1/3'],[0.5,'1/2'],[2/3,'2/3'],[0.75,'3/4']]; let hit=''; for(const [v,label] of choices){ if(Math.abs(frac-v)<0.04){ hit=label; break; } } if(!hit) return null; if(whole<1) return hit; return `${whole} ${hit}`;};",
         "const normalize=(u)=>String(u||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();",
         "const isCountUnit=(u)=>{const n=normalize(u); return n==='unite'||n==='unites'||n==='unit'||n==='units';};",
-        "const displayUnit=(u)=>isCountUnit(u)?'':String(u||'');",
-        "const pluralizeMeasureUnit=(unit,qty)=>{const q=Number(qty); if(!Number.isFinite(q)) return displayUnit(unit); if(unit==='tasse') return Math.abs(q-1)<1e-9?'tasse':'tasses'; if(unit==='c. à soupe') return Math.abs(q-1)<1e-9?'c. à soupe':'c. à soupe'; if(unit==='c. à thé') return Math.abs(q-1)<1e-9?'c. à thé':'c. à thé'; if(unit==='ml') return 'ml'; if(unit==='g') return 'g'; if(unit==='onces') return Math.abs(q-1)<1e-9?'once':'onces'; return displayUnit(unit);};",
+        "const isTextualCountDisplayUnit=(u)=>['gousse','gousses','branche','branches','feuille','feuilles','boite','boites','conserve','conserves','tranche','tranches','paquet','paquets','bloc','blocs'].includes(normalize(u));",
+        "const lowercaseInitial=(txt)=>{const raw=String(txt||'').trim(); if(!raw) return raw; const first=raw.charAt(0); if(!/[A-ZÀ-ÖÙ-Ý]/.test(first)) return raw; if(raw.length>1&&/[A-ZÀ-ÖÙ-Ý]{2}/.test(raw.slice(0,2))) return raw; return first.toLowerCase()+raw.slice(1);};",
+        "const displayUnit=(u)=>isCountUnit(u)?'':String(u||'').trim();",
+        "const pluralizeMeasureUnit=(unit,qty)=>{const raw=String(unit||'').trim(); if(isCountUnit(raw)) return ''; const q=Number(qty); const singular=!Number.isFinite(q)||Math.abs(q-1)<1e-9; const n=normalize(raw); if(n==='tasse'||n==='tasses') return singular?'tasse':'tasses'; if(n==='once'||n==='onces'||n==='oz') return singular?'once':'onces'; if(n==='gousse'||n==='gousses') return singular?'gousse':'gousses'; if(n==='branche'||n==='branches') return singular?'branche':'branches'; if(n==='feuille'||n==='feuilles') return singular?'feuille':'feuilles'; if(n==='boite'||n==='boites') return singular?'boîte':'boîtes'; if(n==='conserve'||n==='conserves') return singular?'conserve':'conserves'; if(n==='tranche'||n==='tranches') return singular?'tranche':'tranches'; if(n==='paquet'||n==='paquets') return singular?'paquet':'paquets'; if(n==='bloc'||n==='blocs') return singular?'bloc':'blocs'; return displayUnit(raw);};",
         "const pluralizeToken=(token)=>{const core=token.replace(/^[^\\p{L}]*/u,'').replace(/[^\\p{L}]*$/u,''); if(!core) return token; const n=normalize(core); if(!n||['de','du','des','et','ou','en','a','au','aux','avec','sans','pour','sur','sous'].includes(n)||/ment$/.test(n)||/[sxz]$/.test(n)) return token; let plural=core; if(/al$/.test(n)) plural=core.replace(/al$/i,'aux'); else if(/(eau|au|eu)$/.test(n)) plural=core+'x'; else plural=core+'s'; return token.replace(core, plural);};",
-        "const displayName=(name,qty,unit)=>{const raw=String(name||'').trim(); if(!raw||!isCountUnit(unit)) return raw; const q=Number(qty); if(!Number.isFinite(q)||Math.abs(q-1)<1e-9) return raw; const parts=raw.split(/\\s+/); const out=[]; let skipNext=false; for(const token of parts){const tokenNorm=normalize(token); const prefixNorm=normalize(token.replace(/[’'].*/,'')); if(skipNext){out.push(token); skipNext=false; continue;} if(['de','du','des'].includes(tokenNorm)){out.push(token); skipNext=true; continue;} if(['d','l'].includes(prefixNorm)){out.push(token); continue;} out.push(pluralizeToken(token));} return out.join(' ');};",
+        "const displayCountName=(name,unit)=>{const raw=String(name||'').trim(); if(!raw||!isTextualCountDisplayUnit(unit)) return raw; const unitNorm=normalize(unit); const stripped=raw.replace(new RegExp(`^(${unitNorm}|${unitNorm}s?)\\\\s+(de\\\\s+|d['’])?`,'i'),'').trim(); const lowered=lowercaseInitial(stripped||raw); if(/^(de|du|des|d['’])\\b/i.test(lowered)) return lowered; if(/^[aeiouyhàâäéèêëîïôöùûü]/i.test(lowered)) return `d'${lowered}`; return `de ${lowered}`;};",
+        "const displayName=(name,qty,unit)=>{const raw=String(name||'').trim(); if(!raw) return raw; if(!isCountUnit(unit)) return displayCountName(raw, unit); const q=Number(qty); if(!Number.isFinite(q)||Math.abs(q-1)<1e-9) return lowercaseInitial(raw); const parts=raw.split(/\\s+/); const out=[]; let skipNext=false; for(const token of parts){const tokenNorm=normalize(token); const prefixNorm=normalize(token.replace(/[’'].*/,'')); if(skipNext){out.push(token); skipNext=false; continue;} if(['de','du','des'].includes(tokenNorm)){out.push(token); skipNext=true; continue;} if(['d','l'].includes(prefixNorm)){out.push(token); continue;} out.push(pluralizeToken(token));} return lowercaseInitial(out.join(' '));};",
         "const massFactor=(unit)=>{const u=normalize(unit); const m={'g':1,'gramme':1,'grammes':1,'gram':1,'grams':1,'kg':1000,'kilogramme':1000,'kilogrammes':1000,'lb':453.59237,'lbs':453.59237,'oz':28.34952,'once':28.34952,'onces':28.34952}; return Object.prototype.hasOwnProperty.call(m,u)?m[u]:NaN;};",
         "const volumeFactor=(unit)=>{const u=normalize(unit); const m={'ml':1,'millilitre':1,'millilitres':1,'l':1000,'litre':1000,'litres':1000,'t':250,'tasse':250,'tasses':250,'c a soupe':15,'cuillere a soupe':15,'cuilleres a soupe':15,'c a table':15,'c s':15,'c.s.':15,'c a the':5,'cuillere a the':5,'cuilleres a the':5,'c t':5,'c.t.':5}; return Object.prototype.hasOwnProperty.call(m,u)?m[u]:NaN;};",
         "const chooseKitchenDisplay=(volumeMl)=>{if(!Number.isFinite(volumeMl)) return {qty:NaN,unit:'c. à thé'}; const cups=volumeMl/250; const cupFractions=[0.25,1/3,0.5,2/3,0.75,1,1.25,1.5,1.75,2,2.5,3,4]; const nearCup=cupFractions.find(v=>Math.abs(cups-v)<0.045); const tbsp=volumeMl/15; if((Number.isFinite(nearCup)&&nearCup>=0.25)||tbsp>=3.75) return {qty:Number.isFinite(nearCup)?nearCup:cups,unit:'tasse'}; if(tbsp>=0.75) return {qty:tbsp,unit:'c. à soupe'}; return {qty:volumeMl/5,unit:'c. à thé'};};",
