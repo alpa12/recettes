@@ -2,77 +2,129 @@ nom: Salade de légumineuses André
 nom_court: Salade de légumineuses
 source: André Parent
 portions: 8
-se_congele: no
-image_guid: index
+se_congele: true
+difficulte: null
+cout: null
+allergenes: []
 categories:
-- Salade
-- Légumineuses
+  - Salade
+  - Légumineuses
 temps:
   preparation: 20
-  cuisson: ~
-  refrigeration: ~
+  cuisson: null
+  refrigeration: null
 preparation:
-- section: Salade
-  etapes:
-  - etape: Mélanger tous les ingrédients de la salade.
-    ingredients:
-    - nom: Pois chiches
-      qte: 19
-      uni: onces
-      rangee: Conserves et sauces
-    - nom: Fèves rouges
-      qte: 19
-      uni: onces
-      rangee: Conserves et sauces
-    - nom: Fèves mélangées
-      qte: 19
-      uni: onces
-      rangee: Conserves et sauces
-    - nom: Ail
-      qte: 5
-      uni: gousse
-      rangee: Fruits et legumes
-    - nom: Échalote
-      qte: 1
-      uni: unité
-      rangee: Fruits et legumes
-    - nom: Poivron
-      qte: 3
-      uni: unité
-      rangee: Fruits et legumes
-    equipements:
-    - Bol
-    - Cuillère
-- section: Vinaigrette
-  etapes:
-  - etape: Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
-    ingredients:
-    - nom: Sucre
-      qte: 0.5
-      uni: tasse
-      rangee: Epicerie
-    - nom: Huile d'olive
-      qte: 0.25
-      uni: tasse
-      rangee: Epicerie
-    - nom: Vinaigre de vin rouge
-      qte: 0.33
-      uni: tasse
-      rangee: Epicerie
-    - nom: Persil
-      qte: 1
-      uni: c. à thé
-      rangee: Fruits et legumes
-    - nom: Basilic
-      qte: 1
-      uni: c. à thé
-      rangee: Fruits et legumes
-    - nom: Origan
-      qte: 1
-      uni: c. à thé
-      rangee: Epicerie
-    equipements:
-    - Bol
-    - Fouet
-commentaires: On peut préparer cette salade à l’avance, elle se conserve bien quelques
-  heures au réfrigérateur.
+  - section: Salade
+    etapes:
+      - etape: Mélanger tous les ingrédients de la salade.
+        image_guid: null
+        ingredients:
+          - nom: Pois chiches
+            qte: 19
+            uni: onces
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Conserves et sauces
+          - nom: Fèves rouges
+            qte: 19
+            uni: onces
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Conserves et sauces
+          - nom: Fèves mélangées
+            qte: 19
+            uni: onces
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Conserves et sauces
+          - nom: Ail
+            qte: 5
+            uni: gousse
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Fruits et legumes
+          - nom: Échalote
+            qte: 1
+            uni: unité
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Fruits et legumes
+          - nom: Poivron
+            qte: 3
+            uni: unité
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Fruits et legumes
+        equipements:
+          - Bol
+          - Cuillère
+  - section: Vinaigrette
+    etapes:
+      - etape: Mélanger tous les ingrédients de la vinaigrette et incorporer à la salade.
+        image_guid: null
+        ingredients:
+          - nom: Sucre
+            qte: 122
+            uni: g
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 0.5
+            uni_volume: tasse
+            rangee: Epicerie
+          - nom: Huile d'olive
+            qte: 58
+            uni: g
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 0.25
+            uni_volume: tasse
+            rangee: Epicerie
+          - nom: Vinaigre de vin rouge
+            qte: 83
+            uni: g
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 0.33
+            uni_volume: tasse
+            rangee: Epicerie
+          - nom: Persil
+            qte: 1
+            uni: c. à thé
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 1
+            uni_volume: c. à thé
+            rangee: Fruits et legumes
+          - nom: Basilic
+            qte: 1
+            uni: c. à thé
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 1
+            uni_volume: c. à thé
+            rangee: Fruits et legumes
+          - nom: Origan
+            qte: 1
+            uni: c. à thé
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 1
+            uni_volume: c. à thé
+            rangee: Epicerie
+        equipements:
+          - Bol
+          - Fouet
+commentaires: []
+image_guid: index
