@@ -1,7 +1,7 @@
 nom: Brioche à la cannelle et à la pomme de terre
 nom_court: Brioche à la cannelle
 source: Ricardo
-portions: 12
+portions: 12.0
 se_congele: no
 categories:
 - Brioche
@@ -17,7 +17,7 @@ preparation:
       Mesurer 250 ml de purée.
     ingredients:
     - nom: Pomme de terre
-      qte: 1
+      qte: 1.0
       uni: unité
       rangee: Fruits et legumes
     equipements:
@@ -30,10 +30,14 @@ preparation:
       qte: 250.0
       uni: ml
       rangee: Produits laitiers et oeufs
+      qte_volume: 250.0
+      uni_volume: ml
     - nom: Sucre
       qte: 105.0
       uni: g
       rangee: Epicerie
+      qte_masse: 105.0
+      uni_masse: g
     equipements:
     - Bol
     - Cuillère
@@ -44,16 +48,22 @@ preparation:
       qte: 715.0
       uni: g
       rangee: Epicerie
+      qte_masse: 715.0
+      uni_masse: g
     - nom: Levure instantanée
       qte: 12.5
       uni: ml
       rangee: Epicerie
+      qte_volume: 12.5
+      uni_volume: ml
     - nom: Sel
       qte: 5.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 5.0
+      uni_volume: ml
     - nom: Oeuf
-      qte: 2
+      qte: 2.0
       uni: unité
       rangee: Produits laitiers et oeufs
     equipements:
@@ -66,10 +76,14 @@ preparation:
       qte: 55.0
       uni: g
       rangee: Produits laitiers et oeufs
+      qte_masse: 55.0
+      uni_masse: g
     - nom: Huile de canola
       qte: 45.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 45.0
+      uni_volume: ml
     equipements:
     - Bol
     - Plan de travail
@@ -82,14 +96,20 @@ preparation:
       qte: 315.0
       uni: g
       rangee: Epicerie
+      qte_masse: 315.0
+      uni_masse: g
     - nom: Cannelle moulue
       qte: 15.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 15.0
+      uni_volume: ml
     - nom: Beurre non salé
       qte: 30.0
       uni: ml
       rangee: Produits laitiers et oeufs
+      qte_volume: 30.0
+      uni_volume: ml
     equipements:
     - Rouleau à pâtisserie
     - Pinceau
@@ -100,6 +120,8 @@ preparation:
       qte: 30.0
       uni: ml
       rangee: Produits laitiers et oeufs
+      qte_volume: 30.0
+      uni_volume: ml
     equipements:
     - Moule
     - Pinceau
@@ -112,10 +134,14 @@ preparation:
       qte: 135.0
       uni: g
       rangee: Epicerie
+      qte_masse: 135.0
+      uni_masse: g
     - nom: Lait
       qte: 15.0
       uni: ml
       rangee: Produits laitiers et oeufs
+      qte_volume: 15.0
+      uni_volume: ml
     equipements:
     - Bol
     - Fouet

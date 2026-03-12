@@ -1,7 +1,7 @@
 nom: Choux à la crème framboise
 nom_court: Choux
 source: Ricardo
-portions: 33
+portions: 33.0
 se_congele: yes
 categories:
 - Pâtisserie
@@ -20,18 +20,24 @@ preparation:
       qte: 125.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 125.0
+      uni_volume: ml
     - nom: Beurre non salé, coupé en cubes
       qte: 60.0
       uni: ml
       rangee: Produits laitiers et oeufs
+      qte_volume: 60.0
+      uni_volume: ml
     - nom: Sel
-      qte: 1
+      qte: 1.0
       uni: pincée
       rangee: Epicerie
     - nom: Farine tout usage non blanchie
       qte: 125.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 125.0
+      uni_volume: ml
     equipements:
     - Casserole
     - Cuillère en bois
@@ -39,7 +45,7 @@ preparation:
       ajouter les œufs un à un en battant.
     ingredients:
     - nom: Oeuf
-      qte: 2
+      qte: 2.0
       uni: unité
       rangee: Produits laitiers et oeufs
     equipements:
@@ -65,6 +71,8 @@ preparation:
       qte: 900.0
       uni: g
       rangee: Fruits et legumes
+      qte_masse: 900.0
+      uni_masse: g
     equipements:
     - Casserole
     - Cuillère
@@ -76,10 +84,14 @@ preparation:
       qte: 900.0
       uni: g
       rangee: Epicerie
+      qte_masse: 900.0
+      uni_masse: g
     - nom: Jus de citron
       qte: 15.0
       uni: ml
       rangee: Fruits et legumes
+      qte_volume: 15.0
+      uni_volume: ml
     equipements:
     - Casserole
     - Bocaux

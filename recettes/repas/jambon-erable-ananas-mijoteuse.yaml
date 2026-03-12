@@ -1,7 +1,7 @@
 nom: Jambon à l’érable et à l’ananas à la mijoteuse
 nom_court: Jambon érable ananas
 source: Caty
-portions: 6
+portions: 6.0
 se_congele: yes
 categories:
 - Porc
@@ -19,6 +19,8 @@ preparation:
       qte: 1134.0
       uni: g
       rangee: Viandes et substituts
+      qte_masse: 1134.0
+      uni_masse: g
     equipements: Mijoteuse
   - etape: Mélanger sirop d’érable, cassonade, moutarde de Dijon et vinaigre de cidre
       dans un bol.
@@ -27,18 +29,26 @@ preparation:
       qte: 180.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 180.0
+      uni_volume: ml
     - nom: Cassonade
       qte: 60.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 60.0
+      uni_volume: ml
     - nom: Moutarde de Dijon
       qte: 15.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 15.0
+      uni_volume: ml
     - nom: Vinaigre de cidre
       qte: 15.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 15.0
+      uni_volume: ml
     equipements:
     - Bol
     - Fouet
@@ -46,19 +56,21 @@ preparation:
       d’érable dessus.
     ingredients:
     - nom: Rondelle d’ananas (jus inclus)
-      qte: 1
+      qte: 1.0
       uni: unité
       rangee: Fruits et legumes
     - nom: Jus d’ananas
       qte: 125.0
       uni: ml
       rangee: Fruits et legumes
+      qte_volume: 125.0
+      uni_volume: ml
     equipements: Mijoteuse
   - etape: Déposer les rondelles d’ananas sur le jambon et piquer chaque rondelle
       avec un clou de girofle.
     ingredients:
     - nom: Clou de girofle
-      qte: 6
+      qte: 6.0
       uni: unité
       rangee: Epicerie
     equipements: Mijoteuse
@@ -72,10 +84,14 @@ preparation:
       qte: 15.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 15.0
+      uni_volume: ml
     - nom: Eau
       qte: 30.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 30.0
+      uni_volume: ml
     equipements:
     - Bol
     - Mijoteuse

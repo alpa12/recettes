@@ -1,7 +1,7 @@
 nom: Salade de légumineuses André
 nom_court: Salade de légumineuses
 source: André Parent
-portions: 8
+portions: 8.0
 se_congele: no
 image_guid: index
 categories:
@@ -17,27 +17,33 @@ preparation:
   - etape: Mélanger tous les ingrédients de la salade.
     ingredients:
     - nom: Pois chiches
-      qte: 19
+      qte: 19.0
       uni: onces
       rangee: Conserves et sauces
+      qte_masse: 19.0
+      uni_masse: onces
     - nom: Fèves rouges
-      qte: 19
+      qte: 19.0
       uni: onces
       rangee: Conserves et sauces
+      qte_masse: 19.0
+      uni_masse: onces
     - nom: Fèves mélangées
-      qte: 19
+      qte: 19.0
       uni: onces
       rangee: Conserves et sauces
+      qte_masse: 19.0
+      uni_masse: onces
     - nom: Ail
-      qte: 5
+      qte: 5.0
       uni: gousse
       rangee: Fruits et legumes
     - nom: Échalote
-      qte: 1
+      qte: 1.0
       uni: unité
       rangee: Fruits et legumes
     - nom: Poivron
-      qte: 3
+      qte: 3.0
       uni: unité
       rangee: Fruits et legumes
     equipements:
@@ -51,26 +57,38 @@ preparation:
       qte: 0.5
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.5
+      uni_volume: tasse
     - nom: Huile d'olive
       qte: 0.25
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.25
+      uni_volume: tasse
     - nom: Vinaigre de vin rouge
       qte: 0.33
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.33
+      uni_volume: tasse
     - nom: Persil
-      qte: 1
+      qte: 1.0
       uni: c. à thé
       rangee: Fruits et legumes
+      qte_volume: 1.0
+      uni_volume: c. à thé
     - nom: Basilic
-      qte: 1
+      qte: 1.0
       uni: c. à thé
       rangee: Fruits et legumes
+      qte_volume: 1.0
+      uni_volume: c. à thé
     - nom: Origan
-      qte: 1
+      qte: 1.0
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à thé
     equipements:
     - Bol
     - Fouet

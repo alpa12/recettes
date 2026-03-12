@@ -901,9 +901,11 @@ function setupDraftAutosave(form, schema, { isEditMode = false } = {}) {
 
   const saveNow = () => {
     try {
+      const draftData = serializeToData(schema, form, []);
+      mirrorIngredientMeasuresInRecipe(draftData);
       const payload = {
         updated_at: new Date().toISOString(),
-        data: serializeToData(schema, form, [])
+        data: draftData
       };
       localStorage.setItem(DRAFT_KEY, JSON.stringify(payload));
       const stamp = new Date(payload.updated_at).toLocaleTimeString();
@@ -988,6 +990,64 @@ function toDateDash(s) {
   if (/^\d{4}\/\d{2}\/\d{2}$/.test(v)) return v.replace(/\//g, "-");
   if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
   return "";
+}
+
+const MASS_UNITS = new Set(["g", "kg", "lbs", "onces"]);
+const VOLUME_UNITS = new Set(["ml", "c. à thé", "c. à soupe", "tasse"]);
+
+function canonicalIngredientUnit(raw) {
+  const txt = String(raw ?? "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ");
+
+  if (txt === "g") return "g";
+  if (txt === "kg") return "kg";
+  if (txt === "lb" || txt === "lbs") return "lbs";
+  if (txt === "oz" || txt === "once" || txt === "onces") return "onces";
+  if (txt === "ml" || txt === "l" || txt === "litre" || txt === "litres" || txt === "millilitre" || txt === "millilitres") return "ml";
+  if (txt === "c a the" || txt === "c. a the" || txt === "cuillere a the" || txt === "cuilleres a the") return "c. à thé";
+  if (txt === "c a soupe" || txt === "c. a soupe" || txt === "cuillere a soupe" || txt === "cuilleres a soupe" || txt === "c a table") return "c. à soupe";
+  if (txt === "tasse" || txt === "tasses") return "tasse";
+  if (txt === "unite" || txt === "unites" || txt === "unit" || txt === "units") return "unité";
+  return String(raw ?? "").trim();
+}
+
+function isFiniteNumber(x) {
+  return typeof x === "number" && Number.isFinite(x);
+}
+
+function mirrorIngredientMeasuresInRecipe(data) {
+  const sections = Array.isArray(data?.preparation) ? data.preparation : [];
+  sections.forEach((section) => {
+    const steps = Array.isArray(section?.etapes) ? section.etapes : [];
+    steps.forEach((step) => {
+      const ingredients = Array.isArray(step?.ingredients) ? step.ingredients : [];
+      ingredients.forEach((ing) => {
+        if (!ing || typeof ing !== "object") return;
+        const qte = isFiniteNumber(ing.qte) ? ing.qte : null;
+        const unit = canonicalIngredientUnit(ing.uni);
+        if (qte === null) return;
+
+        if (MASS_UNITS.has(unit)) {
+          ing.qte_masse = qte;
+          ing.uni_masse = unit;
+        }
+        if (VOLUME_UNITS.has(unit)) {
+          ing.qte_volume = qte;
+          ing.uni_volume = unit;
+        }
+        if (unit === "unité") {
+          ing.qte_masse = null;
+          ing.uni_masse = null;
+          ing.qte_volume = null;
+          ing.uni_volume = null;
+        }
+      });
+    });
+  });
 }
 
 // ---------------------------
@@ -1856,6 +1916,21 @@ function validateRecipeData(data) {
         if (typeof ing?.qte_volume === "number" && Number.isFinite(ing.qte_volume) && !String(ing?.uni_volume || "").trim()) {
           issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: uni_volume requis si qte_volume est fourni.`);
         }
+        const defaultUnit = canonicalIngredientUnit(ing?.uni);
+        if (isFiniteNumber(ing?.qte) && MASS_UNITS.has(defaultUnit)) {
+          const massUnit = canonicalIngredientUnit(ing?.uni_masse);
+          const massOk = isFiniteNumber(ing?.qte_masse) && massUnit === defaultUnit && Math.abs(ing.qte_masse - ing.qte) < 1e-9;
+          if (!massOk) {
+            issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: qte_masse/uni_masse doivent refléter qte/uni (${ing.qte} ${defaultUnit}).`);
+          }
+        }
+        if (isFiniteNumber(ing?.qte) && VOLUME_UNITS.has(defaultUnit)) {
+          const volumeUnit = canonicalIngredientUnit(ing?.uni_volume);
+          const volumeOk = isFiniteNumber(ing?.qte_volume) && volumeUnit === defaultUnit && Math.abs(ing.qte_volume - ing.qte) < 1e-9;
+          if (!volumeOk) {
+            issues.push(`${sectionName || `Section ${si + 1}`}, étape ${ti + 1}, ingrédient ${ii + 1}: qte_volume/uni_volume doivent refléter qte/uni (${ing.qte} ${defaultUnit}).`);
+          }
+        }
         qtyFields.forEach((f) => {
           const q = ing?.[f];
           if (typeof q === "number" && Number.isFinite(q) && q < 0) {
@@ -1981,6 +2056,7 @@ async function handleSubmit(e) {
 
   try {
     const data = serializeToData(window.RECIPE_SCHEMA, form, []);
+    mirrorIngredientMeasuresInRecipe(data);
     const manualSection = normalizeRecipeSection(form.querySelector("#recipe-section-manual")?.value);
     if (!window.__EDIT_MODE__ && !manualSection) {
       form.classList.add("was-validated");

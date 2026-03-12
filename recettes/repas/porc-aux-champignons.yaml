@@ -1,7 +1,7 @@
 nom: Médaillons de porc, sauce crémeuse aux champignons et à l’érable
 nom_court: Médaillons porc sauce champignons
 source: Trois fois par jour
-portions: 3
+portions: 3.0
 se_congele: yes
 categories:
 - Porc
@@ -16,24 +16,28 @@ preparation:
   - etape: Délayer la fécule de maïs dans l’eau et réserver.
     ingredients:
     - nom: Fécule de maïs
-      qte: 2
+      qte: 2.0
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 2.0
+      uni_volume: c. à thé
     - nom: Eau
       qte: 60.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 60.0
+      uni_volume: ml
     equipements:
     - Bol
     - Cuillère
   - etape: Couper le filet de porc en médaillons, assaisonner sel et poivre.
     ingredients:
     - nom: Filet de porc
-      qte: 1
+      qte: 1.0
       uni: unité
       rangee: Viandes et substituts
     - nom: Sel et poivre
-      qte: 1
+      qte: 1.0
       uni: au goût
       rangee: Epicerie
     equipements:
@@ -45,10 +49,14 @@ preparation:
       qte: 1.0
       uni: c. à soupe
       rangee: Produits laitiers et oeufs
+      qte_volume: 1.0
+      uni_volume: c. à soupe
     - nom: Champignons blancs (ou autres)
       qte: 227.0
       uni: g
       rangee: Fruits et legumes
+      qte_masse: 227.0
+      uni_masse: g
     equipements:
     - Poêle
     - Spatule
@@ -58,6 +66,8 @@ preparation:
       qte: 1.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à soupe
     equipements: Poêle
   - etape: Ajouter champignons, mélange de fécule et le reste des ingrédients, porter
       à ébullition et laisser mijoter 5 minutes.
@@ -66,17 +76,25 @@ preparation:
       qte: 60.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 60.0
+      uni_volume: ml
     - nom: Vinaigre balsamique
       qte: 2.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 2.0
+      uni_volume: c. à soupe
     - nom: Crème champêtre 15 %
       qte: 60.0
       uni: ml
       rangee: Produits laitiers et oeufs
+      qte_volume: 60.0
+      uni_volume: ml
     - nom: Ciboulette émincée
       qte: 2.0
       uni: c. à soupe
       rangee: Fruits et legumes
+      qte_volume: 2.0
+      uni_volume: c. à soupe
     equipements: Poêle
 commentaires: Recette sans gluten, œufs et noix.
