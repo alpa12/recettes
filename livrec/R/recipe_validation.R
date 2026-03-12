@@ -240,6 +240,7 @@ validate_recipe_ingredients <- function(recipe, file = NA_character_) {
         qte_masse_raw <- one$qte_masse
         qte_masse <- coerce_recipe_numeric(qte_masse_raw)
         uni_masse <- clean_line(one$uni_masse %||% "")
+        canonical_mass <- if (nzchar(uni_masse) && exists("canonical_import_mass_unit", mode = "function")) canonical_import_mass_unit(uni_masse) else uni_masse
         if (nzchar(uni_masse) || !is.null(qte_masse_raw)) {
           if (!is.finite(qte_masse)) {
             issues[[length(issues) + 1L]] <- c(
@@ -253,7 +254,6 @@ validate_recipe_ingredients <- function(recipe, file = NA_character_) {
               )
             )
           }
-          canonical_mass <- if (nzchar(uni_masse) && exists("canonical_import_mass_unit", mode = "function")) canonical_import_mass_unit(uni_masse) else uni_masse
           if (!nzchar(uni_masse)) {
             issues[[length(issues) + 1L]] <- c(
               list(file = file),
@@ -293,6 +293,7 @@ validate_recipe_ingredients <- function(recipe, file = NA_character_) {
         qte_volume_raw <- one$qte_volume
         qte_volume <- coerce_recipe_numeric(qte_volume_raw)
         uni_volume <- clean_line(one$uni_volume %||% "")
+        canonical_volume <- if (nzchar(uni_volume) && exists("canonical_import_volume_unit", mode = "function")) canonical_import_volume_unit(uni_volume) else uni_volume
         if (nzchar(uni_volume) || !is.null(qte_volume_raw)) {
           if (!is.finite(qte_volume)) {
             issues[[length(issues) + 1L]] <- c(
@@ -306,7 +307,6 @@ validate_recipe_ingredients <- function(recipe, file = NA_character_) {
               )
             )
           }
-          canonical_volume <- if (nzchar(uni_volume) && exists("canonical_import_volume_unit", mode = "function")) canonical_import_volume_unit(uni_volume) else uni_volume
           if (!nzchar(uni_volume)) {
             issues[[length(issues) + 1L]] <- c(
               list(file = file),
@@ -338,6 +338,42 @@ validate_recipe_ingredients <- function(recipe, file = NA_character_) {
                 message = "Unité de volume non canonique.",
                 fix = sprintf("Remplacer `%s` par `%s`.", uni_volume, canonical_volume),
                 code = "non_canonical_volume_unit"
+              )
+            )
+          }
+        }
+
+        if (is.finite(qte) && uni_canonical %in% ALLOWED_MASS_UNITS) {
+          mass_mirror_ok <- is.finite(qte_masse) &&
+            identical(canonical_mass, uni_canonical) &&
+            abs(qte_masse - qte) < 1e-9
+          if (!mass_mirror_ok) {
+            issues[[length(issues) + 1L]] <- c(
+              list(file = file),
+              new_validation_issue(
+                path = prefix,
+                value = one$nom,
+                message = "La quantité par défaut en masse doit aussi être copiée dans `qte_masse`/`uni_masse`.",
+                fix = sprintf("Mettre `qte_masse: %s` et `uni_masse: %s` pour refléter `qte`/`uni`.", qte, uni_canonical),
+                code = "missing_default_mass_mirror"
+              )
+            )
+          }
+        }
+
+        if (is.finite(qte) && uni_canonical %in% ALLOWED_VOLUME_UNITS) {
+          volume_mirror_ok <- is.finite(qte_volume) &&
+            identical(canonical_volume, uni_canonical) &&
+            abs(qte_volume - qte) < 1e-9
+          if (!volume_mirror_ok) {
+            issues[[length(issues) + 1L]] <- c(
+              list(file = file),
+              new_validation_issue(
+                path = prefix,
+                value = one$nom,
+                message = "La quantité par défaut en volume doit aussi être copiée dans `qte_volume`/`uni_volume`.",
+                fix = sprintf("Mettre `qte_volume: %s` et `uni_volume: %s` pour refléter `qte`/`uni`.", qte, uni_canonical),
+                code = "missing_default_volume_mirror"
               )
             )
           }
@@ -482,15 +518,14 @@ autofix_recipe_ingredient <- function(ing) {
   }
 
   if (is.finite(ing$qte %||% NA_real_) && nzchar(ing$uni %||% "")) {
-    if (!is.finite(ing$qte_masse %||% NA_real_) && nzchar(ing$uni_masse %||% "")) {
-      if ((ing$uni_masse %||% "") %in% ALLOWED_MASS_UNITS && identical(canonical_default_unit(ing$uni), ing$uni_masse)) {
-        ing$qte_masse <- ing$qte
-      }
+    default_unit <- canonical_default_unit(ing$uni)
+    if (default_unit %in% ALLOWED_MASS_UNITS) {
+      ing$qte_masse <- ing$qte
+      ing$uni_masse <- default_unit
     }
-    if (!is.finite(ing$qte_volume %||% NA_real_) && nzchar(ing$uni_volume %||% "")) {
-      if ((ing$uni_volume %||% "") %in% ALLOWED_VOLUME_UNITS && identical(canonical_default_unit(ing$uni), ing$uni_volume)) {
-        ing$qte_volume <- ing$qte
-      }
+    if (default_unit %in% ALLOWED_VOLUME_UNITS) {
+      ing$qte_volume <- ing$qte
+      ing$uni_volume <- default_unit
     }
   }
 

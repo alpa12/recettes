@@ -1,7 +1,7 @@
 nom: Tarte à la crème de Monique
 nom_court: Tarte à la crème
 source: Nathalie Rivard
-portions: 8
+portions: 8.0
 se_congele: no
 categories:
 - Tarte
@@ -20,14 +20,20 @@ preparation:
       qte: 1.25
       uni: tasse
       rangee: Epicerie
+      qte_volume: 1.25
+      uni_volume: tasse
     - nom: Beurre fondu
       qte: 0.25
       uni: tasse
       rangee: Produits laitiers et oeufs
+      qte_volume: 0.25
+      uni_volume: tasse
     - nom: Sucre
       qte: 0.25
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.25
+      uni_volume: tasse
     equipements:
     - Assiette à tarte
     - Bol
@@ -41,16 +47,20 @@ preparation:
       qte: 2.0
       uni: tasse
       rangee: Produits laitiers et oeufs
+      qte_volume: 2.0
+      uni_volume: tasse
     - nom: Jaune d'œuf
-      qte: 3
+      qte: 3.0
       uni: unité
       rangee: Produits laitiers et oeufs
     - nom: Sucre
       qte: 5.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 5.0
+      uni_volume: c. à soupe
     - nom: Sel
-      qte: 1
+      qte: 1.0
       uni: pincée
       rangee: Epicerie
     equipements:
@@ -63,13 +73,15 @@ preparation:
       jusqu’à pics fermes.
     ingredients:
     - nom: Blanc d'oeuf
-      qte: 3
+      qte: 3.0
       uni: unité
       rangee: Produits laitiers et oeufs
     - nom: Sucre
       qte: 3.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 3.0
+      uni_volume: c. à soupe
     equipements:
     - Batteur électrique
     - Bol

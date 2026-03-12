@@ -1,7 +1,7 @@
 nom: Porc sucré-salé à la mijoteuse
 nom_court: porc-sucre-sale-mijoteuse
 source: Ricardo
-portions: 7
+portions: 7.0
 se_congele: yes
 difficulte: ~
 cout: $
@@ -26,13 +26,15 @@ preparation:
     image_guid: ~
     ingredients:
     - nom: rôti d’épaule de porc de 1,8 kg (4 lb) désossé et sans la couenne
-      qte: 1
+      qte: 1.0
       uni: rôti
       rangee: Viandes et substituts
     - nom: huile végétale
       qte: 15.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 15.0
+      uni_volume: ml
     equipements:
     - grande poêle
     - mijoteuse
@@ -46,20 +48,28 @@ preparation:
       qte: 210.0
       uni: g
       rangee: Epicerie
+      qte_masse: 210.0
+      uni_masse: g
     - nom: sauce soya
       qte: 75.0
       uni: ml
       rangee: Conserves et sauces
+      qte_volume: 75.0
+      uni_volume: ml
     - nom: eau
       qte: 60.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 60.0
+      uni_volume: ml
     - nom: pâte de cari thaï vert doux
       qte: 60.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 60.0
+      uni_volume: ml
     - nom: oignon vert haché finement
-      qte: 6
+      qte: 6.0
       uni: unité
       rangee: Fruits et legumes
     equipements:
@@ -81,6 +91,8 @@ preparation:
       qte: 65.0
       uni: g
       rangee: Epicerie
+      qte_masse: 65.0
+      uni_masse: g
     equipements: []
 commentaires:
 - commentaire: Fait avec des longes de porc, sans échalotes ni noix. Ça semble bien

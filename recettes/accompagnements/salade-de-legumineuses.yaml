@@ -22,24 +22,24 @@ preparation:
           - nom: Pois chiches
             qte: 19
             uni: onces
-            qte_masse: null
-            uni_masse: null
+            qte_masse: 19
+            uni_masse: onces
             qte_volume: null
             uni_volume: null
             rangee: Conserves et sauces
           - nom: Fèves rouges
             qte: 19
             uni: onces
-            qte_masse: null
-            uni_masse: null
+            qte_masse: 19
+            uni_masse: onces
             qte_volume: null
             uni_volume: null
             rangee: Conserves et sauces
           - nom: Fèves mélangées
             qte: 19
             uni: onces
-            qte_masse: null
-            uni_masse: null
+            qte_masse: 19
+            uni_masse: onces
             qte_volume: null
             uni_volume: null
             rangee: Conserves et sauces
@@ -78,24 +78,24 @@ preparation:
           - nom: Sucre
             qte: 122
             uni: g
-            qte_masse: null
-            uni_masse: null
+            qte_masse: 122
+            uni_masse: g
             qte_volume: 0.5
             uni_volume: tasse
             rangee: Epicerie
           - nom: Huile d'olive
             qte: 58
             uni: g
-            qte_masse: null
-            uni_masse: null
+            qte_masse: 58
+            uni_masse: g
             qte_volume: 0.25
             uni_volume: tasse
             rangee: Epicerie
           - nom: Vinaigre de vin rouge
             qte: 83
             uni: g
-            qte_masse: null
-            uni_masse: null
+            qte_masse: 83
+            uni_masse: g
             qte_volume: 0.33
             uni_volume: tasse
             rangee: Epicerie

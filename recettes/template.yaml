@@ -35,8 +35,8 @@ exemple:
               uni: tasse
               qte_masse: null
               uni_masse: null
-              qte_volume: null
-              uni_volume: null
+              qte_volume: 1
+              uni_volume: tasse
               rangee: Produits laitiers et oeufs
           equipements:
             - Bol
@@ -166,18 +166,22 @@ _schema:
                         nullable: true
                       qte_masse:
                         type: number
+                        description: Si uni est une unite de masse, copier automatiquement qte ici.
                         nullable: true
                       uni_masse:
                         type: string
                         title: Unité masse
+                        description: Si uni est une unite de masse, copier automatiquement uni ici.
                         enum: [g, kg, lbs, onces]
                         nullable: true
                       qte_volume:
                         type: number
+                        description: Si uni est une unite de volume, copier automatiquement qte ici.
                         nullable: true
                       uni_volume:
                         type: string
                         title: Unité volume
+                        description: Si uni est une unite de volume, copier automatiquement uni ici.
                         enum: [ml, "c. à thé", "c. à soupe", tasse]
                         nullable: true
                       rangee:

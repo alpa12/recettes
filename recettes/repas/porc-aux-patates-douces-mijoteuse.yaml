@@ -1,7 +1,7 @@
 nom: Mijoté de porc aux patates douces
 nom_court: Mijoté porc patates douces
 source: Caty
-portions: 4
+portions: 4.0
 se_congele: yes
 categories:
 - Porc
@@ -16,7 +16,7 @@ preparation:
   - etape: Déposer patates douces dans la mijoteuse.
     ingredients:
     - nom: Patate douce pelée et coupée en cubes
-      qte: 2
+      qte: 2.0
       uni: unité
       rangee: Fruits et legumes
     equipements: Mijoteuse
@@ -26,10 +26,14 @@ preparation:
       qte: 795.0
       uni: g
       rangee: Viandes et substituts
+      qte_masse: 795.0
+      uni_masse: g
     - nom: Huile de canola
       qte: 30.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 30.0
+      uni_volume: ml
     equipements:
     - Poêle
     - Mijoteuse
@@ -37,21 +41,25 @@ preparation:
       dans la mijoteuse.
     ingredients:
     - nom: Oignon perlé pelé
-      qte: 12
+      qte: 12.0
       uni: unité
       rangee: Fruits et legumes
     - nom: Ail haché
       qte: 10.0
       uni: ml
       rangee: Fruits et legumes
+      qte_volume: 10.0
+      uni_volume: ml
     - nom: Branche de céleri émincée
-      qte: 2
+      qte: 2.0
       uni: unité
       rangee: Fruits et legumes
     - nom: Farine
       qte: 60.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 60.0
+      uni_volume: ml
     equipements:
     - Poêle
     - Mijoteuse
@@ -62,20 +70,24 @@ preparation:
       qte: 1000.0
       uni: ml
       rangee: Conserves et sauces
+      qte_volume: 1000.0
+      uni_volume: ml
     - nom: Sirop d’érable
       qte: 80.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 80.0
+      uni_volume: ml
     - nom: Feuille de laurier
-      qte: 1
+      qte: 1.0
       uni: unité
       rangee: Epicerie
     - nom: Tige de romarin
-      qte: 1
+      qte: 1.0
       uni: unité
       rangee: Fruits et legumes
     - nom: Sel et poivre
-      qte: 1
+      qte: 1.0
       uni: au goût
       rangee: Epicerie
     equipements: Mijoteuse

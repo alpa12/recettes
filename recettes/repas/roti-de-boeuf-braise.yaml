@@ -1,7 +1,7 @@
 nom: Rôti de bœuf braisé
 nom_court: roti-de-boeuf-braise
 source: https://www.cookwithcampbells.ca/fr/recipe/roti-de-boeuf-braise/
-portions: 8
+portions: 8.0
 se_congele: yes
 difficulte: Facile
 cout: $$
@@ -26,90 +26,60 @@ preparation:
     - nom: Bouillon de Boeuf avec du Vin Rouge avec 30 % moins de sodium
       qte: 2.5
       uni: tasse
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: 625
-      uni_volume: ml
+      qte_volume: 2.5
+      uni_volume: tasse
       rangee: Conserves et sauces
     - nom: petites pommes de terre, coupées en deux
-      qte: 3
+      qte: 3.0
       uni: tasse
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: 750
-      uni_volume: ml
+      qte_volume: 3.0
+      uni_volume: tasse
       rangee: Fruits et legumes
     - nom: champignons creminis tranchés, coupés en deux
-      qte: 2
+      qte: 2.0
       uni: tasse
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: ~
-      uni_volume: ~
       rangee: Fruits et legumes
+      qte_volume: 2.0
+      uni_volume: tasse
     - nom: carottes miniatures
-      qte: 1
+      qte: 1.0
       uni: tasse
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: 250
-      uni_volume: ml
+      qte_volume: 1.0
+      uni_volume: tasse
       rangee: Fruits et legumes
     - nom: branches de céleri, coupées en morceaux de 2,5 cm (1 po)
-      qte: 2
+      qte: 2.0
       uni: branche
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: ~
-      uni_volume: ~
       rangee: Fruits et legumes
     - nom: oignon coupé en dés
-      qte: 1
+      qte: 1.0
       uni: unité
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: ~
-      uni_volume: ~
       rangee: Fruits et legumes
     - nom: ail émincées
-      qte: 4
+      qte: 4.0
       uni: gousse
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: ~
-      uni_volume: ~
       rangee: Fruits et legumes
     - nom: sauce Worcestershire
-      qte: 1
+      qte: 1.0
       uni: c. à soupe
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: 1
+      qte_volume: 1.0
       uni_volume: c. à soupe
       rangee: Conserves et sauces
     - nom: feuilles de thym frais
-      qte: 1
+      qte: 1.0
       uni: c. à soupe
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: 1
+      qte_volume: 1.0
       uni_volume: c. à soupe
       rangee: Fruits et legumes
     - nom: pâte de tomate
-      qte: 2
+      qte: 2.0
       uni: c. à thé
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: 2
+      qte_volume: 2.0
       uni_volume: c. à thé
       rangee: Conserves et sauces
     - nom: feuille de laurier
-      qte: 1
+      qte: 1.0
       uni: feuille
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: ~
-      uni_volume: ~
       rangee: Epicerie
     equipements:
     - Cocotte
@@ -125,8 +95,6 @@ preparation:
       uni: kg
       qte_masse: 1.5
       uni_masse: kg
-      qte_volume: ~
-      uni_volume: ~
       rangee: Viandes et substituts
     equipements: []
   - etape: Transférer le rôti de bœuf et les légumes dans un plat de service. Incorporer
@@ -136,11 +104,9 @@ preparation:
     image_guid: ~
     ingredients:
     - nom: fécule de maïs
-      qte: 1
+      qte: 1.0
       uni: c. à soupe
-      qte_masse: ~
-      uni_masse: ~
-      qte_volume: 1
+      qte_volume: 1.0
       uni_volume: c. à soupe
       rangee: Epicerie
     equipements: Plat de service
