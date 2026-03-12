@@ -48,6 +48,7 @@ gha_prompt_rules <- function(source_url) {
     "20. Regle stricte anti-repetition: dans une etape, mets UNIQUEMENT les ingredients introduits pour la premiere fois a cette etape.",
     "21. Si un ingredient reapparait dans une etape ulterieure, ne le repete pas dans ingredients de cette etape.",
     "22. Si une garniture est seulement optionnelle et sans quantite precise, donne une valeur raisonnable compatible avec le site (souvent qte: 1 avec uni textuel comme facultatif ou unite selon le cas).",
+    "23. Priorise strictement ingredients_candidates et etapes_candidates lorsqu'ils sont fournis; n'invente des elements qu'en dernier recours.",
     sep = "\n"
   )
 }

@@ -314,18 +314,26 @@ extract_recipe_json_ld <- function(page) {
 
   get_recipe_nodes <- function(node) {
     if (is.null(node)) return(list())
-    if (is.list(node) && !is.null(node[["@graph"]])) {
-      out <- list()
-      for (item in node[["@graph"]]) out <- c(out, get_recipe_nodes(item))
-      return(out)
-    }
     if (is.list(node) && !is.null(node[["@type"]])) {
       types <- tolower(as_character_vec(node[["@type"]]))
       if ("recipe" %in% types) return(list(node))
     }
+    if (is.list(node) && !is.null(node[["@graph"]])) {
+      out <- list()
+      for (item in node[["@graph"]]) out <- c(out, get_recipe_nodes(item))
+      if (length(out) > 0) return(out)
+    }
     if (is.list(node)) {
       out <- list()
-      for (item in node) out <- c(out, get_recipe_nodes(item))
+      nms <- names(node)
+      if (is.null(nms)) {
+        for (item in node) out <- c(out, get_recipe_nodes(item))
+      } else {
+        for (nm in nms) {
+          if (identical(nm, "@graph")) next
+          out <- c(out, get_recipe_nodes(node[[nm]]))
+        }
+      }
       return(out)
     }
     list()
