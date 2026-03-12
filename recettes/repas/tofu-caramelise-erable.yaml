@@ -1,7 +1,7 @@
 nom: Tofu caramélisé à l’érable
 nom_court: Tofu caramelise erable
 source: Ricardo
-portions: 4
+portions: 4.0
 se_congele: yes
 difficulte: ~
 cout: ~
@@ -29,10 +29,14 @@ preparation:
       qte: 450.0
       uni: g
       rangee: Viandes et substituts
+      qte_masse: 450.0
+      uni_masse: g
     - nom: fécule de maïs
       qte: 45.0
       uni: g
       rangee: Epicerie
+      qte_masse: 45.0
+      uni_masse: g
     equipements: []
   - etape: Dans une grande poêle antiadhésive à feu moyen-élevé, cuire le tofu dans
       l’huile 10 minutes ou jusqu’à ce qu’il soit bien doré de tous les côtés et très
@@ -43,6 +47,8 @@ preparation:
       qte: 45.0
       uni: ml
       rangee: Epicerie
+      qte_volume: 45.0
+      uni_volume: ml
     equipements: []
 - section: Sauce à l'érable
   etapes:
@@ -54,24 +60,34 @@ preparation:
       qte: 163.0
       uni: g
       rangee: Epicerie
+      qte_masse: 163.0
+      uni_masse: g
     - nom: sauce hoisin
       qte: 93.0
       uni: g
       rangee: Conserves et sauces
+      qte_masse: 93.0
+      uni_masse: g
     - nom: sauce soya réduite en sodium
       qte: 34.0
       uni: g
       rangee: Conserves et sauces
+      qte_masse: 34.0
+      uni_masse: g
     - nom: vinaigre de riz
       qte: 10.0
       uni: g
       rangee: Epicerie
+      qte_masse: 10.0
+      uni_masse: g
     - nom: condiment épicé au chili ou sauce sriracha
       qte: 10.0
       uni: g
       rangee: Conserves et sauces
+      qte_masse: 10.0
+      uni_masse: g
     - nom: ail
-      qte: 2
+      qte: 2.0
       uni: gousse
       rangee: Fruits et legumes
     equipements:
@@ -88,7 +104,7 @@ preparation:
     image_guid: ~
     ingredients:
     - nom: oignon vert
-      qte: 1
+      qte: 1.0
       uni: oignon
       rangee: Fruits et legumes
     equipements: []

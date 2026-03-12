@@ -1,7 +1,7 @@
 collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_court", "source", "portions", "preparation")) {
   issues <- character()
   nom_courts <- character()
-  allowed_mass_units <- c("g", "lbs", "onces")
+  allowed_mass_units <- c("g", "kg", "lbs", "onces")
   allowed_volume_units <- c("ml", "c. à thé", "c. à soupe", "tasse")
 
   recipes_dir <- "recettes"
@@ -85,6 +85,25 @@ collect_validation_issues <- function(yaml_files, required_root = c("nom", "nom_
               u <- as.character(ing$uni_volume %||% "")
               if (!(u %in% allowed_volume_units)) {
                 issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, uni_volume invalide ({u})."))
+              }
+            }
+            default_u <- as.character(ing$uni %||% "")
+            if (default_u %in% allowed_mass_units) {
+              qte <- suppressWarnings(as.numeric(ing$qte))
+              qte_masse <- suppressWarnings(as.numeric(ing$qte_masse))
+              uni_masse <- as.character(ing$uni_masse %||% "")
+              mirror_ok <- is.finite(qte) && is.finite(qte_masse) && identical(uni_masse, default_u) && abs(qte_masse - qte) < 1e-9
+              if (!mirror_ok) {
+                issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, qte_masse/uni_masse doivent refleter qte/uni par defaut ({qte} {default_u})."))
+              }
+            }
+            if (default_u %in% allowed_volume_units) {
+              qte <- suppressWarnings(as.numeric(ing$qte))
+              qte_volume <- suppressWarnings(as.numeric(ing$qte_volume))
+              uni_volume <- as.character(ing$uni_volume %||% "")
+              mirror_ok <- is.finite(qte) && is.finite(qte_volume) && identical(uni_volume, default_u) && abs(qte_volume - qte) < 1e-9
+              if (!mirror_ok) {
+                issues <- c(issues, glue::glue("{rel}: section #{si}, etape #{ti}, ingredient #{ii}, qte_volume/uni_volume doivent refleter qte/uni par defaut ({qte} {default_u})."))
               }
             }
             if (!has_any_qty) {

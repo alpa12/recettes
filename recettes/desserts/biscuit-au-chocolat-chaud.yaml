@@ -1,7 +1,7 @@
 nom: Biscuits au chocolat chaud
 nom_court: Biscuit chocolat chaud
 source: Nathalie
-portions: 12
+portions: 12.0
 se_congele: no
 categories:
 - Biscuit
@@ -19,22 +19,32 @@ preparation:
       qte: 2.0
       uni: tasse
       rangee: Epicerie
+      qte_volume: 2.0
+      uni_volume: tasse
     - nom: Chocolat chaud en poudre
       qte: 0.5
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.5
+      uni_volume: tasse
     - nom: Cacao
       qte: 1.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à soupe
     - nom: Bicarbonate
-      qte: 1
+      qte: 1.0
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à thé
     - nom: Poudre à pâte
       qte: 0.5
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 0.5
+      uni_volume: c. à thé
     equipements:
     - Bol
     - Cuillère
@@ -44,16 +54,22 @@ preparation:
       qte: 0.33
       uni: tasse
       rangee: Produits laitiers et oeufs
+      qte_volume: 0.33
+      uni_volume: tasse
     - nom: Sucre
       qte: 0.5
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.5
+      uni_volume: tasse
     - nom: Cassonade
       qte: 0.5
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.5
+      uni_volume: tasse
     - nom: Oeuf
-      qte: 2
+      qte: 2.0
       uni: unité
       rangee: Produits laitiers et oeufs
     equipements: Batteur électrique
@@ -63,6 +79,8 @@ preparation:
       qte: 0.5
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.5
+      uni_volume: tasse
     equipements: Spatule
   - etape: Cuire au four 6 minutes à 375°F.
     ingredients: []
@@ -73,5 +91,7 @@ preparation:
       qte: 0.75
       uni: tasse
       rangee: Epicerie
+      qte_volume: 0.75
+      uni_volume: tasse
     equipements: Four
 commentaires: Les miniguimauves sont facultatives.

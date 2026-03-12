@@ -1,7 +1,7 @@
 nom: Tofu au beurre
 nom_court: tofu beurre
 source: https://bonpourtoi.ca/recettes/tofu-au-beurre/
-portions: 4
+portions: 4.0
 se_congele: no
 difficulte: ~
 cout: ~
@@ -27,26 +27,38 @@ preparation:
       qte: 1.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à soupe
     - nom: Garam masala
       qte: 1.0
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à thé
     - nom: Poudre de cari
       qte: 0.25
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 0.25
+      uni_volume: c. à thé
     - nom: Cumin
       qte: 0.25
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 0.25
+      uni_volume: c. à thé
     - nom: Gingembre moulu
       qte: 0.25
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 0.25
+      uni_volume: c. à thé
     - nom: Tofu ferme en cubes
       qte: 454.0
       uni: g
       rangee: Viandes et substituts
+      qte_masse: 454.0
+      uni_masse: g
     equipements: Bol
   - etape: Dans une poêle antiadhésive, chauffer l’huile à feu moyen et cuire les
       morceaux de tofu environ 5 minutes ou jusqu’à ce qu’il devienne croustillant.
@@ -57,6 +69,8 @@ preparation:
       qte: 1.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à soupe
     equipements: Poêle antiadhésive
 - section: Sauce pour le tofu au beurre
   etapes:
@@ -69,18 +83,22 @@ preparation:
       qte: 1.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à soupe
     - nom: Oignon haché
-      qte: 1
+      qte: 1.0
       uni: moyen
       rangee: Fruits et legumes
     - nom: Ail haché
-      qte: 1
+      qte: 1.0
       uni: gousse
       rangee: Fruits et legumes
     - nom: Gingembre frais haché
       qte: 1.0
       uni: c. à soupe
       rangee: Fruits et legumes
+      qte_volume: 1.0
+      uni_volume: c. à soupe
     equipements: Poêle antiadhésive
   - etape: Incorporer ensuite les épices, le lait de coco et la pâte de tomates. Porter
       le tout à ébullition. Réduire à feu moyen et mijoter 5 minutes.
@@ -90,26 +108,38 @@ preparation:
       qte: 1.0
       uni: c. à soupe
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à soupe
     - nom: Poudre de cari
       qte: 1.0
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à thé
     - nom: Sel
       qte: 0.5
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 0.5
+      uni_volume: c. à thé
     - nom: Poivre
       qte: 0.5
       uni: c. à thé
       rangee: Epicerie
+      qte_volume: 0.5
+      uni_volume: c. à thé
     - nom: Lait de coco
       qte: 398.0
       uni: ml
       rangee: Conserves et sauces
+      qte_volume: 398.0
+      uni_volume: ml
     - nom: Pâte de tomates
       qte: 156.0
       uni: ml
       rangee: Conserves et sauces
+      qte_volume: 156.0
+      uni_volume: ml
     equipements: []
   - etape: Ajouter les petits cubes de tofu à la sauce crémeuse et laisser mijoter
       10 minutes. Servir immédiatement et accompagner de pain naan ou de riz au jasmin.
