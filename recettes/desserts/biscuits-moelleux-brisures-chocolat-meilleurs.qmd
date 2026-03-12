@@ -1,6 +1,6 @@
 ---
 title: Biscuits moelleux aux brisures de chocolat (les meilleurs)
-
+image: /images/5cacc30e-7e45-4664-94ff-020fb74a155a.jpg
 categories:
   - Desserts
   - Biscuits
@@ -18,7 +18,7 @@ categories:
 </div>
 </div>
 <div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://www.ricardocuisine.com/recettes/4874-biscuits-moelleux-aux-brisures-de-chocolat-les-meilleurs" target="_blank" rel="noopener noreferrer">ricardocuisine.com</a></strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>15 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>24 min</strong></div><div class="recipe-fact"><span>Temps réfrigération</span><strong>60 min</strong></div></div>
-
+<figure class="recipe-cover"><img class="recipe-cover-image" src="/images/5cacc30e-7e45-4664-94ff-020fb74a155a.jpg" alt="Photo de couverture - Biscuits moelleux aux brisures de chocolat (les meilleurs)" loading="eager" decoding="async"></figure>
 ```
 
 ```{=html}
@@ -103,7 +103,6 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 - Four
 - Plaque de cuisson
 - Papier parchemin
-- Cuillère à crème glacée
 
 ## Préparation
 
@@ -159,3 +158,8 @@ document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelector
 })();</script>
 ```
 
+## Notes
+
+_★★★½☆ (moyenne 3.5/5) · 1 commentaire(s) · Alexandre Parent: 1 · Élodie Bourgeois: 0_
+
+- [★★★½☆ · Alexandre Parent · 2026/03/12] Il a fallu les faire cuire au moins 15 min, sûrement plus. Ne pas écraser les biscuits.
