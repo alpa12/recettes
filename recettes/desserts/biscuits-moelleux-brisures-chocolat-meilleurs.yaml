@@ -1,100 +1,126 @@
 nom: Biscuits moelleux aux brisures de chocolat (les meilleurs)
 nom_court: biscuits-moelleux-brisures-chocolat-meilleurs
 source: https://www.ricardocuisine.com/recettes/4874-biscuits-moelleux-aux-brisures-de-chocolat-les-meilleurs
-portions: 8.0
-se_congele: yes
+portions: 8
+se_congele: true
 difficulte: Intermédiaire
 cout: $
 allergenes:
-- Gluten
-- Lait
-- Œuf
+  - Gluten
+  - Lait
+  - Œuf
 categories:
-- Desserts
-- Biscuits
+  - Desserts
+  - Biscuits
 temps:
   preparation: 15
   cuisson: 24
   refrigeration: 60
 preparation:
-- section: Préparation de la pâte
-  etapes:
-  - etape: Dans un bol, mélanger la farine, le bicarbonate et le sel.
-    ingredients:
-    - nom: Farine tout usage non blanchie
-      qte: 225.0
-      uni: g
-      qte_masse: 225.0
-      uni_masse: g
-      rangee: Epicerie
-    - nom: Bicarbonate de soude
-      qte: 2.5
-      uni: c. à thé
-      qte_volume: 2.5
-      uni_volume: c. à thé
-      rangee: Epicerie
-    - nom: Sel
-      qte: 1.0
-      uni: pincée
-      rangee: Epicerie
-    equipements: Bol
-  - etape: Dans un autre bol, mélanger le beurre avec la cassonade et le sucre à la
-      cuillère de bois. Ajouter l’œuf et le jaune d’œuf. Mélanger jusqu’à ce que la
-      préparation soit homogène. Incorporer les ingrédients secs et le chocolat. Couvrir
-      et réfrigérer 1 heure ou toute une nuit.
-    ingredients:
-    - nom: Beurre non salé, fondu
-      qte: 170.0
-      uni: g
-      qte_masse: 170.0
-      uni_masse: g
-      rangee: Produits laitiers et oeufs
-    - nom: Cassonade tassée
-      qte: 210.0
-      uni: g
-      qte_masse: 210.0
-      uni_masse: g
-      rangee: Epicerie
-    - nom: Sucre
-      qte: 30.0
-      uni: c. à soupe
-      qte_volume: 30.0
-      uni_volume: c. à soupe
-      rangee: Epicerie
-    - nom: Œuf
-      qte: 1.0
-      uni: unité
-      rangee: Produits laitiers et oeufs
-    - nom: Jaune d’œuf
-      qte: 1.0
-      uni: unité
-      rangee: Produits laitiers et oeufs
-    - nom: Chocolat au lait ou noir, haché grossièrement
-      qte: 195.0
-      uni: g
-      qte_masse: 195.0
-      uni_masse: g
-      rangee: Epicerie
-    equipements:
-    - Bol
-    - Cuillère de bois
-- section: Cuisson
-  etapes:
-  - etape: Placer la grille au centre du four. Préchauffer le four à 190 °C (375 °F).
-      Tapisser deux plaques de cuisson de papier parchemin.
-    equipements:
-    - Four
-    - Plaque de cuisson
-    - Papier parchemin
-    ingredients: []
-  - etape: À l’aide d’une cuillère à crème glacée d’environ 45 ml (3 c. à soupe),
-      former des boules de pâte. Déposer 5 à 6 boules de pâte par plaque en les espaçant.
-    equipements: Cuillère à crème glacée
-    ingredients: []
-  - etape: Cuire au four, une plaque à la fois, de 8 à 9 minutes ou jusqu’à ce que
-      les biscuits soient légèrement dorés tout autour, mais encore très moelleux
-      au centre. Laisser refroidir sur la plaque.
-    equipements: Four
-    ingredients: []
-commentaires: []
-soumis_par: Alexandre Parent
+  - section: Préparation de la pâte
+    etapes:
+      - etape: Dans un bol, mélanger la farine, le bicarbonate et le sel.
+        image_guid: null
+        ingredients:
+          - nom: Farine tout usage non blanchie
+            qte: 225
+            uni: g
+            qte_masse: 225
+            uni_masse: g
+            qte_volume: null
+            uni_volume: null
+            rangee: Epicerie
+          - nom: Bicarbonate de soude
+            qte: 2.5
+            uni: c. à thé
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 2.5
+            uni_volume: c. à thé
+            rangee: Epicerie
+          - nom: Sel
+            qte: 1
+            uni: pincée
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Epicerie
+        equipements: []
+      - etape: Dans un autre bol, mélanger le beurre avec la cassonade et le sucre à la cuillère de bois. Ajouter l’œuf et le jaune d’œuf. Mélanger jusqu’à ce que la préparation soit homogène. Incorporer les ingrédients secs et le chocolat. Couvrir et réfrigérer 1 heure ou toute une nuit.
+        image_guid: null
+        ingredients:
+          - nom: Beurre non salé, fondu
+            qte: 170
+            uni: g
+            qte_masse: 170
+            uni_masse: g
+            qte_volume: null
+            uni_volume: null
+            rangee: Produits laitiers et oeufs
+          - nom: Cassonade tassée
+            qte: 210
+            uni: g
+            qte_masse: 210
+            uni_masse: g
+            qte_volume: null
+            uni_volume: null
+            rangee: Epicerie
+          - nom: Sucre
+            qte: 30
+            uni: c. à soupe
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 30
+            uni_volume: c. à soupe
+            rangee: Epicerie
+          - nom: Œuf
+            qte: 1
+            uni: unité
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Produits laitiers et oeufs
+          - nom: Jaune d’œuf
+            qte: 1
+            uni: unité
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Produits laitiers et oeufs
+          - nom: Chocolat au lait ou noir, haché grossièrement
+            qte: 195
+            uni: g
+            qte_masse: 195
+            uni_masse: g
+            qte_volume: null
+            uni_volume: null
+            rangee: Epicerie
+        equipements:
+          - Bol
+          - Cuillère de bois
+  - section: Cuisson
+    etapes:
+      - etape: Placer la grille au centre du four. Préchauffer le four à 190 °C (375 °F). Tapisser deux plaques de cuisson de papier parchemin.
+        image_guid: null
+        ingredients: []
+        equipements:
+          - Four
+          - Plaque de cuisson
+          - Papier parchemin
+      - etape: À l’aide d’une cuillère à crème glacée d’environ 45 ml (3 c. à soupe), former des boules de pâte. Déposer 5 à 6 boules de pâte par plaque en les espaçant.
+        image_guid: null
+        ingredients: []
+        equipements: []
+      - etape: Cuire au four, une plaque à la fois, de 8 à 9 minutes ou jusqu’à ce que les biscuits soient légèrement dorés tout autour, mais encore très moelleux au centre. Laisser refroidir sur la plaque.
+        image_guid: null
+        ingredients: []
+        equipements: []
+commentaires:
+  - commentaire: Il a fallu les faire cuire au moins 15 min, sûrement plus. Ne pas écraser les biscuits.
+    date: 2026/03/12
+    auteur: Alexandre Parent
+    evaluation: '3.5'
+image_guid: 5cacc30e-7e45-4664-94ff-020fb74a155a
