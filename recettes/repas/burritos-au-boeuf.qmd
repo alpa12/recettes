@@ -1,8 +1,6 @@
 ---
 title: Burritos au bœuf
 
-categories:
-  - Plats principaux
 ---
 
 ```{=html}
@@ -16,7 +14,7 @@ categories:
 <button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisine</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://www.ricardocuisine.com/recettes/9380-burritos-au-b-uf" target="_blank" rel="noopener noreferrer">ricardocuisine.com</a></strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>12 min</strong></div></div>
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://www.ricardocuisine.com/recettes/9380-burritos-au-b-uf" target="_blank" rel="noopener noreferrer">ricardocuisine.com</a></strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>12 min</strong></div></div>
 
 ```
 
@@ -109,7 +107,6 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 
 ### Cuisson du riz
 
-- petite casserole
 
 ### Cuisson de la garniture de bœuf
 
@@ -118,7 +115,6 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 
 ### Assemblage des burritos
 
-- plan de travail
 
 ### Note de l'équipe Ricardo
 
@@ -194,3 +190,8 @@ document.addEventListener('DOMContentLoaded',()=>{load(); document.querySelector
 })();</script>
 ```
 
+## Notes
+
+_★★★½☆ (moyenne 3.5/5) · 1 commentaire(s) · Alexandre Parent: 1 · Élodie Bourgeois: 0_
+
+- [★★★½☆ · Alexandre Parent · 2026/03/13] (sans texte)
