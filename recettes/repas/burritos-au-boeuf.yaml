@@ -1,0 +1,144 @@
+nom: Burritos au bœuf
+nom_court: burritos-au-boeuf
+source: https://www.ricardocuisine.com/recettes/9380-burritos-au-b-uf
+portions: 4.0
+se_congele: no
+difficulte: ~
+cout: ~
+allergenes:
+- Gluten
+- Lait
+categories: Plats principaux
+temps:
+  preparation: 20
+  cuisson: 12
+  refrigeration: ~
+preparation:
+- section: Cuisson du riz
+  etapes:
+  - etape: Dans une petite casserole, porter à ébullition l’eau, le riz et le sel.
+      Couvrir et cuire à feu très doux 8 minutes. Retirer du feu et laisser reposer
+      4 minutes.
+    image_guid: ~
+    ingredients:
+    - nom: Eau froide
+      qte: 180.0
+      uni: ml
+      qte_volume: 180.0
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: Riz basmati
+      qte: 100.0
+      uni: g
+      qte_masse: 100.0
+      uni_masse: g
+      rangee: Epicerie
+    - nom: Sel
+      qte: 0.25
+      uni: c. à thé
+      qte_volume: 0.25
+      uni_volume: c. à thé
+      rangee: Epicerie
+    equipements: petite casserole
+- section: Cuisson de la garniture de bœuf
+  etapes:
+  - etape: Dans une grande poêle antiadhésive à feu moyen-élevé, cuire le bœuf dans
+      l’huile 5 minutes en l’émiettant à la cuillère de bois. Saler et poivrer.
+    image_guid: ~
+    ingredients:
+    - nom: Bœuf haché maigre
+      qte: 450.0
+      uni: g
+      qte_masse: 450.0
+      uni_masse: g
+      rangee: Viandes et substituts
+    - nom: Huile végétale
+      qte: 15.0
+      uni: ml
+      qte_volume: 15.0
+      uni_volume: ml
+      rangee: Epicerie
+    equipements:
+    - grande poêle antiadhésive
+    - cuillère de bois
+  - etape: Ajouter le poivron et poursuivre la cuisson 3 minutes.
+    image_guid: ~
+    ingredients:
+    - nom: Poivron rouge
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    equipements: []
+  - etape: Ajouter les haricots noirs et les épices (assaisonnement au chili, cumin
+      moulu). Bien mélanger. Rectifier l’assaisonnement.
+    image_guid: ~
+    ingredients:
+    - nom: Haricot noir
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    - nom: Assaisonnement au chili
+      qte: 15.0
+      uni: ml
+      qte_volume: 15.0
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: Cumin moulu
+      qte: 5.0
+      uni: ml
+      qte_volume: 5.0
+      uni_volume: ml
+      rangee: Epicerie
+    equipements: []
+- section: Assemblage des burritos
+  etapes:
+  - etape: Sur un plan de travail, déposer les tortillas. Répartir, en superposant,
+      le riz, la laitue, le mélange de viande, la salsa, le maïs et le fromage. Replier
+      les tortillas sur les garnitures de chaque côté, puis les rouler fermement en
+      emprisonnant les garnitures. Retourner les burritos afin que le joint soit en
+      dessous (voir note). Couper en deux. Servir et accompagner de salsa, si désiré.
+    image_guid: ~
+    ingredients:
+    - nom: Tortilla de blé
+      qte: 4.0
+      uni: unité
+      rangee: Epicerie
+    - nom: Laitue iceberg émincée
+      qte: 180.0
+      uni: g
+      qte_masse: 180.0
+      uni_masse: g
+      rangee: Fruits et legumes
+    - nom: Salsa
+      qte: 125.0
+      uni: ml
+      qte_volume: 125.0
+      uni_volume: ml
+      rangee: Conserves et sauces
+    - nom: Grain de maïs surgelé
+      qte: 150.0
+      uni: g
+      qte_masse: 150.0
+      uni_masse: g
+      rangee: Fruits et legumes
+    - nom: Fromage tex-mex râpé
+      qte: 150.0
+      uni: g
+      qte_masse: 150.0
+      uni_masse: g
+      rangee: Produits laitiers et oeufs
+    equipements: plan de travail
+- section: Note de l'équipe Ricardo
+  etapes:
+  - etape: Pour obtenir des burritos à l’extérieur croustillant, placez ceux-ci sur
+      une plaque de cuisson antiadhésive ou tapissée de papier parchemin. Faites cuire
+      sur la grille au centre du four à 220 °C (425 °F) 6 minutes. Retournez les burritos
+      et poursuivez la cuisson 6 minutes.
+    image_guid: ~
+    ingredients: []
+    equipements:
+    - plaque de cuisson antiadhésive
+    - four
+commentaires: []
+image_guid: ~
+soumis_par: Alexandre Parent
