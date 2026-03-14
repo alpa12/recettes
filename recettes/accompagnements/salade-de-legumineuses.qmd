@@ -1,6 +1,6 @@
 ---
 title: Salade de légumineuses André
-image: /images/index.jpg
+image: /images/484b8c01-46c0-4a9d-90b9-238bd7a78d93.jpg
 categories:
   - Salade
   - Légumineuses
@@ -18,7 +18,7 @@ categories:
 </div>
 </div>
 <div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong>André Parent</strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>-</strong></div></div>
-<figure class="recipe-cover"><img class="recipe-cover-image" src="/images/index.jpg" alt="Photo de couverture - Salade de légumineuses André" loading="eager" decoding="async"></figure>
+<figure class="recipe-cover"><img class="recipe-cover-image" src="/images/484b8c01-46c0-4a9d-90b9-238bd7a78d93.jpg" alt="Photo de couverture - Salade de légumineuses André" loading="eager" decoding="async"></figure>
 ```
 
 ```{=html}
