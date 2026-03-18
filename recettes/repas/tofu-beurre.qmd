@@ -1,6 +1,6 @@
 ---
 title: Tofu au beurre
-
+image: /images/8aa1c44b-0bad-4155-8f86-a5cb3dd7b685.jpg
 categories:
   - Mijotés
   - Plats principaux
@@ -19,8 +19,8 @@ categories:
 <button id="recipe-reading-mode" type="button" class="btn btn-outline-secondary btn-sm">🍳 Mode cuisine</button>
 </div>
 </div>
-<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://bonpourtoi.ca/recettes/tofu-au-beurre/" target="_blank" rel="noopener noreferrer">bonpourtoi.ca</a></strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Non</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>15 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps réfrigération</span><strong>0 min</strong></div></div>
-
+<div class="recipe-facts-grid"><div class="recipe-fact"><span>Source</span><strong><a href="https://bonpourtoi.ca/recettes/tofu-au-beurre/" target="_blank" rel="noopener noreferrer">bonpourtoi.ca</a></strong></div><div class="recipe-fact"><span>Se congèle</span><strong>Oui</strong></div><div class="recipe-fact"><span>Temps préparation</span><strong>15 min</strong></div><div class="recipe-fact"><span>Temps cuisson</span><strong>20 min</strong></div><div class="recipe-fact"><span>Temps réfrigération</span><strong>0 min</strong></div></div>
+<figure class="recipe-cover"><img class="recipe-cover-image" src="/images/8aa1c44b-0bad-4155-8f86-a5cb3dd7b685.jpg" alt="Photo de couverture - Tofu au beurre" loading="eager" decoding="async"></figure>
 ```
 
 ```{=html}
@@ -101,12 +101,9 @@ btn.addEventListener('click', async()=>{const next=!document.body.classList.cont
 
 ### Tofu au beurre
 
-- Bol
-- Poêle antiadhésive
 
 ### Sauce pour le tofu au beurre
 
-- Poêle antiadhésive
 
 ## Préparation
 
