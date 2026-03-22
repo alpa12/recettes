@@ -1,96 +1,110 @@
 nom: Pâté chinois
 nom_court: pate-chinois
 source: https://www.ricardocuisine.com/recettes/5541-pate-chinois
-portions: 4.0
-se_congele: yes
-difficulte: ~
-cout: ~
+portions: 8
+se_congele: true
+difficulte: null
+cout: null
 allergenes: []
-categories: Plats principaux
+categories: []
 temps:
   preparation: 20
   cuisson: 60
-  refrigeration: ~
+  refrigeration: null
 preparation:
-- section: Préparation générale
-  etapes:
-  - etape: Déposer les pommes de terre dans une casserole. Couvrir d’eau froide. Saler.
-      Porter à ébullition et laisser mijoter 25 minutes ou jusqu’à ce que les pommes
-      de terre soient très tendres. Égoutter. Remettre dans la casserole.
-    image_guid: ~
-    ingredients:
-    - nom: Pomme de terre Russet ou Yukon Gold
-      qte: 680.0
-      uni: g
-      qte_masse: 680.0
-      uni_masse: g
-      rangee: Fruits et legumes
-    equipements: Casserole
-  - etape: À l’aide d’un pilon à pommes de terre, écraser grossièrement les pommes
-      de terre avec 30 ml (2 c. à soupe) du beurre. À l’aide d’un batteur électrique,
-      réduire le mélange en purée avec le lait. Saler et poivrer. Réserver.
-    image_guid: ~
-    ingredients:
-    - nom: Beurre
-      qte: 55.0
-      uni: g
-      qte_masse: 55.0
-      uni_masse: g
-      rangee: Produits laitiers et oeufs
-    - nom: Lait
-      qte: 125.0
-      uni: ml
-      qte_volume: 125.0
-      uni_volume: ml
-      rangee: Produits laitiers et oeufs
-    equipements:
-    - Pilon à pommes de terre
-    - Batteur électrique
-  - etape: Placer la grille au centre du four. Préchauffer le four à 190 °C (375 °F).
-    image_guid: ~
-    ingredients: []
-    equipements: []
-  - etape: Entre-temps, dans une grande poêle à feu moyen-élevé, dorer l'oignon dans
-      le reste du beurre. Ajouter la viande et cuire en l'émiettant à la cuillère
-      de bois jusqu'à ce qu'elle soit dorée. Saler et poivrer.
-    image_guid: ~
-    ingredients:
-    - nom: Oignon
-      qte: 1.0
-      uni: unité
-      rangee: Fruits et legumes
-    - nom: Boeuf haché maigre ou mi-maigre
-      qte: 450.0
-      uni: g
-      qte_masse: 450.0
-      uni_masse: g
-      rangee: Viandes et substituts
-    equipements:
-    - Grande poêle
-    - Cuillère de bois
-  - etape: Presser légèrement la viande dans le fond d'un plat de cuisson carré de
-      20 cm (8 po). Y étaler le maïs puis la purée de pommes de terre. Saupoudrer
-      de paprika et de persil.
-    image_guid: ~
-    ingredients:
-    - nom: Maïs en crème
-      qte: 1.0
-      uni: boîte
-      rangee: Conserves et sauces
-    - nom: Paprika doux
-      qte: 1.0
-      uni: facultatif
-      rangee: Epicerie
-    - nom: Persil séché
-      qte: 1.0
-      uni: facultatif
-      rangee: Epicerie
-    equipements: Plat de cuisson carré de 20 cm (8 po)
-  - etape: Cuire au four 30 minutes. Terminer la cuisson sous le gril (broil), si
-      désiré. Laisser reposer 10 minutes avant de servir.
-    image_guid: ~
-    ingredients: []
-    equipements: []
+  - section: Préparation générale
+    etapes:
+      - etape: Déposer les pommes de terre dans une casserole. Couvrir d’eau froide. Saler. Porter à ébullition et laisser mijoter 25 minutes ou jusqu’à ce que les pommes de terre soient très tendres. Égoutter. Remettre dans la casserole.
+        image_guid: null
+        ingredients:
+          - nom: Pomme de terre pelées
+            qte: 1
+            uni: kg
+            qte_masse: 1
+            uni_masse: kg
+            qte_volume: null
+            uni_volume: null
+            rangee: Fruits et legumes
+        equipements: []
+      - etape: À l’aide d’un pilon à pommes de terre, écraser grossièrement les pommes de terre avec 30 ml (2 c. à soupe) du beurre. À l’aide d’un batteur électrique, réduire le mélange en purée avec le lait. Saler et poivrer. Réserver.
+        image_guid: null
+        ingredients:
+          - nom: Beurre
+            qte: 80
+            uni: g
+            qte_masse: 80
+            uni_masse: g
+            qte_volume: null
+            uni_volume: null
+            rangee: Produits laitiers et oeufs
+          - nom: Lait
+            qte: 1
+            uni: tasse
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 1
+            uni_volume: tasse
+            rangee: Produits laitiers et oeufs
+        equipements:
+          - Pilon à pommes de terre
+          - Batteur électrique
+      - etape: Placer la grille au centre du four. Préchauffer le four à 190 °C (375 °F).
+        image_guid: null
+        ingredients: []
+        equipements: []
+      - etape: Entre-temps, dans une grande poêle à feu moyen-élevé, dorer l'oignon dans le reste du beurre. Ajouter la viande et cuire en l'émiettant à la cuillère de bois jusqu'à ce qu'elle soit dorée. Saler et poivrer.
+        image_guid: null
+        ingredients:
+          - nom: Oignon
+            qte: 1
+            uni: unité
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Fruits et legumes
+          - nom: Boeuf haché maigre ou mi-maigre
+            qte: 1
+            uni: kg
+            qte_masse: 1
+            uni_masse: kg
+            qte_volume: null
+            uni_volume: null
+            rangee: Viandes et substituts
+        equipements:
+          - Grande poêle
+          - Cuillère de bois
+      - etape: Presser légèrement la viande dans le fond d'un plat de cuisson carré de 20 cm (8 po). Y étaler le maïs puis la purée de pommes de terre. Saupoudrer de paprika et de persil.
+        image_guid: null
+        ingredients:
+          - nom: Maïs congelé
+            qte: 4
+            uni: tasse
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 4
+            uni_volume: tasse
+            rangee: Conserves et sauces
+          - nom: Paprika doux
+            qte: 1
+            uni: facultatif
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Epicerie
+          - nom: Persil séché
+            qte: 1
+            uni: facultatif
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Epicerie
+        equipements: []
+      - etape: Cuire au four 30 minutes. Terminer la cuisson sous le gril (broil), si désiré. Laisser reposer 10 minutes avant de servir.
+        image_guid: null
+        ingredients: []
+        equipements: []
 commentaires: []
-image_guid: ~
-soumis_par: Alexandre Parent
+image_guid: null
