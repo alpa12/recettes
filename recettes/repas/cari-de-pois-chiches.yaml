@@ -1,0 +1,133 @@
+nom: Cari de Pois Chiches
+nom_court: cari-de-pois-chiches
+source: https://www.lacuisinedejeanphilippe.com/recipe/cari-de-pois-chiches/
+portions: 2.0
+se_congele: yes
+difficulte: Facile
+cout: $
+allergenes: []
+categories:
+- Cari
+- Végane
+- Plat principal
+- Facile
+- Rapide
+- Économique
+temps:
+  preparation: 20
+  cuisson: 20
+  refrigeration: ~
+preparation:
+- section: Cari de Pois Chiches
+  etapes:
+  - etape: Dans une poêle, faire revenir les oignons et les poivrons dans l’huile,
+      à feu mi-vif, durant 5 minutes.
+    image_guid: ~
+    ingredients:
+    - nom: Oignon
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Poivron rouge
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Huile de canola ou de coco
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    equipements: []
+  - etape: Ajouter la poudre de cari, le piment rouge broyé, le sirop d'érable, la
+      levure alimentaire, la pâte de tomate et les pois chiches. Faire revenir 3 minutes
+      en mélangeant.
+    image_guid: ~
+    ingredients:
+    - nom: Poudre de cari
+      qte: 1.0
+      uni: c. à soupe
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Piment rouge broyé
+      qte: 0.25
+      uni: c. à thé
+      qte_volume: 0.25
+      uni_volume: c. à thé
+      rangee: Epicerie
+    - nom: Sirop d'érable
+      qte: 1.0
+      uni: c. à soupe
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Levure alimentaire
+      qte: 4.0
+      uni: c. à soupe
+      qte_volume: 4.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Pâte de tomate
+      qte: 1.0
+      uni: c. à soupe
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+      rangee: Conserves et sauces
+    - nom: Pois chiche
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    equipements: []
+  - etape: Incorporer le lait de coco, ajouter le sel et poursuivre la cuisson jusqu’à
+      ce que la sauce devienne onctueuse ( de 10 à 15 minutes)
+    image_guid: ~
+    ingredients:
+    - nom: Lait de coco
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    - nom: Sel
+      qte: 0.75
+      uni: c. à thé
+      qte_volume: 0.75
+      uni_volume: c. à thé
+      rangee: Epicerie
+    equipements: []
+  - etape: Servir sur du riz basmati et garnir de feuilles de basilic.
+    image_guid: ~
+    ingredients:
+    - nom: Riz basmati
+      qte: 1.0
+      uni: portion
+      rangee: Epicerie
+    - nom: Feuille de basilic
+      qte: 1.0
+      uni: poignee
+      rangee: Fruits et legumes
+    equipements: []
+- section: Cuisson du riz basmati
+  etapes:
+  - etape: Rincer le riz à l’eau froide et bien égoutter. Dans une casserole, verser
+      l’eau, le riz et le sel. Porter à ébullition.
+    image_guid: ~
+    ingredients:
+    - nom: Eau
+      qte: 3.0
+      uni: tasse
+      qte_volume: 3.0
+      uni_volume: tasse
+      rangee: Epicerie
+    equipements: Casserole
+  - etape: Réduire le feu au minimum. Remuer et couvrir. Cuire à couvert de 10 à 12
+      minutes ou jusqu’a ce que toute l’eau soit absorbée.
+    image_guid: ~
+    ingredients: []
+    equipements: []
+  - etape: Retirer du feu et laisser reposer 5 minutes à couvert.
+    image_guid: ~
+    ingredients: []
+    equipements: []
+commentaires: []
+image_guid: ~
+soumis_par: Élo
