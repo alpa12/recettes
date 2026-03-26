@@ -1,0 +1,104 @@
+nom: Linguines cajuns aux crevettes
+nom_court: linguines-cajuns-aux-crevettes
+source: https://www.ricardocuisine.com/recettes/9694-linguines-cajuns-aux-crevettes
+portions: 4.0
+se_congele: no
+difficulte: Facile
+cout: $$
+allergenes:
+- Fruits de mer
+- Lait
+- Gluten
+categories:
+- Plats principaux
+- Rapide
+temps:
+  preparation: 10
+  cuisson: 15
+  refrigeration: ~
+preparation:
+- etapes:
+  - etape: Dans une casserole d’eau bouillante salée, cuire les pâtes <i>al dente</i>.
+      Prélever 125 ml (1/2 tasse) d’eau de cuisson. Égoutter les pâtes.
+    image_guid: ~
+    ingredients:
+    - nom: Linguine
+      qte: 340.0
+      uni: g
+      qte_masse: 340.0
+      uni_masse: g
+      rangee: Epicerie
+    equipements: Casserole
+  - etape: Entre-temps, dans une grande poêle à feu moyen-élevé, cuire les crevettes
+      de 2 à 3 minutes dans 1 c. à soupe de l’huile. Saler et poivrer. Réserver sur
+      une assiette.
+    image_guid: ~
+    ingredients:
+    - nom: Crevette
+      qte: 340.0
+      uni: g
+      qte_masse: 340.0
+      uni_masse: g
+      rangee: Viandes et substituts
+    - nom: Huile d'olive
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    equipements: Poêle
+  - etape: Dans la même poêle à feu moyen, attendrir l’oignon dans le reste de l’huile.
+      Ajouter l’ail et les épices. Cuire 1 minute en remuant. Ajouter les tomates
+      en remuant et poursuivre la cuisson jusqu’à ce que le liquide des tomates soit
+      évaporé.
+    image_guid: ~
+    ingredients:
+    - nom: Oignon
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Ail
+      qte: 1.0
+      uni: gousse
+      rangee: Fruits et legumes
+    - nom: Melange d'epices cajun
+      qte: 1.0
+      uni: c. à thé
+      qte_volume: 1.0
+      uni_volume: c. à thé
+      rangee: Epicerie
+    - nom: Tomate en des
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    equipements: Poêle
+  - etape: Ajouter l’eau de cuisson, la crème, le fromage à la crème et le persil.
+      Saler, poivrer et bien mélanger jusqu’à ce que la sauce soit homogène. Ajouter
+      les crevettes et les pâtes. Mélanger pour les enrober de la sauce.
+    image_guid: ~
+    ingredients:
+    - nom: Creme 15 ou 35 %
+      qte: 0.75
+      uni: tasse
+      qte_volume: 0.75
+      uni_volume: tasse
+      rangee: Produits laitiers et oeufs
+    - nom: Fromage a la creme
+      qte: 65.0
+      uni: g
+      qte_masse: 65.0
+      uni_masse: g
+      rangee: Produits laitiers et oeufs
+    - nom: Persil cisele
+      qte: 3.0
+      uni: c. à soupe
+      qte_volume: 3.0
+      uni_volume: c. à soupe
+      rangee: Fruits et legumes
+    equipements: []
+  - etape: Répartir les pâtes dans des bols. Parsemer de persil et servir aussitôt.
+    image_guid: ~
+    ingredients: []
+    equipements: Bol
+commentaires: []
+soumis_par: Elo
