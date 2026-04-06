@@ -1,0 +1,113 @@
+nom: Poulet cacciatore
+nom_court: cacciatore
+source: Nathalie Davignon
+portions: 8
+se_congele: true
+difficulte: null
+cout: null
+allergenes: []
+categories:
+  - Poulet
+  - Mijoteuse
+temps:
+  preparation: 30
+  cuisson: 360
+  refrigeration: null
+preparation:
+  - section: Préparation
+    etapes:
+      - etape: Couper les poitrines de poulet en deux et faire revenir dans une poêle, dans de l'huile d'olive
+        image_guid: null
+        ingredients:
+          - nom: Poitrine de poulet désossée
+            qte: 6
+            uni: unité
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Viandes et substituts
+        equipements: []
+      - etape: Verser le poulet (sans l'eau de cuisson) dans la mijoteuse. Ajouter tous les autres ingrédients.
+        image_guid: null
+        ingredients:
+          - nom: Oignon jaune
+            qte: 250
+            uni: mL
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 250
+            uni_volume: ml
+            rangee: Fruits et legumes
+          - nom: Sauce tomate au basilic
+            qte: 900
+            uni: mL
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 900
+            uni_volume: ml
+            rangee: Conserves et sauces
+          - nom: Origan
+            qte: 10
+            uni: ml
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 10
+            uni_volume: ml
+            rangee: Epicerie
+          - nom: Thym
+            qte: 10
+            uni: ml
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 10
+            uni_volume: ml
+            rangee: Epicerie
+          - nom: Sel
+            qte: 10
+            uni: ml
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 10
+            uni_volume: ml
+            rangee: Epicerie
+          - nom: Poivre
+            qte: 10
+            uni: ml
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 10
+            uni_volume: ml
+            rangee: Epicerie
+          - nom: Ail
+            qte: 10
+            uni: ml
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 10
+            uni_volume: ml
+            rangee: Fruits et legumes
+          - nom: Champignons
+            qte: 1
+            uni: boîte
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: Fruits et legumes
+          - nom: Poivron vert
+            qte: 1
+            uni: unité
+            qte_masse: null
+            uni_masse: null
+            qte_volume: null
+            uni_volume: null
+            rangee: null
+        equipements:
+          - Mijoteuse
+      - etape: Faire cuire de 5 à 7 heures à température basse, avec le couvercle. Ou 2 à 3 heures à high.
+        image_guid: null
+        ingredients: []
+        equipements: []
+commentaires: []
+image_guid: null
