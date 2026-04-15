@@ -1,0 +1,285 @@
+nom: Cari de Pois Chiches
+nom_court: cari-de-pois-chiches
+source: https://www.lacuisinedejeanphilippe.com/recipe/cari-de-pois-chiches/
+portions: 2.0
+se_congele: yes
+difficulte: Facile
+cout: $
+allergenes: []
+categories:
+- Plat principal
+- Vegan
+- Rapide
+temps:
+  preparation: 20
+  cuisson: 20
+  refrigeration: ~
+preparation:
+- section: Cari de Pois Chiches
+  etapes:
+  - etape: Dans une poêle, faire revenir les oignons et les poivrons dans l’huile,
+      à feu mi-vif, durant 5 minutes.
+    image_guid: ~
+    ingredients:
+    - nom: Oignon
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Poivron rouge
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Huile de canola ou de coco
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    equipements: []
+  - etape: Ajouter la poudre de cari, le piment rouge broyé, le sirop d'érable, la
+      levure alimentaire, la pâte de tomate et les pois chiches. Faire revenir 3 minutes
+      en mélangeant.
+    image_guid: ~
+    ingredients:
+    - nom: Poudre de cari
+      qte: 1.0
+      uni: c. à soupe
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Piment rouge broye
+      qte: 0.25
+      uni: c. à thé
+      qte_volume: 0.25
+      uni_volume: c. à thé
+      rangee: Epicerie
+    - nom: Sirop d'erable
+      qte: 1.0
+      uni: c. à soupe
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Levure alimentaire
+      qte: 4.0
+      uni: c. à soupe
+      qte_volume: 4.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Pate de tomate
+      qte: 1.0
+      uni: c. à soupe
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+      rangee: Conserves et sauces
+    - nom: Pois chiche
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    equipements: []
+  - etape: Incorporer le lait de coco, ajouter le sel et poursuivre la cuisson jusqu’à
+      ce que la sauce devienne onctueuse ( de 10 à 15 minutes).
+    image_guid: ~
+    ingredients:
+    - nom: Lait de coco
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    - nom: Sel
+      qte: 0.5
+      uni: c. à thé
+      qte_volume: 0.5
+      uni_volume: c. à thé
+      rangee: Epicerie
+    equipements: []
+  - etape: Servir sur du riz basmati et garnir de feuilles de basilic.
+    image_guid: ~
+    ingredients:
+    - nom: Basilic frais
+      qte: 1.0
+      uni: bouquet
+      rangee: Fruits et legumes
+    equipements: []
+commentaires: []
+_schema:
+  type: object
+  required:
+  - nom
+  - nom_court
+  - source
+  - portions
+  properties:
+    nom:
+      type: string
+      title: Nom
+      description: Nom complet de la recette
+    nom_court:
+      type: string
+      title: Nom court
+      description: Nom court pour la table des matières
+    source:
+      type: string
+      title: Source
+      description: D'où vient la recette
+    portions:
+      type: integer
+      title: Portions
+      description: Nombre de portions
+    se_congele:
+      type: boolean
+      title: Se congèle
+      description: Est-ce que la recette peut être congelée ?
+    difficulte:
+      type: string
+      title: Difficulté
+      enum:
+      - Facile
+      - Intermédiaire
+      - Avancé
+      nullable: yes
+    cout:
+      type: string
+      title: Coût
+      enum:
+      - $
+      - $$
+      - $$$
+      nullable: yes
+    allergenes:
+      type: array
+      title: Allergènes
+      items:
+        type: string
+    categories:
+      type: array
+      title: Catégories
+      items:
+        type: string
+    temps:
+      type: object
+      title: Temps
+      properties:
+        preparation:
+          type: integer
+          nullable: yes
+        cuisson:
+          type: integer
+          nullable: yes
+        refrigeration:
+          type: integer
+          nullable: yes
+    preparation:
+      type: array
+      title: Préparation
+      items:
+        type: object
+        properties:
+          section:
+            type: string
+          etapes:
+            type: array
+            items:
+              type: object
+              properties:
+                etape:
+                  type: string
+                image_guid:
+                  type: string
+                  title: Image de l'étape
+                  description: Téléverse une image JPG (elle sera renommée automatiquement).
+                  nullable: yes
+                ingredients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      nom:
+                        type: string
+                      qte:
+                        type: number
+                        nullable: yes
+                      uni:
+                        type: string
+                        title: Unité par défaut
+                        description: Toujours remplir. C'est l'unité affichée par
+                          défaut sur le site (ex. g, ml, tasse, gousse, unité).
+                        nullable: yes
+                      qte_masse:
+                        type: number
+                        description: Si uni est une unite de masse, copier automatiquement
+                          qte ici.
+                        nullable: yes
+                      uni_masse:
+                        type: string
+                        title: Unité masse
+                        description: Si uni est une unite de masse, copier automatiquement
+                          uni ici.
+                        enum:
+                        - g
+                        - kg
+                        - lbs
+                        - onces
+                        nullable: yes
+                      qte_volume:
+                        type: number
+                        description: Si uni est une unite de volume, copier automatiquement
+                          qte ici.
+                        nullable: yes
+                      uni_volume:
+                        type: string
+                        title: Unité volume
+                        description: Si uni est une unite de volume, copier automatiquement
+                          uni ici.
+                        enum:
+                        - ml
+                        - c. à thé
+                        - c. à soupe
+                        - tasse
+                        nullable: yes
+                      rangee:
+                        type: string
+                        enum:
+                        - Fruits et legumes
+                        - Viandes et substituts
+                        - Produits laitiers et oeufs
+                        - Epicerie
+                        - Conserves et sauces
+                        nullable: yes
+                equipements:
+                  type: array
+                  items:
+                    type: string
+    commentaires:
+      type: array
+      items:
+        type: object
+        properties:
+          commentaire:
+            type: string
+            nullable: yes
+          date:
+            type: string
+            format: date
+            nullable: yes
+          auteur:
+            type: string
+            nullable: yes
+          evaluation:
+            type: number
+            enum:
+            - 0.5
+            - 1
+            - 1.5
+            - 2
+            - 2.5
+            - 3
+            - 3.5
+            - 4
+            - 4.5
+            - 5
+            nullable: yes
+    image_guid:
+      type: string
+      title: Image de couverture
+      description: Téléverse une image JPG (elle sera renommée automatiquement).
+      nullable: yes
+soumis_par: Élo
