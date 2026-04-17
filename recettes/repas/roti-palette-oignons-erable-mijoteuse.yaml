@@ -1,0 +1,162 @@
+nom: Rôti de palette aux oignons et à l’érable à la mijoteuse
+nom_court: roti-palette-oignons-erable-mijoteuse
+source: https://www.lesrecettesdecaty.com/fr/recettes/plats-principaux/boeuf/roti-de-palette-aux-oignons-et-a-lerable-a-la-mijoteuse/
+portions: 6.0
+se_congele: yes
+difficulte: Facile
+cout: $$
+allergenes:
+- Moutarde
+- Sulfites
+categories:
+- Plats principaux
+- Boeuf
+- Mijoteuse
+temps:
+  preparation: 20
+  cuisson: 480
+  refrigeration: ~
+preparation:
+- section: Préparation
+  etapes:
+  - etape: Dans un bol, mélanger la poudre d’oignon avec la poudre d’ail, la moutarde
+      et le thym. Saler et poivrer.
+    image_guid: ~
+    ingredients:
+    - nom: Poudre d'oignon
+      qte: 30.0
+      uni: ml
+      qte_volume: 30.0
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: Poudre d'ail
+      qte: 5.0
+      uni: ml
+      qte_volume: 5.0
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: Moutarde de Dijon
+      qte: 30.0
+      uni: ml
+      qte_volume: 30.0
+      uni_volume: ml
+      rangee: Conserves et sauces
+    - nom: Thym frais haché
+      qte: 15.0
+      uni: ml
+      qte_volume: 15.0
+      uni_volume: ml
+      rangee: Fruits et legumes
+    - nom: Sel
+      qte: 1.0
+      uni: au gout
+      rangee: Epicerie
+    - nom: Poivre
+      qte: 1.0
+      uni: au gout
+      rangee: Epicerie
+    equipements: Bol
+  - etape: Retirer l’excédent de gras du rôti de palette.
+    image_guid: ~
+    ingredients:
+    - nom: Rôti de palette de boeuf sans os
+      qte: 1.0
+      uni: unité
+      rangee: Viandes et substituts
+    equipements: []
+  - etape: Dans une poêle, chauffer l’huile à feu moyen. Saisir le rôti de palette
+      de 1 à 2 minutes de chaque côté.
+    image_guid: ~
+    ingredients:
+    - nom: Huile d'olive
+      qte: 15.0
+      uni: ml
+      qte_volume: 15.0
+      uni_volume: ml
+      rangee: Epicerie
+    equipements: Poêle
+  - etape: Transférer le rôti dans une assiette. Badigeonner les deux côtés du rôti
+      avec la préparation à la moutarde.
+    image_guid: ~
+    ingredients: []
+    equipements: Assiette
+  - etape: Déposer le rôti dans la mijoteuse. Ajouter le bouillon, le sirop d’érable
+      et les légumes.
+    image_guid: ~
+    ingredients:
+    - nom: Bouillon de boeuf
+      qte: 0.75
+      uni: tasse
+      qte_volume: 0.75
+      uni_volume: tasse
+      rangee: Epicerie
+    - nom: Sirop d'érable
+      qte: 0.33
+      uni: tasse
+      qte_volume: 0.33
+      uni_volume: tasse
+      rangee: Epicerie
+    - nom: Oignon
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Carotte nantaise
+      qte: 4.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Pomme de terre grelot
+      qte: 8.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Rutabaga
+      qte: 0.5
+      uni: unité
+      rangee: Fruits et legumes
+    equipements: Mijoteuse
+  - etape: Couvrir et cuire de 8 à 9 heures à faible intensité, jusqu’à ce que la
+      viande se défasse facilement à la fourchette.
+    image_guid: ~
+    ingredients: []
+    equipements: []
+commentaires:
+- commentaire: Intéressé
+  date: '2019-09-22'
+  auteur: Isabelle Laramee
+  evaluation: ~
+- commentaire: Très bonnes recettes
+  date: '2019-09-24'
+  auteur: Micheline
+  evaluation: 4.5
+- commentaire: J’ai déjà votre livre sur la mijoteuse. Je l’aime beaucoup
+  date: '2020-09-13'
+  auteur: Carmelle Cantin
+  evaluation: ~
+- commentaire: Excellent. J’avais pas de rutabagas alors j’ai mis un gros radis blanc
+    japonais couper en rondelle de 1/2 pouce environ et des panais aussi. Super recettes
+    les enfant en ont redemander!
+  date: '2020-10-01'
+  auteur: Stéphane
+  evaluation: 5
+- commentaire: Très bonnes recettes, merci.
+  date: '2020-10-25'
+  auteur: Martial Huguette
+  evaluation: 4.5
+- commentaire: Très bonne recette !!
+  date: '2021-12-14'
+  auteur: Marjorie
+  evaluation: 4.5
+- commentaire: Très bonne recette…merci
+  date: '2022-02-01'
+  auteur: Rose
+  evaluation: 4.5
+- commentaire: Merci j’ai essayé et ses très bon souper vite faite encore un gros
+    merci
+  date: '2022-10-10'
+  auteur: Diane
+  evaluation: 4.5
+- commentaire: je vais faire la resette elle a l air très bonne
+  date: '2022-10-18'
+  auteur: serge boucher
+  evaluation: ~
+image_guid: ~
+soumis_par: Elo
