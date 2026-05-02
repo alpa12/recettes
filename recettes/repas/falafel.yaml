@@ -1,0 +1,120 @@
+nom: Falafel
+nom_court: falafel
+source: https://www.lacuisinedejeanphilippe.com/recipe/falafel/
+portions: 4.0
+se_congele: yes
+difficulte: Facile
+cout: $$
+allergenes: []
+categories:
+- Végétarien
+- Plat principal
+temps:
+  preparation: 20
+  cuisson: 10
+  refrigeration: ~
+preparation:
+- etapes:
+  - etape: Faire tremper les pois chiches secs dans l’eau de 12 à 24 heures, bien
+      rincer. Ils auront doublés de volume ce qui vous fournira les 2 tasses nécessaires
+      à la préparation.
+    image_guid: ~
+    ingredients:
+    - nom: Pois chiche sec
+      qte: 1.0
+      uni: tasse
+      qte_volume: 1.0
+      uni_volume: tasse
+      rangee: Epicerie
+    equipements: []
+  - etape: Faire chauffer le four à 375°F (190°C). Égoutter les pois chiches et transférer
+      2 tasses dans le bol d’un robot culinaire. Broyer jusqu’à ce que les pois chiches
+      aient une texture semblable à celle du couscous. Ne pas trop broyer.
+    image_guid: ~
+    ingredients: []
+    equipements:
+    - Four
+    - Robot culinaire
+  - etape: Retirer les pois chiches et placez le reste des ingrédients dans le robot
+      culinaire sauf l'huile et la farine. Broyer.
+    image_guid: ~
+    ingredients:
+    - nom: Oignon
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Persil plat haché
+      qte: 0.75
+      uni: tasse
+      qte_volume: 0.75
+      uni_volume: tasse
+      rangee: Fruits et legumes
+    - nom: Ail
+      qte: 2.0
+      uni: gousse
+      rangee: Fruits et legumes
+    - nom: Amande en bâtonnet
+      qte: 0.33
+      uni: tasse
+      qte_volume: 0.33
+      uni_volume: tasse
+      rangee: Epicerie
+    - nom: Cumin
+      qte: 1.0
+      uni: c. à thé
+      qte_volume: 1.0
+      uni_volume: c. à thé
+      rangee: Epicerie
+    - nom: Sel
+      qte: 1.0
+      uni: c. à thé
+      qte_volume: 1.0
+      uni_volume: c. à thé
+      rangee: Epicerie
+    - nom: Jus de citron
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Sauce harissa
+      qte: 1.0
+      uni: c. à thé
+      qte_volume: 1.0
+      uni_volume: c. à thé
+      rangee: Conserves et sauces
+    - nom: Sirop d'érable
+      qte: 1.0
+      uni: c. à soupe
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Bicarbonate de soude
+      qte: 0.5
+      uni: c. à thé
+      qte_volume: 0.5
+      uni_volume: c. à thé
+      rangee: Epicerie
+    equipements: Robot culinaire
+  - etape: Combiner les 2 parties ensembles, ajouter la farine et bien mélanger.
+    image_guid: ~
+    ingredients:
+    - nom: Farine
+      qte: 0.5
+      uni: tasse
+      qte_volume: 0.5
+      uni_volume: tasse
+      rangee: Epicerie
+    equipements: []
+  - etape: Façonner de petites galettes et faire dorer sur le feu dans un peu d’huile
+      de 2 à 3 minutes de chaque côté. Terminer la cuisson au four 5 minutes, si nécéssaire.
+    image_guid: ~
+    ingredients:
+    - nom: Huile
+      qte: 1.0
+      uni: facultatif
+      rangee: Epicerie
+    equipements:
+    - Poêle antiadhésive
+    - Four
+commentaires: []
+image_guid: ~
+soumis_par: Alexandre Parent
