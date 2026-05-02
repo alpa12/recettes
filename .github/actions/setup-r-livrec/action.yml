@@ -4,7 +4,7 @@ inputs:
   r-version:
     description: R version to install
     required: false
-    default: '4.5.2'
+    default: 'renv'
 runs:
   using: composite
   steps:

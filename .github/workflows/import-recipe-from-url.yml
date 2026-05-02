@@ -49,7 +49,7 @@ jobs:
       - name: Setup R environment
         uses: ./.github/actions/setup-r-livrec
         with:
-          r-version: '4.5.2'
+          r-version: 'renv'
 
       - name: Download CNF dataset (Health Canada)
         run: |

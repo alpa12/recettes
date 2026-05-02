@@ -23,6 +23,7 @@ Rules:
 - Validate with `renv::status()` before opening a PR.
 - In CI, restore dependencies from `renv.lock` (`setup-renv` / `renv::restore()`), do not install ad hoc dependency sets from CRAN.
 - Prefer Posit Public Package Manager binaries in CI (`setup-r` with `use-public-rspm: true`) for speed and stability.
+- Prefer `r-version: 'renv'` in GitHub Actions so CI uses the R version recorded in `renv.lock`.
 
 ## Repo Structure
 
