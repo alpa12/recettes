@@ -32,7 +32,7 @@ jobs:
       - name: Setup R environment
         uses: ./.github/actions/setup-r-livrec
         with:
-          r-version: '4.5.2'
+          r-version: 'renv'
       - uses: quarto-dev/quarto-actions/setup@v2
       - name: Render smoke pages
         run: |

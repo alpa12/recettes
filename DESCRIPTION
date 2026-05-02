@@ -9,7 +9,10 @@ Encoding: UTF-8
 Depends:
     R (>= 4.5)
 Imports:
+    lintr,
     livrec,
-    renv
+    renv,
+    roxygen2,
+    testthat
 Remotes:
     local::livrec

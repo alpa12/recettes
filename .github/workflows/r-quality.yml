@@ -36,11 +36,7 @@ jobs:
       - name: Setup R environment
         uses: ./.github/actions/setup-r-livrec
         with:
-          r-version: '4.5.2'
-
-      - name: Install quality tooling
-        run: |
-          Rscript -e 'source("renv/activate.R"); renv::install(c("lintr", "testthat", "roxygen2"), prompt = FALSE, repos = "https://cloud.r-project.org")'
+          r-version: 'renv'
 
       - name: Lint livrec
         run: |
@@ -56,5 +52,4 @@ jobs:
 
       - name: R CMD check livrec
         run: |
-          R CMD build livrec
-          R CMD check --no-manual --as-cran livrec_*.tar.gz
+          Rscript --vanilla -e 'source("renv/activate.R"); build_status <- system("R --vanilla CMD build livrec"); if (build_status != 0) quit(status = build_status); check_status <- system("R --vanilla CMD check --no-manual --as-cran livrec_*.tar.gz"); quit(status = check_status)'
