@@ -1,0 +1,76 @@
+nom: Boeuf braisé aux oignons (rôti de palette)
+nom_court: boeuf-braise-oignons-roti-palette
+source: https://www.ricardocuisine.com/recettes/6438-boeuf-braise-aux-oignons-roti-de-palette
+portions: 6.0
+se_congele: yes
+difficulte: ~
+cout: ~
+allergenes:
+- Noix
+- Lait
+- Gluten
+- Oeuf
+categories:
+- Plats principaux
+- Boeuf
+temps:
+  preparation: 25
+  cuisson: 180
+  refrigeration: ~
+preparation:
+- section: Préparation
+  etapes:
+  - etape: Placer la grille au centre du four. Préchauffer le four à 165°C (325°F).
+    image_guid: ~
+    ingredients: []
+    equipements: Four
+  - etape: Dans une grande poêle, dorer la viande des deux côtés dans l’huile. Saler
+      et poivrer. Placer dans un plat de cuisson. Dans la même poêle, dorer les oignons
+      dans l’huile. Saler et poivrer. Ajouter l’ail et cuire 1 minute. Déglacer avec
+      le bouillon. Porter à ébullition et verser sur le rôti. Placer les carottes
+      autour du rôti.
+    image_guid: ~
+    ingredients:
+    - nom: Rôti de palette de boeuf
+      qte: 1.0
+      uni: unité
+      rangee: Viandes et substituts
+    - nom: Huile d’olive
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Oignon
+      qte: 3.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Ail
+      qte: 2.0
+      uni: gousse
+      rangee: Fruits et legumes
+    - nom: Bouillon de bœuf ou de poulet
+      qte: 1.0
+      uni: tasse
+      qte_volume: 1.0
+      uni_volume: tasse
+      rangee: Conserves et sauces
+    - nom: Carotte
+      qte: 6.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Sel et poivre
+      qte: 1.0
+      uni: facultatif
+      rangee: Epicerie
+    equipements:
+    - Grande poêle
+    - Plat de cuisson
+  - etape: Couvrir de papier d’aluminium et cuire au four 3 heures ou jusqu’à ce que
+      la viande soit tendre à la fourchette.
+    image_guid: ~
+    ingredients: []
+    equipements: Papier d'aluminium
+commentaires: []
+image_guid: ~
+soumis_par: Alexandre Parent
