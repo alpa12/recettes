@@ -21,6 +21,8 @@ Rules:
 - Keep package runtime dependencies in `livrec/DESCRIPTION`.
 - Run `renv::snapshot()` after dependency changes.
 - Validate with `renv::status()` before opening a PR.
+- In CI, restore dependencies from `renv.lock` (`setup-renv` / `renv::restore()`), do not install ad hoc dependency sets from CRAN.
+- Prefer Posit Public Package Manager binaries in CI (`setup-r` with `use-public-rspm: true`) for speed and stability.
 
 ## Repo Structure
 

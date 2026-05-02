@@ -38,10 +38,6 @@ jobs:
         with:
           r-version: '4.5.2'
 
-      - name: Install quality tooling
-        run: |
-          Rscript -e 'source("renv/activate.R"); renv::install(c("lintr", "testthat", "roxygen2"), prompt = FALSE, repos = "https://cloud.r-project.org")'
-
       - name: Lint livrec
         run: |
           Rscript -e 'source("renv/activate.R"); lintr::lint_package("livrec")'
