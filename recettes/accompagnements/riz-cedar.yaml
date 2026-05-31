@@ -1,0 +1,54 @@
+nom: Riz CEDAR étuvé à grains longs
+nom_court: Riz CEDAR
+source: Alexandre Parent
+portions: 8
+se_congele: false
+difficulte: Facile
+cout: $
+allergenes: []
+categories: []
+temps:
+  preparation: 5
+  cuisson: 16
+  refrigeration: null
+preparation:
+  - section: Préparation
+    etapes:
+      - etape: Mettre le riz dans un chaudron moyen-gros. Tarer la balance (pour mesurer l'eau plus tard).
+        image_guid: null
+        ingredients:
+          - nom: Riz
+            qte: 600
+            uni: g
+            qte_masse: 600
+            uni_masse: g
+            qte_volume: null
+            uni_volume: null
+            rangee: Epicerie
+        equipements: []
+      - etape: Rincer le riz, puis ajouter l'eau et le bouillon de poulet.
+        image_guid: null
+        ingredients:
+          - nom: Eau
+            qte: 750
+            uni: g
+            qte_masse: 750
+            uni_masse: g
+            qte_volume: null
+            uni_volume: null
+            rangee: null
+          - nom: Poudre de bouillon de poulet
+            qte: 5
+            uni: ml
+            qte_masse: null
+            uni_masse: null
+            qte_volume: 5
+            uni_volume: ml
+            rangee: null
+        equipements: []
+      - etape: Ajouter le couvercle, chauffer 7 minutes à high, puis 9 minutes à low.
+        image_guid: null
+        ingredients: []
+        equipements: []
+commentaires: []
+image_guid: null
