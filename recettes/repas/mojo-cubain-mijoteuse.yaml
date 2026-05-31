@@ -1,0 +1,132 @@
+nom: Mojo cubain à la mijoteuse (grosse demi-longe)
+nom_court: mojo-cubain-mijoteuse
+source: VERSION FINALE AJUSTÉE
+portions: 10.0
+se_congele: ~
+difficulte: Facile
+cout: $$
+allergenes:
+- Gluten
+categories:
+- Plats principaux
+- Porc
+- Mijoteuse
+temps:
+  preparation: 30
+  cuisson: 480
+  refrigeration: ~
+preparation:
+- section: Préparer et saisir le porc
+  etapes:
+  - etape: Parer la demi-longe en retirant les gros morceaux de gras externe et les sections épaisses, blanches ou molles. Laisser une fine couche par endroits, puis couper en 2 ou 3 gros morceaux pour favoriser une cuisson uniforme et faciliter le service.
+    image_guid: ~
+    ingredients:
+    - nom: Demi-longe de porc parée
+      qte: 3.0
+      uni: kg
+      rangee: Viandes et substituts
+      qte_masse: 3000.0
+      uni_masse: g
+    equipements:
+    - Planche
+    - Couteau
+  - etape: Dans une grande poêle avec un peu d’huile à feu assez fort, saisir rapidement le porc sur plusieurs faces pour le colorer sans cuire l’intérieur.
+    image_guid: ~
+    ingredients:
+    - nom: Huile d’olive
+      qte: 0.25
+      uni: tasse
+      rangee: Epicerie
+      qte_volume: 0.25
+      uni_volume: tasse
+    equipements:
+    - Poêle
+- section: Monter la mijoteuse
+  etapes:
+  - etape: Déposer les oignons, le jus d’orange, le zeste d’orange, le jus de lime, l’huile d’olive, la sauce soya et toutes les épices dans la mijoteuse. Mélanger, puis ajouter les morceaux de porc et bien les enrober.
+    image_guid: ~
+    ingredients:
+    - nom: Oignons jaunes émincés
+      qte: 2.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Jus d’orange
+      qte: 4.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Zeste d’orange
+      qte: 2.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Jus de lime concentré
+      qte: 5.5
+      uni: c. à soupe
+      rangee: Conserves et sauces
+      qte_volume: 5.5
+      uni_volume: c. à soupe
+    - nom: Sauce soya
+      qte: 3.0
+      uni: c. à soupe
+      rangee: Conserves et sauces
+      qte_volume: 3.0
+      uni_volume: c. à soupe
+    - nom: Poudre d’ail
+      qte: 2.0
+      uni: c. à soupe
+      rangee: Epicerie
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+    - nom: Origan séché
+      qte: 2.5
+      uni: c. à soupe
+      rangee: Epicerie
+      qte_volume: 2.5
+      uni_volume: c. à soupe
+    - nom: Cumin moulu
+      qte: 1.0
+      uni: c. à soupe
+      rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+    - nom: Paprika fumé
+      qte: 2.0
+      uni: c. à thé
+      rangee: Epicerie
+      qte_volume: 2.0
+      uni_volume: c. à thé
+    - nom: Flocons de chili (optionnel)
+      qte: 1.25
+      uni: c. à thé
+      rangee: Epicerie
+      qte_volume: 1.25
+      uni_volume: c. à thé
+    - nom: Sel
+      qte: 2.5
+      uni: c. à thé
+      rangee: Epicerie
+      qte_volume: 2.5
+      uni_volume: c. à thé
+    - nom: Poivre noir
+      qte: 1.0
+      uni: c. à thé
+      rangee: Epicerie
+      qte_volume: 1.0
+      uni_volume: c. à thé
+    equipements:
+    - Mijoteuse
+- section: Cuisson et finition
+  etapes:
+  - etape: Cuire à basse température (Low) 7 à 9 heures, ou à haute température (High) 5 à 6 heures, jusqu’à ce que le porc soit tendre tout en gardant une certaine tenue.
+    image_guid: ~
+    ingredients: []
+    equipements:
+    - Mijoteuse
+  - etape: Retirer le porc. Filtrer le jus si désiré pour retirer les oignons, puis faire réduire la sauce 10 à 15 minutes à feu moyen-élevé jusqu’à une texture légèrement sirupeuse. Ajuster la lime, le sel et le poivre au goût.
+    image_guid: ~
+    ingredients: []
+    equipements:
+    - Passoire
+    - Casserole
+commentaires: []
+image_guid: ~
+soumis_par: Alexandre Parent
