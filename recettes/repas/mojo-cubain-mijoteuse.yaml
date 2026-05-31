@@ -25,8 +25,8 @@ preparation:
       qte: 3.0
       uni: kg
       rangee: Viandes et substituts
-      qte_masse: 3000.0
-      uni_masse: g
+      qte_masse: 3.0
+      uni_masse: kg
     equipements:
     - Planche
     - Couteau
