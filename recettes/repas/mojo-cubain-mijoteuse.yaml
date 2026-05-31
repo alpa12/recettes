@@ -50,11 +50,11 @@ preparation:
       qte: 2.0
       uni: unité
       rangee: Fruits et legumes
-    - nom: Orange pour le jus
+    - nom: Orange à jus
       qte: 4.0
       uni: unité
       rangee: Fruits et legumes
-    - nom: Orange pour le zeste
+    - nom: Orange à zeste
       qte: 2.0
       uni: unité
       rangee: Fruits et legumes
