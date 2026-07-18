@@ -1,0 +1,78 @@
+nom: Hamburger steak aux champignons
+nom_court: hamburger-steak-aux-champignons
+source: https://www.ricardocuisine.com/recettes/9446-hamburger-steak-aux-champignons
+portions: 4.0
+se_congele: no
+difficulte: Facile
+cout: $
+allergenes: []
+categories: Plats principaux
+temps:
+  preparation: 10
+  cuisson: 30
+  refrigeration: ~
+preparation:
+- section: Préparation
+  etapes:
+  - etape: Dans une grande poêle antiadhésive à feu moyen-élevé, dorer les galettes
+      congelées dans la moitié du beurre (30 ml/2 c. à soupe), 5 minutes de chaque
+      côté. Saler et poivrer. Réserver sur une assiette. Rincer et essuyer la poêle.
+    image_guid: ~
+    ingredients:
+    - nom: galette de bœuf haché mi-maigre
+      qte: 4.0
+      uni: unité
+      rangee: Viandes et substituts
+    - nom: beurre
+      qte: 55.0
+      uni: g
+      qte_masse: 55.0
+      uni_masse: g
+      rangee: Produits laitiers et oeufs
+    equipements: Grande poêle antiadhésive
+  - etape: Dans la même poêle, dorer les champignons dans le reste du beurre 5 minutes.
+      Saupoudrer de la farine et poursuivre la cuisson 1 minute en remuant. Verser
+      le bouillon et la sauce Worcestershire. Porter à ébullition en fouettant jusqu’à
+      ce que la sauce épaississe. Remettre les galettes dans la poêle. Couvrir et
+      poursuivre la cuisson 5 minutes ou jusqu’à ce que les galettes soient complètement
+      cuites. Rectifier l’assaisonnement.
+    image_guid: ~
+    ingredients:
+    - nom: champignon blanc
+      qte: 225.0
+      uni: g
+      qte_masse: 225.0
+      uni_masse: g
+      rangee: Fruits et legumes
+    - nom: farine tout usage non blanchie
+      qte: 30.0
+      uni: ml
+      qte_volume: 30.0
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: bouillon de bœuf réduit en sodium
+      qte: 500.0
+      uni: ml
+      qte_volume: 500.0
+      uni_volume: ml
+      rangee: Conserves et sauces
+    - nom: sauce Worcestershire
+      qte: 15.0
+      uni: ml
+      qte_volume: 15.0
+      uni_volume: ml
+      rangee: Conserves et sauces
+    equipements: Poêle
+  - etape: Déposer les galettes dans des assiettes. Répartir les champignons et la
+      sauce. Accompagner de la purée de pommes de terre au maïs et beurre d’harissa,
+      si désiré.
+    image_guid: ~
+    ingredients:
+    - nom: purée de pommes de terre au maïs et beurre d’harissa
+      qte: 1.0
+      uni: facultatif
+      rangee: Fruits et legumes
+    equipements: Assiette
+commentaires: []
+image_guid: ~
+soumis_par: Élodie :)
