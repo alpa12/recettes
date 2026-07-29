@@ -18,9 +18,9 @@ preparation:
         image_guid: null
         ingredients:
           - nom: Riz
-            qte: 600
+            qte: 580
             uni: g
-            qte_masse: 600
+            qte_masse: 580
             uni_masse: g
             qte_volume: null
             uni_volume: null
@@ -30,9 +30,9 @@ preparation:
         image_guid: null
         ingredients:
           - nom: Eau
-            qte: 750
+            qte: 780
             uni: g
-            qte_masse: 750
+            qte_masse: 780
             uni_masse: g
             qte_volume: null
             uni_volume: null
