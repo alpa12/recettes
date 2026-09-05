@@ -1,0 +1,97 @@
+nom: Croustade aux pommes (la meilleure)
+nom_court: croustade-aux-pommes-la-meilleure
+source: https://www.ricardocuisine.com/recettes/8579-croustade-aux-pommes-la-meilleure
+portions: 10.0
+se_congele: no
+difficulte: Facile
+cout: $
+allergenes:
+- Lait
+- Gluten
+categories:
+- Desserts
+- Végétarien
+temps:
+  preparation: 30
+  cuisson: 50
+  refrigeration: ~
+preparation:
+- section: Croustade
+  etapes:
+  - etape: Placer la grille au centre du four. Préchauffer le four à 180 °C (350 °F).
+      Beurrer un moule carré de 20 cm (8 po).
+    image_guid: ~
+    ingredients: []
+    equipements:
+    - Four
+    - Moule carré de 20 cm
+  - etape: Dans un bol, mélanger les deux variétés de pommes avec la moitié de la
+      cassonade (105 g/1/2tasse). Répartir dans le moule.
+    image_guid: ~
+    ingredients:
+    - nom: Pomme Cortland
+      qte: 450.0
+      uni: g
+      qte_masse: 450.0
+      uni_masse: g
+      rangee: Fruits et legumes
+    - nom: Pomme McIntosh
+      qte: 450.0
+      uni: g
+      qte_masse: 450.0
+      uni_masse: g
+      rangee: Fruits et legumes
+    - nom: Cassonade
+      qte: 210.0
+      uni: g
+      qte_masse: 210.0
+      uni_masse: g
+      rangee: Epicerie
+    equipements:
+    - Bol
+    - Moule
+  - etape: Dans le même bol, mélanger le reste de la cassonade avec le beurre, la
+      farine, les deux types de flocons d’avoine et le sel jusqu’à ce que la préparation
+      soit tout juste humectée et colle ensemble sous la pression des doigts. Couvrir
+      les pommes du croustillant.
+    image_guid: ~
+    ingredients:
+    - nom: Beurre non sale
+      qte: 115.0
+      uni: g
+      qte_masse: 115.0
+      uni_masse: g
+      rangee: Produits laitiers et oeufs
+    - nom: Farine tout usage non blanchie
+      qte: 75.0
+      uni: g
+      qte_masse: 75.0
+      uni_masse: g
+      rangee: Epicerie
+    - nom: Flocon d’avoine à cuisson rapide
+      qte: 50.0
+      uni: g
+      qte_masse: 50.0
+      uni_masse: g
+      rangee: Epicerie
+    - nom: Gros flocon d’avoine
+      qte: 25.0
+      uni: g
+      qte_masse: 25.0
+      uni_masse: g
+      rangee: Epicerie
+    - nom: Sel
+      qte: 0.5
+      uni: ml
+      qte_volume: 0.5
+      uni_volume: ml
+      rangee: Epicerie
+    equipements: Bol
+  - etape: Cuire au four 50 minutes ou jusqu’à ce que le croustillant soit doré et
+      les pommes cuites. Laisser tiédir 1 heure avant de servir.
+    image_guid: ~
+    ingredients: []
+    equipements: Four
+commentaires: []
+image_guid: ~
+soumis_par: Alexandre Parent
