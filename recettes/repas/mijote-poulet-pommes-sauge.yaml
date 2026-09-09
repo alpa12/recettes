@@ -1,0 +1,83 @@
+nom: Mijoté de poulet aux pommes et à la sauge
+nom_court: mijote-poulet-pommes-sauge
+source: https://lapommeduquebec.ca/recette/saute-au-poulet-aux-pommes-et-a-la-sauge/
+portions: 4.0
+se_congele: no
+difficulte: Facile
+cout: $$
+allergenes: []
+categories:
+- Plats principaux
+- Poulet
+- Pommes
+temps:
+  preparation: 15
+  cuisson: 20
+  refrigeration: ~
+preparation:
+- section: Préparation
+  etapes:
+  - etape: Faire fondre le beurre dans une grande poêle à frire à feu moyen à élevé.
+      Ajouter le poulet et cuire jusqu’à ce qu’il soit doré, de 3 à 4 minutes par
+      côté. Réduire la température si le poulet devient brun foncé. Entre-temps, vider
+      le cœur des pommes non pelées et les couper en huit morceaux chacune. Fouetter
+      le jus avec de la moutarde de Dijon jusqu’à consistance homogène.
+    ingredients:
+    - nom: Beurre
+      qte: 15.0
+      uni: ml
+      qte_volume: 15.0
+      uni_volume: ml
+      rangee: Produits laitiers et oeufs
+    - nom: Poitrine de poulet désossée
+      qte: 4.0
+      uni: unité
+      rangee: Viandes et substituts
+    - nom: Pomme
+      qte: 2.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Jus de pomme
+      qte: 1.0
+      uni: tasse
+      qte_volume: 1.0
+      uni_volume: tasse
+      rangee: Epicerie
+    - nom: Moutarde de Dijon
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Conserves et sauces
+  - etape: Lorsque le poulet est bruni, verser le mélange de jus sur le dessus. Saupoudrez
+      de sauge* et de thym. Placer les morceaux de pommes autour du poulet. Réduire
+      la chaleur à feu moyen à faible. Recouvrir et cuire jusqu’à ce que le poulet
+      soit spongieux lorsque vous exercez une légère pression et que la température
+      prise à l’aide d’un thermomètre à viande atteigne 165 °F (74 °C), environ 4
+      minutes par côté pour des poitrines et 3 minutes pour des cuisses. Retourner
+      les pommes à l’occasion. Placer le poulet et les morceaux de pommes dans une
+      assiette.
+    ingredients:
+    - nom: Sauge séchée
+      qte: 1.0
+      uni: c. à thé
+      qte_volume: 1.0
+      uni_volume: c. à thé
+      rangee: Epicerie
+    - nom: Thym séché
+      qte: 1.0
+      uni: pincée
+      rangee: Epicerie
+    - nom: Sel
+      qte: 1.0
+      uni: pincée
+      rangee: Epicerie
+  - etape: Mettre le feu à élevé. Utiliser une cuillère en bois pour gratter les petits
+      morceaux de viande au fond de la poêle. Faire bouillir, à découvert en brassant
+      à l’occasion, jusqu’à ce que le jus se soit transformé en un glaçage épais,
+      environ 3 minutes. Verser dans la sauce les jus du poulet prélevés dans l’assiette.
+      Verser sur le poulet.
+    ingredients: []
+commentaires: []
+image_guid: ~
+soumis_par: Import automatique
