@@ -1,0 +1,107 @@
+nom: Chili classique au boeuf
+nom_court: chili-classique-au-boeuf
+source: https://www.ricardocuisine.com/recettes/5762-chili-classique-au-boeuf
+portions: 6.0
+se_congele: yes
+difficulte: Intermédiaire
+cout: $$
+allergenes: []
+categories: Plats principaux
+temps:
+  preparation: 15
+  cuisson: 60
+  refrigeration: ~
+preparation:
+- etapes:
+  - etape: Dans une grande casserole à feu moyen-élevé, dorer l’oignon et le piment
+      dans le beurre. Ajouter la viande et cuire en l'émiettant à la cuillère de bois
+      jusqu’à ce qu’elle soit légèrement dorée. Saler et poivrer. Ajouter l’ail, les
+      épices et poursuivre la cuisson 2 minutes en remuant.
+    image_guid: ~
+    ingredients:
+    - nom: Oignon
+      qte: 1.0
+      uni: oignon
+      rangee: Fruits et legumes
+    - nom: Piment jalapeño
+      qte: 1.0
+      uni: piment
+      rangee: Fruits et legumes
+    - nom: Beurre
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Produits laitiers et oeufs
+    - nom: Boeuf haché
+      qte: 1.0
+      uni: kg
+      qte_masse: 1.0
+      uni_masse: kg
+      rangee: Viandes et substituts
+    - nom: Ail
+      qte: 2.0
+      uni: gousse
+      rangee: Fruits et legumes
+    - nom: Assaisonnement au chili
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Epicerie
+    - nom: Cumin moulu
+      qte: 1.0
+      uni: c. à thé
+      qte_volume: 1.0
+      uni_volume: c. à thé
+      rangee: Epicerie
+    equipements: Grande casserole
+- etapes:
+  - etape: Ajouter le reste des ingrédients à l’exception de la coriandre. Porter
+      à ébullition et laisser mijoter à mi-couvert 45 minutes ou jusqu’à ce que le
+      chili épaississe, en remuant à quelques reprises pendant la cuisson. Rectifier
+      l’assaisonnement. Ajouter la coriandre, si désiré.
+    image_guid: ~
+    ingredients:
+    - nom: Tomates en dés
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    - nom: Haricots rouges, rincés et égouttés
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    - nom: Café allongé ou café fort
+      qte: 1.0
+      uni: tasse
+      qte_volume: 1.0
+      uni_volume: tasse
+      rangee: Epicerie
+    - nom: Bouillon de bœuf ou eau
+      qte: 0.25
+      uni: tasse
+      qte_volume: 0.25
+      uni_volume: tasse
+      rangee: Epicerie
+    - nom: Ketchup
+      qte: 0.25
+      uni: tasse
+      qte_volume: 0.25
+      uni_volume: tasse
+      rangee: Conserves et sauces
+    - nom: Jus de lime
+      qte: 3.0
+      uni: c. à soupe
+      qte_volume: 3.0
+      uni_volume: c. à soupe
+      rangee: Fruits et legumes
+    - nom: Coriandre ciselée
+      qte: 10.0
+      uni: g
+      qte_masse: 10.0
+      uni_masse: g
+      rangee: Fruits et legumes
+    equipements: []
+commentaires: []
+image_guid: ~
+soumis_par: Import automatique
