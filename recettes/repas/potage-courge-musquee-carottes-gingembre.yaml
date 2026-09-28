@@ -1,0 +1,115 @@
+nom: Potage à la courge musquée, aux carottes et au gingembre
+nom_court: potage-courge-musquee-carottes-gingembre
+source: https://producteurslaitiersducanada.ca/fr/plaisirs-laitiers/recettes/potage-la-courge-musquee-aux-carottes-et-au-gingembre
+portions: 8.0
+se_congele: yes
+difficulte: ~
+cout: $$
+allergenes: Lait
+categories:
+- Souper
+- Dîner
+- Soupes et potages
+temps:
+  preparation: 20
+  cuisson: 35
+  refrigeration: ~
+preparation:
+- section: ~
+  etapes:
+  - etape: Dans une grande casserole, faire chauffer le beurre à feu moyen. Ajouter
+      les carottes, l'ail, l'oignon et le gingembre. Cuire environ 10 minutes, en
+      remuant, ou jusqu'à tendreté. Ajouter le bouillon et la courge, puis amener
+      à mijoter. Laisser mijoter jusqu'à ce que les légumes soient tendres, environ
+      15 minutes.
+    image_guid: ~
+    ingredients:
+    - nom: Beurre
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Produits laitiers et oeufs
+    - nom: Carotte
+      qte: 4.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Ail
+      qte: 2.0
+      uni: gousse
+      rangee: Fruits et legumes
+    - nom: Oignon
+      qte: 1.0
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: Gingembre haché
+      qte: 1.0
+      uni: c. à soupe
+      qte_volume: 1.0
+      uni_volume: c. à soupe
+      rangee: Fruits et legumes
+    - nom: Bouillon de légumes ou de poulet
+      qte: 5.0
+      uni: tasse
+      qte_volume: 5.0
+      uni_volume: tasse
+      rangee: Epicerie
+    - nom: Courge musquée
+      qte: 4.0
+      uni: tasse
+      qte_volume: 4.0
+      uni_volume: tasse
+      rangee: Fruits et legumes
+    equipements: Grande casserole
+  - etape: À l'aide d'un mélangeur ou d'un robot culinaire, ou à l'aide d'un mélangeur
+      à main, réduire le potage en purée. (Le mélange peut être refroidi, recouvert
+      et réfrigéré jusqu'à deux jours, ou congelé jusqu'à trois mois. Décongeler si
+      nécessaire.)
+    image_guid: ~
+    ingredients: []
+    equipements:
+    - Mélangeur
+    - Robot culinaire
+    - Mélangeur à main
+  - etape: Verser le potage dans la casserole et réchauffer à feu moyen doux, si nécessaire.
+      Incorporer 1 1/4 (310 ml) de crème et le jus de citron. Assaisonner au goût
+      avec sel et poivre. Chauffer, en remuant, juste assez pour faire frémir. Fouetter
+      légèrement le reste de la crème jusqu'à consistance épaisse, mais sans formation
+      de pics luisants. Incorporer le gingembre confit. Verser le potage à l'aide
+      d'une louche dans des bols réchauffés. Napper un peu de crème fouettée sur chaque
+      bol.
+    image_guid: ~
+    ingredients:
+    - nom: Crème 35 %
+      qte: 1.5
+      uni: tasse
+      qte_volume: 1.5
+      uni_volume: tasse
+      rangee: Produits laitiers et oeufs
+    - nom: Jus de citron
+      qte: 2.0
+      uni: c. à soupe
+      qte_volume: 2.0
+      uni_volume: c. à soupe
+      rangee: Fruits et legumes
+    - nom: Sel
+      qte: 1.0
+      uni: pincée
+      rangee: Epicerie
+    - nom: Poivre
+      qte: 1.0
+      uni: pincée
+      rangee: Epicerie
+    - nom: Gingembre confit haché
+      qte: 2.0
+      uni: c. à thé
+      qte_volume: 2.0
+      uni_volume: c. à thé
+      rangee: Epicerie
+    equipements:
+    - Casserole
+    - Louche
+    - Bols
+commentaires: []
+image_guid: ~
+soumis_par: yolo
