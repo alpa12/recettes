@@ -1,0 +1,168 @@
+nom: Soupe ramen au lait de coco, au poulet et au bok choy
+nom_court: soupe-ramen-coco-poulet-bok-choy
+source: https://www.ricardocuisine.com/recettes/8663-soupe-ramen-au-lait-de-coco-au-poulet-et-au-bok-choy
+portions: 2.0
+se_congele: no
+difficulte: ~
+cout: ~
+allergenes: []
+categories:
+- Entrées
+- Soupe
+temps:
+  preparation: 25
+  cuisson: 40
+  refrigeration: ~
+preparation:
+- section: Bouillon
+  etapes:
+  - etape: Dans une grande casserole à feu moyen-élevé, dorer le poulet dans l’huile.
+      Saler légèrement et poivrer. Verser le bouillon et le lait de coco. Porter à
+      ébullition et laisser mijoter 20 minutes. Retirer le poulet. Sur un plan de
+      travail, l’émincer.
+    image_guid: ~
+    ingredients:
+    - nom: hauts de cuisse de poulet désossés et sans la peau
+      qte: 225.0
+      uni: g
+      qte_masse: 225.0
+      uni_masse: g
+      rangee: Viandes et substituts
+    - nom: huile végétale
+      qte: 15.0
+      uni: ml
+      qte_volume: 15.0
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: bouillon de poulet réduit en sodium
+      qte: 750.0
+      uni: ml
+      qte_volume: 750.0
+      uni_volume: ml
+      rangee: Conserves et sauces
+    - nom: lait de coco
+      qte: 1.0
+      uni: boîte
+      rangee: Conserves et sauces
+    equipements: Grande casserole
+- section: Pâte de cari
+  etapes:
+  - etape: Entre-temps, au mortier, à l’aide du pilon, réduire en purée les tiges
+      de coriandre, l’ail, la citronnelle, le gingembre et le piment. Incorporer la
+      pâte de tomates, la sauce de poisson, le paprika, le cari, le sucre et le curcuma.
+    image_guid: ~
+    ingredients:
+    - nom: tige de coriandre, hachée
+      qte: 30.0
+      uni: ml
+      qte_volume: 30.0
+      uni_volume: ml
+      rangee: Fruits et legumes
+    - nom: gousse d'ail, coupée en morceaux
+      qte: 1.0
+      uni: gousse
+      rangee: Fruits et legumes
+    - nom: tige de citronnelle hachée finement
+      qte: 1.0
+      uni: tige
+      rangee: Fruits et legumes
+    - nom: gingembre frais, pelé et haché finement
+      qte: 1.0
+      uni: morceau
+      rangee: Fruits et legumes
+    - nom: petit piment oiseau, épépiné et émincé
+      qte: 0.75
+      uni: unité
+      rangee: Fruits et legumes
+    - nom: pâte de tomates
+      qte: 30.0
+      uni: ml
+      qte_volume: 30.0
+      uni_volume: ml
+      rangee: Conserves et sauces
+    - nom: sauce de poisson
+      qte: 10.0
+      uni: ml
+      qte_volume: 10.0
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: paprika doux
+      qte: 5.0
+      uni: ml
+      qte_volume: 5.0
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: poudre de cari
+      qte: 2.5
+      uni: ml
+      qte_volume: 2.5
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: sucre
+      qte: 2.5
+      uni: ml
+      qte_volume: 2.5
+      uni_volume: ml
+      rangee: Epicerie
+    - nom: curcuma
+      qte: 1.0
+      uni: ml
+      qte_volume: 1.0
+      uni_volume: ml
+      rangee: Epicerie
+    equipements: Mortier et pilon
+  - etape: Incorporer la pâte de cari au bouillon et cuire 2 minutes.
+    image_guid: ~
+    ingredients: []
+    equipements: []
+- section: Garnitures
+  etapes:
+  - etape: Dans une casserole d’eau bouillante salée, cuire les nouilles ramen 2 minutes.
+      Prélever les nouilles à l’aide d’une écumoire et les ajouter au bouillon. Poursuivre
+      la cuisson 1 minute.
+    image_guid: ~
+    ingredients:
+    - nom: nouille ramen
+      qte: 170.0
+      uni: g
+      qte_masse: 170.0
+      uni_masse: g
+      rangee: Epicerie
+    equipements:
+    - Casserole
+    - Écumoire
+  - etape: Entre-temps, blanchir les bok choy dans l’eau bouillante 1 minute. Égoutter.
+    image_guid: ~
+    ingredients:
+    - nom: bébé bok choy
+      qte: 115.0
+      uni: g
+      qte_masse: 115.0
+      uni_masse: g
+      rangee: Fruits et legumes
+    equipements: Casserole
+  - etape: Dans des bols, répartir les nouilles et le bouillon. Garnir des bok choy,
+      du poulet, d’oignons verts, de feuilles de coriandre, de quartiers de lime et
+      d’oignons frits, si désiré.
+    image_guid: ~
+    ingredients:
+    - nom: oignon vert ciselé
+      qte: 1.0
+      uni: facultatif
+      rangee: Fruits et legumes
+    - nom: feuille de coriandre
+      qte: 1.0
+      uni: facultatif
+      rangee: Fruits et legumes
+    - nom: quartier de lime
+      qte: 1.0
+      uni: facultatif
+      rangee: Fruits et legumes
+    - nom: oignon frit
+      qte: 1.0
+      uni: facultatif
+      rangee: Epicerie
+    equipements: Bol
+commentaires: []
+image_guid: ~
+soumis_par: elodie.bourgeois.1@ulaval.ca
